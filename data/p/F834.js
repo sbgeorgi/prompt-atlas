@@ -1,0 +1,1 @@
+ATLAS_P("F834","Make a 20-second title sequence for a Netflix thriller that doesn't exist yet. Make it feel like it won an Emmy for main title design.");

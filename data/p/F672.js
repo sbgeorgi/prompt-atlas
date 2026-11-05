@@ -1,0 +1,1 @@
+ATLAS_P("F672","make a dynamic 20-second motion graphics video for my newsletter that shows what an incredible motion designer you are, like it's your showreel for a r\u00e9sum\u00e9. go all out.");

@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nord Raster - Swiss Minimalist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#ffffff;--dp-color-ink:#000000;--dp-color-surface:#f0f0f0;--dp-color-accent:#c90000;
+  --dp-typography-face:"SwissMinimalistHost","Host Grotesk",Arial,sans-serif;
+  --dp-typography-body:16px;--dp-typography-label:12px;--dp-typography-metadata:14px;--dp-typography-lead:17px;--dp-typography-item-title:24px;
+  --dp-typography-regular:400;--dp-typography-strong:700;--dp-typography-display:750;
+  --dp-typography-label-tracking:.12em;--dp-typography-body-leading:1.5;
+  --dp-border-rule:2px;--dp-motion-feedback:0s;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--dp-color-ground);color:var(--dp-color-ink);font-family:var(--dp-typography-face);font-size:var(--dp-typography-body);line-height:var(--dp-typography-body-leading);font-weight:var(--dp-typography-regular);overflow-x:hidden}
+.page{container-type:inline-size;--g:clamp(20px,3.3333cqw,64px);width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--dp-color-ink);outline-offset:2px}
+.on-black :focus-visible{outline-color:#fff}
+.skip{position:absolute;left:-999px;top:0;background:#000;color:#fff;padding:10px 14px;z-index:20}
+.skip:focus{left:0}
+
+.row{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--g);padding-inline:var(--g)}
+.label{font-size:var(--dp-typography-label);letter-spacing:var(--dp-typography-label-tracking);text-transform:uppercase;font-weight:var(--dp-typography-strong)}
+.red{color:var(--dp-color-accent)}
+.mark{display:inline-block;width:10px;height:10px;background:var(--dp-color-accent);margin-right:8px;vertical-align:baseline}
+
+/* index rail */
+.rail{position:sticky;top:0;z-index:10;background:var(--dp-color-ground);border-bottom:var(--dp-border-rule) solid #000}
+.rail .row{align-items:center;min-height:56px}
+.brand{grid-column:1/4;font-weight:var(--dp-typography-display);font-size:18px;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center}
+.rail nav{grid-column:4/13;display:flex;gap:0;flex-wrap:wrap;align-items:stretch}
+.rail nav a{font-size:var(--dp-typography-label);letter-spacing:var(--dp-typography-label-tracking);text-transform:uppercase;font-weight:var(--dp-typography-strong);text-decoration:none;padding:18px 18px 18px 0;margin-right:18px;display:flex;gap:8px;align-items:center}
+.rail nav a::before{content:"";width:8px;height:8px;background:transparent;display:inline-block}
+.rail nav a[aria-current="true"]::before{background:var(--dp-color-accent)}
+.rail nav a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+.rail nav a.cta{margin-left:auto;margin-right:0;padding:0 18px;background:#000;color:#fff}
+.rail nav a.cta::before{display:none}
+.rail nav a.cta:hover{background:#fff;color:#000;outline:2px solid #000;outline-offset:-2px;text-decoration:none}
+
+/* hero */
+.hero{padding-top:calc(var(--g)*1.2);padding-bottom:var(--g);border-bottom:var(--dp-border-rule) solid #000}
+.hero .meta{grid-column:1/13;display:flex;justify-content:space-between;gap:16px;border-bottom:var(--dp-border-rule) solid #000;padding-bottom:14px;margin-bottom:calc(var(--g)*1.2)}
+.display{font-weight:var(--dp-typography-display);letter-spacing:-.045em;line-height:.88;font-size:clamp(64px,10.4cqw,148px)}
+.hero h1{grid-column:1/10}
+.hero .side{grid-column:10/13;align-self:end;display:flex;flex-direction:column;gap:20px}
+.lead{font-size:var(--dp-typography-lead);line-height:1.5}
+.btn{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:52px;padding:0 18px;border:var(--dp-border-rule) solid #000;background:#000;color:#fff;font:inherit;font-weight:var(--dp-typography-strong);text-decoration:none;cursor:pointer;border-radius:0;transition:none}
+.btn:hover{background:#fff;color:#000}
+.btn.ghost{background:#fff;color:#000}
+.btn.ghost:hover{background:#000;color:#fff}
+.on-black .btn{background:#fff;color:#000;border-color:#fff}
+.on-black .btn:hover{background:#000;color:#fff}
+
+/* sections */
+section.sec{border-bottom:var(--dp-border-rule) solid #000;padding-block:calc(var(--g)*1.4)}
+.idx{grid-column:1/4;align-self:start}
+.idx .n{display:block;font-size:var(--dp-typography-metadata);font-weight:var(--dp-typography-strong);margin-bottom:10px}
+.idx h2{font-weight:var(--dp-typography-display);letter-spacing:-.03em;line-height:.95;font-size:clamp(28px,3.1cqw,44px)}
+.main{grid-column:4/13;min-width:0}
+.statement{font-weight:var(--dp-typography-display);letter-spacing:-.035em;line-height:1;font-size:clamp(28px,4.2cqw,60px);max-width:22ch}
+.cols2{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--g);margin-top:calc(var(--g)*1.2)}
+.cols2 p+p{margin-top:1em}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:calc(var(--g)*1.2);border-top:var(--dp-border-rule) solid #000}
+.facts div{padding:16px 16px 0 0}
+.facts b{display:block;font-size:clamp(40px,5cqw,72px);font-weight:var(--dp-typography-display);letter-spacing:-.04em;line-height:1}
+.facts span{font-size:var(--dp-typography-metadata)}
+
+/* matrix */
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);border-top:var(--dp-border-rule) solid #000;border-left:var(--dp-border-rule) solid #000}
+.matrix article{border-right:var(--dp-border-rule) solid #000;border-bottom:var(--dp-border-rule) solid #000;padding:20px 20px 28px;min-height:230px;display:flex;flex-direction:column;gap:12px}
+.matrix article:hover{background:var(--dp-color-surface)}
+.matrix .no{font-size:var(--dp-typography-metadata);font-weight:var(--dp-typography-strong);display:flex;justify-content:space-between}
+.matrix h3{font-size:var(--dp-typography-item-title);line-height:1.08;letter-spacing:-.02em;font-weight:var(--dp-typography-strong)}
+.matrix p{font-size:var(--dp-typography-metadata);margin-top:auto}
+
+/* images */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g)}
+.gallery figure{min-width:0}
+.ph{aspect-ratio:3/4.4;background:#ccc;display:block;width:100%;filter:grayscale(1)}
+.ph svg{display:block;width:100%;height:100%}
+figcaption{display:grid;grid-template-columns:auto 1fr;gap:12px;border-top:var(--dp-border-rule) solid #000;margin-top:12px;padding-top:10px;font-size:var(--dp-typography-metadata)}
+figcaption b{font-weight:var(--dp-typography-strong)}
+
+/* black field */
+.field{background:#000;color:#fff;border-bottom:0}
+.field .idx h2,.field .idx .n{color:#fff}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:var(--dp-border-rule) solid #fff}
+.steps li{list-style:none;padding:18px 18px 8px 0;border-right:var(--dp-border-rule) solid #fff;margin-right:18px;min-height:260px;display:flex;flex-direction:column;gap:12px}
+.steps li:last-child{border-right:0;margin-right:0}
+.steps .no{font-size:clamp(44px,5.6cqw,84px);font-weight:var(--dp-typography-display);letter-spacing:-.05em;line-height:.9}
+.steps h3{font-size:var(--dp-typography-item-title);line-height:1.1;letter-spacing:-.02em}
+.steps p{font-size:var(--dp-typography-metadata);color:#e6e6e6;margin-top:auto}
+.field .statement{margin-bottom:calc(var(--g)*1.2)}
+
+/* plans */
+fieldset{border:0;min-width:0}
+legend{position:absolute;left:-999px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);border-top:var(--dp-border-rule) solid #000;border-left:var(--dp-border-rule) solid #000}
+.plan{position:relative;border-right:var(--dp-border-rule) solid #000;border-bottom:var(--dp-border-rule) solid #000;display:block;cursor:pointer}
+.plan input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
+.plan .box{display:flex;flex-direction:column;gap:14px;padding:20px 20px 24px;height:100%}
+.plan:hover .box{background:var(--dp-color-surface)}
+.plan input:checked + .box{background:#000;color:#fff}
+.plan input:focus-visible + .box{outline:3px solid #000;outline-offset:-6px}
+.plan input:checked:focus-visible + .box{outline-color:#fff}
+.plan .top{display:flex;justify-content:space-between;align-items:center;min-height:24px}
+.flag{background:var(--dp-color-accent);color:#fff;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:var(--dp-typography-strong);padding:3px 8px}
+.state{font-size:var(--dp-typography-label);letter-spacing:var(--dp-typography-label-tracking);text-transform:uppercase;font-weight:var(--dp-typography-strong)}
+.state::before{content:"";display:inline-block;width:10px;height:10px;border:2px solid currentColor;margin-right:8px;vertical-align:-1px}
+.plan input:checked + .box .state::before{background:#fff;border-color:#fff}
+.plan .box h3{font-size:var(--dp-typography-item-title);font-weight:var(--dp-typography-strong);letter-spacing:-.02em}
+.price{font-size:clamp(34px,4cqw,56px);font-weight:var(--dp-typography-display);letter-spacing:-.04em;line-height:1}
+.price small{font-size:var(--dp-typography-metadata);font-weight:var(--dp-typography-regular);letter-spacing:0}
+.plan ul{list-style:none;font-size:var(--dp-typography-metadata);border-top:1px solid currentColor}
+.plan li{padding:8px 0;border-bottom:1px solid currentColor}
+.choice{margin-top:20px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.choice output{font-weight:var(--dp-typography-strong)}
+
+/* faq */
+.faq{border-top:var(--dp-border-rule) solid #000}
+details{border-bottom:var(--dp-border-rule) solid #000}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;align-items:center;padding:20px 0;font-size:var(--dp-typography-item-title);font-weight:var(--dp-typography-strong);letter-spacing:-.02em;line-height:1.15}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:32px;line-height:1;width:32px;text-align:center;flex:none}
+details[open] summary::after{content:"\2212"}
+summary:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px}
+details p{padding:0 0 22px;max-width:60ch}
+
+/* closing */
+.closing{border-bottom:var(--dp-border-rule) solid #000;padding-block:calc(var(--g)*1.4)}
+.closing h2{grid-column:1/10}
+.closing .side{grid-column:10/13;align-self:end;display:flex;flex-direction:column;gap:20px}
+.closing .display{font-size:clamp(56px,9.2cqw,132px)}
+
+/* footer */
+footer .row{padding-block:calc(var(--g)*1)}
+footer .col{grid-column:span 3;border-left:var(--dp-border-rule) solid #000;padding-left:14px;font-size:var(--dp-typography-metadata)}
+footer .col:first-child{border-left:0;padding-left:0}
+footer .col h4{margin-bottom:12px}
+footer .col a{display:block;text-decoration:none;padding:3px 0}
+footer .col a:hover{text-decoration:underline}
+footer .base{border-top:var(--dp-border-rule) solid #000;padding-block:14px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:var(--dp-typography-metadata);grid-column:1/13}
+
+@media (max-width:1050px){
+  .hero h1{grid-column:1/13}
+  .hero .side{grid-column:1/13;margin-top:var(--g);max-width:420px}
+  .closing h2{grid-column:1/13}.closing .side{grid-column:1/13;margin-top:var(--g);max-width:420px}
+  .matrix{grid-template-columns:repeat(2,1fr)}
+  .gallery{grid-template-columns:1fr;row-gap:var(--g)}
+  .gallery figure{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);column-gap:var(--g);align-items:start}
+  .gallery .ph{aspect-ratio:4/3}
+  .gallery figcaption{margin-top:0;grid-template-columns:1fr;align-content:start}
+  .steps{grid-template-columns:1fr}
+  .steps li{border-right:0;margin-right:0;border-bottom:var(--dp-border-rule) solid #fff;min-height:0;display:grid;grid-template-columns:100px 1fr;column-gap:20px;padding:18px 0}
+  .steps li .no{grid-row:1/3}
+  .steps p{margin-top:0}
+  .plans{grid-template-columns:1fr}
+  .rail nav a:not(.cta){margin-right:10px;padding-right:8px}
+}
+@media (max-width:700px){
+  .row{column-gap:0}
+  .brand{grid-column:1/13;padding-top:12px}
+  .rail .row{min-height:0}
+  .rail nav{grid-column:1/13;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .rail nav a{padding:12px 12px 12px 0;margin-right:6px;white-space:nowrap}
+  .rail nav a.cta{display:none}
+  .hero .meta{flex-direction:column;gap:4px}
+  .idx{grid-column:1/13;margin-bottom:22px;display:flex;align-items:baseline;gap:14px;border-bottom:var(--dp-border-rule) solid currentColor;padding-bottom:10px}
+  .idx .n{margin:0}
+  .main{grid-column:1/13}
+  .cols2{grid-template-columns:1fr;row-gap:1em}
+  .cols2 p+p{margin-top:0}
+  .facts{grid-template-columns:1fr}
+  .facts div{display:flex;align-items:baseline;gap:16px;padding:12px 0;border-bottom:1px solid #000}
+  .facts b{font-size:36px;min-width:110px}
+  .matrix{grid-template-columns:1fr}
+  .matrix article{min-height:0}
+  .gallery figure{display:block}
+  .gallery .ph{aspect-ratio:16/10}
+  .gallery figcaption{margin-top:10px;grid-template-columns:auto 1fr}
+  .steps li{grid-template-columns:70px 1fr}
+  .steps .no{font-size:48px}
+  summary{font-size:20px}
+  footer .col{grid-column:span 6;margin-bottom:24px}
+  footer .col:nth-child(3){border-left:0;padding-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+<div class="page" id="top">
+
+<header class="rail">
+  <div class="row">
+    <a class="brand" href="#top"><span class="mark"></span>Nord Raster</a>
+    <nav aria-label="Index">
+      <a href="#approach" data-s="approach">01 Approach</a>
+      <a href="#work" data-s="work">02 Capabilities</a>
+      <a href="#process" data-s="process">03 Process</a>
+      <a href="#terms" data-s="terms">04 Terms</a>
+      <a href="#faq" data-s="faq">05 Questions</a>
+      <a class="cta" href="#contact">Start a brief</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="row">
+    <div class="meta label"><span>Typographic systems studio</span><span>Zurich / Basel</span><span>Est. 2009</span></div>
+    <h1 class="display">Clear grids. Honest type.</h1>
+    <div class="side">
+      <p class="lead">We design identities, signage and editorial systems for institutions that need to be understood on the first glance and trusted for the next twenty years.</p>
+      <a class="btn" href="#contact"><span>Start a brief</span><span aria-hidden="true">&rarr;</span></a>
+      <a class="btn ghost" href="#work"><span>See capabilities</span><span aria-hidden="true">&darr;</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="approach" data-sec>
+  <div class="row">
+    <div class="idx"><span class="n"><span class="mark"></span>01</span><h2>Approach</h2></div>
+    <div class="main">
+      <p class="statement">Every page is a set of decisions about order. We make fewer of them, and make them visible.</p>
+      <div class="cols2">
+        <p>We begin with the material: the words, the numbers, the people who will read them. A grid is not decoration laid over content; it is the agreement that lets one hundred pages, four languages and three printers behave like a single document.</p>
+        <p>Our systems use one typeface, a short list of sizes and a strict set of rules. That restraint is what makes a hospital corridor, an annual report and a mobile app recognisably the same voice.</p>
+      </div>
+      <div class="facts">
+        <div><b>16</b><span>Years of practice</span></div>
+        <div><b>140</b><span>Systems delivered</span></div>
+        <div><b>3</b><span>Languages set as standard</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="work" data-sec>
+  <div class="row">
+    <div class="idx"><span class="n"><span class="mark"></span>02</span><h2>Capabilities</h2></div>
+    <div class="main">
+      <div class="matrix">
+        <article><div class="no"><span>2.1</span><span class="red">Core</span></div><h3>Identity systems</h3><p>Wordmarks, type scales, colour rules and a manual short enough to be read.</p></article>
+        <article><div class="no"><span>2.2</span><span></span></div><h3>Wayfinding and signage</h3><p>Hierarchies of information for buildings, campuses and transit lines.</p></article>
+        <article><div class="no"><span>2.3</span><span></span></div><h3>Editorial design</h3><p>Books, journals and annual reports built on a single baseline.</p></article>
+        <article><div class="no"><span>2.4</span><span></span></div><h3>Interface typography</h3><p>Type tokens and layout grids translated for screen, in code.</p></article>
+        <article><div class="no"><span>2.5</span><span></span></div><h3>Custom lettering</h3><p>Adapted and drawn letterforms where an existing face will not do.</p></article>
+        <article><div class="no"><span>2.6</span><span class="red">New</span></div><h3>Multilingual setting</h3><p>German, French, Italian and English held to the same rhythm.</p></article>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:calc(var(--g)*1.4)">
+    <div class="idx"><span class="n">Selected work</span></div>
+    <div class="main">
+      <div class="gallery">
+        <figure>
+          <div class="ph" role="img" aria-label="Grayscale photograph of a concrete facade with a regular grid of windows">
+            <svg viewBox="0 0 300 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="440" fill="#bdbdbd"/><g id="wins"></g><rect y="400" width="300" height="40" fill="#2a2a2a"/><rect x="0" y="0" width="300" height="12" fill="#e8e8e8"/></svg>
+          </div>
+          <figcaption><b>A</b><span>Kantonsspital campus, level signage and facade numerals.</span></figcaption>
+        </figure>
+        <figure>
+          <div class="ph" role="img" aria-label="Grayscale photograph of a stairwell with strong diagonal shadows">
+            <svg viewBox="0 0 300 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="440" fill="#d8d8d8"/><g id="stairs"></g><polygon points="0,0 120,0 0,260" fill="#1a1a1a" opacity=".85"/><rect x="0" y="410" width="300" height="30" fill="#111"/></svg>
+          </div>
+          <figcaption><b>B</b><span>Stadtbibliothek, stairwell wayfinding in one weight of type.</span></figcaption>
+        </figure>
+        <figure>
+          <div class="ph" role="img" aria-label="Grayscale photograph of a large painted letter on a wall">
+            <svg viewBox="0 0 300 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="440" fill="#9a9a9a"/><rect y="300" width="300" height="140" fill="#cfcfcf"/><text x="150" y="330" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="420" fill="#0b0b0b" letter-spacing="-20">R</text><rect x="0" y="296" width="300" height="4" fill="#0b0b0b"/></svg>
+          </div>
+          <figcaption><b>C</b><span>Rhein Verlag, drawn capital for the journal masthead.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec field on-black" id="process" data-sec>
+  <div class="row">
+    <div class="idx"><span class="n"><span class="mark"></span>03</span><h2>Process</h2></div>
+    <div class="main">
+      <p class="statement">Four steps, one continuous field of work.</p>
+      <ol class="steps">
+        <li><span class="no">01</span><h3>Audit</h3><p>We inventory every surface where your words appear and mark what already works.</p></li>
+        <li><span class="no">02</span><h3>Grid</h3><p>Columns, baselines and a type scale are fixed before any image is chosen.</p></li>
+        <li><span class="no">03</span><h3>Prototype</h3><p>Real content, set at real size, in print and in the browser.</p></li>
+        <li><span class="no">04</span><h3>Handover</h3><p>A twelve page manual, source files and a half-day workshop with your team.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="terms" data-sec>
+  <div class="row">
+    <div class="idx"><span class="n"><span class="mark"></span>04</span><h2>Terms</h2></div>
+    <div class="main">
+      <form onsubmit="return false">
+      <fieldset>
+        <legend>Choose an engagement</legend>
+        <div class="plans">
+          <label class="plan"><input type="radio" name="plan" value="Audit" data-d="Audit, 3 weeks, CHF 18,000"><span class="box"><span class="top"><span class="state">Select</span></span><h3>Audit</h3><span class="price">18k <small>CHF / 3 weeks</small></span><ul><li>Surface inventory</li><li>Type and grid review</li><li>Written recommendations</li></ul></span></label>
+          <label class="plan"><input type="radio" name="plan" value="System" data-d="System, 12 weeks, CHF 64,000" checked><span class="box"><span class="top"><span class="state">Select</span><span class="flag">Most chosen</span></span><h3>System</h3><span class="price">64k <small>CHF / 12 weeks</small></span><ul><li>Everything in Audit</li><li>Grid, type and colour rules</li><li>Templates in print and code</li></ul></span></label>
+          <label class="plan"><input type="radio" name="plan" value="Partnership" data-d="Partnership, 12 months, CHF 9,500 per month"><span class="box"><span class="top"><span class="state">Select</span></span><h3>Partnership</h3><span class="price">9.5k <small>CHF / month</small></span><ul><li>Everything in System</li><li>Quarterly design reviews</li><li>On-call production support</li></ul></span></label>
+        </div>
+      </fieldset>
+      <div class="choice"><output id="out" aria-live="polite"></output><a class="btn" href="#contact"><span>Continue with this</span><span aria-hidden="true">&rarr;</span></a></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq" data-sec>
+  <div class="row">
+    <div class="idx"><span class="n"><span class="mark"></span>05</span><h2>Questions</h2></div>
+    <div class="main">
+      <div class="faq">
+        <details open><summary>Do you work with existing typefaces?</summary><p>Yes. Most systems use a licensed grotesque or an open-source family. We only draw letters when the project needs a character no existing face supplies.</p></details>
+        <details><summary>How large are the teams you work with?</summary><p>From a single editor to a communications department of sixty. We write the manual for the smallest team that will have to maintain it.</p></details>
+        <details><summary>Can you deliver the system in code?</summary><p>We supply CSS tokens, layout components and a reference page. Your developers keep their stack; we keep the type honest.</p></details>
+        <details><summary>What do you need from us to begin?</summary><p>Ten representative documents, a list of languages, and one person with the authority to say yes.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="closing" id="contact">
+  <div class="row">
+    <h2 class="display">Make it plain. Make it last.</h2>
+    <div class="side">
+      <p class="lead">Send us a brief of one page. We answer within two working days.</p>
+      <a class="btn" href="mailto:studio@nordraster.example"><span>studio@nordraster.example</span><span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="row">
+    <div class="col"><h4 class="label">Studio</h4><a href="#approach">Approach</a><a href="#process">Process</a><a href="#terms">Terms</a></div>
+    <div class="col"><h4 class="label">Work</h4><a href="#work">Identity</a><a href="#work">Signage</a><a href="#work">Editorial</a></div>
+    <div class="col"><h4 class="label">Address</h4><span>Gerbergasse 14<br>8001 Zurich</span></div>
+    <div class="col"><h4 class="label">Contact</h4><a href="mailto:studio@nordraster.example">studio@nordraster.example</a><a href="#top">+41 44 000 00 00</a></div>
+    <div class="base"><span>&copy; 2026 Nord Raster GmbH</span><span><span class="mark"></span>Set in Host Grotesk</span><a href="#top">Back to top &uarr;</a></div>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+  // sample photo stand-ins (grayscale SVG)
+  var w=document.getElementById('wins');
+  if(w){var s='',tones=['#2b2b2b','#3a3a3a','#4a4a4a','#e4e4e4','#6a6a6a'];
+    for(var r=0;r<8;r++)for(var c=0;c<5;c++){var t=tones[(r*7+c*3+(r%3))%tones.length];s+='<rect x="'+(18+c*56)+'" y="'+(30+r*46)+'" width="40" height="32" fill="'+t+'"/>';}
+    w.innerHTML=s;}
+  var st=document.getElementById('stairs');
+  if(st){var q='';for(var i=0;i<10;i++){q+='<rect x="'+(60+i*18)+'" y="'+(120+i*26)+'" width="'+(240-i*18)+'" height="14" fill="'+(i%2?'#8a8a8a':'#4d4d4d')+'"/>';}
+    st.innerHTML=q;}
+  // plan output
+  var out=document.getElementById('out'),radios=document.querySelectorAll('input[name=plan]');
+  function upd(){radios.forEach(function(r){var lab=r.nextElementSibling.querySelector('.state');lab.textContent=r.checked?'Selected':'Select';if(r.checked)out.textContent='Selected: '+r.dataset.d;});}
+  radios.forEach(function(r){r.addEventListener('change',upd)});upd();
+  // index rail current section
+  var links={};document.querySelectorAll('.rail nav a[data-s]').forEach(function(a){links[a.dataset.s]=a});
+  function setCur(id){Object.keys(links).forEach(function(k){links[k].setAttribute('aria-current',k===id?'true':'false')})}
+  var secs=[].slice.call(document.querySelectorAll('section[id]')).filter(function(s){return links[s.id]});
+  function onScroll(){var y=window.scrollY+120,cur=null;secs.forEach(function(s){if(s.offsetTop<=y)cur=s.id});setCur(cur)}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>

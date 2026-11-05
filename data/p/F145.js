@@ -1,0 +1,1 @@
+ATLAS_P("F145","> Claude Code + Blender MCP\n> reasoning effort set to extra high\n> 5 reference images of the creature\n> one plain prompt: \"build it, make it run, make it pounce 1.5-2 m high\"");

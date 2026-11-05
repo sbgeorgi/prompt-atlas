@@ -1,0 +1,1 @@
+ATLAS_P("F773","Reproduce and analyze Clawd Moves In from the living-screencast demo source.\nInspect the current commit, locks, STYLE.md, DEMO.md, CREDITS, core APIs,\nand demo/build.sh. Read the author MP4 and actual local files first.\n\nKeep it an attributed unofficial fan-film");

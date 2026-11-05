@@ -1,0 +1,1 @@
+ATLAS_P("F577","Make a launch video for my side project.\nNo After Effects. \nNo stock music. \nJust code:\n\u2013 music made from scratch\n\u2013 a 3D Times Square from real NYC data\n\u2013 605 billboards lighting up on the beat");

@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hollow &amp; Fern - Garden Studio</title>
+<meta name="description" content="Hollow & Fern designs and keeps small gardens. Botanical style sample.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#f5efdf;
+  --dp-color-ink:#1e382c;
+  --dp-color-panel:#e0e5d3;
+  --dp-color-warm-field:#e6cbb8;
+  --dp-color-accent:#895440;
+  --dp-color-rule:#d4d0bd;
+  --dp-color-ornament-line:#b5baa4;
+  --dp-color-field-line:#697961;
+  --dp-typography-display:"Botanical Garamond","EB Garamond",Georgia,serif;
+  --dp-typography-reading:"Botanical Instrument","Instrument Sans",system-ui,sans-serif;
+  --dp-typography-body:16px;
+  --dp-typography-metadata:13px;
+  --dp-typography-label:12px;
+  --dp-typography-compact-leading:1.5;
+  --dp-typography-label-tracking:.12em;
+  --dp-spacing-panel-inline:max(30px,4.2cqw);
+  --dp-radius-panel:34px;
+  --dp-radius-panel-narrow:27px;
+  --dp-radius-round:50%;
+  --dp-border-hairline:1px;
+  --dp-motion-interaction:.35s;
+  --dp-motion-easing:ease;
+  --cream-soft:#d8dccb;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--dp-color-ground);color:var(--dp-color-ink);font-family:var(--dp-typography-reading);font-size:var(--dp-typography-body);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.16;mix-blend-mode:multiply;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .25  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+img,svg{display:block;max-width:100%}.logo svg{flex:none}
+a{color:inherit}
+h1,h2,h3,h4,blockquote{font-family:var(--dp-typography-display);font-weight:400;margin:0}
+p{margin:0}
+.skip{position:absolute;left:12px;top:-60px;background:var(--dp-color-ink);color:var(--dp-color-ground);padding:10px 16px;border-radius:99px;z-index:100}
+.skip:focus{top:12px}
+:focus-visible{outline:2px solid var(--dp-color-accent);outline-offset:3px;border-radius:6px}
+.on-green :focus-visible{outline-color:var(--dp-color-ground)}
+.wrap{width:min(1240px,100% - 48px);margin-inline:auto}
+.cq{container-type:inline-size}
+.label{font-size:var(--dp-typography-label);letter-spacing:var(--dp-typography-label-tracking);text-transform:uppercase;font-weight:500}
+.meta{font-size:var(--dp-typography-metadata);line-height:var(--dp-typography-compact-leading)}
+em,.it{font-style:italic}
+.clay{color:var(--dp-color-accent);font-style:italic}
+
+/* controls */
+.btn{white-space:nowrap;display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border-radius:99px;border:var(--dp-border-hairline) solid var(--dp-color-ink);background:var(--dp-color-ink);color:var(--dp-color-ground);font:500 15px/1 var(--dp-typography-reading);text-decoration:none;cursor:pointer;transition:background-color var(--dp-motion-interaction) var(--dp-motion-easing),color var(--dp-motion-interaction) var(--dp-motion-easing),transform var(--dp-motion-interaction) var(--dp-motion-easing),border-color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.btn:hover{background:var(--dp-color-accent);border-color:var(--dp-color-accent);transform:translateY(-2px)}
+.btn.sage{background:var(--dp-color-panel);color:var(--dp-color-ink);border-color:var(--dp-color-ornament-line)}
+.btn.sage:hover{background:var(--dp-color-ink);color:var(--dp-color-ground);border-color:var(--dp-color-ink)}
+.btn.cream{background:var(--dp-color-ground);color:var(--dp-color-ink);border-color:var(--dp-color-ground)}
+.btn.cream:hover{background:var(--dp-color-warm-field);border-color:var(--dp-color-warm-field)}
+.tlink{font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px;transition:color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.tlink:hover{color:var(--dp-color-accent)}
+.on-green .tlink:hover{color:var(--dp-color-warm-field)}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0;gap:20px}
+.logo{white-space:nowrap;font-family:var(--dp-typography-display);font-size:28px;text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:-.01em}
+.nav ul{display:flex;gap:34px;list-style:none;margin:0;padding:0;font-size:15px}
+.nav ul a{text-decoration:none;transition:color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.nav ul a:hover{color:var(--dp-color-accent)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.12fr .88fr;gap:clamp(24px,4vw,64px);align-items:center;padding:clamp(20px,4vw,56px) 0 clamp(60px,8vw,110px)}
+.hero h1{font-size:clamp(78px,10.6vw,142px);line-height:.9;letter-spacing:-.04em;margin:18px 0 30px}
+.hero .lede{max-width:44ch;font-size:17px;line-height:1.7;color:#35503f}
+.actions{display:flex;align-items:center;gap:30px;margin-top:36px;flex-wrap:wrap}
+.hero-art{position:relative;padding:18px 0 40px 36px}
+.arch{position:relative;overflow:hidden;border-radius:999px 999px 26px 26px;background:var(--dp-color-panel)}
+.hero-art .arch{aspect-ratio:4/5.35;width:100%}
+.arch-line{position:absolute;top:0;right:-14px;left:22px;bottom:22px;border:var(--dp-border-hairline) solid var(--dp-color-ornament-line);border-radius:999px 999px 30px 30px;pointer-events:none}
+.round{position:absolute;left:0;bottom:0;width:36%;aspect-ratio:1;border-radius:var(--dp-radius-round);overflow:hidden;border:6px solid var(--dp-color-ground);background:var(--dp-color-warm-field)}
+.sprig{position:absolute;pointer-events:none;color:var(--dp-color-ornament-line)}
+.art svg,.arch svg,.round svg,.fig svg{width:100%;height:100%}
+
+/* sage panel */
+.panel{background:var(--dp-color-panel);border-radius:var(--dp-radius-panel);padding:clamp(40px,6vw,84px) var(--dp-spacing-panel-inline)}
+.panel-head{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);align-items:end;margin-bottom:clamp(36px,5vw,64px)}
+.panel-head h2,.sec-title{font-size:clamp(44px,5.6vw,80px);line-height:.96;letter-spacing:-.035em}
+.panel-head>p{max-width:46ch;justify-self:end;color:#35503f}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,44px)}
+.feat{border-top:var(--dp-border-hairline) solid var(--dp-color-ornament-line);padding-top:24px}
+.feat svg{width:52px;height:52px;margin-bottom:20px;fill:none;stroke:var(--dp-color-ink);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.feat h3{font-size:28px;line-height:1.05;letter-spacing:-.02em;margin-bottom:10px}
+.feat p{font-size:15px;color:#35503f;line-height:1.6}
+
+/* process */
+.green{background:var(--dp-color-ink);color:var(--dp-color-ground);border-radius:var(--dp-radius-panel);padding:clamp(44px,7vw,100px) var(--dp-spacing-panel-inline)}
+.process{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,100px)}
+.process h2{font-size:clamp(44px,5.6vw,80px);line-height:.96;letter-spacing:-.035em;margin:14px 0 40px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:26px 0;border-top:var(--dp-border-hairline) solid var(--dp-color-field-line)}
+.steps li:last-child{border-bottom:var(--dp-border-hairline) solid var(--dp-color-field-line)}
+.steps .n{font-family:var(--dp-typography-display);font-style:italic;font-size:40px;line-height:1;color:var(--dp-color-warm-field)}
+.steps h3{font-size:32px;line-height:1.05;letter-spacing:-.02em;margin-bottom:8px}
+.steps p{color:var(--cream-soft);font-size:15px;max-width:48ch}
+.benefits{border-left:var(--dp-border-hairline) solid var(--dp-color-field-line);padding-left:clamp(24px,4vw,64px);align-self:end}
+.benefits .label{color:var(--cream-soft)}
+.benefits ul{list-style:none;margin:20px 0 0;padding:0}
+.benefits li{padding:22px 0;border-top:var(--dp-border-hairline) solid var(--dp-color-field-line);font-family:var(--dp-typography-display);font-size:30px;line-height:1.1;letter-spacing:-.015em}
+.benefits li span{display:block;font-family:var(--dp-typography-reading);font-size:14px;letter-spacing:0;color:var(--cream-soft);line-height:1.55;margin-top:8px}
+
+/* editorial row */
+.edit{padding:clamp(70px,9vw,130px) 0 clamp(40px,6vw,80px)}
+.edit-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:clamp(36px,5vw,64px);flex-wrap:wrap}
+.edit-row{display:grid;grid-template-columns:1.1fr .8fr 1fr 0.75fr;gap:clamp(16px,2.4vw,36px);align-items:start}
+.fig{margin:0}
+.fig .crop{overflow:hidden;position:relative;background:var(--dp-color-panel)}
+.fig .crop svg{transition:transform var(--dp-motion-interaction) var(--dp-motion-easing)}
+.fig:hover .crop svg{transform:scale(1.04)}
+.fig figcaption{margin-top:14px;display:flex;flex-direction:column;gap:2px}
+.fig figcaption b{font-family:var(--dp-typography-display);font-weight:400;font-size:24px;line-height:1.1;letter-spacing:-.01em}
+.fig figcaption span{color:#4a6353}
+.f1 .crop{aspect-ratio:3/4.2;border-radius:999px 999px 22px 22px}
+.f2{margin-top:90px}.f2 .crop{aspect-ratio:1;border-radius:var(--dp-radius-round)}
+.f3{margin-top:30px}.f3 .crop{aspect-ratio:4/5;border-radius:24px}
+.f4{margin-top:140px}.f4 .crop{aspect-ratio:3/4;border-radius:999px 999px 22px 22px}
+
+/* quote */
+.quote{display:grid;grid-template-columns:auto 1fr;gap:clamp(16px,3vw,48px);padding:clamp(50px,7vw,100px) 0;max-width:1060px;margin-inline:auto}
+.quote .mark{font-family:var(--dp-typography-display);font-size:clamp(120px,16vw,220px);line-height:.7;color:var(--dp-color-accent);font-style:italic}
+.quote blockquote{font-size:clamp(32px,4.4vw,58px);line-height:1.08;letter-spacing:-.025em}
+.quote cite{display:block;margin-top:26px;font-style:normal}
+.quote cite span{color:#4a6353}
+
+/* comparison */
+.warm{background:var(--dp-color-warm-field);border-radius:var(--dp-radius-panel);padding:clamp(40px,6vw,84px) var(--dp-spacing-panel-inline)}
+.warm .head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:clamp(30px,4vw,52px);flex-wrap:wrap}
+.warm .head p{max-width:42ch}
+.rows{display:flex;flex-direction:column;gap:12px}
+.row{display:grid;grid-template-columns:1.1fr 1.7fr auto;grid-template-areas:"id feat act";gap:24px 40px;align-items:center;padding:28px 32px;border-radius:22px;border:var(--dp-border-hairline) solid transparent;border-top-color:rgba(137,84,64,.28);position:relative;transition:background-color var(--dp-motion-interaction) var(--dp-motion-easing),border-color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.row.sel{background:var(--dp-color-ground);border-color:var(--dp-color-ink)}
+.row .id{grid-area:id}.row .feat-l{grid-area:feat}.row .act{grid-area:act}
+.row h3{font-size:36px;line-height:1;letter-spacing:-.025em}
+.row .id p{margin-top:6px;color:#5b4337}
+.tag{position:absolute;top:-11px;left:30px;background:var(--dp-color-accent);color:var(--dp-color-ground);padding:4px 12px;border-radius:99px}
+.feat-l{list-style:none;margin:0;padding:0;columns:2;column-gap:28px;font-size:14.5px}
+.feat-l li{padding:3px 0 3px 22px;position:relative;break-inside:avoid}
+.feat-l li::before{content:"";position:absolute;left:0;top:.82em;width:11px;height:1px;background:var(--dp-color-accent)}
+.pick{font:500 14px/1 var(--dp-typography-reading);padding:13px 24px;border-radius:99px;border:var(--dp-border-hairline) solid var(--dp-color-ink);background:transparent;color:var(--dp-color-ink);cursor:pointer;min-width:120px;transition:background-color var(--dp-motion-interaction) var(--dp-motion-easing),color var(--dp-motion-interaction) var(--dp-motion-easing),transform var(--dp-motion-interaction) var(--dp-motion-easing)}
+.pick:hover{background:var(--dp-color-ink);color:var(--dp-color-ground);transform:translateY(-2px)}
+.pick[aria-pressed="true"]{background:var(--dp-color-ink);color:var(--dp-color-ground);transform:none;box-shadow:inset 0 2px 5px rgba(0,0,0,.35)}
+
+/* faq */
+.faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,6vw,100px);padding:clamp(70px,9vw,130px) 0 clamp(70px,9vw,120px)}
+.faq details{border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.faq details:last-child{border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-family:var(--dp-typography-display);font-size:30px;line-height:1.1;letter-spacing:-.015em;transition:color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--dp-color-accent)}
+.faq summary::after{content:"+";font-family:var(--dp-typography-reading);font-size:26px;font-weight:400;flex:none;width:36px;height:36px;display:grid;place-items:center;border:var(--dp-border-hairline) solid var(--dp-color-ornament-line);border-radius:50%;line-height:1}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{padding:0 56px 26px 0;color:#35503f;max-width:56ch}
+
+/* close */
+.close{background:var(--dp-color-ink);color:var(--dp-color-ground);border-radius:50% 50% 0 0/clamp(60px,9vw,150px) clamp(60px,9vw,150px) 0 0;padding:clamp(80px,11vw,170px) 0 40px;text-align:center}
+.close h2{font-size:clamp(52px,7.4vw,112px);line-height:.92;letter-spacing:-.04em;max-width:11ch;margin:18px auto 28px}
+.close .lede{color:var(--cream-soft);max-width:48ch;margin:0 auto 36px}
+.close .actions{justify-content:center}
+.close .btn.cream{padding:17px 34px}
+footer{margin-top:clamp(80px,10vw,150px);border-top:var(--dp-border-hairline) solid var(--dp-color-field-line);padding-top:48px;display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:30px;text-align:left}
+footer .logo{margin-bottom:14px}
+footer p,footer a{color:var(--cream-soft)}
+footer h4{font-family:var(--dp-typography-reading);margin-bottom:12px;color:var(--dp-color-ground)}
+footer ul{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:14.5px}
+footer a{text-decoration:none;transition:color var(--dp-motion-interaction) var(--dp-motion-easing)}
+footer a:hover{color:var(--dp-color-warm-field)}
+.legal{grid-column:1/-1;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:var(--dp-border-hairline) solid var(--dp-color-field-line);padding:22px 0 8px;margin-top:20px;color:var(--cream-soft)}
+.gap{height:clamp(24px,4vw,56px)}
+
+@media (max-width:1120px){
+  .edit-row{grid-template-columns:1fr 1fr 1fr}
+  .f4{display:none}
+  .row{grid-template-columns:1fr 1.4fr;grid-template-areas:"id feat" "act feat"}
+  .row .act{align-self:start}
+  .features{grid-template-columns:repeat(2,1fr);row-gap:40px}
+  .process{grid-template-columns:1fr}
+  .benefits{border-left:0;padding-left:0}
+}
+@media (max-width:760px){
+  .wrap{width:min(1240px,100% - 32px)}
+  .nav ul{display:none}
+  .hero{grid-template-columns:1fr;padding-bottom:70px}
+  .hero-art{padding-left:20px;max-width:520px;width:100%;margin-inline:auto}
+  .hero-art .arch{aspect-ratio:4/5}
+  .panel,.green,.warm{border-radius:var(--dp-radius-panel-narrow)}
+  .panel-head{grid-template-columns:1fr}.panel-head>p{justify-self:start}
+  .steps li{grid-template-columns:48px 1fr}
+  .edit-row{grid-template-columns:1fr 1fr}
+  .f3{display:none}
+  .f2{margin-top:50px}
+  .quote{grid-template-columns:1fr}.quote .mark{height:.55em;font-size:130px}
+  .row{grid-template-columns:1fr;grid-template-areas:"id" "feat" "act";padding:26px 22px}
+  .faq{grid-template-columns:1fr}
+  footer{grid-template-columns:1fr 1fr 1fr}footer>div:first-child{grid-column:1/-1}
+}
+@media (max-width:480px){
+  .hero h1{font-size:78px}
+  .features{grid-template-columns:1fr}
+  .feat{display:grid;grid-template-columns:52px 1fr;column-gap:18px}
+  .feat svg{grid-row:1/3;margin:0}
+  .edit-row{grid-template-columns:1fr}
+  .fig{display:grid;grid-template-columns:42% 1fr;gap:16px;align-items:center}
+  .fig figcaption{margin:0}
+  .f2,.f3,.f4{margin-top:0}
+  .f3{display:grid}
+  .f1 .crop,.f2 .crop,.f3 .crop{aspect-ratio:1/1.1}
+  .feat-l{columns:1}
+  .benefits li{font-size:26px}
+  footer{grid-template-columns:1fr 1fr}
+  .faq summary{font-size:25px}
+  .faq details p{padding-right:0}
+  .actions{gap:20px}
+  .nav{gap:12px}.logo{font-size:24px;gap:8px}.nav .btn{padding:13px 22px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .btn:hover,.pick:hover,.fig:hover .crop svg{transform:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="nav">
+    <a class="logo" href="#top" aria-label="Hollow and Fern, home">
+      <svg aria-hidden="true" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M15 27V10M15 18c-5 0-8-3-8-8 5 0 8 3 8 8ZM15 14c0-5 3-8 8-8 0 5-3 8-8 8Z"/></svg>
+      Hollow &amp; Fern
+    </a>
+    <nav aria-label="Primary"><ul>
+      <li><a href="#studio">Studio</a></li><li><a href="#method">Method</a></li><li><a href="#work">Work</a></li><li><a href="#visits">Visits</a></li><li><a href="#questions">Questions</a></li>
+    </ul></nav>
+    <a class="btn" href="#visit">Book a visit</a>
+  </header>
+</div>
+
+<main id="main">
+<div class="wrap" id="top">
+  <section class="hero">
+    <div>
+      <p class="label">Garden studio &middot; design &amp; keeping</p>
+      <h1>Quiet gardens, <span class="clay">kept well.</span></h1>
+      <p class="lede">We plan small gardens on slow, honest terms: walls, beds, borders and a few good pots. Then we come back through the seasons and keep them, so what you plant today still looks cared for in five years.</p>
+      <div class="actions">
+        <a class="btn" href="#visit">Book a first visit</a>
+        <a class="tlink" href="#work">See recent gardens</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="arch-line" aria-hidden="true"></div>
+      <div class="arch art" role="img" aria-label="A walled garden at golden hour with a glasshouse, foxgloves and ferns" data-scene="garden" data-seed="3"></div>
+      <div class="round art" role="img" aria-label="A terracotta pot holding a leafy houseplant on a wooden table" data-scene="pot" data-seed="8"></div>
+      <svg class="sprig" aria-hidden="true" style="right:-6px;bottom:6px;width:76px" viewBox="0 0 76 150" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"><path d="M38 148C36 110 40 70 46 8"/><path d="M39 120c-14-2-22-12-24-24 14 0 23 9 24 24ZM41 96c13-3 20-13 20-25-13 2-20 11-20 25ZM42 72c-12-3-19-12-20-23 12 1 19 10 20 23ZM44 48c10-3 16-11 17-21-11 2-17 10-17 21ZM45 28C38 22 36 14 38 6c7 6 9 14 7 22Z"/></svg>
+    </div>
+  </section>
+</div>
+
+<section class="wrap cq" id="studio">
+  <div class="panel">
+    <div class="panel-head">
+      <div><p class="label">The studio</p><h2 style="margin-top:14px">A garden is a <span class="clay">long conversation</span>, not a delivery.</h2></div>
+      <p>Hollow &amp; Fern is three gardeners and a drafting table. We design for the soil you actually have, the light you actually get, and the time you actually want to spend. Most of what we do is small, and all of it is tended.</p>
+    </div>
+    <div class="features">
+      <div class="feat">
+        <svg aria-hidden="true" viewBox="0 0 52 52"><path d="M10 42 28 24M24 20l8 8-14 14-8-8ZM28 24l12-12a4 4 0 0 1 6 6L34 30"/></svg>
+        <h3>Site reading</h3><p>We walk the plot with a notebook: sun, drainage, wind, and where you really sit with a coffee.</p>
+      </div>
+      <div class="feat">
+        <svg aria-hidden="true" viewBox="0 0 52 52"><path d="M26 44V22M26 30c-9 0-14-5-14-13 9 0 14 5 14 13ZM26 24c0-8 5-13 14-13 0 8-5 13-14 13Z"/></svg>
+        <h3>Planting plans</h3><p>Drawn by hand, labelled in plain language, with a bloom calendar that runs from February to November.</p>
+      </div>
+      <div class="feat">
+        <svg aria-hidden="true" viewBox="0 0 52 52"><path d="M12 22h22l-3 20H15ZM34 26h6a3 3 0 0 1 0 8h-5M16 22l-2-6h18l2 6M38 14l6-4"/></svg>
+        <h3>Seasonal keeping</h3><p>Pruning, dividing, mulching and the small jobs that quietly decide whether a border thrives.</p>
+      </div>
+      <div class="feat">
+        <svg aria-hidden="true" viewBox="0 0 52 52"><circle cx="26" cy="26" r="9"/><path d="M26 8v6M26 38v6M8 26h6M38 26h6M13 13l4 4M35 35l4 4M39 13l-4 4M17 35l-4 4"/></svg>
+        <h3>Honest advice</h3><p>If a plant will sulk in your corner, we will say so, and suggest one that will not.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gap"></div>
+
+<section class="wrap cq on-green" id="method">
+  <div class="green">
+    <div class="process">
+      <div>
+        <p class="label" style="color:var(--cream-soft)">How a garden gets made</p>
+        <h2>Four steps, <span class="it" style="color:var(--dp-color-warm-field)">no rush.</span></h2>
+        <ol class="steps">
+          <li><span class="n">01</span><div><h3>Walk and listen</h3><p>One visit, two hours, tea. We measure, photograph and ask what you want to stop worrying about.</p></div></li>
+          <li><span class="n">02</span><div><h3>Draw the plan</h3><p>A scaled plan, a planting list and a sensible order of works, so you can build in stages if you like.</p></div></li>
+          <li><span class="n">03</span><div><h3>Plant in season</h3><p>Hard landscaping first, planting when the soil is ready, never to a calendar date that suits us.</p></div></li>
+          <li><span class="n">04</span><div><h3>Come back</h3><p>A keeping visit each season for the first year, then as often as the garden asks.</p></div></li>
+        </ol>
+      </div>
+      <aside class="benefits" aria-label="What you get">
+        <p class="label">What stays with you</p>
+        <ul>
+          <li>A plan you can read<span>Plain labels, a bloom calendar and care notes for every bed.</span></li>
+          <li>One gardener who knows it<span>The same person returns each season and remembers what you tried.</span></li>
+          <li>Room to change your mind<span>Beds are drawn to be moved, swapped or simplified later.</span></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="wrap edit" id="work">
+  <div class="edit-head">
+    <h2 class="sec-title">Recent <span class="clay">gardens</span></h2>
+    <a class="tlink" href="#visit">Talk about yours</a>
+  </div>
+  <div class="edit-row">
+    <figure class="fig f1"><div class="crop" role="img" aria-label="A clipped hedge path leading to an open garden gate" data-scene="path" data-seed="5"></div><figcaption><b>The long path</b><span class="meta">Terrace house, north-facing</span></figcaption></figure>
+    <figure class="fig f2"><div class="crop" role="img" aria-label="Potting shelf with terracotta pots and young plants" data-scene="shelf" data-seed="11"></div><figcaption><b>Potting shelf</b><span class="meta">Courtyard, shade-loving</span></figcaption></figure>
+    <figure class="fig f3"><div class="crop" role="img" aria-label="Garden tools laid on a wooden bench: trowel, watering can and seed packets" data-scene="tools" data-seed="2"></div><figcaption><b>The tool bench</b><span class="meta">Allotment shed, restored</span></figcaption></figure>
+    <figure class="fig f4"><div class="crop" role="img" aria-label="A terracotta pot with a trailing plant" data-scene="pot" data-seed="21"></div><figcaption><b>One good pot</b><span class="meta">Balcony, east light</span></figcaption></figure>
+  </div>
+</section>
+
+<div class="wrap">
+  <figure class="quote">
+    <div class="mark" aria-hidden="true">&ldquo;</div>
+    <div>
+      <blockquote>They taught me which corner wanted <span class="clay">patience</span> and which one wanted shears. The garden finally feels like mine.</blockquote>
+      <figcaption><cite class="meta"><b style="font-weight:500">Marit Oyelaran</b><br><span>Walled garden, second year of keeping</span></cite></figcaption>
+    </div>
+  </figure>
+</div>
+
+<section class="wrap cq" id="visits">
+  <div class="warm">
+    <div class="head">
+      <h2 class="sec-title">Three ways<br>to <span class="clay">work together</span></h2>
+      <p>Choose the rhythm that fits the garden. Every option starts with the same walk and the same honest notes.</p>
+    </div>
+    <div class="rows" id="rows">
+      <div class="row">
+        <div class="id"><h3>Seasonal visit</h3><p class="meta">One day, one border, one list.</p></div>
+        <ul class="feat-l"><li>Half-day on site</li><li>Pruning &amp; division</li><li>Written to-do list</li><li>Plant swaps advised</li></ul>
+        <div class="act"><button class="pick" type="button" aria-pressed="false">Choose</button></div>
+      </div>
+      <div class="row sel">
+        <span class="tag label">Most chosen</span>
+        <div class="id"><h3>Garden plan</h3><p class="meta">A full design, drawn and labelled.</p></div>
+        <ul class="feat-l"><li>Site reading visit</li><li>Scaled drawings</li><li>Planting list &amp; calendar</li><li>Staged build order</li><li>One review visit</li></ul>
+        <div class="act"><button class="pick" type="button" aria-pressed="true">Chosen</button></div>
+      </div>
+      <div class="row">
+        <div class="id"><h3>Year-round keeping</h3><p class="meta">A gardener who knows your plot.</p></div>
+        <ul class="feat-l"><li>Four seasonal visits</li><li>Same gardener each time</li><li>Planting refreshes</li><li>Message us any week</li></ul>
+        <div class="act"><button class="pick" type="button" aria-pressed="false">Choose</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap faq" id="questions">
+  <div>
+    <p class="label">Questions</p>
+    <h2 class="sec-title" style="margin-top:14px">Before you <span class="clay">write to us</span></h2>
+  </div>
+  <div>
+    <details open><summary>Do you work in very small spaces?</summary><p>Yes, and we like them. Courtyards, balconies and front steps often get the most thought per square metre.</p></details>
+    <details><summary>Can I build the plan in stages?</summary><p>That is how most people do it. The plan arrives with an order of works so each stage stands up on its own.</p></details>
+    <details><summary>What if I only want advice?</summary><p>A seasonal visit is exactly that: a morning of walking the garden together and a written list of what to do next.</p></details>
+    <details><summary>How far do you travel?</summary><p>We keep to a day's round trip from the studio, so the same gardener can come back each season.</p></details>
+  </div>
+</section>
+
+<div class="on-green">
+  <section class="close" id="visit">
+    <div class="wrap">
+      <p class="label" style="color:var(--cream-soft)">Next step</p>
+      <h2>Come and walk <span class="it" style="color:var(--dp-color-warm-field)">the garden</span> with us.</h2>
+      <p class="lede">Tell us where it is and what you hope for. We will reply within two working days with a few dates for a first visit.</p>
+      <div class="actions"><a class="btn cream" href="mailto:hello@example.com">Book a first visit</a><a class="tlink" href="#work">Browse the gardens</a></div>
+      <footer>
+        <div><a class="logo" href="#top" style="color:var(--dp-color-ground)">Hollow &amp; Fern</a><p class="meta" style="max-width:30ch">Garden design and keeping for small gardens, walls and borders.</p></div>
+        <div><h4 class="label">Studio</h4><ul><li><a href="#studio">About</a></li><li><a href="#method">Method</a></li><li><a href="#work">Gardens</a></li></ul></div>
+        <div><h4 class="label">Work with us</h4><ul><li><a href="#visits">Visits</a></li><li><a href="#questions">Questions</a></li><li><a href="#visit">Contact</a></li></ul></div>
+        <div><h4 class="label">Elsewhere</h4><ul><li><a href="#top">Journal</a></li><li><a href="#top">Newsletter</a></li><li><a href="#top">Instagram</a></li></ul></div>
+        <div class="legal meta"><span>&copy; 2026 Hollow &amp; Fern Garden Studio</span><span>Sample page for the Botanical style</span></div>
+      </footer>
+    </div>
+  </section>
+</div>
+</main>
+
+<script>
+(function(){
+  var rng=function(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
+  var G=['#2f4a33','#3f5d3a','#56744a','#6f8a58','#8aa06a','#44684a'];
+  var f=function(n){return Math.round(n*10)/10};
+  function leaf(x,y,l,a,c,w){w=w||.3;return '<path transform="translate('+f(x)+' '+f(y)+') rotate('+f(a)+')" d="M0 0C'+f(l*.3)+' '+f(-l*w)+' '+f(l*.8)+' '+f(-l*w*.6)+' '+f(l)+' 0C'+f(l*.8)+' '+f(l*w*.6)+' '+f(l*.3)+' '+f(l*w)+' 0 0Z" fill="'+c+'"/>'}
+  function pick(r,a){return a[Math.floor(r()*a.length)]}
+  var S={
+    garden:function(r,W,H){
+      var o='<defs><linearGradient id="gs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4dfb8"/><stop offset=".6" stop-color="#f7ead0"/><stop offset="1" stop-color="#e5ddba"/></linearGradient></defs>';
+      o+='<rect width="'+W+'" height="'+H+'" fill="url(#gs)"/><circle cx="'+W*.72+'" cy="'+H*.2+'" r="46" fill="#f2c987" opacity=".75"/>';
+      o+='<path d="M0 '+H*.5+'Q'+W*.3+' '+H*.36+' '+W*.6+' '+H*.48+'T'+W+' '+H*.44+'V'+H+'H0Z" fill="#b7c29a"/>';
+      o+='<path d="M0 '+H*.58+'Q'+W*.4+' '+H*.47+' '+W+' '+H*.56+'V'+H+'H0Z" fill="#8ea575"/>';
+      // glasshouse
+      var gx=W*.16,gy=H*.38,gw=W*.5,gh=H*.2;
+      o+='<g stroke="#f7f1de" stroke-width="2.2" fill="rgba(255,255,255,.28)"><path d="M'+gx+' '+(gy+gh)+'V'+gy+'L'+(gx+gw/2)+' '+(gy-40)+'L'+(gx+gw)+' '+gy+'V'+(gy+gh)+'Z"/>';
+      for(var i=1;i<6;i++)o+='<path d="M'+(gx+gw*i/6)+' '+(gy+gh)+'V'+(gy-20*(1-Math.abs(i-3)/3)*1.5)+'" fill="none"/>';
+      o+='<path d="M'+gx+' '+(gy+gh*.45)+'H'+(gx+gw)+'" fill="none"/></g>';
+      o+='<rect x="0" y="'+H*.56+'" width="'+W+'" height="'+H*.12+'" fill="#d2c3a4"/>';
+      for(i=0;i<14;i++)o+='<rect x="'+f(r()*W)+'" y="'+f(H*.57+r()*H*.09)+'" width="'+f(30+r()*40)+'" height="10" rx="2" fill="'+pick(r,['#c4b392','#dcceb0','#bfae8c'])+'"/>';
+      o+='<rect y="'+H*.67+'" width="'+W+'" height="'+H*.33+'" fill="#5f7d4f"/>';
+      for(i=0;i<70;i++)o+=leaf(r()*W,H+10,90+r()*150,-90+(r()-.5)*110,pick(r,G),.22);
+      for(i=0;i<7;i++){var x=W*.12+r()*W*.76,h=H*.22+r()*H*.2;o+='<path d="M'+f(x)+' '+H+'Q'+f(x+8)+' '+f(H-h/2)+' '+f(x)+' '+f(H-h)+'" stroke="#4b6a45" stroke-width="3" fill="none"/>';for(var k=0;k<7;k++)o+='<ellipse cx="'+f(x+(k%2?8:-8)*(1-k/9))+'" cy="'+f(H-h+k*h*.09)+'" rx="'+f(9-k*.5)+'" ry="'+f(13-k*.6)+'" fill="'+pick(r,['#b97690','#c98fa5','#a8607f'])+'"/>'}
+      for(i=0;i<40;i++)o+=leaf(r()*W,H+10,60+r()*90,-90+(r()-.5)*140,pick(r,G),.2);
+      return o},
+    pot:function(r,W,H){
+      var o='<defs><linearGradient id="pb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#efd9c6"/><stop offset="1" stop-color="#e2c1a8"/></linearGradient></defs><rect width="'+W+'" height="'+H+'" fill="url(#pb)"/>';
+      o+='<rect y="'+H*.78+'" width="'+W+'" height="'+H*.22+'" fill="#b98a66"/><rect y="'+H*.78+'" width="'+W+'" height="4" fill="#9e7350"/>';
+      o+='<ellipse cx="'+W*.5+'" cy="'+H*.8+'" rx="'+W*.26+'" ry="9" fill="rgba(60,35,20,.25)"/>';
+      var cx=W*.5,top=H*.55;
+      for(var i=0;i<11;i++){var a=-90+(i-5)*17+(r()-.5)*10;o+='<path d="M'+cx+' '+top+'Q'+f(cx+Math.cos(a*Math.PI/180)*60)+' '+f(top+Math.sin(a*Math.PI/180)*90)+' '+f(cx+Math.cos(a*Math.PI/180)*100)+' '+f(top+Math.sin(a*Math.PI/180)*160)+'" stroke="#3a5a3a" stroke-width="2.4" fill="none"/>'+leaf(cx+Math.cos(a*Math.PI/180)*100,top+Math.sin(a*Math.PI/180)*160,W*.2+r()*30,a+(r()-.5)*40,pick(r,G),.4)}
+      o+='<path d="M'+(cx-W*.2)+' '+top+'H'+(cx+W*.2)+'L'+(cx+W*.15)+' '+H*.8+'H'+(cx-W*.15)+'Z" fill="#b5653d"/><rect x="'+(cx-W*.22)+'" y="'+(top-6)+'" width="'+W*.44+'" height="'+H*.06+'" rx="4" fill="#c4764c"/>';
+      o+='<path d="M'+(cx-W*.14)+' '+(top+H*.1)+'H'+(cx+W*.14)+'" stroke="#9d5330" stroke-width="2" opacity=".6"/>';
+      return o},
+    tools:function(r,W,H){
+      var o='<rect width="'+W+'" height="'+H+'" fill="#cdd6bd"/><rect y="'+H*.55+'" width="'+W+'" height="'+H*.45+'" fill="#a77c55"/>';
+      for(var i=0;i<6;i++)o+='<path d="M0 '+(H*.55+i*H*.075)+'H'+W+'" stroke="#8d6542" stroke-width="2"/>';
+      o+='<g transform="translate('+W*.08+' '+H*.22+')"><rect x="0" y="40" width="'+W*.5+'" height="'+H*.2+'" rx="12" fill="#4f7a63"/><rect x="0" y="40" width="'+W*.5+'" height="12" rx="6" fill="#6c957d"/><path d="M'+W*.5+' '+(H*.12)+'L'+(W*.8)+' '+(H*.02)+'" stroke="#4f7a63" stroke-width="14" stroke-linecap="round"/><path d="M'+W*.06+' 40C'+W*.06+' -20 '+W*.44+' -20 '+W*.44+' 40" stroke="#3d6049" stroke-width="10" fill="none"/></g>';
+      o+='<g transform="translate('+W*.1+' '+H*.7+') rotate(-8)"><rect width="'+W*.34+'" height="16" rx="8" fill="#7a4e2c"/><path d="M'+W*.32+' -6H'+W*.5+'L'+W*.58+' 8L'+W*.5+' 22H'+W*.32+'Z" fill="#aab4b0"/></g>';
+      var cols=['#f5efdf','#e6cbb8','#e0e5d3'];
+      for(i=0;i<3;i++)o+='<g transform="translate('+(W*.52+i*W*.14)+' '+(H*.58+i*8)+') rotate('+(-10+i*9)+')"><rect width="'+W*.12+'" height="'+H*.2+'" rx="4" fill="'+cols[i]+'" stroke="#bda88d"/>'+leaf(W*.06,H*.12,34,-90,pick(r,G),.5)+'</g>';
+      return o},
+    path:function(r,W,H){
+      var o='<defs><linearGradient id="ph" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8e3c6"/><stop offset="1" stop-color="#f1e8cb"/></linearGradient></defs><rect width="'+W+'" height="'+H+'" fill="url(#ph)"/>';
+      o+='<rect x="'+W*.4+'" y="'+H*.3+'" width="'+W*.2+'" height="'+H*.3+'" rx="'+W*.1+'" fill="#f5efdf"/><rect x="'+W*.43+'" y="'+H*.33+'" width="'+W*.14+'" height="'+H*.27+'" rx="'+W*.07+'" fill="#a9c2b0"/>';
+      o+='<path d="M'+W*.42+' '+H*.6+'L'+(-W*.1)+' '+H+'H'+W*1.1+'L'+W*.58+' '+H*.6+'Z" fill="#d7c4a0"/>';
+      o+='<path d="M0 '+H*.28+'H'+W*.42+'V'+H*.6+'L'+(-W*.1)+' '+H+'H0Z" fill="#3a5a3a"/><path d="M'+W+' '+H*.28+'H'+W*.58+'V'+H*.6+'L'+W*1.1+' '+H+'H'+W+'Z" fill="#35553a"/>';
+      for(var i=0;i<90;i++){var left=r()<.5,x=left?r()*W*.42:W*.58+r()*W*.42;o+=leaf(x,H*.28+r()*H*.72,14+r()*20,r()*360,pick(r,G),.35)}
+      for(i=0;i<16;i++)o+='<circle cx="'+f(r()<.5?r()*W*.4:W*.6+r()*W*.4)+'" cy="'+f(H*.4+r()*H*.5)+'" r="'+f(3+r()*3)+'" fill="'+pick(r,['#f5efdf','#e6cbb8','#d99bb1'])+'"/>';
+      return o},
+    shelf:function(r,W,H){
+      var o='<rect width="'+W+'" height="'+H+'" fill="#dfe4cf"/>';
+      var ys=[H*.36,H*.68];
+      for(var s=0;s<2;s++){var y=ys[s];o+='<rect x="0" y="'+y+'" width="'+W+'" height="10" fill="#9a7550"/>';
+        for(var i=0;i<4;i++){var x=W*.12+i*W*.22,pw=W*.14,ph=H*.1+r()*H*.04;o+='<path d="M'+x+' '+(y-ph)+'H'+(x+pw)+'L'+(x+pw*.82)+' '+y+'H'+(x+pw*.18)+'Z" fill="'+pick(r,['#b5653d','#c4764c','#a85a35'])+'"/>';
+          for(var k=0;k<6;k++)o+=leaf(x+pw/2,y-ph,24+r()*26,-90+(k-2.5)*26,pick(r,G),.4)}}
+      return o}
+  };
+  document.querySelectorAll('[data-scene]').forEach(function(el){
+    var t=el.getAttribute('data-scene'),W=400,H=500,r=rng(+el.getAttribute('data-seed')||1);
+    el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+S[t](r,W,H)+'</svg>';
+  });
+  var rows=document.querySelectorAll('#rows .row');
+  rows.forEach(function(row){
+    var b=row.querySelector('.pick');
+    b.addEventListener('click',function(){
+      rows.forEach(function(x){var p=x.querySelector('.pick');var on=x===row;x.classList.toggle('sel',on);p.setAttribute('aria-pressed',on);p.textContent=on?'Chosen':'Choose'});
+    });
+  });
+})();
+</script>
+</body>
+</html>

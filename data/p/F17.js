@@ -1,0 +1,1 @@
+ATLAS_P("F17","[Image #8] Opus 5.5 is the character. Make 30 second animation. Topic is Oktoberfest. Animation is signed off by Opus 5.5. Fun, cute and charming. This should be a one shot. It will get posted on X. Do not use synth'd audio. Find audio samples on disk and use that.");

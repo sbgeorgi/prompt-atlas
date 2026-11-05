@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VEX Venture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:#fff}
+body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0}
+.hero{position:relative;min-height:100vh;min-height:100svh;height:100svh;overflow:hidden;display:flex;flex-direction:column;background:#000}
+#bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pad{position:relative;z-index:2;padding-left:1.5rem;padding-right:1.5rem}
+@media(min-width:768px){.pad{padding-left:3rem;padding-right:3rem}}
+@media(min-width:1024px){.pad{padding-left:4rem;padding-right:4rem}}
+nav.pad{padding-top:1.5rem}
+.bar{display:flex;align-items:center;justify-content:space-between;border-radius:.75rem;padding:.5rem 1rem}
+.logo{font-size:1.5rem;line-height:2rem;font-weight:600;letter-spacing:-.025em}
+.links{display:none;gap:2rem;font-size:.875rem}
+.links a{transition:color .2s}
+.links a:hover{color:#d1d5db}
+@media(min-width:768px){.links{display:flex}}
+.btn-w{background:#fff;color:#000;padding:.5rem 1.5rem;border-radius:.5rem;font-size:.875rem;font-weight:500;transition:background .2s}
+.btn-w:hover{background:#f3f4f6}
+.content{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:3rem}
+@media(min-width:1024px){.content{padding-bottom:4rem}.grid{display:grid;grid-template-columns:1fr 1fr;align-items:end}}
+h1{font-weight:400;margin-bottom:1rem;letter-spacing:-.04em;line-height:1;font-size:min(2.25rem,8.6vw)}
+@media(min-width:768px){h1{font-size:3rem}}
+@media(min-width:1024px){h1{font-size:3.75rem}}
+@media(min-width:1280px){h1{font-size:4.5rem}}
+h1 .line{display:block;white-space:nowrap}
+h1 .ch{display:inline-block;opacity:0;transform:translateX(-18px);transition:opacity .5s ease,transform .5s ease}
+h1.go .ch{opacity:1;transform:none}
+.sub{font-size:1rem;color:#d1d5db;margin-bottom:1.25rem;max-width:34rem}
+@media(min-width:768px){.sub{font-size:1.125rem}}
+.fade{opacity:0;transition:opacity 1s ease}
+.fade.go{opacity:1}
+.row{display:flex;flex-wrap:wrap;gap:1rem}
+.btn-b{padding:.75rem 2rem;border-radius:.5rem;font-weight:500;font-size:1rem}
+.btn-w2{background:#fff;color:#000}
+.btn-g{color:#fff;border:1px solid rgba(255,255,255,.2);transition:background .3s,color .3s}
+.btn-g:hover{background:#fff;color:#000}
+.btn-g:hover::before{opacity:0}
+.tagcol{display:flex;align-items:flex-end;justify-content:flex-start;margin-top:1.5rem}
+@media(min-width:1024px){.tagcol{justify-content:flex-end;margin-top:0}}
+.tag{border:1px solid rgba(255,255,255,.2);padding:.75rem 1.5rem;border-radius:.75rem;font-size:1.125rem;font-weight:300}
+@media(min-width:768px){.tag{font-size:1.25rem}}
+@media(min-width:1024px){.tag{font-size:1.5rem}}
+.liquid-glass{background:rgba(0,0,0,.4);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.3) 0%,rgba(255,255,255,.1) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.1) 80%,rgba(255,255,255,.3) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;transition:opacity .3s}
+.btn-g.liquid-glass,.tag.liquid-glass,.bar.liquid-glass{border:1px solid transparent}
+.btn-g.liquid-glass{border:1px solid rgba(255,255,255,.2)}
+.tag.liquid-glass{border:1px solid rgba(255,255,255,.2)}
+@media(prefers-reduced-motion:reduce){h1 .ch,.fade{transition:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<section class="hero">
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <nav class="pad">
+    <div class="bar liquid-glass">
+      <span class="logo">VEX</span>
+      <div class="links"><a href="#">Story</a><a href="#">Investing</a><a href="#">Building</a><a href="#">Advisory</a></div>
+      <button class="btn-w">Start a Chat</button>
+    </div>
+  </nav>
+  <div class="pad content">
+    <div class="grid">
+      <div>
+        <h1 id="h" aria-label="Shaping tomorrow with vision and action."></h1>
+        <p class="sub fade" data-d="800">We back visionaries and craft ventures that define what comes next.</p>
+        <div class="row fade" data-d="1200">
+          <button class="btn-b btn-w2">Start a Chat</button>
+          <button class="btn-b btn-g liquid-glass">Explore Now</button>
+        </div>
+      </div>
+      <div class="tagcol">
+        <div class="tag liquid-glass fade" data-d="1400">Investing. Building. Advisory.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---- heading: per-character entrance ---- */
+  var h=document.getElementById('h'),lines=['Shaping tomorrow','with vision and action.'],D=30;
+  lines.forEach(function(t,li){
+    var l=document.createElement('span');l.className='line';l.setAttribute('aria-hidden','true');
+    for(var i=0;i<t.length;i++){
+      var s=document.createElement('span');s.className='ch';
+      s.textContent=t[i]===' '?' ':t[i];
+      s.style.transitionDelay=(li*t.length*D+i*D)+'ms';
+      l.appendChild(s);
+    }
+    h.appendChild(l);
+  });
+  setTimeout(function(){h.classList.add('go')},reduce?0:200);
+  document.querySelectorAll('.fade').forEach(function(e){
+    setTimeout(function(){e.classList.add('go')},reduce?0:+e.dataset.d);
+  });
+
+  /* ---- background: procedural city-park scene (stand-in for the video) ---- */
+  var cv=document.getElementById('bg'),ctx=cv.getContext('2d');
+  var W=1600,H=900,HOR=600;
+  var seed=7;function rnd(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
+  function mk(){var c=document.createElement('canvas');c.width=W;c.height=H;return c}
+  var sky=mk(),front=mk(),refl=mk();
+
+  // sky
+  (function(){
+    var g=sky.getContext('2d'),gr=g.createLinearGradient(0,0,0,HOR+40);
+    gr.addColorStop(0,'#3f7fc8');gr.addColorStop(.55,'#78aedd');gr.addColorStop(1,'#cfe3f0');
+    g.fillStyle=gr;g.fillRect(0,0,W,H);
+  })();
+
+  // clouds (animated), pre-rendered sprites
+  var clouds=[];
+  function cloudSprite(w,h){
+    var c=document.createElement('canvas');c.width=w;c.height=h;var g=c.getContext('2d');
+    for(var i=0;i<46;i++){
+      var x=w*(.12+.76*rnd()),y=h*(.35+.35*rnd())-Math.abs(x-w/2)/w*h*.5,r=h*(.16+.22*rnd());
+      var rg=g.createRadialGradient(x,y-r*.25,r*.1,x,y,r);
+      rg.addColorStop(0,'rgba(255,255,255,.98)');rg.addColorStop(.6,'rgba(236,242,250,.9)');rg.addColorStop(1,'rgba(200,215,235,0)');
+      g.fillStyle=rg;g.beginPath();g.arc(x,y,r,0,7);g.fill();
+    }
+    // shaded underside
+    g.globalCompositeOperation='source-atop';
+    var sg=g.createLinearGradient(0,h*.3,0,h*.85);sg.addColorStop(0,'rgba(120,150,190,0)');sg.addColorStop(1,'rgba(110,135,175,.55)');
+    g.fillStyle=sg;g.fillRect(0,0,w,h);
+    return c;
+  }
+  [[60,70,560,230,.6],[1080,40,520,200,.45],[560,20,360,150,.3],[1330,150,380,150,.35],[380,170,260,100,.5],[760,120,260,90,.25]].forEach(function(a){
+    clouds.push({x:a[0],y:a[1],w:a[2],h:a[3],v:a[4],s:cloudSprite(a[2],a[3])});
+  });
+
+  // front layer: buildings, bridge, trees, bank (transparent sky)
+  var fg=front.getContext('2d');
+  function building(g,x,w,top,base,tone,haze){
+    var gr=g.createLinearGradient(x,0,x+w,0);
+    gr.addColorStop(0,'hsl(212,'+(18+tone*6)+'%,'+(38+tone*8)+'%)');
+    gr.addColorStop(.55,'hsl(210,'+(20+tone*5)+'%,'+(55+tone*8)+'%)');
+    gr.addColorStop(1,'hsl(214,18%,'+(30+tone*6)+'%)');
+    g.fillStyle=gr;g.fillRect(x,top,w,base-top);
+    // window rows
+    g.fillStyle='rgba(255,255,255,.07)';
+    for(var y=top+6;y<base;y+=9)g.fillRect(x,y,w,2);
+    g.fillStyle='rgba(20,40,70,.18)';
+    for(var xx=x+w*.25;xx<x+w;xx+=w*.25)g.fillRect(xx,top,1.5,base-top);
+    // sun-lit edge
+    g.fillStyle='rgba(255,236,200,.22)';g.fillRect(x+w-3,top,3,base-top);
+    if(haze){g.fillStyle='rgba(190,215,235,'+haze+')';g.fillRect(x,top,w,base-top)}
+  }
+  // far haze buildings
+  var far=[[60,70,470],[150,50,500],[210,90,455],[300,60,480],[390,70,440],[520,45,500],[600,80,470],[860,70,490],[930,55,515],[1000,70,480],[1190,60,500],[1500,80,470],[1560,60,495]];
+  far.forEach(function(b){building(fg,b[0],b[1],b[2],HOR+4,0,.5)});
+  // mid buildings
+  var mid=[[190,70,420],[290,60,440],[450,60,400],[520,40,455],[640,50,445],[720,68,300],[820,60,395],[900,55,430],[1000,50,360],[1090,70,230],[1260,75,380],[1330,75,320],[1440,70,370],[1510,70,400]];
+  mid.forEach(function(b,i){building(fg,b[0],b[1],b[2],HOR+6,i%3,.18)});
+  // hero tower (right) with stepped top
+  building(fg,1100,170,170,HOR+8,2,0);
+  fg.fillStyle='#8aa4bf';fg.fillRect(1160,150,50,20);
+  building(fg,780,58,350,HOR+8,1,0);
+  // slim spire
+  fg.fillStyle='#a9b7c4';fg.beginPath();fg.moveTo(255,430);fg.lineTo(262,170);fg.lineTo(269,430);fg.fill();
+  // atmospheric haze at horizon
+  var hz=fg.createLinearGradient(0,HOR-160,0,HOR+30);hz.addColorStop(0,'rgba(210,228,240,0)');hz.addColorStop(1,'rgba(210,228,240,.5)');
+  fg.fillStyle=hz;fg.fillRect(0,HOR-160,W,190);
+
+  // distant tree line
+  function blob(g,x,y,r,hue,sat,lig,n){
+    for(var i=0;i<n;i++){
+      var a=rnd()*6.283,d=Math.sqrt(rnd())*r,px=x+Math.cos(a)*d,py=y+Math.sin(a)*d*.85,rr=r*(.14+.22*rnd());
+      var l=lig+(rnd()-.5)*18-(py-y)/r*-8;
+      g.fillStyle='hsl('+(hue+(rnd()-.5)*14)+','+sat+'%,'+l+'%)';
+      g.beginPath();g.arc(px,py,rr,0,7);g.fill();
+    }
+  }
+  for(var i=0;i<46;i++){var tx=i*36+rnd()*20;blob(fg,tx,HOR-4+rnd()*20,38+rnd()*20,98+rnd()*30,28,28+rnd()*8,26)}
+
+  // bridge (low stone arch)
+  (function(){
+    var y=HOR+30;
+    fg.fillStyle='#4b4f55';fg.fillRect(330,y-18,760,10);       // deck
+    fg.fillStyle='#656a72';fg.fillRect(330,y-8,760,26);
+    fg.fillStyle='#a2a9b0';fg.fillRect(330,y-20,760,4);          // railing
+    for(var a=0;a<5;a++){var cx=410+a*150;
+      fg.fillStyle='#1c2a35';fg.beginPath();fg.ellipse(cx,y+18,58,26,0,Math.PI,0);fg.fill();}
+    fg.fillStyle='rgba(0,0,0,.25)';fg.fillRect(330,y+14,760,8);
+  })();
+  // far bank
+  var bk=fg.createLinearGradient(0,HOR+30,0,HOR+75);bk.addColorStop(0,'#3a5a2a');bk.addColorStop(1,'#1d3320');
+  fg.fillStyle=bk;fg.beginPath();fg.moveTo(0,HOR+40);
+  for(var x=0;x<=W;x+=40)fg.lineTo(x,HOR+44+Math.sin(x*.01)*6);
+  fg.lineTo(W,HOR+80);fg.lineTo(0,HOR+80);fg.fill();
+  for(var i=0;i<30;i++)blob(fg,rnd()*W,HOR+30+rnd()*12,24+rnd()*20,95+rnd()*20,30,22+rnd()*8,12);
+
+  // big foreground trees: [cx, cy, r, hue, sat, light]
+  function tree(g,cx,cy,r,hue,sat,lig,trunk){
+    if(trunk){g.fillStyle='#2b2118';g.fillRect(cx-r*.06,cy,r*.12,r*1.2)}
+    blob(g,cx,cy,r,hue,sat,lig-8,70);blob(g,cx,cy-r*.1,r*.85,hue,sat,lig,80);blob(g,cx-r*.15,cy-r*.25,r*.55,hue+3,sat+6,lig+8,70);
+  }
+  var trees=[
+    [60,420,190,110,40,26],[180,520,160,100,40,22],[330,540,100,92,34,20],[130,300,130,25,70,38],
+    [20,520,120,28,75,36],[420,560,70,100,34,24],[1100,545,70,98,34,22],
+    [1360,430,150,90,42,24],[1500,380,170,36,70,40],[1250,500,150,95,42,22],[1560,520,140,26,78,36],[1430,560,140,100,40,22],[1230,560,120,28,70,34]
+  ];
+  trees.forEach(function(t){tree(fg,t[0],t[1],t[2],t[3],t[4],t[5],false)});
+  // green foreground bank
+  var bk2=fg.createLinearGradient(0,HOR+90,0,HOR+130);bk2.addColorStop(0,'#2d4a22');bk2.addColorStop(1,'#14261a');
+  fg.fillStyle=bk2;fg.beginPath();fg.moveTo(0,HOR+90);fg.quadraticCurveTo(250,HOR+80,380,HOR+105);fg.lineTo(380,HOR+160);fg.lineTo(0,HOR+160);fg.fill();
+  fg.beginPath();fg.moveTo(W,HOR+100);fg.quadraticCurveTo(1300,HOR+90,1100,HOR+110);fg.lineTo(1100,HOR+160);fg.lineTo(W,HOR+160);fg.fill();
+  for(var i=0;i<14;i++)blob(fg,rnd()*330,HOR+90+rnd()*40,40+rnd()*30,100+rnd()*20,38,20+rnd()*8,14);
+  for(var i=0;i<14;i++)blob(fg,1230+rnd()*370,HOR+100+rnd()*40,40+rnd()*30,95+rnd()*20,38,20+rnd()*8,14);
+
+  // water reflection source: flip of sky+front above waterline, blurred/dimmed
+  var rg=refl.getContext('2d');
+  rg.save();rg.translate(0,HOR+70*2);rg.scale(1,-1);rg.drawImage(sky,0,0);rg.drawImage(front,0,0);rg.restore();
+
+  var t0=performance.now(),WY=HOR+82;
+  function draw(now){
+    var t=(now-t0)/1000;
+    var vw=cv.clientWidth,vh=cv.clientHeight,dpr=Math.min(devicePixelRatio||1,2);
+    if(cv.width!==Math.round(vw*dpr)||cv.height!==Math.round(vh*dpr)){cv.width=Math.round(vw*dpr);cv.height=Math.round(vh*dpr)}
+    var s=Math.max(cv.width/W,cv.height/H),ox=(cv.width-W*s)/2,oy=(cv.height-H*s)/2;
+    // keep horizon around lower-middle on tall/narrow screens: anchor bias
+    ctx.setTransform(s,0,0,s,ox,oy);
+    ctx.drawImage(sky,0,0);
+    clouds.forEach(function(c){
+      var x=((c.x+t*c.v*6)%(W+c.w*2))-c.w;
+      ctx.drawImage(c.s,x,c.y,c.w,c.h);
+    });
+    ctx.drawImage(front,0,0,W,WY,0,0,W,WY);
+    // water
+    ctx.save();ctx.beginPath();ctx.rect(0,WY,W,H-WY);ctx.clip();
+    ctx.drawImage(refl,0,0,W,H);
+    var wg=ctx.createLinearGradient(0,WY,0,H);wg.addColorStop(0,'rgba(22,50,48,.62)');wg.addColorStop(1,'rgba(6,20,26,.88)');
+    ctx.fillStyle=wg;ctx.fillRect(0,WY,W,H-WY);
+    // shimmering ripples
+    for(var i=0;i<70;i++){
+      var y=WY+4+Math.pow(i/70,1.6)*(H-WY-6),amp=2+(y-WY)*.04;
+      var x=((i*379)%W)+Math.sin(t*.6+i)*amp*3,len=40+(i*53)%110;
+      ctx.strokeStyle='rgba(235,245,255,'+(.08+.1*Math.abs(Math.sin(t*.8+i*1.7)))+')';
+      ctx.lineWidth=1+(y-WY)*.004;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+len,y+Math.sin(t+i)*1.2);ctx.stroke();
+    }
+    ctx.restore();
+    // waterline reeds & foreground banks over water edges
+    ctx.drawImage(front,0,WY,W,H-WY,0,WY,W,H-WY);
+    ctx.setTransform(1,0,0,1,0,0);
+    if(!reduce)requestAnimationFrame(draw);
+  }
+  if(reduce){draw(performance.now());addEventListener('resize',function(){draw(performance.now())})}
+  else requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>

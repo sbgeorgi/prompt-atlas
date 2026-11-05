@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asme - Know it all</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
+.serif{font-family:'Instrument Serif',serif;font-weight:400}
+em{font-style:italic}
+button,input{font:inherit;color:inherit;background:none;border:0;outline:0}
+button{cursor:pointer}
+svg{display:block;flex:none}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box exclude,linear-gradient(#fff 0 0);pointer-events:none}
+.rounded-full{border-radius:9999px}
+canvas.vid{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* hero */
+.hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:flex;flex-direction:column}
+#heroVid{opacity:0;object-position:bottom}
+nav{position:relative;z-index:20;padding:24px}
+.pill{max-width:64rem;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.pill .l,.pill .r{display:flex;align-items:center}
+.brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:18px}
+.links{display:none;gap:32px;margin-left:32px}
+.links a{color:rgba(255,255,255,.8);font-size:14px;font-weight:500;text-decoration:none;transition:color .2s}
+.links a:hover{color:#fff}
+.r{gap:20px}
+.signup{font-size:14px;font-weight:500}
+.login{padding:8px 24px;font-size:14px;font-weight:500}
+@media(min-width:768px){.links{display:flex}}
+.hero-c{position:relative;z-index:10;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;text-align:center;transform:translateY(-20%)}
+h1{font-size:72px;letter-spacing:-.025em;line-height:1;white-space:nowrap}
+@media(min-width:768px){h1{font-size:96px}}
+@media(min-width:1024px){h1{font-size:128px}}
+@media(max-width:420px){h1{font-size:58px}}
+.mail{max-width:36rem;width:100%;margin-top:32px;padding:8px 8px 8px 24px;display:flex;align-items:center;gap:12px}
+.mail input{flex:1;min-width:0;font-size:16px;color:#fff}
+.mail input::placeholder{color:rgba(255,255,255,.4)}
+.go{background:#fff;color:#000;border-radius:9999px;padding:12px;display:flex;transition:transform .2s}
+.go:hover{transform:scale(1.06)}
+.sub{font-size:14px;line-height:1.625;max-width:32rem;padding:0 16px;margin-top:24px}
+.manif{margin-top:24px;padding:12px 32px;font-size:14px;font-weight:500;transition:background .2s}
+.manif:hover{background:rgba(255,255,255,.05)}
+.social{position:relative;z-index:10;display:flex;justify-content:center;gap:16px;padding-bottom:48px}
+.social a{padding:16px;color:rgba(255,255,255,.8);display:flex;transition:all .2s}
+.social a:hover{color:#fff;background:rgba(255,255,255,.05)}
+
+/* sections */
+.wrap{max-width:72rem;margin:0 auto}
+.about{background:#000;padding:128px 24px 40px;overflow:hidden;position:relative;text-align:center}
+.about::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(255,255,255,.03) 0%,transparent 70%);pointer-events:none}
+.label{color:rgba(255,255,255,.4);font-size:14px;letter-spacing:.1em;text-transform:uppercase}
+.about h2{font-weight:400;font-size:36px;line-height:1.1;letter-spacing:-.025em;margin-top:24px}
+.about h2 .s{font-family:'Instrument Serif',serif;font-style:italic;color:rgba(255,255,255,.6)}
+.about h2 .br{display:none}
+@media(min-width:768px){.about{padding:176px 24px 56px}.about h2{font-size:60px}.about h2 .br{display:inline}}
+@media(min-width:1024px){.about h2{font-size:72px}}
+.feat{padding:24px 24px 80px;overflow:hidden;background:#000}
+.frame{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:16/9;background:#050505}
+.frame::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),transparent 60%);pointer-events:none}
+.ov{position:absolute;left:0;right:0;bottom:0;padding:24px;z-index:2;display:flex;flex-direction:column;gap:16px;align-items:flex-start;justify-content:space-between}
+.card{border-radius:16px;padding:24px;max-width:28rem}
+.card .label{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:12px}
+.card p{font-size:14px;line-height:1.625}
+.explore{padding:12px 32px;font-size:14px;font-weight:500;transition:transform .2s}
+.explore:hover{transform:scale(1.05)}.explore:active{transform:scale(.95)}
+@media(min-width:768px){.feat{padding:40px 24px 128px}.ov{padding:40px;flex-direction:row;align-items:flex-end}.card{padding:32px}.card p{font-size:16px}}
+@media(max-width:600px){.frame{aspect-ratio:4/5}}
+.phil{padding:112px 24px;overflow:hidden;background:#000}
+.phil h2{font-weight:400;font-size:48px;letter-spacing:-.025em;margin-bottom:64px;line-height:1.05}
+.phil h2 .x{font-family:'Instrument Serif',serif;font-style:italic;color:rgba(255,255,255,.4)}
+.grid2{display:grid;grid-template-columns:1fr;gap:32px}
+.pv{border-radius:24px;overflow:hidden;aspect-ratio:4/3;position:relative;background:#050505}
+.txt{display:flex;flex-direction:column;justify-content:center;gap:32px}
+.txt .label{font-size:12px;margin-bottom:16px}
+.txt p{color:rgba(255,255,255,.7);font-size:16px;line-height:1.625}
+.hr{width:100%;height:1px;background:rgba(255,255,255,.1)}
+@media(min-width:768px){.phil{padding:160px 24px}.phil h2{font-size:72px;margin-bottom:96px}.grid2{grid-template-columns:1fr 1fr;gap:48px}.txt p{font-size:18px}}
+@media(min-width:1024px){.phil h2{font-size:96px}}
+.svc{padding:112px 24px;overflow:hidden;background:#000;position:relative}
+.svc::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none}
+.svc .wrap{position:relative}
+.head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:48px}
+.head h2{font-weight:400;font-size:30px;letter-spacing:-.025em}
+.head span{color:rgba(255,255,255,.4);font-size:14px;display:none}
+.cards{display:grid;grid-template-columns:1fr;gap:24px}
+.sc{border-radius:24px}
+.sc .va{position:relative;aspect-ratio:16/9;overflow:hidden}
+.sc .va .vid{transition:transform .7s ease}
+.sc:hover .va .vid{transform:scale(1.05)}
+.sc .va::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.4),transparent)}
+.sc .body{padding:24px}
+.sc .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.sc .tag{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.sc .ar{padding:8px;display:flex}
+.sc h3{font-weight:400;font-size:20px;letter-spacing:-.025em;margin-bottom:12px}
+.sc p{color:rgba(255,255,255,.5);font-size:14px;line-height:1.625}
+@media(min-width:768px){.svc{padding:160px 24px}.head h2{font-size:48px}.head span{display:block}.cards{grid-template-columns:1fr 1fr;gap:32px}.sc .body{padding:32px}.sc h3{font-size:24px}}
+footer{background:#000;padding:48px 24px 56px;text-align:center;color:rgba(255,255,255,.4);font-size:13px;border-top:1px solid rgba(255,255,255,.06)}
+footer .brand{justify-content:center;color:#fff;margin-bottom:12px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(var(--y,30px)) translateX(var(--x,0));transition:opacity var(--d,.8s) ease-out var(--dl,0s),transform var(--d,.8s) ease-out var(--dl,0s)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.sc .va .vid,.explore,.go{transition:none}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <canvas class="vid" id="heroVid" data-pal="hero" style="opacity:0" aria-hidden="true"></canvas>
+  <nav>
+    <div class="pill liquid-glass rounded-full">
+      <div class="l">
+        <div class="brand">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Asme
+        </div>
+        <div class="links"><a href="#about">Features</a><a href="#services">Pricing</a><a href="#about">About</a></div>
+      </div>
+      <div class="r">
+        <button class="signup">Sign Up</button>
+        <button class="login liquid-glass rounded-full">Login</button>
+      </div>
+    </div>
+  </nav>
+  <div class="hero-c">
+    <h1 class="serif">Know it then <em>all</em>.</h1>
+    <form class="mail liquid-glass rounded-full" onsubmit="return false">
+      <input type="email" placeholder="Enter your email" aria-label="Email">
+      <button class="go" type="submit" aria-label="Subscribe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+    </form>
+    <p class="sub">Stay updated with the latest news and insights. Subscribe to our newsletter today and never miss out on exciting updates.</p>
+    <button class="manif liquid-glass rounded-full">Manifesto</button>
+  </div>
+  <div class="social">
+    <a class="liquid-glass rounded-full" href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+    <a class="liquid-glass rounded-full" href="#" aria-label="Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+    <a class="liquid-glass rounded-full" href="#" aria-label="Website"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap" style="position:relative">
+    <p class="label rv" style="--y:20px;--d:.6s">About Us</p>
+    <h2 class="rv" style="--y:40px;--dl:.1s">Pioneering <span class="s">ideas</span> for<br class="br"> <span class="s">minds that</span> create, build, and inspire.</h2>
+  </div>
+</section>
+
+<section class="feat">
+  <div class="wrap">
+    <div class="frame rv" style="--y:60px;--d:.9s">
+      <canvas class="vid" data-pal="teal" aria-hidden="true"></canvas>
+      <div class="ov">
+        <div class="card liquid-glass">
+          <p class="label">Our Approach</p>
+          <p>We believe in the power of curiosity-driven exploration. Every project starts with a question, and every answer opens a new door to innovation.</p>
+        </div>
+        <button class="explore liquid-glass rounded-full">Explore more</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="phil">
+  <div class="wrap">
+    <h2 class="rv" style="--y:40px">Innovation <span class="x">x</span> Vision</h2>
+    <div class="grid2">
+      <div class="pv rv" style="--y:0;--x:-40px"><canvas class="vid" data-pal="violet" aria-hidden="true"></canvas></div>
+      <div class="txt rv" style="--y:0;--x:40px">
+        <div>
+          <p class="label" style="font-size:12px;margin-bottom:16px">Choose your space</p>
+          <p>Every meaningful breakthrough begins at the intersection of disciplined strategy and remarkable creative vision. We operate at that crossroads, turning bold thinking into tangible outcomes that move people and reshape industries.</p>
+        </div>
+        <div class="hr"></div>
+        <div>
+          <p class="label" style="font-size:12px;margin-bottom:16px">Shape the future</p>
+          <p>We believe that the best work emerges when curiosity meets conviction. Our process is designed to uncover hidden opportunities and translate them into experiences that resonate long after the first impression.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="svc" id="services">
+  <div class="wrap">
+    <div class="head rv" style="--d:.7s"><h2>What we do</h2><span>Our services</span></div>
+    <div class="cards">
+      <article class="sc liquid-glass rv" style="--y:50px">
+        <div class="va"><canvas class="vid" data-pal="amber" aria-hidden="true"></canvas></div>
+        <div class="body">
+          <div class="row"><span class="tag">Strategy</span><span class="ar liquid-glass rounded-full"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
+          <h3>Research &amp; Insight</h3>
+          <p>We dig deep into data, culture, and human behavior to surface the insights that drive meaningful, lasting change.</p>
+        </div>
+      </article>
+      <article class="sc liquid-glass rv" style="--y:50px;--dl:.15s">
+        <div class="va"><canvas class="vid" data-pal="rose" aria-hidden="true"></canvas></div>
+        <div class="body">
+          <div class="row"><span class="tag">Craft</span><span class="ar liquid-glass rounded-full"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
+          <h3>Design &amp; Execution</h3>
+          <p>From concept to launch, we obsess over every detail to deliver experiences that feel effortless and look extraordinary.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Asme</div>
+  <p>&copy; 2026 Asme. Know it all.</p>
+</footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll reveals (framer-motion useInView once, margin -100px) */
+  var rv = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) { rv.forEach(function(e){e.classList.add('in')}); }
+  else {
+    var io = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -100px 0px',threshold:0.01});
+    rv.forEach(function(e){io.observe(e)});
+  }
+
+  /* stand-in "videos": drifting luminous blobs on low-res canvases */
+  var PAL = {
+    hero:  {bg:[2,3,8],   c:[[40,70,160],[90,50,170],[20,110,150],[160,170,210]]},
+    teal:  {bg:[2,10,12], c:[[20,120,130],[40,160,150],[10,60,100],[180,230,220]]},
+    violet:{bg:[6,3,12],  c:[[110,60,190],[190,90,200],[50,40,130],[220,190,240]]},
+    amber: {bg:[10,6,2],  c:[[200,120,40],[160,70,30],[230,170,80],[250,220,170]]},
+    rose:  {bg:[10,3,6],  c:[[190,50,100],[120,40,120],[230,110,120],[250,190,200]]}
+  };
+  function rnd(s){var x=Math.sin(s*127.1+311.7)*43758.5453;return x-Math.floor(x)}
+  function Flow(cv,key,seed){
+    var P=PAL[key],ctx=cv.getContext('2d'),W=cv.width=192,H=cv.height=108;
+    var bl=[];
+    for(var i=0;i<7;i++)bl.push({c:P.c[i%P.c.length],fx:.12+rnd(seed+i)*.25,fy:.1+rnd(seed+i+9)*.22,px:rnd(seed+i+3)*6.28,py:rnd(seed+i+5)*6.28,r:.28+rnd(seed+i+7)*.3,a:.35+rnd(seed+i+2)*.4});
+    this.draw=function(t){
+      ctx.globalCompositeOperation='source-over';
+      ctx.fillStyle='rgb('+P.bg+')';ctx.fillRect(0,0,W,H);
+      ctx.globalCompositeOperation='lighter';
+      for(var i=0;i<bl.length;i++){
+        var b=bl[i],x=(.5+.42*Math.sin(t*b.fx+b.px))*W,y=(.5+.4*Math.cos(t*b.fy+b.py))*H,r=b.r*W*(1+.15*Math.sin(t*.3+i));
+        var g=ctx.createRadialGradient(x,y,0,x,y,r);
+        g.addColorStop(0,'rgba('+b.c+','+b.a*.55+')');g.addColorStop(1,'rgba('+b.c+',0)');
+        ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+      }
+      /* light streaks */
+      ctx.globalCompositeOperation='screen';
+      for(var k=0;k<3;k++){
+        var yy=(.3+.4*Math.sin(t*.15+k*2+seed))*H;
+        var lg=ctx.createLinearGradient(0,yy-6,0,yy+6);
+        lg.addColorStop(0,'rgba(255,255,255,0)');lg.addColorStop(.5,'rgba(255,255,255,.05)');lg.addColorStop(1,'rgba(255,255,255,0)');
+        ctx.fillStyle=lg;ctx.fillRect(0,yy-6,W,12);
+      }
+    };
+    this.cv=cv;
+  }
+  var flows=[];
+  document.querySelectorAll('canvas.vid').forEach(function(cv,i){
+    cv.style.filter='blur(14px) saturate(1.15)';cv.style.transform='scale(1.12)';
+    var f=new Flow(cv,cv.dataset.pal,i*13+1);f.draw(i*3);flows.push(f);
+  });
+  var hero=flows[0].cv;
+
+  if(reduce){hero.style.opacity=1;return}
+
+  /* visibility-gated animation loop */
+  var vis=new Map();
+  if('IntersectionObserver' in window){
+    var vo=new IntersectionObserver(function(es){es.forEach(function(e){vis.set(e.target,e.isIntersecting)})});
+    flows.forEach(function(f){vo.observe(f.cv);vis.set(f.cv,true)});
+  }
+  /* hero fade loop: 0->1 in 500ms, 1->0 over final 550ms of a 9s clip, wait 100ms, replay */
+  var DUR=9000,FADE=500,TAIL=550,GAP=100,start=performance.now();
+  var cycle=DUR+GAP;
+  function tick(now){
+    var el=now-start,p=el%cycle,op;
+    if(p>=DUR)op=0;
+    else{
+      op=Math.min(1,p/FADE);
+      var rem=DUR-p;
+      if(rem<=TAIL)op=Math.min(op,Math.max(0,rem/FADE));
+    }
+    hero.style.opacity=op;
+    var t=now/1000,fr=Math.floor(now/50);
+    flows.forEach(function(f,i){if(vis.get(f.cv)!==false&&(fr+i)%2===0)f.draw(t+(i?i*7:0))});
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

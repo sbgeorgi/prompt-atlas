@@ -1,0 +1,1 @@
+ATLAS_P("F697","make about my studio with Risograph style");

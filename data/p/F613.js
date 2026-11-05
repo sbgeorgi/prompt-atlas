@@ -1,0 +1,1 @@
+ATLAS_P("F613","build me a 30s drawing style animated clip about submitting a product to AppSumo via your agent.\n\nsteps are:\n1. connect your agent\n2. your agent fills out your listing and sets up redemption\n3. go live!");

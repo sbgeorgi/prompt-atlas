@@ -1,0 +1,1 @@
+ATLAS_P("F904","Implement all scenes, interactions/camera motions, and shader effects 100% in Three.js code (excluding character models from Blender, background sky from GPT imgen, and BGM from Google flow). Create an anime style opening teaser.");

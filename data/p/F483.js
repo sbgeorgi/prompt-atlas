@@ -1,0 +1,1 @@
+ATLAS_P("F483","Create a real-time Krakatoa volcano animation \ud83c\udf0b in one HTML file using pure WebGL2. Implement realistic 3D Navier\u2013Stokes fluid simulation for the smoke and dynamic lava flow effects.");

@@ -1,0 +1,1 @@
+ATLAS_P("F645","Make a dynamic 15-second motion graphics video of me introducing myself to a recruiter. Use all the motion design skills you have, like it's your showreel for a resume. Go all out.");

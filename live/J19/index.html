@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marginalia - a shared working sheet</title>
+<meta name="description" content="Sketch style sample: warm paper, handwritten text, pencil drawings, blue notes, red corrections, yellow highlights.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#f7f2e7;
+  --dp-color-ink:#38352f;
+  --dp-color-ink-muted:#514d44;
+  --dp-color-line:#b3ac9d;
+  --dp-color-accent:#9e3a2e;
+  --dp-color-annotation:#344c69;
+  --dp-color-highlight:#f0dfa0;
+  --dp-color-scrap:#fcf8ef;
+  --dp-typography-reading-face:"Sketch Working Hand","Patrick Hand","Comic Sans MS",cursive;
+  --dp-typography-display-face:"Sketch Working Marker","Permanent Marker","Marker Felt",cursive;
+  --dp-typography-body:24px;
+  --dp-typography-reading:23px;
+  --dp-typography-detail:21px;
+  --dp-spacing-item-gap:16px;
+  --dp-radius-control:9px 4px 17px 5px / 4px 12px 5px 9px;
+  --dp-border-fine-stroke:1.5px;
+  --dp-motion-control:100ms;
+  --rot:1;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background-color:var(--dp-color-ground);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .07 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+  color:var(--dp-color-ink);
+  font-family:var(--dp-typography-reading-face);
+  font-size:var(--dp-typography-body);
+  line-height:1.5;
+  letter-spacing:.01em;
+  overflow-x:hidden;
+}
+img,svg{max-width:100%}
+a{color:var(--dp-color-annotation);text-underline-offset:4px;text-decoration-thickness:1.5px}
+:focus-visible{outline:2.5px dashed var(--dp-color-annotation);outline-offset:4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--dp-color-scrap);border:var(--dp-border-fine-stroke) solid var(--dp-color-ink);padding:6px 12px;border-radius:var(--dp-radius-control);z-index:9}
+.skip:focus{left:8px}
+h1,h2,h3{font-family:var(--dp-typography-display-face);font-weight:400;line-height:1.12;margin:0;letter-spacing:.005em}
+p{margin:0 0 var(--dp-spacing-item-gap)}
+.detail{font-size:var(--dp-typography-detail);color:var(--dp-color-ink-muted)}
+.note-blue{color:var(--dp-color-annotation)}
+.hl{background:linear-gradient(176deg,transparent 8%,var(--dp-color-highlight) 8%,var(--dp-color-highlight) 92%,transparent 92%);padding:0 .15em;border-radius:3px 9px 4px 10px}
+.draw{filter:url(#wobble)}
+.draw *{vector-effect:non-scaling-stroke}
+[aria-hidden="true"]{pointer-events:none}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0 14px;border-bottom:var(--dp-border-fine-stroke) dashed var(--dp-color-line);flex-wrap:wrap}
+.logo{font-family:var(--dp-typography-display-face);font-size:28px;color:var(--dp-color-ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo svg{width:34px;height:34px}
+.nav ul{display:flex;gap:6px 22px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav ul a{color:var(--dp-color-ink);font-size:var(--dp-typography-detail);text-decoration:none;padding:4px 2px;background:linear-gradient(var(--dp-color-accent),var(--dp-color-accent)) 0 100%/0 2px no-repeat}
+.nav ul a:hover{background-size:100% 2px}
+
+/* buttons */
+.btn{
+  display:inline-block;font-family:var(--dp-typography-display-face);font-size:22px;line-height:1.1;cursor:pointer;
+  color:var(--dp-color-accent);background:var(--dp-color-scrap);
+  border:2px solid var(--dp-color-accent);border-radius:var(--dp-radius-control);
+  padding:14px 26px;text-decoration:none;
+  box-shadow:4px 4px 0 var(--dp-color-accent);
+  transform:rotate(calc(-1deg*var(--rot)));
+  transition:transform var(--dp-motion-control),box-shadow var(--dp-motion-control);
+  min-height:48px;
+}
+.btn:hover{transform:rotate(calc(1.2deg*var(--rot))) translate(2px,2px);box-shadow:2px 2px 0 var(--dp-color-accent)}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--dp-color-accent)}
+.btn.pencil{color:var(--dp-color-ink);border-color:var(--dp-color-ink);box-shadow:4px 4px 0 var(--dp-color-line);font-size:20px;padding:10px 20px}
+.btn.pencil:hover{box-shadow:2px 2px 0 var(--dp-color-line)}
+.btn.solid{background:var(--dp-color-accent);color:var(--dp-color-scrap)}
+.btn.small{font-size:18px;padding:8px 16px;min-height:44px}
+
+/* hero */
+.hero{display:grid;gap:36px;padding:44px 0 30px}
+.hero h1{font-size:clamp(44px,11vw,72px);transform:rotate(calc(-1.2deg*var(--rot)))}
+.hero h1 .l2{display:block;margin-left:.45em;transform:rotate(calc(.8deg*var(--rot)))}
+.uline{position:relative;display:inline-block}
+.uline svg{position:absolute;left:-2%;bottom:-.28em;width:104%;height:.4em;overflow:visible}
+.hero .lede{max-width:30ch;margin-top:30px;font-size:26px}
+.cta-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:28px;position:relative}
+.cta-arrow{width:120px;height:70px;flex:none;margin-top:-30px}
+.cta-row .tail{font-size:var(--dp-typography-detail);color:var(--dp-color-annotation);transform:rotate(calc(-2deg*var(--rot)));max-width:15ch;line-height:1.2}
+.cluster{position:relative;min-height:420px}
+.scrap{background:var(--dp-color-scrap);border:var(--dp-border-fine-stroke) solid var(--dp-color-line);border-radius:3px 9px 4px 12px/10px 4px 11px 3px;padding:16px 18px;box-shadow:3px 3px 0 rgba(56,53,47,.12);font-size:var(--dp-typography-reading);line-height:1.3}
+.scrap.blue{color:var(--dp-color-annotation);border-color:var(--dp-color-annotation)}
+.scrap.yellow{background:#f6ebb8}
+.cluster .sketch{background:var(--dp-color-scrap);border:var(--dp-border-fine-stroke) solid var(--dp-color-line);border-radius:6px 3px 9px 4px;padding:10px;max-width:420px;position:relative}
+.cluster .sketch svg{display:block;width:100%;height:auto}
+.cluster .n1{position:absolute;right:0;top:-8px;width:210px;transform:rotate(calc(3deg*var(--rot)))}
+.cluster .n2{position:absolute;left:4px;bottom:-4px;width:240px;transform:rotate(calc(-2.5deg*var(--rot)))}
+.cluster .sketch{margin:34px 0 0 14px;transform:rotate(calc(-1deg*var(--rot)))}
+.red-x{color:var(--dp-color-accent);text-decoration:line-through;text-decoration-thickness:2px}
+
+/* facts */
+.facts{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:20px 16px;padding:26px 0 0 26px;position:relative}
+.facts .bracket{position:absolute;left:0;top:0;width:18px;height:100%}
+.facts dt{font-family:var(--dp-typography-display-face);font-size:36px;color:var(--dp-color-annotation);line-height:1}
+.facts dd{margin:4px 0 0;font-size:var(--dp-typography-detail);color:var(--dp-color-ink-muted);line-height:1.25}
+
+/* thoughts */
+section{padding:56px 0 10px}
+.eyebrow{font-size:var(--dp-typography-detail);color:var(--dp-color-annotation);display:inline-block;transform:rotate(calc(-2deg*var(--rot)));margin-bottom:8px}
+.sec-h{font-size:clamp(34px,7vw,56px);max-width:16ch}
+.thoughts{margin-top:34px;display:grid;gap:44px;grid-template-columns:1fr}
+.thought{display:grid;grid-template-columns:78px 1fr;gap:16px;align-items:start}
+.thought svg{width:78px;height:78px}
+.thought h3{font-size:30px;margin-bottom:6px}
+.thought p{font-size:var(--dp-typography-reading);margin:0}
+.margin-note{display:block;color:var(--dp-color-annotation);font-size:var(--dp-typography-detail);margin-top:8px;transform:rotate(calc(-1.5deg*var(--rot)))}
+
+/* references */
+.refs{margin-top:40px;display:grid;gap:44px;grid-template-columns:1fr}
+.mount{position:relative;background:var(--dp-color-scrap);padding:14px 14px 12px;border:var(--dp-border-fine-stroke) solid var(--dp-color-line);border-radius:3px 6px 3px 8px;box-shadow:3px 4px 0 rgba(56,53,47,.12);margin:0}
+.mount:nth-child(1){transform:rotate(calc(-1.6deg*var(--rot)))}
+.mount:nth-child(2){transform:rotate(calc(1.2deg*var(--rot)))}
+.mount:nth-child(3){transform:rotate(calc(-.8deg*var(--rot)))}
+.mount svg.art{display:block;width:100%;height:auto;aspect-ratio:4/3;border-radius:2px}
+.mount figcaption{font-size:var(--dp-typography-detail);margin-top:10px;line-height:1.25;color:var(--dp-color-ink-muted)}
+.tape{position:absolute;top:-14px;left:50%;width:96px;height:28px;margin-left:-48px;transform:rotate(-4deg);background:rgba(240,223,160,.72);border-left:1px dashed rgba(56,53,47,.15);border-right:1px dashed rgba(56,53,47,.15);clip-path:polygon(0 8%,6% 0,12% 12%,18% 2%,100% 0,94% 30%,100% 55%,95% 80%,100% 100%,10% 96%,4% 82%,0 60%,5% 38%)}
+.mount:nth-child(2) .tape{left:18%;transform:rotate(5deg)}
+.mount:nth-child(3) .tape{left:78%;transform:rotate(-7deg)}
+
+/* process */
+.strip{margin-top:30px;background:#ece4d0;padding:34px 22px 30px;border-radius:12px 5px 16px 6px/6px 14px 5px 12px;border-top:var(--dp-border-fine-stroke) solid var(--dp-color-line);border-bottom:var(--dp-border-fine-stroke) solid var(--dp-color-line);box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:30px;grid-template-columns:1fr;counter-reset:s}
+.steps li{position:relative;display:grid;grid-template-columns:56px 1fr;gap:14px}
+.steps .num{width:52px;height:52px;display:grid;place-items:center;font-family:var(--dp-typography-display-face);font-size:26px;color:var(--dp-color-annotation);position:relative}
+.steps .num svg{position:absolute;inset:0;width:100%;height:100%}
+.steps h3{font-size:26px;margin-bottom:2px}
+.steps p{font-size:var(--dp-typography-detail);margin:0;color:var(--dp-color-ink-muted);line-height:1.3}
+.steps .arr{display:none}
+
+/* quote */
+.quotes{margin-top:40px;display:grid;gap:34px;grid-template-columns:1fr}
+.speech{position:relative;border:2px solid var(--dp-color-annotation);border-radius:20px 8px 22px 10px/10px 20px 8px 18px;background:var(--dp-color-scrap);padding:22px 24px;font-size:var(--dp-typography-reading);line-height:1.35}
+.speech:after{content:"";position:absolute;left:40px;bottom:-17px;width:26px;height:26px;background:var(--dp-color-scrap);border-right:2px solid var(--dp-color-annotation);border-bottom:2px solid var(--dp-color-annotation);transform:rotate(45deg) skew(8deg,8deg)}
+.speech:nth-child(2){transform:rotate(calc(1deg*var(--rot)))}
+.speech:nth-child(1){transform:rotate(calc(-1deg*var(--rot)))}
+.speech cite{display:block;margin-top:12px;font-style:normal;color:var(--dp-color-annotation);font-size:var(--dp-typography-detail)}
+
+/* compare */
+.compare{margin-top:34px;border:0;padding:0;margin-inline:0;display:grid;gap:18px}
+.compare legend{position:absolute;left:-999px}
+.row{display:grid;gap:10px 22px;align-items:start;padding:22px 20px 22px 54px;border-top:var(--dp-border-fine-stroke) solid var(--dp-color-line);position:relative;cursor:pointer;border-radius:4px}
+.row:last-child{border-bottom:var(--dp-border-fine-stroke) solid var(--dp-color-line)}
+.row input{position:absolute;left:16px;top:26px;width:26px;height:26px;margin:0;appearance:none;-webkit-appearance:none;border:2px solid var(--dp-color-ink);border-radius:50% 45% 52% 48%;background:var(--dp-color-scrap);cursor:pointer}
+.row input:checked{background:radial-gradient(circle,var(--dp-color-accent) 0 38%,transparent 42%),var(--dp-color-scrap);border-color:var(--dp-color-accent)}
+.row input:focus-visible{outline:2.5px dashed var(--dp-color-annotation);outline-offset:4px}
+.row h3{font-size:28px}
+.row p{margin:0;font-size:var(--dp-typography-detail);line-height:1.3;color:var(--dp-color-ink-muted)}
+.row.feat{background:var(--dp-color-highlight);border-radius:6px 12px 5px 14px/12px 5px 14px 6px;border:var(--dp-border-fine-stroke) solid var(--dp-color-ink);transform:rotate(calc(-.4deg*var(--rot)));box-shadow:4px 4px 0 var(--dp-color-line)}
+.row.feat p{color:var(--dp-color-ink)}
+.row .mark{font-size:var(--dp-typography-detail)}
+.row .mark b{font-weight:400;color:var(--dp-color-annotation)}
+.row .mark s{color:var(--dp-color-accent)}
+.pick{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:28px}
+.pick .detail{margin:0}
+
+/* faq */
+.faq{margin-top:30px;max-width:780px}
+details{border-top:var(--dp-border-fine-stroke) solid var(--dp-color-line)}
+details:last-child{border-bottom:var(--dp-border-fine-stroke) solid var(--dp-color-line)}
+summary{list-style:none;cursor:pointer;display:flex;gap:16px;align-items:center;padding:16px 4px;font-family:var(--dp-typography-display-face);font-size:25px;line-height:1.2;min-height:56px}
+summary::-webkit-details-marker{display:none}
+summary .tick{flex:none;width:34px;height:34px;position:relative}
+summary .tick:before,summary .tick:after{content:"";position:absolute;left:5px;right:5px;top:15px;height:3px;background:var(--dp-color-accent);border-radius:3px 1px 3px 1px}
+summary .tick:after{transform:rotate(88deg) translateX(-.5px)}
+details[open] summary .tick:after{transform:rotate(0)}
+details[open] summary span.q{background:linear-gradient(176deg,transparent 12%,var(--dp-color-highlight) 12%,var(--dp-color-highlight) 90%,transparent 90%)}
+details .ans{padding:0 4px 20px 54px;font-size:var(--dp-typography-reading);line-height:1.35;color:var(--dp-color-ink-muted);max-width:60ch}
+
+/* closing */
+.closer{padding:80px 0 50px;text-align:left}
+.closer h2{font-size:clamp(46px,11vw,110px);color:var(--dp-color-accent);transform:rotate(calc(-1.5deg*var(--rot)));line-height:1.02}
+.closer .btn{margin-top:34px}
+.closer p{max-width:34ch;margin-top:22px}
+footer{border-top:var(--dp-border-fine-stroke) dashed var(--dp-color-line);padding:30px 0 50px;display:grid;grid-template-columns:1fr 1fr;gap:26px 16px;font-size:var(--dp-typography-detail)}
+footer h4{font-family:var(--dp-typography-display-face);font-weight:400;font-size:22px;margin:0 0 8px;color:var(--dp-color-annotation)}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+footer a{color:var(--dp-color-ink);text-decoration-color:var(--dp-color-line)}
+footer .fine{grid-column:1/-1;color:var(--dp-color-ink-muted);margin-top:10px}
+
+@media (min-width:680px){
+  .wrap{padding:0 32px}
+  .facts{grid-template-columns:repeat(4,1fr)}
+  .thoughts{grid-template-columns:1fr 1fr;gap:50px 40px}
+  .thoughts .thought:nth-child(even){margin-top:34px}
+  .refs{grid-template-columns:1fr 1fr}
+  .quotes{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1.1fr 1.4fr}
+  footer{grid-template-columns:1.4fr 1fr 1fr 1fr}
+  footer .fine{grid-column:1/-1}
+  .steps{grid-template-columns:1fr 1fr}
+}
+@media (min-width:1050px){
+  .hero{grid-template-columns:1.15fr .85fr;gap:60px;align-items:start;padding-top:70px}
+  .cluster{min-height:520px}
+  .cluster .n1{right:-10px;top:0;width:230px}
+  .cluster .n2{left:20px;bottom:10px;width:260px}
+  .cluster .sketch{margin:90px 0 0 40px;max-width:440px}
+  .hero-main{grid-row:1}
+  .hero .facts-wrap{grid-column:1/-1}
+  .thoughts{grid-template-columns:repeat(3,1fr)}
+  .thoughts .thought{grid-template-columns:1fr}
+  .thoughts .thought:nth-child(even){margin-top:0}
+  .thoughts .thought:nth-child(2){margin-top:54px}
+  .thoughts .thought:nth-child(3){margin-top:18px}
+  .thoughts .thought:nth-child(5){margin-top:30px}
+  .refs{grid-template-columns:1.1fr 1fr .9fr;align-items:start}
+  .refs .mount:nth-child(2){margin-top:60px}
+  .refs .mount:nth-child(3){margin-top:20px}
+  .strip{padding:44px 40px 38px}
+  .steps{grid-template-columns:repeat(4,1fr);gap:46px}
+  .steps li{grid-template-columns:1fr;gap:12px}
+  .steps .arr{display:block;position:absolute;top:8px;right:-46px;width:42px;height:34px}
+  .steps li:last-child .arr{display:none}
+  .row{grid-template-columns:.9fr 1.3fr 1fr;padding:26px 28px 26px 66px}
+  .row input{left:26px;top:32px}
+  .compare{gap:20px}
+}
+
+/* small screens: calmer marks */
+@media (max-width:679px){
+  :root{--rot:.4}
+  body{font-size:24px}
+  .cluster{min-height:0;display:grid;gap:18px}
+  .cluster .n1,.cluster .n2{position:static;width:auto}
+  .cluster .sketch{margin:0;max-width:none}
+  .cta-arrow{display:none}
+  .nav ul{gap:4px 16px}
+}
+@media (prefers-reduced-motion:reduce){
+  :root{--rot:0}
+  html{scroll-behavior:auto}
+  *,*:before,*:after{transition:none!important;animation:none!important}
+  .btn,.btn:hover,.btn:active,.row.feat,.hero h1,.hero h1 .l2{transform:none}
+  .btn:hover{box-shadow:2px 2px 0 var(--dp-color-accent);background:var(--dp-color-highlight)}
+  .btn:active{box-shadow:0 0 0 var(--dp-color-accent)}
+  .btn.pencil:hover{box-shadow:2px 2px 0 var(--dp-color-line)}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="3.5"/>
+    </filter>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">Skip to the sheet</a>
+
+<div class="wrap">
+  <header class="nav">
+    <a class="logo" href="#top" aria-label="Marginalia, home">
+      <svg class="draw" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="#38352f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 6h20l6 6v22H7z"/><path d="M27 6v7h6"/><path d="M12 20h16M12 26h10" stroke="#9e3a2e"/></svg>
+      Marginalia
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#thoughts">How it works</a></li>
+        <li><a href="#refs">References</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#compare">Compare</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+  <div class="hero" id="top">
+    <div class="hero-main">
+      <p class="eyebrow">a shared working sheet for small design teams</p>
+      <h1>Think out loud,<span class="l2">on <span class="uline">one page.<svg class="draw" aria-hidden="true" viewBox="0 0 300 20" preserveAspectRatio="none" fill="none" stroke="#9e3a2e" stroke-width="4" stroke-linecap="round"><path d="M4 12C60 4 110 16 170 8S260 6 296 11"/><path d="M30 18C100 12 190 17 250 14" stroke-width="2.5"/></svg></span></span></h1>
+      <p class="lede">Marginalia keeps sketches, notes and corrections on a single sheet, so your whole team can <span class="hl">see the thinking</span> before it turns into a ticket.</p>
+      <div class="cta-row">
+        <a class="btn" href="#compare">Start a sheet</a>
+        <svg class="cta-arrow draw" aria-hidden="true" viewBox="0 0 120 70" fill="none" stroke="#344c69" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 60C30 56 60 38 76 14"/><path d="M62 18l16-6 4 17"/></svg>
+        <span class="tail">no sign-up wall, just paper</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="scrap blue n1">Hero feels crowded. <span class="red-x">3 buttons</span> keep one.</div>
+      <figure class="sketch" style="margin-bottom:0">
+        <svg class="draw" viewBox="0 0 400 300" role="img" aria-label="Pencil floor plan of a studio with a desk, a window and a compass rose" fill="none" stroke="#38352f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M30 40h250v90h90v140H30z"/>
+          <path d="M30 150h60M130 150h70M200 150v40"/>
+          <path d="M280 130v40M280 210v60" stroke-dasharray="1 8"/>
+          <rect x="52" y="60" width="86" height="44" rx="3"/>
+          <path d="M64 104v18M126 104v18"/>
+          <circle cx="210" cy="82" r="22"/><path d="M196 82h28M210 68v28" stroke-width="1.3"/>
+          <path d="M240 40h30" stroke="#344c69" stroke-width="6"/>
+          <path d="M60 200q32-26 64 0t64 0" stroke="#344c69" stroke-width="1.6"/>
+          <rect x="250" y="210" width="90" height="40" rx="3"/>
+          <path d="M320 20l8 20 8-20" stroke="#9e3a2e"/><path d="M328 20v-8" stroke="#9e3a2e"/>
+          <text x="316" y="12" fill="#9e3a2e" stroke="none" font-family="Patrick Hand,cursive" font-size="16">N</text>
+          <path d="M130 255h90" stroke="#9e3a2e" stroke-width="1.6"/><path d="M130 249v12M220 249v12" stroke="#9e3a2e" stroke-width="1.6"/>
+          <text x="152" y="246" fill="#344c69" stroke="none" font-family="Patrick Hand,cursive" font-size="17">3.4 m</text>
+        </svg>
+      </figure>
+      <div class="scrap yellow n2">Move the desk under the window? <span class="note-blue">- Mara</span></div>
+    </div>
+
+    <div class="facts-wrap">
+      <dl class="facts">
+        <svg class="bracket draw" aria-hidden="true" viewBox="0 0 18 100" preserveAspectRatio="none" fill="none" stroke="#38352f" stroke-width="2" stroke-linecap="round"><path d="M16 4C6 6 8 20 6 50 8 80 6 94 16 96"/></svg>
+        <div><dt>1 sheet</dt><dd>sketch, note and fix together</dd></div>
+        <div><dt>0 meetings</dt><dd>to catch up on a decision</dd></div>
+        <div><dt>3 inks</dt><dd>blue notes, red fixes, yellow keeps</dd></div>
+        <div><dt>all of it</dt><dd>stays readable at a glance</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <section id="thoughts" aria-labelledby="t-h">
+    <span class="eyebrow">open thoughts</span>
+    <h2 class="sec-h" id="t-h">Small habits that <span class="hl">keep work honest</span></h2>
+    <div class="thoughts">
+      <article class="thought">
+        <svg class="draw" viewBox="0 0 80 80" aria-hidden="true" fill="none" stroke="#38352f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 62l8-26 30-24 14 14-24 30z"/><path d="M22 36l14 14"/><path d="M12 68l12-4" stroke="#9e3a2e"/></svg>
+        <div><h3>Draw it first</h3><p>A rough line beats a paragraph. Start every idea as a quick sketch and let words follow it.</p><span class="margin-note">fast &gt; pretty</span></div>
+      </article>
+      <article class="thought">
+        <svg class="draw" viewBox="0 0 80 80" aria-hidden="true" fill="none" stroke="#38352f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14h56v38H38l-14 14V52H12z"/><path d="M24 28h32M24 38h20" stroke="#344c69"/></svg>
+        <div><h3>Note in the margin</h3><p>Comments live beside the thing they are about, in blue, so nobody hunts through a thread to find the point.</p></div>
+      </article>
+      <article class="thought">
+        <svg class="draw" viewBox="0 0 80 80" aria-hidden="true" fill="none" stroke="#38352f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 42l16 16 38-40" stroke="#9e3a2e" stroke-width="3.2"/><circle cx="40" cy="40" r="30" stroke-dasharray="3 7"/></svg>
+        <div><h3>Fix in red</h3><p>A correction is a mark on the page, not a new version. Cross it out, write the better answer, and move on.</p><span class="margin-note">history stays visible</span></div>
+      </article>
+      <article class="thought">
+        <svg class="draw" viewBox="0 0 80 80" aria-hidden="true" fill="none" stroke="#38352f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 52V34l18-14 18 14v18z"/><path d="M22 52V40h12v12"/><path d="M52 22h18M52 32h14M52 42h18" stroke="#344c69"/></svg>
+        <div><h3>Keep what works</h3><p>Highlight the choice you are keeping. The yellow stays after the discussion is over.</p></div>
+      </article>
+      <article class="thought">
+        <svg class="draw" viewBox="0 0 80 80" aria-hidden="true" fill="none" stroke="#38352f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="16" width="56" height="44" rx="3"/><path d="M18 52l14-16 10 10 8-8 12 14" stroke="#344c69"/><circle cx="52" cy="28" r="5" stroke="#9e3a2e"/></svg>
+        <div><h3>Tape in references</h3><p>Photos, screenshots and swatches sit on the sheet as taped scraps, right next to the sketch they inspired.</p></div>
+      </article>
+      <article class="thought">
+        <svg class="draw" viewBox="0 0 80 80" aria-hidden="true" fill="none" stroke="#38352f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="40" r="28"/><path d="M40 22v18l12 8" stroke="#9e3a2e"/></svg>
+        <div><h3>Pick it up later</h3><p>Open the sheet next week and it reads exactly as you left it. No catch-up call, no recap email.</p><span class="margin-note">future you says thanks</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="refs" aria-labelledby="r-h">
+    <span class="eyebrow">taped references</span>
+    <h2 class="sec-h" id="r-h">Pin the real thing next to the idea</h2>
+    <div class="refs">
+      <figure class="mount">
+        <span class="tape" aria-hidden="true"></span>
+        <svg class="art" viewBox="0 0 400 300" role="img" aria-label="Illustrated morning light through a window onto a wooden desk with a plant">
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6d9a0"/><stop offset="1" stop-color="#f1efe0"/></linearGradient><linearGradient id="g1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6d6" stop-opacity=".9"/><stop offset="1" stop-color="#fff6d6" stop-opacity="0"/></linearGradient></defs>
+          <rect width="400" height="300" fill="url(#g1)"/>
+          <rect x="60" y="30" width="150" height="150" fill="#a9d3e6"/><path d="M60 105h150M135 30v150" stroke="#d8c9a6" stroke-width="8"/><rect x="60" y="30" width="150" height="150" fill="none" stroke="#d8c9a6" stroke-width="8"/>
+          <path d="M60 180L20 300h250L210 180z" fill="url(#g1b)"/>
+          <rect y="215" width="400" height="85" fill="#b5885a"/><rect y="215" width="400" height="8" fill="#8f6a42"/>
+          <rect x="260" y="170" width="46" height="45" rx="4" fill="#c4674a"/>
+          <path d="M283 170c-20-30-30-50-6-62 8 16 8 34 6 62zM283 170c6-30 22-44 38-44-6 20-18 34-38 44z" fill="#5f8c58"/>
+          <rect x="90" y="190" width="100" height="26" rx="3" fill="#f7f2e7"/><path d="M96 200h60M96 208h40" stroke="#344c69" stroke-width="2"/>
+          <ellipse cx="330" cy="212" rx="22" ry="5" fill="#00000022"/><rect x="320" y="190" width="22" height="22" rx="3" fill="#f3efe4"/>
+        </svg>
+        <figcaption>Morning light on the desk. Warm, low and slow. <span class="note-blue">Keep this mood.</span></figcaption>
+      </figure>
+      <figure class="mount">
+        <span class="tape" aria-hidden="true"></span>
+        <svg class="art" viewBox="0 0 400 300" role="img" aria-label="Illustrated reading chair beside a tall bookcase">
+          <rect width="400" height="300" fill="#e7dcc4"/>
+          <rect x="30" y="20" width="150" height="230" fill="#8c5a36"/>
+          <g><rect x="40" y="30" width="130" height="62" fill="#6e4528"/><rect x="40" y="100" width="130" height="62" fill="#6e4528"/><rect x="40" y="170" width="130" height="70" fill="#6e4528"/></g>
+          <g fill="#c9603c"><rect x="46" y="44" width="12" height="48"/></g><g fill="#3f6b85"><rect x="60" y="38" width="14" height="54"/></g><g fill="#e1b84d"><rect x="76" y="48" width="12" height="44"/></g><g fill="#5f8c58"><rect x="92" y="40" width="16" height="52"/></g><g fill="#c9603c"><rect x="112" y="46" width="12" height="46"/></g>
+          <g fill="#3f6b85"><rect x="46" y="112" width="16" height="50"/></g><g fill="#e1b84d"><rect x="64" y="106" width="12" height="56"/></g><g fill="#a54a58"><rect x="80" y="114" width="14" height="48"/></g><g fill="#5f8c58"><rect x="100" y="110" width="18" height="52"/></g>
+          <rect y="250" width="400" height="50" fill="#a88c66"/>
+          <path d="M230 250v-90c0-26 14-40 40-40s44 14 44 40v90z" fill="#3f6b85"/>
+          <rect x="216" y="190" width="30" height="62" rx="10" fill="#33576d"/><rect x="298" y="190" width="30" height="62" rx="10" fill="#33576d"/>
+          <rect x="236" y="196" width="84" height="56" rx="6" fill="#4b7c99"/>
+          <path d="M240 252l-6 26M310 252l6 26" stroke="#38352f" stroke-width="5" stroke-linecap="round"/>
+          <path d="M350 40v80" stroke="#38352f" stroke-width="3"/><path d="M332 128q18-34 36 0z" fill="#f0dfa0"/>
+        </svg>
+        <figcaption>Reading corner. Deep blue against dark wood.</figcaption>
+      </figure>
+      <figure class="mount">
+        <span class="tape" aria-hidden="true"></span>
+        <svg class="art" viewBox="0 0 400 300" role="img" aria-label="Illustrated paint swatches in muted blue, clay red, sand and sage">
+          <rect width="400" height="300" fill="#efe7d4"/>
+          <rect x="24" y="24" width="100" height="160" rx="4" fill="#344c69"/><rect x="24" y="184" width="100" height="40" fill="#f7f2e7"/>
+          <rect x="138" y="44" width="100" height="160" rx="4" fill="#9e3a2e"/><rect x="138" y="204" width="100" height="40" fill="#f7f2e7"/>
+          <rect x="252" y="20" width="100" height="160" rx="4" fill="#f0dfa0"/><rect x="252" y="180" width="100" height="40" fill="#f7f2e7"/>
+          <rect x="82" y="250" width="240" height="30" rx="4" fill="#8aa07a"/>
+          <path d="M34 200h60M148 220h60M262 196h60" stroke="#38352f" stroke-width="2"/>
+        </svg>
+        <figcaption>Palette from the studio walls. <span class="note-blue">Only three inks on the page.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="process" aria-labelledby="p-h">
+    <span class="eyebrow">the loop</span>
+    <h2 class="sec-h" id="p-h">From scribble to settled</h2>
+    <div class="strip">
+      <ol class="steps">
+        <li>
+          <span class="num" aria-hidden="true"><svg class="draw" viewBox="0 0 52 52" fill="none" stroke="#344c69" stroke-width="2.2" stroke-linecap="round"><path d="M26 4C40 3 49 14 48 27 47 41 37 49 25 48 11 47 4 37 5 24 7 11 15 5 26 4z"/></svg>1</span>
+          <div><h3>Sketch</h3><p>Drop a rough idea on the sheet. Boxes, arrows and bad handwriting all welcome.</p></div>
+          <svg class="arr draw" aria-hidden="true" viewBox="0 0 42 34" fill="none" stroke="#344c69" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20C14 10 24 12 38 18"/><path d="M30 8l9 10-12 6"/></svg>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true"><svg class="draw" viewBox="0 0 52 52" fill="none" stroke="#344c69" stroke-width="2.2" stroke-linecap="round"><path d="M27 4C41 6 48 16 47 28 46 40 37 48 24 47 12 46 4 38 5 25 6 12 14 3 27 4z"/></svg>2</span>
+          <div><h3>Note</h3><p>Teammates answer in blue ink, right on the part they mean. One thread per spot.</p></div>
+          <svg class="arr draw" aria-hidden="true" viewBox="0 0 42 34" fill="none" stroke="#344c69" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20C14 10 24 12 38 18"/><path d="M30 8l9 10-12 6"/></svg>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true"><svg class="draw" viewBox="0 0 52 52" fill="none" stroke="#344c69" stroke-width="2.2" stroke-linecap="round"><path d="M25 5C39 4 48 15 47 27 46 40 37 49 25 47 12 46 5 37 5 25 5 13 13 6 25 5z"/></svg>3</span>
+          <div><h3>Correct</h3><p>Cross out what is wrong and write the fix in red. The old line stays legible.</p></div>
+          <svg class="arr draw" aria-hidden="true" viewBox="0 0 42 34" fill="none" stroke="#344c69" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20C14 10 24 12 38 18"/><path d="M30 8l9 10-12 6"/></svg>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true"><svg class="draw" viewBox="0 0 52 52" fill="none" stroke="#344c69" stroke-width="2.2" stroke-linecap="round"><path d="M26 4C39 5 48 15 47 26 47 40 38 48 26 48 13 47 5 38 5 26 5 14 14 3 26 4z"/></svg>4</span>
+          <div><h3>Keep</h3><p>Highlight the winner in yellow. That is the decision, and it is easy to find again.</p></div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quotes">
+      <blockquote class="speech" style="margin:0">
+        &ldquo;We stopped writing recap emails. Everyone just opens the sheet and the decision is <span class="hl">highlighted</span>.&rdquo;
+        <cite>Devi, product designer</cite>
+      </blockquote>
+      <blockquote class="speech" style="margin:0">
+        &ldquo;Seeing the red fix next to the crossed-out line made the review feel human again.&rdquo;
+        <cite>Tomas, studio lead</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="compare" aria-labelledby="c-h">
+    <span class="eyebrow">three ways to work</span>
+    <h2 class="sec-h" id="c-h">Pick the sheet that fits</h2>
+    <fieldset class="compare">
+      <legend>Choose how your team works</legend>
+      <label class="row">
+        <input type="radio" name="way" value="email">
+        <h3>Email chains</h3>
+        <p>Every reply forks the story. Decisions hide on page four of a thread.</p>
+        <span class="mark"><s>one place</s> &middot; <b>searchable</b></span>
+      </label>
+      <label class="row feat">
+        <input type="radio" name="way" value="sheet" checked>
+        <h3>A Marginalia sheet</h3>
+        <p>Sketch, notes and fixes together, with the decision highlighted for everyone.</p>
+        <span class="mark"><b>one place</b> &middot; <b>visible changes</b> &middot; <b>calm</b></span>
+      </label>
+      <label class="row">
+        <input type="radio" name="way" value="board">
+        <h3>Photos of a whiteboard</h3>
+        <p>Great in the room, hard to read after. Nobody knows which marker meant what.</p>
+        <span class="mark"><b>fast</b> &middot; <s>readable later</s></span>
+      </label>
+    </fieldset>
+    <div class="pick">
+      <button type="button" class="btn solid" id="act">Open a working sheet</button>
+      <p class="detail" id="status" role="status" aria-live="polite">Highlighted is our favourite, but you choose.</p>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="f-h">
+    <span class="eyebrow">margin questions</span>
+    <h2 class="sec-h" id="f-h">Things people ask</h2>
+    <div class="faq">
+      <details open>
+        <summary><span class="tick" aria-hidden="true"></span><span class="q">Do I need to draw well?</span></summary>
+        <div class="ans">No. Wobbly boxes and arrows are the point. The sheet is for thinking, not for presenting.</div>
+      </details>
+      <details>
+        <summary><span class="tick" aria-hidden="true"></span><span class="q">Can the whole team edit at once?</span></summary>
+        <div class="ans">Yes. Everyone gets their own ink colour, and the page keeps every note exactly where it was written.</div>
+      </details>
+      <details>
+        <summary><span class="tick" aria-hidden="true"></span><span class="q">What happens to old sheets?</span></summary>
+        <div class="ans">They stay in a stack you can flip through. Nothing is overwritten, crossed-out lines remain readable.</div>
+      </details>
+    </div>
+  </section>
+
+  <div class="closer">
+    <h2>Put it on paper.</h2>
+    <p>Start a sheet, invite one teammate, and see the whole idea before lunch.</p>
+    <a class="btn" href="#top">Start a sheet</a>
+  </div>
+  </main>
+
+  <footer>
+    <div><h4>Marginalia</h4><p class="detail" style="margin:0">A working sheet for people who think best with a pencil in hand.</p></div>
+    <div><h4>Sheet</h4><ul><li><a href="#thoughts">How it works</a></li><li><a href="#process">Process</a></li><li><a href="#compare">Compare</a></li></ul></div>
+    <div><h4>Studio</h4><ul><li><a href="#refs">References</a></li><li><a href="#faq">Questions</a></li></ul></div>
+    <div><h4>Say hello</h4><ul><li><a href="#top">hello@marginalia.example</a></li></ul></div>
+    <p class="fine">Sample page in the Sketch style. Invented content.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var labels={email:"Open an email thread",sheet:"Open a working sheet",board:"Photograph the whiteboard"};
+  var notes={email:"Fair enough. We will wait in your inbox.",sheet:"Highlighted is our favourite, but you choose.",board:"Good in the room. Bring a camera."};
+  var btn=document.getElementById("act"),st=document.getElementById("status");
+  document.querySelectorAll('input[name="way"]').forEach(function(r){
+    r.addEventListener("change",function(){
+      btn.textContent=labels[r.value];
+      btn.classList.toggle("solid",r.value==="sheet");
+      st.textContent=notes[r.value];
+    });
+  });
+})();
+</script>
+</body>
+</html>

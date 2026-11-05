@@ -1,0 +1,1 @@
+ATLAS_P("F868","make a dynamic 15-second motion graphics video that shows what an incredible app Mentis is, like it's your showreel for a app launch. go all out. Make the text in French.");

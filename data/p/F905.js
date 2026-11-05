@@ -1,0 +1,1 @@
+ATLAS_P("F905","Create a self-contained, aesthetically pleasing, breathtaking animation of optogenetics: how a light-sensing protein from green algae became a light switch for brain cells. Use JavaScript on a single canvas, all in one HTML file. Be detailed and scientifically accurate.");

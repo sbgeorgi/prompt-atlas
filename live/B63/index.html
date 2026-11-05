@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Foldcraft - Immersive Ocean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#000}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:'Geist',system-ui,sans-serif;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;border:0;cursor:pointer}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.root{position:relative;height:100vh;height:100svh;width:100%;overflow:hidden;background:#000}
+#sea{position:absolute;inset:0;width:100%;height:100%;display:block}
+.nav{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:20px 24px}
+.left{display:flex;align-items:center}
+.logo{font-size:18px;font-weight:600;letter-spacing:-.025em;color:#fff}
+.links{display:none;align-items:center;gap:32px;margin-left:40px}
+.links a{font-size:14px;color:rgba(255,255,255,.8);transition:color .2s}
+.links a:hover{color:#fff}
+.cta-nav{display:none;border-radius:8px;background:#fff;padding:8px 20px;font-size:14px;font-weight:500;color:#000;transition:transform .2s}
+.cta-nav:hover{transform:scale(1.05)}
+.burger{position:relative;z-index:50;width:40px;height:40px;background:none;color:#fff;transition:transform .15s}
+.burger:active{transform:scale(.9)}
+.burger svg{position:absolute;inset:8px;width:24px;height:24px;transition:all .3s}
+.burger .x{opacity:0;transform:rotate(-90deg) scale(.5)}
+.burger .m{opacity:1;transform:rotate(0) scale(1)}
+.open .burger .x{opacity:1;transform:rotate(0) scale(1)}
+.open .burger .m{opacity:0;transform:rotate(90deg) scale(.5)}
+.menu{position:absolute;inset:0 0 auto 0;height:0;width:100%;z-index:20;background:rgba(0,0,0,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);opacity:0;pointer-events:none;overflow:hidden;transition:all .5s cubic-bezier(.16,1,.3,1)}
+.open .menu{height:100vh;height:100svh;opacity:1;pointer-events:auto}
+.menu-in{display:flex;height:100%;flex-direction:column;justify-content:center;padding:0 32px;opacity:0;transform:translateY(32px);transition:all .5s ease .1s}
+.open .menu-in{opacity:1;transform:none}
+.menu-in a.l{font-size:30px;font-weight:500;color:rgba(255,255,255,.9);padding:16px 0;transition:color .2s}
+.menu-in a.l:hover{color:#fff}
+.menu-in .cta{margin-top:24px;border-radius:999px;background:#fff;padding:14px 32px;font-size:16px;font-weight:500;color:#000;text-align:center;transition:transform .2s}
+.menu-in .cta:hover{transform:scale(1.05)}
+.hero{position:relative;z-index:10;display:flex;flex-direction:column;justify-content:space-between;height:calc(100vh - 80px);height:calc(100svh - 80px);padding:48px 24px 40px}
+.top{max-width:48rem}
+.badge{display:block;font-size:12px;color:rgba(255,255,255,.9);margin-bottom:16px;animation:fadeSlideUp .8s ease .2s both}
+h1{font-size:30px;font-weight:500;line-height:1.1;letter-spacing:-.025em;color:#fff;animation:fadeSlideUp .8s ease .4s both}
+.bot p{font-size:14px;line-height:1.625;color:rgba(255,255,255,.6);max-width:24rem;margin-bottom:20px;animation:fadeSlideUp .8s ease .7s both}
+.bot .btn{border-radius:8px;background:#fff;padding:10px 20px;font-size:14px;font-weight:500;color:#000;display:inline-flex;align-items:center;gap:8px;transition:transform .2s;animation:fadeSlideUp .8s ease .9s both;box-shadow:0 8px 40px rgba(120,200,255,.18)}
+.bot .btn:hover{transform:scale(1.05)}
+@media(min-width:640px){
+ .badge{font-size:14px;margin-bottom:24px}
+ h1{font-size:48px}
+ .logo{font-size:20px}
+ .hero{padding:64px 24px 48px}
+ .bot p{font-size:16px;max-width:32rem;margin-bottom:24px}
+ .bot .btn{padding:12px 24px}
+}
+@media(min-width:768px){
+ .nav{padding:20px 48px}
+ .links,.cta-nav{display:flex}
+ .cta-nav{display:block}
+ .burger,.menu{display:none}
+ h1{font-size:60px}
+ .hero{padding:80px 48px 64px}
+ .bot p{font-size:18px}
+}
+@media(min-width:1024px){
+ .nav{padding:20px 64px}
+ h1{font-size:72px}
+ .hero{padding-left:64px;padding-right:64px}
+}
+@media(prefers-reduced-motion:reduce){
+ .badge,h1,.bot p,.bot .btn{animation:none}
+ *{transition-duration:.01s!important}
+}
+</style>
+</head>
+<body>
+<div class="root" id="root">
+<canvas id="sea"></canvas>
+
+<nav class="nav">
+ <div class="left">
+  <a href="#" class="logo">Foldcraft</a>
+  <div class="links">
+   <a href="#">Home</a><a href="#">Projects</a><a href="#">Studio</a><a href="#">Reach Us</a>
+  </div>
+ </div>
+ <a href="#" class="cta-nav">Let's Talk</a>
+ <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+  <svg class="m" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+ </button>
+</nav>
+
+<div class="menu" aria-hidden="true">
+ <div class="menu-in">
+  <a href="#" class="l">Home</a><a href="#" class="l">Projects</a><a href="#" class="l">Studio</a><a href="#" class="l">Reach Us</a>
+  <a href="#" class="cta">Let's Talk</a>
+ </div>
+</div>
+
+<section class="hero">
+ <div class="top">
+  <span class="badge">Brand &amp; Visual Storytelling</span>
+  <h1>Shaping visual<br>narratives,<br>one pixel at a time.</h1>
+ </div>
+ <div class="bot">
+  <p>Turning vision into reality through craft, motion, and an endless pursuit of beauty.</p>
+  <a href="#" class="btn">Explore Work
+   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+ </div>
+</section>
+</div>
+
+<script>
+(function(){
+ var root=document.getElementById('root'),b=document.getElementById('burger'),m=root.querySelector('.menu');
+ function set(o){root.classList.toggle('open',o);b.setAttribute('aria-expanded',o);m.setAttribute('aria-hidden',!o)}
+ b.addEventListener('click',function(){set(!root.classList.contains('open'))});
+ m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();set(false)})});
+ document.querySelectorAll('a[href="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault()})});
+
+ /* Procedural underwater stand-in for the looping background video */
+ var cv=document.getElementById('sea'),cx=cv.getContext('2d');
+ var W,H,dpr,ridge=[],parts=[],reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ var rnd=(function(s){return function(){s=(s*16807)%2147483647;return (s-1)/2147483646}})(7);
+ function size(){
+  dpr=Math.min(devicePixelRatio||1,1.5);
+  W=cv.clientWidth;H=cv.clientHeight;
+  cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+  ridge=[];var n=Math.ceil(W/6)+2,p=[0,0,0,0,0];
+  for(var i=0;i<=n;i++){var x=i*6/W;
+   ridge.push(.82-.07*Math.sin(x*3.1+.6)-.05*Math.sin(x*7.3+1.7)-.03*Math.sin(x*17+.3)-.015*Math.sin(x*41+2)+.09*Math.max(0,x-.55)*(x>.55?1:0)*-1);}
+  parts=[];var c=Math.round(Math.min(90,W*H/9000));
+  for(var j=0;j<c;j++)parts.push({x:rnd()*W,y:rnd()*H,r:.4+rnd()*1.3,v:3+rnd()*9,a:.15+rnd()*.5,ph:rnd()*6.28});
+ }
+ function draw(t){
+  t=t/1000;
+  var g=cx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#0b3a52');g.addColorStop(.35,'#06243a');g.addColorStop(.7,'#031420');g.addColorStop(1,'#010608');
+  cx.fillStyle=g;cx.fillRect(0,0,W,H);
+  /* surface glow */
+  var sg=cx.createRadialGradient(W*.68,-H*.05,0,W*.68,-H*.05,H*.7);
+  sg.addColorStop(0,'rgba(120,200,220,.55)');sg.addColorStop(.4,'rgba(40,110,140,.22)');sg.addColorStop(1,'rgba(0,0,0,0)');
+  cx.fillStyle=sg;cx.fillRect(0,0,W,H);
+  /* god rays */
+  cx.save();cx.globalCompositeOperation='lighter';
+  var ox=W*.68;
+  for(var i=0;i<22;i++){
+   var ang=-.36+i*.034+Math.sin(t*.18+i*1.7)*.025;
+   var wid=.03+.03*((i*37)%7)/7;
+   var al=(.025+.03*((i*13)%5)/5)*(.75+.25*Math.sin(t*.5+i*2.1));
+   var len=H*1.15,x1=ox+Math.tan(ang-wid)*len,x2=ox+Math.tan(ang+wid)*len;
+   var rg=cx.createLinearGradient(0,0,0,len);
+   rg.addColorStop(0,'rgba(150,215,235,'+al+')');rg.addColorStop(.55,'rgba(70,150,180,'+al*.4+')');rg.addColorStop(1,'rgba(0,0,0,0)');
+   cx.fillStyle=rg;cx.beginPath();cx.moveTo(ox-6,0);cx.lineTo(ox+6,0);cx.lineTo(x2,len);cx.lineTo(x1,len);cx.fill();
+  }
+  cx.restore();
+  /* seabed ridges, far to near */
+  for(var L=0;L<3;L++){
+   var off=L*.045,dark=[ '#041a26','#03121b','#010a10'][L];
+   cx.fillStyle=dark;cx.beginPath();cx.moveTo(0,H);
+   for(var k=0;k<ridge.length;k++){
+    var y=(ridge[(k+L*37)%ridge.length]+off+L*.01+Math.sin(k*.35+L*2)*.006)*H;
+    cx.lineTo(k*6,y);
+   }
+   cx.lineTo(W+12,H);cx.fill();
+  }
+  /* depth fog */
+  var fg=cx.createLinearGradient(0,H*.55,0,H);
+  fg.addColorStop(0,'rgba(0,0,0,0)');fg.addColorStop(1,'rgba(0,0,0,.55)');
+  cx.fillStyle=fg;cx.fillRect(0,H*.55,W,H*.45);
+  /* particles */
+  for(var p=0;p<parts.length;p++){
+   var q=parts[p];
+   if(!reduce){q.y-=q.v*.016;q.x+=Math.sin(t*.4+q.ph)*.12;if(q.y<-4){q.y=H+4;q.x=rnd()*W}}
+   cx.globalAlpha=q.a*(.6+.4*Math.sin(t*1.3+q.ph));
+   cx.fillStyle='#bfe8f5';cx.beginPath();cx.arc(q.x,q.y,q.r,0,6.283);cx.fill();
+  }
+  cx.globalAlpha=1;
+  /* vignette */
+  var vg=cx.createRadialGradient(W/2,H*.45,Math.min(W,H)*.3,W/2,H*.45,Math.max(W,H)*.8);
+  vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.6)');
+  cx.fillStyle=vg;cx.fillRect(0,0,W,H);
+  /* left darkening for text legibility */
+  var lg=cx.createLinearGradient(0,0,W*.7,0);
+  lg.addColorStop(0,'rgba(0,0,0,.35)');lg.addColorStop(1,'rgba(0,0,0,0)');
+  cx.fillStyle=lg;cx.fillRect(0,0,W,H);
+ }
+ function loop(t){draw(t);if(!reduce)requestAnimationFrame(loop)}
+ size();addEventListener('resize',function(){size();if(reduce)draw(0)});
+ if(reduce)draw(0);else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

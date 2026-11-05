@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wandor — Where will you go next?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#0a0a0a;--text:#1a1a1a;--muted:#767676;--prompt:#905831}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{font-family:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;overflow-x:hidden;background:#fff;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+section.hero{position:relative;min-height:100svh;width:100%;overflow:hidden}
+#bg{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+.fade{position:absolute;inset:0 0 auto 0;height:687px;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%)}
+.wrap{position:relative;z-index:2;max-width:1360px;margin:0 auto}
+nav{display:flex;align-items:center;justify-content:space-between;padding:24px 80px 16px;position:relative}
+.logo{font-family:'Special Elite','Courier New',serif;font-size:40px;color:#000;line-height:1;user-select:none}
+.links{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:32px}
+.right{display:flex;align-items:center;gap:32px}
+.nb,.login{background:transparent;border:none;cursor:pointer;font-size:15px;text-transform:uppercase;letter-spacing:.04em;transition:opacity .2s}
+.nb{font-weight:500;color:var(--text)}
+.login{font-weight:600;color:#292929}
+.nb:hover,.login:hover{opacity:.55}
+.plan{background:var(--dark);color:#fafafa;border:none;cursor:pointer;font-size:15px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;padding:14px 20px;border-radius:999px;transition:all .2s}
+.plan:hover{background:#333}.plan:active{transform:scale(.95)}
+.body{display:flex;flex-direction:column;align-items:center;padding:64px 24px 96px;text-align:center}
+h1{font-size:clamp(40px,6vw,68px);font-weight:500;color:var(--text);line-height:1.05;letter-spacing:-.04em;max-width:820px;margin-bottom:20px}
+.sub{font-size:20px;font-weight:500;color:var(--muted);line-height:1.625;max-width:500px;margin-bottom:40px}
+.card{position:relative;width:701px;min-height:208px;background:rgba(255,255,255,.06);border:3px solid #fff;border-radius:44px;box-shadow:0 0 4px rgba(0,0,0,.15);overflow:hidden;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.card p{position:absolute;left:29px;top:57px;transform:translateY(-50%);width:609px;font-size:20px;font-weight:500;color:var(--prompt);line-height:1.625;overflow-wrap:break-word;text-align:left}
+.cta{position:absolute;bottom:21px;right:21px;width:156px;height:56px;background:#000;border:none;border-radius:44px;box-shadow:0 0 2px rgba(0,0,0,.05);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;color:#fafafa;text-transform:uppercase;letter-spacing:.02em;transition:all .2s}
+.cta:hover{background:#333}.cta:active{transform:scale(.95)}
+.up{position:absolute;left:21px;top:137px;width:44px;height:44px;background:transparent;border:1px solid rgba(255,255,255,.7);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:transform .2s}
+.up:hover{transform:scale(1.05)}
+.up:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.up svg{width:18px;height:18px;color:var(--text);flex-shrink:0}
+.hidden{display:none}
+@media (max-width:760px){
+ nav{padding:20px 24px 16px}
+ .logo{font-size:32px}
+ .links,.login{display:none}
+ .card{width:calc(100vw - 48px)}
+ .card p{font-size:17px;width:calc(100% - 58px)}
+}
+</style>
+</head>
+<body>
+<div>
+<section class="hero">
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="fade"></div>
+  <div class="wrap">
+    <nav>
+      <span class="logo">wandor</span>
+      <div class="links">
+        <button class="nb">Discover</button><button class="nb">Pricing</button><button class="nb">FAQs</button>
+      </div>
+      <div class="right">
+        <button class="login">Login</button>
+        <button class="plan">Plan My Trip</button>
+      </div>
+    </nav>
+    <div class="body">
+      <h1>Where will you go next?</h1>
+      <p class="sub">Tell our AI where you're going and what you love. We'll create a personalized itinerary for you.</p>
+      <div class="card">
+        <p>I'm planning a 7-day trip to Japan in October. I love food, hidden cafes, scenic hikes, and want to avoid crowds....</p>
+        <input id="file" class="hidden" type="file" accept="image/*,.pdf">
+        <button class="up" id="upBtn" aria-label="Upload inspiration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+        </button>
+        <button class="cta">Plan My Trip</button>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<script>
+document.getElementById('upBtn').onclick=()=>document.getElementById('file').click();
+// Stand-in for the looping background video: an ambient painted coastline at golden hour.
+(function(){
+ const c=document.getElementById('bg'),g=c.getContext('2d');
+ let W,H,D;
+ function size(){D=Math.min(devicePixelRatio||1,2);W=c.clientWidth;H=c.clientHeight;c.width=W*D;c.height=H*D;g.setTransform(D,0,0,D,0,0)}
+ size();addEventListener('resize',size);
+ function rnd(s){return()=>(s=(s*16807)%2147483647)/2147483647}
+ const r=rnd(7);
+ const clouds=Array.from({length:7},()=>({x:r(),y:.2+r()*.3,s:.6+r()*1.1,v:.004+r()*.008}));
+ const birds=Array.from({length:5},()=>({x:r(),y:.45+r()*.1,v:.015+r()*.01,p:r()*6}));
+ function ridge(base,amp,seed,col,t,par,fog){
+  const q=rnd(seed);const pts=[];const n=14;for(let i=0;i<=n;i++)pts.push(q());
+  g.beginPath();g.moveTo(0,H);
+  for(let x=0;x<=W;x+=6){
+   const u=((x/W)*n+t*par)%n,i=Math.floor(u),f=u-i,s=f*f*(3-2*f);
+   const a=pts[i%n],b=pts[(i+1)%n];
+   const y=H*base-(a+(b-a)*s)*amp*H+Math.sin(x*.013+seed)*H*.006;
+   g.lineTo(x,y);
+  }
+  g.lineTo(W,H);g.closePath();
+  const gr=g.createLinearGradient(0,H*(base-amp),0,H*(base+.25));gr.addColorStop(0,col[0]);gr.addColorStop(1,col[1]);
+  g.fillStyle=gr;g.fill();
+ }
+ function cloud(x,y,s,a){g.save();g.globalAlpha=a;g.fillStyle='#fff';
+  for(const[dx,dy,rr]of[[0,0,34],[38,-12,42],[84,0,34],[46,8,40],[20,8,28],[72,10,28]]){g.beginPath();g.ellipse(x+dx*s,y+dy*s,rr*s*1.5,rr*s*.7,0,0,7);g.fill()}
+  g.restore()}
+ function frame(ms){
+  const t=ms/1000;
+  const sky=g.createLinearGradient(0,0,0,H*.72);
+  sky.addColorStop(0,'#cfe3f2');sky.addColorStop(.35,'#f2dcc9');sky.addColorStop(.7,'#f6b98a');sky.addColorStop(1,'#f3a07a');
+  g.fillStyle=sky;g.fillRect(0,0,W,H);
+  // sun
+  const sx=W*(W>760?.86:.5),sy=H*(.55+Math.sin(t*.1)*.004);
+  const glow=g.createRadialGradient(sx,sy,0,sx,sy,H*.5);glow.addColorStop(0,'rgba(255,238,200,.95)');glow.addColorStop(.12,'rgba(255,214,160,.55)');glow.addColorStop(1,'rgba(255,190,140,0)');
+  g.fillStyle=glow;g.fillRect(0,0,W,H);
+  g.fillStyle='#fff6df';g.beginPath();g.arc(sx,sy,H*.045,0,7);g.fill();
+  for(const k of clouds){const x=((k.x+t*k.v)%1.3-.15)*W;cloud(x,k.y*H,k.s*H/800,.4)}
+  ridge(.72,.2,3,['#b79a9a','#d9a98f'],t,.02);
+  ridge(.76,.17,11,['#8a7283','#b98c85'],t,.035);
+  ridge(.82,.13,23,['#5d4f63','#8b6a69'],t,.05);
+  // sea
+  const sea=g.createLinearGradient(0,H*.78,0,H);sea.addColorStop(0,'#f0b393');sea.addColorStop(.35,'#7aa4b4');sea.addColorStop(1,'#2f5c70');
+  g.fillStyle=sea;g.fillRect(0,H*.84,W,H*.16);
+  g.fillStyle='rgba(255,226,180,.55)';
+  for(let i=0;i<26;i++){const y=H*.845+i*i*.0026*H*.1+i*H*.004;const w=(40+i*14)*(1+.3*Math.sin(t*.8+i));g.fillRect(sx-w/2+Math.sin(t+i)*8,y,w,1.5)}
+  // birds
+  g.strokeStyle='rgba(60,45,50,.7)';g.lineWidth=1.5;
+  for(const b of birds){const x=((b.x+t*b.v)%1.2-.1)*W,y=b.y*H+Math.sin(t*.7+b.p)*10,f=Math.sin(t*6+b.p)*5;
+   g.beginPath();g.moveTo(x-10,y-f);g.quadraticCurveTo(x-4,y-4,x,y);g.quadraticCurveTo(x+4,y-4,x+10,y-f);g.stroke()}
+  requestAnimationFrame(frame);
+ }
+ requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

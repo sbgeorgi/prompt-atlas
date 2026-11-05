@@ -1,0 +1,1 @@
+ATLAS_P("F566","Make an animated clip about Tented's image gen capabilities where users ask for branded images and see them added to content");

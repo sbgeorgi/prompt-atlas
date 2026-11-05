@@ -1,0 +1,1 @@
+ATLAS_P("F836","make a 1-min promo for this product from the codebase.");

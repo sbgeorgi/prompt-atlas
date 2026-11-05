@@ -1,0 +1,1 @@
+ATLAS_P("F277","make a dynamic 20-second motion graphics video that shows what an incredible motion designer you are, psychedelic and hypnotic. make it feel like a showreel piece. go all out.");

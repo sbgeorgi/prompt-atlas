@@ -1,0 +1,1 @@
+ATLAS_P("F421","Create a motion graphics video for SuperLaunch.\nInclude:\n\u2192 What SuperLaunch does\n\u2192 Our black + neon green visual identity\n\u2192 The story I wanted the video to tell\n\u2192 The kind of transitions and motion I wanted\n\u2192 What I absolutely did NOT want (generic AI visuals, rockets, purple gradients)");

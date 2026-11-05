@@ -1,0 +1,1 @@
+ATLAS_P("F503","Make an animation showing how fried chicken is made in Three.js. Everything should be procedural, with no imported 3D models.");

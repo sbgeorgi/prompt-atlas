@@ -1,0 +1,1 @@
+ATLAS_P("F869","Make a premium motion-graphics brand film for [BRAND NAME] ([WEBSITE URL]).\n\nWhat it's about: [one sentence: what the brand does and for whom]\nLength & format: [e.g. 20 s, 1920\u00d71080 (16:9) or 1080\u00d71350 (4:5)], 60 fps\nVoiceover: [none / write it for me / these lines:");

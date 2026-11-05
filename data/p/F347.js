@@ -1,0 +1,1 @@
+ATLAS_P("F347","Create a motion graphics video that feels like the centerpiece of a world-class designer\u2019s showreel. Treat it as your r\u00e9sum\u00e9: showcase your full range, push the craft as far as possible. Go all out.");

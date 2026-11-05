@@ -1,0 +1,1 @@
+ATLAS_P("F750","Create a pelican looping SVG animation. Deliver it as a single self-contained file named index.html in the current directory.");

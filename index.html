@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prompt Atlas</title>
+<style>
+:root{--bg:#0d0e11;--panel:#16181d;--line:#262a32;--tx:#e8e9ec;--mut:#8b909a;--ac:#7cf0c4;--ac2:#14352a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,Segoe UI,sans-serif;padding-bottom:84px}
+button,input,select{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row+.row{margin-top:8px}
+input[type=search],select{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+input[type=search]{flex:1;min-width:200px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 10px;cursor:pointer;color:var(--mut);white-space:nowrap}
+.chip.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+.chip b{color:var(--tx);font-weight:600;margin-right:4px}
+.count{color:var(--mut);margin-left:auto}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;padding:16px}
+.card{content-visibility:auto;contain-intrinsic-size:auto 340px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;position:relative}
+.card.sel{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+.th{aspect-ratio:16/10;background:#000 center/cover;display:flex;align-items:flex-end;padding:8px;color:#fff;font-weight:600;text-shadow:0 1px 6px #000}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.th.ph{background-size:cover}
+.id{position:absolute;top:8px;left:8px;background:#000c;border:1px solid #fff3;border-radius:6px;padding:1px 8px;font-weight:700;letter-spacing:.5px;cursor:copy}
+.pick{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:6px;background:#000c;border:1px solid #fff4;display:grid;place-items:center;cursor:pointer;font-size:16px}
+.sel .pick{background:var(--ac);color:#000;border-color:var(--ac)}
+.meta{padding:8px 10px 10px}
+.meta h3{margin:0;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta p{margin:2px 0 0;color:var(--mut);font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tags span{font-size:11px;color:var(--mut);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+#tray{position:fixed;left:0;right:0;bottom:0;background:#101216f2;border-top:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;z-index:6}
+#tray .chip{color:var(--ac);border-color:var(--ac)}
+.btn{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer}
+.btn.pri{background:var(--ac);color:#000;border-color:var(--ac);font-weight:600}
+#modal{position:fixed;inset:0;background:#000b;z-index:10;display:none;overflow:auto;padding:24px 16px}
+#modal.open{display:block}
+.live{margin:10px 0;text-align:center;background:#000;border-radius:8px}
+.live iframe,.live video{width:100%;height:75vh;border:0;border-radius:8px;background:#fff;max-width:100%}
+.live video{height:auto;max-height:75vh;background:#000}
+[hidden]{display:none!important}
+.box{max-width:1400px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.box h2{margin:0 0 4px}
+.box img{max-width:100%;border-radius:8px;display:block;margin:10px 0}
+pre{white-space:pre-wrap;word-break:break-word;background:#0a0b0d;border:1px solid var(--line);border-radius:8px;padding:12px;max-height:55vh;overflow:auto;font:12px/1.5 ui-monospace,Consolas,monospace}
+a{color:var(--ac)}
+.empty{padding:60px;text-align:center;color:var(--mut);grid-column:1/-1}
+</style>
+</head>
+<body>
+<header>
+  <div class="row">
+    <input id="q" type="search" placeholder="Search title / tags / description - or IDs like A3 B4   ( / to focus )" autocomplete="off">
+    <select id="cat"><option value="">All categories</option></select>
+    <select id="sort"><option value="live">Sort: live first</option><option value="id">Sort: ID</option><option value="big">Longest prompt</option><option value="small">Shortest prompt</option></select>
+    <span class="chip" id="prev"><b>&#9635;</b>has preview</span>
+    <span class="chip" id="livec"><b>&#9654;</b>live page</span>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="row" id="srcs"></div>
+  <div class="row" id="tags"></div>
+</header>
+<div id="grid"></div>
+<div id="tray"></div>
+<div id="modal"><div class="box" id="box"></div></div>
+
+<script src="data/index.js"></script>
+<script>
+(()=>{
+const {sources,cards}=window.ATLAS, $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const byId=Object.fromEntries(cards.map(c=>[c.id,c]));
+const blob=Object.fromEntries(cards.map(c=>[c.id,[c.id,c.t,c.c,c.k,c.tg.join(' '),c.d,c.us,(c.tp||[]).join(' '),(c.pl||[]).join(' '),(c.pt||[]).map(p=>p.join(' ')).join(' ')].filter(Boolean).join(' ').toLowerCase()]));
+const S={q:'',cat:'',prev:false,tags:new Set(),src:new Set(Object.keys(sources).filter(k=>k!=='F')),sel:new Set(),sort:'live',live:false,shown:60};
+// persisted selection (hash wins, then localStorage); storage may be unavailable
+try{const h=/sel=([\w,]+)/.exec(location.hash);const v=h?h[1]:(localStorage.getItem('atlas.sel')||'');v.split(',').forEach(x=>byId[x]&&S.sel.add(x))}catch(e){}
+const save=()=>{const v=[...S.sel].join(',');try{localStorage.setItem('atlas.sel',v)}catch(e){}history.replaceState(null,'',v?'#sel='+v:location.pathname)};
+const isLive=c=>!!c.lv&&!/\.(mp4|webm)(\?|$)/.test(c.lv),kind=c=>c.k||c.c;
+const hue=id=>{let h=0;for(const ch of id)h=(h*31+ch.charCodeAt(0))%360;return h};
+const ph=c=>`background:linear-gradient(135deg,hsl(${hue(c.id)} 45% 22%),hsl(${(hue(c.id)+60)%360} 50% 12%))`;
+
+// controls
+const cnt=(f)=>{const m={};cards.forEach(c=>f(c).forEach(k=>m[k]=(m[k]||0)+1));return m};
+const cats=cnt(c=>[kind(c)]);$('#cat').innerHTML+=Object.keys(cats).sort().map(k=>`<option value="${esc(k)}">${esc(k)} (${cats[k]})</option>`).join('');
+const sc=cnt(c=>[c.s]);
+$('#srcs').innerHTML=Object.entries(sources).map(([k,s])=>`<span class="chip" data-s="${k}" title="${esc(s.license)}"><b>${k}</b>${esc(s.name)} (${sc[k]||0})</span>`).join('');
+const tc=cnt(c=>c.tg);const topTags=Object.entries(tc).filter(([t,n])=>t!=='motion-video'&&n>=4&&t.length<22).sort((a,b)=>b[1]-a[1]).slice(0,42).map(x=>x[0]);
+$('#tags').innerHTML=topTags.map(t=>`<span class="chip" data-t="${esc(t)}">${esc(t)}</span>`).join('');
+
+function match(c){
+  if(!S.src.has(c.s))return false;
+  if(S.cat&&kind(c)!==S.cat)return false;
+  if(S.live&&!isLive(c))return false;
+  if(S.prev&&!c.th)return false;
+  for(const t of S.tags)if(!c.tg.includes(t))return false;
+  if(S.q){const tk=S.q.toLowerCase().split(/[\s,]+/).filter(Boolean);
+    if(tk.every(t=>/^[a-z]\d+$/.test(t)))return tk.includes(c.id.toLowerCase());
+    return tk.every(t=>blob[c.id].includes(t));}
+  return true;
+}
+let list=[];
+function filter(){
+  list=cards.filter(match);
+  const num=c=>+c.id.slice(1);
+  const lv=c=>isLive(c)?0:c.lv?1:2;
+  list.sort(S.sort==='live'?(a,b)=>lv(a)-lv(b)||(a.s<b.s?-1:a.s>b.s?1:num(a)-num(b)):S.sort==='big'?(a,b)=>b.n-a.n:S.sort==='small'?(a,b)=>a.n-b.n:(a,b)=>a.s<b.s?-1:a.s>b.s?1:num(a)-num(b));
+  S.shown=60;render();
+}
+function cardHTML(c){
+  const th=c.th?`<div class="th"><img loading="lazy" src="${esc(c.th)}" alt=""></div>`:`<div class="th ph" style="${ph(c)}">${esc(c.t)}</div>`;
+  return `<div class="card${S.sel.has(c.id)?' sel':''}" data-id="${c.id}">${th}<span class="id" title="click: copy ID">${c.id}</span><span class="pick" title="select">${S.sel.has(c.id)?'&#10003;':'+'}</span>
+  <div class="meta"><h3>${esc(c.t)}</h3><p>${esc(c.d||c.c)}</p><div class="tags">${c.tg.filter(t=>t!=='motion-video').slice(0,4).map(t=>`<span>${esc(t)}</span>`).join('')}</div></div></div>`;
+}
+let io,sn;
+function render(){
+  $('#count').textContent=`${list.length} of ${cards.length}`;
+  $('#grid').innerHTML=list.length?list.slice(0,S.shown).map(cardHTML).join(''):'<div class="empty">No matches. F (motion-shelf) is hidden by default - toggle it above.</div>';
+  $('#srcs').querySelectorAll('.chip').forEach(e=>e.classList.toggle('on',S.src.has(e.dataset.s)));
+  $('#tags').querySelectorAll('.chip').forEach(e=>e.classList.toggle('on',S.tags.has(e.dataset.t)));
+  $('#prev').classList.toggle('on',S.prev);$('#livec').classList.toggle('on',S.live);
+  if(io){io.unobserve(sn);io.observe(sn)} // re-arm: observer only fires on state change
+  tray();
+}
+function tray(){
+  const ids=[...S.sel];
+  $('#tray').innerHTML=ids.length?`<b>${ids.length} selected</b>`+ids.map(i=>`<span class="chip" data-x="${i}" title="${esc(byId[i].t)} - click to remove">${i} &times;</span>`).join('')+
+   `<span style="flex:1"></span><button class="btn pri" data-a="ids">Copy IDs</button><button class="btn" data-a="idt">Copy IDs + titles</button><button class="btn" data-a="clr">Clear</button>`
+   :'<span style="color:var(--mut)">Click + on cards to select. Then tell Claude e.g. "combine A3 hero with B4 scroll behaviour".</span>';
+}
+function toggle(id){S.sel.has(id)?S.sel.delete(id):S.sel.add(id);save();
+  document.querySelectorAll(`.card[data-id="${id}"]`).forEach(e=>{e.classList.toggle('sel',S.sel.has(id));e.querySelector('.pick').innerHTML=S.sel.has(id)?'&#10003;':'+'});tray()}
+const copy=async t=>{try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.append(a);a.select();document.execCommand('copy');a.remove()}};
+const flash=(el,t)=>{el.dataset.l??=el.textContent;el.textContent=t;clearTimeout(el._t);el._t=setTimeout(()=>el.textContent=el.dataset.l,900)};
+
+// prompt text: lazy-loaded via script tag so it also works from file://
+const P={};window.ATLAS_P=(id,t)=>{P[id]=t};
+const loadP=id=>new Promise(r=>{if(P[id]!=null)return r(P[id]);const s=document.createElement('script');s.src=`data/p/${id}.js`;s.onload=()=>{s.remove();r(P[id])};s.onerror=()=>{s.remove();r('(could not load data/p/'+id+'.js - open index.html from its folder)')};document.head.append(s)});
+async function open(id){
+  const c=byId[id];$('#modal').classList.add('open');
+  // prompt-motion's CDN serves a "hotlink" stub clip to cross-site requests with no Referer; twimg needs none
+  document.querySelector('meta[name=referrer]').content=/\/\/media\.prompt-motion\.com\//.test(c.lv||'')?'origin':'no-referrer';
+  $('#box').innerHTML=`<div class="row"><h2>${c.id} &middot; ${esc(c.t)}</h2><span style="flex:1"></span><button class="btn" data-a="sel">${S.sel.has(id)?'Selected &#10003;':'Select'}</button><button class="btn" data-a="cp">Copy prompt</button><button class="btn" data-a="close">Close</button></div>
+  <div style="color:var(--mut)">${esc(sources[c.s].name)} &middot; ${esc(c.c)} &middot; ${c.n.toLocaleString()} chars${c.gen?' &middot; <b title="No upstream preview existed; Claude built this page from the prompt">preview generated from this prompt</b>':''}${c.u?` &middot; <a href="${esc(c.u)}" target="_blank" rel="noopener">source</a>`:''}</div>
+  <div class="tags">${c.tg.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+  ${c.us?`<div style="margin-top:8px"><b>${esc(c.us)}</b></div>`:''}
+  ${c.pt&&c.pt.length?`<div style="margin-top:6px;color:var(--mut)">${c.pt.map(p=>`<div><b>${esc(p[0])}</b> ${esc(p[1])}</div>`).join('')}</div>`:''}
+  ${(c.pl&&c.pl.length)||(c.tc&&c.tc.length)?`<div style="margin-top:6px;color:var(--mut)">${[...(c.pl||[]),...(c.tc||[])].map(esc).join(' &middot; ')}</div>`:''}
+  ${c.lv?`<div class="row" style="margin-top:10px"><button class="btn pri" data-a="tab" data-v="live">Live</button><button class="btn" data-a="tab" data-v="prompt">Prompt</button><span style="flex:1"></span><button class="btn" data-a="wd" data-w="100%">Desktop</button><button class="btn" data-a="wd" data-w="390px">Mobile</button><a class="btn" href="${esc(c.lv)}" target="_blank" rel="noopener">Open in new tab</a></div>
+  <div id="live" class="live">${/\.mp4(\?|$)/.test(c.lv)?`<video src="${esc(c.lv)}" poster="${esc(c.th)}" controls loop muted autoplay playsinline></video>`:`<iframe src="${esc(c.lv)}" data-s="${esc(c.lv)}" sandbox="allow-scripts allow-same-origin allow-popups" referrerpolicy="no-referrer"></iframe>`}</div>`:''}
+  <div id="pv"${c.lv?' hidden':''}>${c.th&&!c.lv?`<img src="${esc(c.th)}" alt="">`:''}<p>${esc(c.d)}</p><pre id="ptxt">loading&hellip;</pre></div>`;
+  $('#box').dataset.id=id;
+  const pre=$('#ptxt'),t=await loadP(id);pre.textContent=t; // pre captured first: a late load can't hit another modal
+}
+const close=()=>{$('#modal').classList.remove('open');$('#box').innerHTML=''}; // clearing stops video/iframe
+
+// events
+document.addEventListener('click',async e=>{
+  const t=e.target;
+  const chip=t.closest('.chip');
+  if(chip){
+    if(chip.dataset.s){const k=chip.dataset.s;S.src.has(k)?S.src.delete(k):S.src.add(k);return filter()}
+    if(chip.dataset.t){const k=chip.dataset.t;S.tags.has(k)?S.tags.delete(k):S.tags.add(k);return filter()}
+    if(chip.id==='prev'){S.prev=!S.prev;return filter()}
+    if(chip.id==='livec'){S.live=!S.live;return filter()}
+    if(chip.dataset.x){S.sel.delete(chip.dataset.x);save();return render()}
+  }
+  const a=t.closest('[data-a]');
+  if(a){const k=a.dataset.a,ids=[...S.sel];
+    if(k==='ids'){await copy(ids.join(', '));flash(a,'Copied')}
+    if(k==='idt'){await copy(ids.map(i=>`${i} ${byId[i].t}`).join('\n'));flash(a,'Copied')}
+    if(k==='clr'){S.sel.clear();save();render()}
+    if(k==='close')close();
+    if(k==='tab'){const lv=a.dataset.v==='live';$('#live').hidden=!lv;$('#pv').hidden=lv;const m=$('#live').firstElementChild;if(m.tagName==='VIDEO')lv?m.play():m.pause();else m.src=lv?m.dataset.s:'about:blank'; // hidden media must stop running
+    a.parentNode.querySelectorAll('[data-a=tab]').forEach(b=>b.classList.toggle('pri',b===a))}
+    if(k==='wd')$('#live').firstElementChild.style.width=a.dataset.w;
+    if(k==='sel'){const id=$('#box').dataset.id;toggle(id);a.innerHTML=S.sel.has(id)?'Selected &#10003;':'Select'}
+    if(k==='cp'){await copy($('#ptxt').textContent);flash(a,'Copied')}
+    return;
+  }
+  if(t.id==='modal')return close();
+  const card=t.closest('.card');
+  if(card){const id=card.dataset.id;
+    if(t.closest('.pick'))return toggle(id);
+    if(t.closest('.id')){await copy(id);return flash(t.closest('.id'),'copied')}
+    open(id)}
+});
+$('#q').addEventListener('input',e=>{S.q=e.target.value;filter()});
+$('#cat').addEventListener('change',e=>{S.cat=e.target.value;filter()});
+$('#sort').addEventListener('change',e=>{S.sort=e.target.value;filter()});
+addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();$('#q').focus()}});
+// infinite render
+sn=document.body.appendChild(document.createElement('div'));sn.style.height='1px';
+io=new IntersectionObserver(en=>{if(en[0].isIntersecting&&S.shown<list.length){S.shown+=60;
+  $('#grid').insertAdjacentHTML('beforeend',list.slice(S.shown-60,S.shown).map(cardHTML).join(''));io.unobserve(sn);io.observe(sn)}},{rootMargin:'600px'});io.observe(sn);
+filter();
+})();
+</script>
+</body>
+</html>

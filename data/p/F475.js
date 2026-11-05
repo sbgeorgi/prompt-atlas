@@ -1,0 +1,1 @@
+ATLAS_P("F475","Create me a motion graphics promo video for https://t.co/ypdsMqmm8D\n\nUse only what you have in skills and what you can pull from the webpage!\n\n30seconds. Make it awesome and as if i paid 50thousand for this! 16:9 format. English");

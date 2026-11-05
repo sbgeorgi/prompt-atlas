@@ -1,0 +1,1 @@
+ATLAS_P("F401","Turn a 2025 neuroscience study about strangers' brain reactions to movies growing closer into a 60-second film and interactive lab. One HTML file.");

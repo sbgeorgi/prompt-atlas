@@ -1,0 +1,1 @@
+ATLAS_P("F887","explain loop transformers in a youtube animated short. search web for some real papers to read too.\n\nswitch up scenes, and make the visual narrative more compelling. also, make sure hook creates a curiosity gap for real world application on why this matters.");

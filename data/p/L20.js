@@ -1,0 +1,1 @@
+ATLAS_P("L20","/hyperframes make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a r\u00e9sum\u00e9. go all out.  use todo o contexto do projeto");

@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Daybook - Newsprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,650;8..60,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#f3efe5;
+  --dp-color-ink:#191916;
+  --dp-color-secondary:#494843;
+  --dp-color-rule:#9b978e;
+  --dp-color-accent:#a3231d;
+  --dp-typography-display:"Newsprint Display","Source Serif 4",Georgia,serif;
+  --dp-typography-reading:"Newsprint Reading","EB Garamond",Georgia,serif;
+  --dp-typography-body:20px;
+  --dp-typography-reading-compact:19px;
+  --dp-typography-label:12px;
+  --dp-typography-control:15px;
+  --dp-typography-label-weight:650;
+  --dp-typography-display-weight:900;
+  --dp-typography-body-leading:1.3;
+  --dp-typography-control-leading:1.2;
+  --dp-typography-label-tracking:.09em;
+  --dp-spacing-column:24px;
+  --dp-spacing-story:22px;
+  --dp-radius-control:0;
+  --dp-border-hairline:1px;
+  --dp-border-section:4px;
+  --dp-border-focus:2px;
+  --dp-motion-transition:none;
+}
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html{background:var(--dp-color-ground);-webkit-text-size-adjust:100%}
+body{
+  background:var(--dp-color-ground);color:var(--dp-color-ink);
+  font-family:var(--dp-typography-reading);font-size:var(--dp-typography-body);
+  line-height:var(--dp-typography-body-leading);
+  overflow-x:hidden;
+}
+a{color:inherit}
+.sheet{max-width:1320px;margin:0 auto;padding:0 32px 0}
+.label{font-family:var(--dp-typography-display);font-size:var(--dp-typography-label);font-weight:var(--dp-typography-label-weight);letter-spacing:var(--dp-typography-label-tracking);text-transform:uppercase}
+.red{color:var(--dp-color-accent)}
+.sec{border-top:var(--dp-border-section) solid var(--dp-color-ink)}
+.hair{border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+h1,h2,h3,h4{font-family:var(--dp-typography-display);font-weight:var(--dp-typography-display-weight);letter-spacing:-.02em;line-height:1.02}
+p{max-width:62ch}
+.sec-head{display:flex;align-items:baseline;gap:14px;padding:12px 0 14px;border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.sec-head .num{color:var(--dp-color-accent)}
+
+/* controls */
+.btn{
+  display:inline-block;font-family:var(--dp-typography-display);font-size:var(--dp-typography-control);
+  line-height:var(--dp-typography-control-leading);font-weight:var(--dp-typography-label-weight);
+  letter-spacing:.04em;text-transform:uppercase;text-decoration:none;
+  border:1px solid var(--dp-color-ink);background:transparent;color:var(--dp-color-ink);
+  padding:13px 20px;cursor:pointer;transition:var(--dp-motion-transition);text-align:center
+}
+.btn:hover,.btn[aria-pressed="true"],.btn.solid{background:var(--dp-color-ink);color:var(--dp-color-ground)}
+.btn.solid:hover{background:transparent;color:var(--dp-color-ink)}
+:focus-visible{outline:var(--dp-border-focus) solid var(--dp-color-accent);outline-offset:3px}
+
+/* masthead */
+.topline{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule);color:var(--dp-color-secondary)}
+.masthead{text-align:center;padding:18px 0 10px}
+.masthead h1{font-size:clamp(64px,13.5vw,190px);letter-spacing:-.045em;line-height:.9}
+.masthead .tag{font-family:var(--dp-typography-reading);font-style:italic;font-size:19px;color:var(--dp-color-secondary);margin-top:10px}
+nav.sections{display:flex;justify-content:center;flex-wrap:wrap;gap:0;border-top:var(--dp-border-hairline) solid var(--dp-color-ink);border-bottom:var(--dp-border-section) solid var(--dp-color-ink);margin-top:14px}
+nav.sections a{font-family:var(--dp-typography-display);font-size:var(--dp-typography-label);font-weight:var(--dp-typography-label-weight);letter-spacing:var(--dp-typography-label-tracking);text-transform:uppercase;text-decoration:none;padding:12px 22px;border-right:var(--dp-border-hairline) solid var(--dp-color-rule)}
+nav.sections a:last-child{border-right:0}
+nav.sections a:hover{background:var(--dp-color-ink);color:var(--dp-color-ground)}
+
+/* lead */
+.lead{display:grid;grid-template-columns:3fr 1fr;border-bottom:var(--dp-border-section) solid var(--dp-color-ink)}
+.lead-main{padding:var(--dp-spacing-story) var(--dp-spacing-column) var(--dp-spacing-story) 0;border-right:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.lead-main .kicker{color:var(--dp-color-accent);margin-bottom:12px}
+.lead-main h2{font-size:clamp(44px,6.6vw,92px);letter-spacing:-.035em;line-height:.96}
+.lead-body{display:grid;grid-template-columns:1.1fr 1fr;gap:var(--dp-spacing-column);margin-top:24px;align-items:start}
+.lead-body p{font-size:var(--dp-typography-body)}
+.lead-body p+p{margin-top:.7em}
+.drop::first-letter{font-family:var(--dp-typography-display);font-weight:900;float:left;font-size:4.3em;line-height:.8;padding:6px 10px 0 0;color:var(--dp-color-accent)}
+figure.img{margin:0}
+.ph{display:block;width:100%;height:auto;filter:grayscale(1);border:1px solid var(--dp-color-ink);background:#d8d3c6}
+figcaption{font-size:15px;color:var(--dp-color-secondary);margin-top:6px;line-height:1.25;font-style:italic}
+.lead-side{padding:var(--dp-spacing-story) 0 var(--dp-spacing-story) var(--dp-spacing-column);display:flex;flex-direction:column;gap:18px}
+.lead-side h3{font-size:26px;letter-spacing:-.02em}
+.lead-side p{font-size:var(--dp-typography-reading-compact)}
+.lead-side .btn{width:100%}
+.lead-side .stack{display:flex;flex-direction:column;gap:10px}
+.lead-side .note{color:var(--dp-color-secondary);font-size:16px;font-style:italic}
+
+/* facts strip */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:var(--dp-border-hairline) solid var(--dp-color-ink)}
+.fact{padding:16px var(--dp-spacing-column);border-left:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.fact:first-child{padding-left:0;border-left:0}
+.fact b{display:block;font-family:var(--dp-typography-display);font-weight:900;font-size:44px;letter-spacing:-.03em;line-height:1}
+.fact span{display:block;margin-top:6px;color:var(--dp-color-secondary);font-size:17px;line-height:1.2}
+
+/* spread */
+.spread{display:grid;grid-template-columns:1fr 2.1fr;border-bottom:var(--dp-border-section) solid var(--dp-color-ink)}
+.briefs{padding:var(--dp-spacing-story) var(--dp-spacing-column) var(--dp-spacing-story) 0;border-right:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.brief{padding:14px 0;border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.brief:first-of-type{border-top:0;padding-top:0}
+.brief h4{font-size:22px;letter-spacing:-.015em;margin:4px 0 6px;line-height:1.08}
+.brief p{font-size:var(--dp-typography-reading-compact)}
+.feature{padding:var(--dp-spacing-story) 0 var(--dp-spacing-story) var(--dp-spacing-column)}
+.feature h2{font-size:clamp(34px,4vw,56px);letter-spacing:-.03em;line-height:1}
+.feature .cols{columns:2;column-gap:var(--dp-spacing-column);column-rule:1px solid var(--dp-color-rule);margin-top:18px}
+.feature .cols p{max-width:none;margin-bottom:.7em;break-inside:avoid-column}
+.under{display:grid;grid-template-columns:1fr 1fr;gap:var(--dp-spacing-column);border-top:var(--dp-border-hairline) solid var(--dp-color-rule);margin-top:22px;padding-top:18px}
+.under h4{font-size:24px;margin:8px 0 6px}
+.under p{font-size:var(--dp-typography-reading-compact)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:var(--dp-border-section) solid var(--dp-color-ink)}
+.step{padding:var(--dp-spacing-story) var(--dp-spacing-column);border-left:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.step:first-child{padding-left:0;border-left:0}
+.step:last-child{padding-right:0}
+.step .n{font-family:var(--dp-typography-display);font-weight:900;font-size:64px;color:var(--dp-color-accent);line-height:.9;letter-spacing:-.04em}
+.step h3{font-size:28px;margin:10px 0 8px;letter-spacing:-.02em}
+.step p{font-size:var(--dp-typography-reading-compact)}
+
+/* comparison */
+.plans{border-bottom:var(--dp-border-section) solid var(--dp-color-ink)}
+.plan{display:grid;grid-template-columns:1.1fr .9fr 2fr;border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.plan:first-of-type{border-top:0}
+.plan>div{padding:20px var(--dp-spacing-column);border-left:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.plan>div:first-child{padding-left:0;border-left:0}
+.plan h3{font-size:34px;letter-spacing:-.025em}
+.plan .feat{display:inline-block;background:var(--dp-color-accent);color:var(--dp-color-ground);padding:3px 8px;margin-bottom:8px}
+.plan .price{font-family:var(--dp-typography-display);font-weight:900;font-size:44px;letter-spacing:-.03em;line-height:1}
+.plan .price small{font-weight:650;font-size:14px;letter-spacing:.04em;color:var(--dp-color-secondary)}
+.plan .terms p{font-size:17px;color:var(--dp-color-secondary);margin-top:6px;line-height:1.2}
+.plan ul{list-style:none;columns:2;column-gap:var(--dp-spacing-column)}
+.plan li{font-size:var(--dp-typography-reading-compact);padding:5px 0 5px 18px;position:relative;border-bottom:1px solid var(--dp-color-rule);break-inside:avoid}
+.plan li::before{content:"";position:absolute;left:0;top:14px;width:7px;height:7px;background:var(--dp-color-accent)}
+.toggle{display:flex;gap:0;padding:14px 0}
+.toggle .btn+.btn{border-left:0}
+
+/* quotes */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:var(--dp-border-section) solid var(--dp-color-ink)}
+.quote{padding:var(--dp-spacing-story) var(--dp-spacing-column);border-left:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.quote:first-child{padding-left:0;border-left:0}
+.quote:last-child{padding-right:0}
+.quote blockquote{font-style:italic;font-size:26px;line-height:1.18;font-weight:500}
+.quote blockquote::before{content:"\201C";color:var(--dp-color-accent);font-family:var(--dp-typography-display);font-weight:900;font-style:normal;font-size:1.6em;line-height:0;vertical-align:-.28em;margin-right:2px}
+.quote cite{display:block;margin-top:14px;font-style:normal;color:var(--dp-color-secondary)}
+
+/* faq + close */
+.closing{display:grid;grid-template-columns:1.7fr 1fr;border-bottom:var(--dp-border-section) solid var(--dp-color-ink)}
+.faq{padding:var(--dp-spacing-story) var(--dp-spacing-column) var(--dp-spacing-story) 0;border-right:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.faq h2,.invite h2{font-size:clamp(32px,3.6vw,48px);letter-spacing:-.03em;margin-bottom:16px}
+details{border-top:var(--dp-border-hairline) solid var(--dp-color-ink)}
+details:last-of-type{border-bottom:var(--dp-border-hairline) solid var(--dp-color-ink)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:14px 0;font-family:var(--dp-typography-display);font-weight:650;font-size:21px;line-height:1.15}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--dp-typography-display);font-weight:900;font-size:26px;line-height:1;color:var(--dp-color-accent);flex:none;width:24px;text-align:right}
+details[open] summary::after{content:"\2212"}
+summary:hover{background:var(--dp-color-ink);color:var(--dp-color-ground)}
+summary:hover::after{color:var(--dp-color-ground)}
+details p{padding:0 40px 16px 0;font-size:var(--dp-typography-reading-compact)}
+.invite{padding:var(--dp-spacing-story) 0 var(--dp-spacing-story) var(--dp-spacing-column);display:flex;flex-direction:column;gap:16px}
+.invite p{font-size:var(--dp-typography-body)}
+.invite form{display:flex;flex-direction:column;gap:10px}
+.invite input{font:inherit;font-family:var(--dp-typography-reading);font-size:19px;border:1px solid var(--dp-color-ink);background:transparent;color:var(--dp-color-ink);padding:11px 12px;width:100%}
+.invite input::placeholder{color:var(--dp-color-secondary)}
+.invite .msg{min-height:1.3em;color:var(--dp-color-accent);font-style:italic;font-size:17px}
+
+/* footer */
+footer{padding:var(--dp-spacing-story) 0 40px}
+.dir{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:var(--dp-spacing-column)}
+.dir h5{font-family:var(--dp-typography-display);font-size:var(--dp-typography-label);font-weight:var(--dp-typography-label-weight);letter-spacing:var(--dp-typography-label-tracking);text-transform:uppercase;color:var(--dp-color-accent);padding-bottom:8px;border-bottom:var(--dp-border-hairline) solid var(--dp-color-ink);margin-bottom:8px}
+.dir a{display:block;text-decoration:none;font-size:18px;padding:3px 0}
+.dir a:hover{background:var(--dp-color-ink);color:var(--dp-color-ground)}
+.dir .brand{font-family:var(--dp-typography-display);font-weight:900;font-size:40px;letter-spacing:-.04em;line-height:1}
+.dir .brand-col p{font-size:17px;color:var(--dp-color-secondary);margin-top:8px}
+.fine{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:28px;padding-top:12px;border-top:var(--dp-border-hairline) solid var(--dp-color-rule);color:var(--dp-color-secondary)}
+
+/* responsive */
+@media (max-width:1100px){
+  .lead{grid-template-columns:2fr 1fr}
+  .lead-body{grid-template-columns:1fr}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .fact:nth-child(3){padding-left:0;border-left:0}
+  .fact:nth-child(n+3){border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+  .spread{grid-template-columns:1fr 1.7fr}
+  .plan{grid-template-columns:1fr 1fr}
+  .plan>div:last-child{grid-column:1/-1;border-left:0;padding-left:0;border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+  .dir{grid-template-columns:repeat(4,1fr)}
+  .dir .brand-col{grid-column:1/-1}
+}
+@media (max-width:700px){
+  :root{--dp-typography-body:18px;--dp-spacing-column:16px}
+  .sheet{padding:0 16px}
+  .topline{flex-direction:column;gap:2px;text-align:center}
+  nav.sections a{padding:10px 12px;flex:1 1 33%;text-align:center;border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule)}
+  .lead,.spread,.closing{grid-template-columns:1fr}
+  .lead-main,.briefs,.faq{padding-right:0;border-right:0}
+  .lead-side,.feature,.invite{padding-left:0;border-top:var(--dp-border-hairline) solid var(--dp-color-ink)}
+  .lead-side{order:2}
+  .facts{grid-template-columns:1fr}
+  .fact{padding:10px 0;border-left:0;border-top:var(--dp-border-hairline) solid var(--dp-color-rule);display:flex;align-items:baseline;gap:14px}
+  .fact:first-child{border-top:0}
+  .fact b{font-size:32px;min-width:96px}
+  .fact span{margin:0}
+  .feature .cols{columns:1}
+  .under{grid-template-columns:1fr}
+  .steps,.quotes{grid-template-columns:1fr}
+  .step,.quote{padding-left:0;padding-right:0;border-left:0;border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+  .step:first-child,.quote:first-child{border-top:0}
+  .briefs{border-bottom:var(--dp-border-hairline) solid var(--dp-color-ink)}
+  .plan{grid-template-columns:1fr 1fr}
+  .plan>div{padding:16px 0 16px 14px}
+  .plan>div:first-child{padding-left:0}
+  .plan ul{columns:1}
+  .quote blockquote{font-size:23px}
+  .dir{grid-template-columns:1fr 1fr}
+  .masthead h1{font-size:clamp(52px,17vw,100px)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="topline label"><span>Bookkeeping for small studios</span><span>Plain ledgers, honest numbers</span><span>Free to start</span></div>
+  <header class="masthead">
+    <h1>The Daybook</h1>
+    <p class="tag">Every sale, every receipt, every Friday, set down in order.</p>
+  </header>
+  <nav class="sections" aria-label="Sections">
+    <a href="#front">Front page</a><a href="#method">How it works</a><a href="#terms">Terms</a><a href="#voices">Letters</a><a href="#questions">Questions</a><a href="#directory">Directory</a>
+  </nav>
+
+  <!-- lead -->
+  <section class="lead" id="front" aria-labelledby="lead-h">
+    <div class="lead-main">
+      <div class="label kicker">Lead story &middot; Accounts</div>
+      <h2 id="lead-h">Your books, kept like a clean sheet of newsprint.</h2>
+      <div class="lead-body">
+        <div>
+          <p class="drop">The Daybook is a double-entry ledger built for studios of one to fifteen people. It reads your bank feed, files each line under a plain heading, and prints a statement you can read aloud to your accountant without translating anything.</p>
+          <p>There are no dashboards to decorate and no widgets to arrange. There is a column of entries, a column of totals, and a rule drawn beneath them.</p>
+        </div>
+        <figure class="img">
+          <svg class="ph" viewBox="0 0 400 300" role="img" aria-label="Grayscale illustration of a ledger page on a desk" width="400" height="300">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8d8a82"/><stop offset="1" stop-color="#3a3935"/></linearGradient>
+              <pattern id="ln" width="10" height="14" patternUnits="userSpaceOnUse"><path d="M0 13.5H10" stroke="#9b978e" stroke-width="1"/></pattern>
+            </defs>
+            <rect width="400" height="300" fill="url(#g1)"/>
+            <g transform="rotate(-4 200 150)">
+              <rect x="70" y="40" width="260" height="220" fill="#ece8dc" stroke="#191916" stroke-width="2"/>
+              <rect x="82" y="56" width="236" height="190" fill="url(#ln)"/>
+              <line x1="200" y1="40" x2="200" y2="260" stroke="#191916" stroke-width="2"/>
+              <g fill="#191916"><rect x="86" y="62" width="70" height="7"/><rect x="214" y="62" width="40" height="7"/>
+                <rect x="86" y="90" width="90" height="4"/><rect x="214" y="90" width="30" height="4"/>
+                <rect x="86" y="118" width="60" height="4"/><rect x="214" y="118" width="46" height="4"/>
+                <rect x="86" y="146" width="100" height="4"/><rect x="214" y="146" width="34" height="4"/>
+                <rect x="86" y="174" width="74" height="4"/><rect x="214" y="174" width="52" height="4"/></g>
+              <rect x="214" y="214" width="90" height="3" fill="#191916"/><rect x="214" y="222" width="90" height="3" fill="#191916"/>
+            </g>
+            <g transform="translate(330 215) rotate(24)"><rect width="12" height="120" fill="#191916"/><polygon points="0,120 12,120 6,136" fill="#d8d3c6"/></g>
+          </svg>
+          <figcaption>A week of entries, ruled off and carried forward.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <aside class="lead-side" aria-label="Get started">
+      <div class="label red">Subscribe</div>
+      <h3>Open a ledger in ten minutes.</h3>
+      <p>Connect one bank account, name three headings, and the first statement prints itself.</p>
+      <div class="stack">
+        <a class="btn solid" href="#invite">Start the ledger</a>
+        <a class="btn" href="#method">See how it works</a>
+      </div>
+      <p class="note">No card needed. Your data exports as plain text at any time.</p>
+    </aside>
+  </section>
+
+  <!-- facts -->
+  <section class="facts" aria-label="At a glance">
+    <div class="fact"><b>10 min</b><span>from sign-up to a first printed statement</span></div>
+    <div class="fact"><b>1 page</b><span>is the whole monthly report, front and back</span></div>
+    <div class="fact"><b>0</b><span>hidden fees or per-seat surcharges</span></div>
+    <div class="fact"><b>.txt</b><span>the format your ledger exports in, forever</span></div>
+  </section>
+
+  <!-- spread -->
+  <section class="spread" id="method" aria-labelledby="feat-h">
+    <div class="briefs">
+      <div class="label red" style="margin-bottom:12px">In brief</div>
+      <div class="brief"><div class="label">Bank feeds</div><h4>Lines arrive sorted, not dumped.</h4><p>Each transaction lands under a heading you named, with the original memo kept beside it.</p></div>
+      <div class="brief"><div class="label">Receipts</div><h4>Photograph it, file it.</h4><p>A snapped receipt attaches to its entry and is read back to you in type.</p></div>
+      <div class="brief"><div class="label">Invoices</div><h4>Billed in plain language.</h4><p>One page, one total, one due date, set in the same serif as your statements.</p></div>
+      <div class="brief"><div class="label">Tax season</div><h4>The folder is already full.</h4><p>Hand over a single export. Nothing needs to be re-keyed or reconciled twice.</p></div>
+    </div>
+    <article class="feature">
+      <div class="label red" style="margin-bottom:10px">Feature &middot; The method</div>
+      <h2 id="feat-h">A ledger you can read from the top of the page to the bottom.</h2>
+      <div class="cols">
+        <p>Most accounting software is built to be glanced at. The Daybook is built to be read. Each entry occupies a line, each heading a section, each month a page, and the totals sit where a reader expects to find them: at the foot, beneath a heavy rule.</p>
+        <p>Because the layout never changes, patterns show themselves. A rising heading is visible without a chart. A strange entry stands out because everything near it is ordinary.</p>
+        <p>Behind the page sits a strict double-entry engine, so every figure balances. You never see the machinery unless you ask for it, and when you do, it is a table of debits and credits, not a maze of tabs.</p>
+        <p>Studios keep their ledgers open all year. At close, the Daybook sets the year in order, carries the balances forward, and starts a clean sheet.</p>
+      </div>
+      <div class="under">
+        <figure class="img">
+          <svg class="ph" viewBox="0 0 400 150" role="img" aria-label="Grayscale bar sketch of monthly totals" width="400" height="150">
+            <rect width="400" height="150" fill="#cfcabd"/>
+            <g fill="#3a3935"><rect x="30" y="80" width="30" height="60"/><rect x="80" y="60" width="30" height="80"/><rect x="130" y="90" width="30" height="50"/><rect x="180" y="40" width="30" height="100"/><rect x="230" y="55" width="30" height="85"/><rect x="280" y="30" width="30" height="110"/><rect x="330" y="50" width="30" height="90"/></g>
+            <line x1="14" y1="140" x2="386" y2="140" stroke="#191916" stroke-width="3"/>
+          </svg>
+          <figcaption>Monthly totals, drawn as columns of ink.</figcaption>
+        </figure>
+        <div><div class="label">Reconciliation</div><h4>Balanced before you look.</h4><p>Every Friday the Daybook checks the bank against the ledger and tells you in one sentence whether they agree.</p></div>
+      </div>
+    </article>
+  </section>
+
+  <!-- steps -->
+  <section aria-labelledby="steps-h">
+    <div class="sec-head sec"><span class="label num">Section 02</span><span class="label" id="steps-h">Three steps to the first statement</span></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Connect the bank</h3><p>Link a single account read-only. The Daybook never moves money and never stores your login.</p></div>
+      <div class="step"><div class="n">2</div><h3>Name your headings</h3><p>Rent, materials, travel, whatever your studio spends on. Three are enough to begin.</p></div>
+      <div class="step"><div class="n">3</div><h3>Read the statement</h3><p>A one-page report arrives on Friday: what came in, what went out, and what remains.</p></div>
+    </div>
+  </section>
+
+  <!-- plans -->
+  <section id="terms" aria-labelledby="terms-h">
+    <div class="sec-head sec"><span class="label num">Section 03</span><span class="label" id="terms-h">Terms and listings</span></div>
+    <div class="plans">
+      <div class="plan">
+        <div><h3>Broadsheet</h3><div class="label" style="color:var(--dp-color-secondary)">For one person</div></div>
+        <div class="terms"><div class="price">$0 <small>/ month</small></div><p>One bank account, one user.</p></div>
+        <div><ul><li>Unlimited entries</li><li>Weekly statement</li><li>Receipt filing</li><li>Plain-text export</li></ul></div>
+      </div>
+      <div class="plan">
+        <div><span class="label feat">Featured</span><h3>Daily</h3><div class="label" style="color:var(--dp-color-secondary)">For studios up to eight</div></div>
+        <div class="terms"><div class="price">$12 <small>/ month</small></div><p>Five bank accounts, eight users.</p></div>
+        <div><ul><li>Everything in Broadsheet</li><li>Invoices with reminders</li><li>Multi-currency ledgers</li><li>Accountant read access</li><li>Year-end close and carry-forward</li><li>Priority replies</li></ul></div>
+      </div>
+      <div class="plan">
+        <div><h3>Syndicate</h3><div class="label" style="color:var(--dp-color-secondary)">For several studios</div></div>
+        <div class="terms"><div class="price">$39 <small>/ month</small></div><p>Unlimited accounts, fifteen users.</p></div>
+        <div><ul><li>Everything in Daily</li><li>Shared headings across ledgers</li><li>Consolidated statement</li><li>Audit trail of every edit</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- quotes -->
+  <section id="voices" aria-labelledby="voices-h">
+    <div class="sec-head sec"><span class="label num">Section 04</span><span class="label" id="voices-h">Letters from studios</span></div>
+    <div class="quotes">
+      <figure class="quote"><blockquote>I print the statement and pin it above the kiln. Everyone can finally read our money.</blockquote><cite class="label">Ceramics studio, Lisbon</cite></figure>
+      <figure class="quote"><blockquote>My accountant asked what software this was. I told her it was a page.</blockquote><cite class="label">Two-person architecture office</cite></figure>
+      <figure class="quote"><blockquote>Nothing blinks. Nothing asks me to upgrade. It just balances.</blockquote><cite class="label">Letterpress print shop</cite></figure>
+    </div>
+  </section>
+
+  <!-- closing -->
+  <section class="closing" id="questions">
+    <div class="faq">
+      <div class="label red" style="margin-bottom:8px">Questions</div>
+      <h2>Asked and answered.</h2>
+      <details><summary>Can I leave and take my books with me?</summary><p>Yes. Export every entry as a plain text file and an ordinary spreadsheet at any time, on any plan.</p></details>
+      <details><summary>Does it touch my money?</summary><p>No. Bank connections are read-only, so the Daybook can see transactions but cannot move funds.</p></details>
+      <details><summary>Do I need to know accounting?</summary><p>No. You name headings and confirm entries. The double-entry bookkeeping happens beneath the page.</p></details>
+      <details><summary>What happens at the end of the year?</summary><p>One button closes the year, prints the full ledger, carries balances forward and opens a clean sheet.</p></details>
+    </div>
+    <aside class="invite" id="invite">
+      <div class="label red">Closing notice</div>
+      <h2>Take a seat at the desk.</h2>
+      <p>Leave an address and we will send a ledger ready to fill.</p>
+      <form id="f" novalidate>
+        <label class="label" for="em">Email address</label>
+        <input id="em" type="email" placeholder="you@studio.com" autocomplete="email">
+        <button class="btn solid" type="submit">Send me the ledger</button>
+        <div class="msg" id="msg" role="status" aria-live="polite"></div>
+      </form>
+    </aside>
+  </section>
+
+  <footer id="directory">
+    <div class="dir">
+      <div class="brand-col"><div class="brand">The Daybook</div><p>Bookkeeping for studios that prefer to read.</p></div>
+      <div><h5>Product</h5><a href="#method">How it works</a><a href="#terms">Terms</a><a href="#front">Front page</a></div>
+      <div><h5>Studio</h5><a href="#voices">Letters</a><a href="#questions">Questions</a><a href="#invite">Subscribe</a></div>
+      <div><h5>Help</h5><a href="#questions">Support</a><a href="#questions">Export guide</a><a href="#questions">Security</a></div>
+      <div><h5>Legal</h5><a href="#directory">Privacy</a><a href="#directory">Terms of use</a><a href="#directory">Imprint</a></div>
+    </div>
+    <div class="fine label"><span>&copy; The Daybook</span><span>Set in Source Serif and EB Garamond</span></div>
+  </footer>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('f'),em=document.getElementById('em'),m=document.getElementById('msg');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    m.textContent=/^\S+@\S+\.\S+$/.test(em.value)?'Noted. Watch for the ledger in your inbox.':'Please enter a complete email address.';
+  });
+})();
+</script>
+</body>
+</html>

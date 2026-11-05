@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big Ink Press Co. - Neo Brutalism</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#fff5d6; --ink:#000; --yellow:#ffed00; --red:#ff4332; --violet:#d4bdff; --white:#fff;
+  --face:"Host Grotesk","NeoBrutalismHost",system-ui,sans-serif;
+  --b-panel:4px; --b-div:3px; --b-ann:2px;
+  --gap:24px; --gap-c:18px; --sh:8px;
+  --track:-0.065em;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{background:var(--ground);color:var(--ink);font-family:var(--face);font-weight:700;font-size:17px;line-height:1.45;overflow-x:hidden}
+a{color:inherit}
+img,svg{display:block;max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+:focus-visible{outline:4px solid var(--ink);outline-offset:3px;box-shadow:0 0 0 7px var(--white)}
+.display{font-weight:900;letter-spacing:var(--track);text-transform:uppercase;line-height:.86}
+.label{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+
+/* buttons */
+.btn{display:inline-block;font:800 17px/1 var(--face);text-transform:uppercase;letter-spacing:-.01em;color:var(--ink);text-decoration:none;background:var(--yellow);border:var(--b-panel) solid var(--ink);padding:16px 24px;box-shadow:6px 6px 0 var(--ink);cursor:pointer;border-radius:0}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--ink)}
+.btn.red{background:var(--red)}
+.btn.white{background:var(--white)}
+.btn.black{background:var(--ink);color:var(--yellow)}
+
+/* nav */
+nav{background:var(--ground);border-bottom:var(--b-panel) solid var(--ink);position:relative;z-index:5}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px}
+.logo{font-weight:900;font-size:26px;letter-spacing:-.06em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:10px;line-height:1}
+.logo i{display:block;width:30px;height:30px;background:var(--red);border:var(--b-ann) solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+nav ul{list-style:none;display:flex;gap:6px}
+nav ul a{display:flex;align-items:center;min-height:44px;text-decoration:none;font-weight:800;font-size:14px;text-transform:uppercase;padding:9px 12px;border:var(--b-ann) solid transparent}
+nav ul a:hover{background:var(--yellow);border-color:var(--ink)}
+nav .btn{padding:11px 16px;font-size:14px;box-shadow:4px 4px 0 var(--ink)}
+
+/* hero poster */
+.poster{background:var(--yellow);border-bottom:var(--b-panel) solid var(--ink);position:relative;overflow:hidden;padding:56px 0 0}
+.poster .meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.tag{display:inline-block;border:var(--b-ann) solid var(--ink);background:var(--white);padding:5px 10px}
+.strips{position:relative;padding-bottom:70px}
+.strip{display:block;width:fit-content;max-width:100%;font-size:clamp(46px,10.6vw,150px);padding:.07em .14em .02em;border:var(--b-panel) solid var(--ink);position:relative;white-space:nowrap}
+.s1{background:var(--ground);transform:rotate(-1.6deg);box-shadow:var(--sh) var(--sh) 0 var(--ink)}
+.s2{background:var(--ink);color:var(--yellow);margin-top:-.06em;margin-left:7%;transform:rotate(1.2deg);z-index:2}
+.s3{background:var(--white);margin-top:-.06em;margin-left:2%;transform:rotate(-.6deg);box-shadow:var(--sh) var(--sh) 0 var(--ink);z-index:1}
+.arrow{position:absolute;right:2%;top:42%;width:clamp(86px,13vw,170px);aspect-ratio:1;background:var(--red);border:var(--b-panel) solid var(--ink);box-shadow:var(--sh) var(--sh) 0 var(--ink);transform:rotate(4deg);display:grid;place-items:center;z-index:4}
+.arrow svg{width:68%}
+.sticker{position:absolute;right:20%;bottom:36px;background:var(--white);border:var(--b-ann) solid var(--ink);padding:8px 12px;transform:rotate(-3deg);box-shadow:4px 4px 0 var(--ink);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;line-height:1.2;white-space:nowrap;z-index:3}
+
+/* violet band */
+.band{background:var(--violet);border-bottom:var(--b-panel) solid var(--ink);position:relative;padding:48px 0 54px}
+.band .wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:center}
+.band h2{font-size:clamp(30px,4.2vw,56px);margin-bottom:16px}
+.band p{font-size:18px;max-width:34em}
+.band .acts{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap-c)}
+.fact{background:var(--white);border:var(--b-panel) solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:14px 16px}
+.fact b{display:block;font-size:clamp(34px,4.4vw,58px);font-weight:900;letter-spacing:-.06em;line-height:.95}
+.fact span{font-size:13px;font-weight:800;text-transform:uppercase}
+.fact:nth-child(2){background:var(--yellow);transform:translateY(10px)}
+.fact:nth-child(3){background:var(--ground)}
+.fact:nth-child(4){background:var(--red);transform:translateY(10px)}
+
+/* sections */
+section{position:relative}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:30px}
+.sec-head h2{font-size:clamp(40px,7vw,96px)}
+.sec-head p{max-width:26em;font-size:16px}
+.pad{padding:76px 0}
+
+/* ledger */
+.ledger{border:var(--b-panel) solid var(--ink);background:var(--white);box-shadow:var(--sh) var(--sh) 0 var(--ink)}
+.row{display:grid;grid-template-columns:96px 1fr 1.4fr;border-top:var(--b-div) solid var(--ink)}
+.row:first-child{border-top:0}
+.row .sym{display:grid;place-items:center;border-right:var(--b-div) solid var(--ink);font-size:44px;font-weight:900;background:var(--yellow)}
+.row:nth-child(2) .sym{background:var(--red)}
+.row:nth-child(3) .sym{background:var(--violet)}
+.row:nth-child(4) .sym{background:var(--ground)}
+.row h3{font-size:clamp(22px,2.6vw,32px);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:.95;padding:22px 20px;border-right:var(--b-div) solid var(--ink);display:flex;align-items:center}
+.row p{padding:22px 20px;font-size:16px;display:flex;align-items:center}
+
+/* clippings */
+.clips{background:var(--ground);border-top:var(--b-panel) solid var(--ink);border-bottom:var(--b-panel) solid var(--ink);overflow:hidden}
+.clipgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap);align-items:start}
+figure.clip{background:var(--white);border:var(--b-panel) solid var(--ink);box-shadow:var(--sh) var(--sh) 0 var(--ink);padding:10px 10px 0}
+figure.clip svg{width:100%;height:auto;border:var(--b-ann) solid var(--ink)}
+figure.clip figcaption{padding:10px 4px 12px;font-size:13px;font-weight:800;text-transform:uppercase}
+.c1{grid-column:1/8;transform:rotate(-1.4deg)}
+.c2{grid-column:8/13;margin-top:70px;transform:rotate(1.8deg)}
+.c3{grid-column:2/7;margin-top:-10px;transform:rotate(.8deg)}
+.c4{grid-column:7/13;margin-top:24px;transform:rotate(-1deg)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+.step{background:var(--white);border:var(--b-panel) solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:0 0 20px}
+.step .n{font-size:84px;font-weight:900;letter-spacing:-.08em;line-height:.9;padding:12px 16px 6px;border-bottom:var(--b-div) solid var(--ink)}
+.step:nth-child(1) .n{background:var(--yellow)}
+.step:nth-child(2) .n{background:var(--violet)}
+.step:nth-child(3) .n{background:var(--red)}
+.step:nth-child(4) .n{background:var(--ground)}
+.step h3{font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:1;padding:16px 16px 6px}
+.step p{padding:0 16px;font-size:15px}
+.step:nth-child(even){transform:translateY(18px)}
+
+/* benefit + quotes */
+.benefit{background:var(--yellow);border-top:var(--b-panel) solid var(--ink);border-bottom:var(--b-panel) solid var(--ink)}
+.benefit .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding-top:64px;padding-bottom:70px}
+.benefit h2{font-size:clamp(38px,5.6vw,80px)}
+.benefit p.big{font-size:20px;margin-top:18px;max-width:28em}
+.quotes{display:grid;gap:26px}
+.slip{background:var(--white);border:var(--b-panel) solid var(--ink);box-shadow:7px 7px 0 var(--ink);padding:20px 22px}
+.slip q{display:block;font-size:20px;font-weight:800;line-height:1.25;quotes:none}
+.slip cite{display:block;margin-top:12px;font-style:normal;font-size:13px;text-transform:uppercase}
+.slip:nth-child(1){transform:rotate(-1.6deg)}
+.slip:nth-child(2){transform:rotate(1.4deg);margin-left:8%;background:var(--violet)}
+
+/* compare */
+.compare{display:grid;gap:22px}
+.plan{display:grid;grid-template-columns:1.1fr 2fr auto;border:var(--b-panel) solid var(--ink);background:var(--white);box-shadow:var(--sh) var(--sh) 0 var(--ink);position:relative}
+.plan.feat{background:var(--yellow)}
+.plan>div{padding:22px 22px;border-right:var(--b-div) solid var(--ink);display:flex;flex-direction:column;justify-content:center;gap:6px}
+.plan>div:last-child{border-right:0;align-items:center;justify-content:center}
+.plan h3{font-size:34px;font-weight:900;letter-spacing:-.06em;text-transform:uppercase;line-height:.95}
+.plan .price{font-size:48px;font-weight:900;letter-spacing:-.07em;line-height:.9}
+.plan .price small{font-size:15px;letter-spacing:0;font-weight:800}
+.plan ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:15px}
+.plan li::before{content:"+ ";font-weight:900}
+.badge{position:absolute;top:-16px;left:18px;background:var(--red);color:var(--ink);border:var(--b-ann) solid var(--ink);padding:4px 10px;transform:rotate(-2deg);font-size:12px;font-weight:900;text-transform:uppercase;box-shadow:3px 3px 0 var(--ink)}
+.pick{min-width:150px;text-align:center}
+.pick[aria-pressed="true"]{background:var(--ink);color:var(--yellow)}
+.pick[aria-pressed="true"]::before{content:"\2713  "}
+
+/* faq */
+.faq{display:grid;gap:0;border:var(--b-panel) solid var(--ink);background:var(--white);box-shadow:var(--sh) var(--sh) 0 var(--ink)}
+.faq details{border-top:var(--b-div) solid var(--ink)}
+.faq details:first-child{border-top:0}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:18px;padding:18px 20px;font-size:21px;font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"+";flex:none;width:38px;height:38px;display:grid;place-items:center;border:var(--b-ann) solid var(--ink);background:var(--white);font-size:28px;line-height:1;font-weight:900}
+.faq details[open]{background:var(--violet)}
+.faq details[open] summary::before{content:"\2212";background:var(--yellow)}
+.faq summary:hover::before{box-shadow:3px 3px 0 var(--ink)}
+.faq details p{padding:0 20px 22px 76px;max-width:46em}
+
+/* closing */
+.closer{background:var(--red);border-top:var(--b-panel) solid var(--ink);padding:70px 0 0;overflow:hidden}
+.closer .poster2{background:var(--yellow);border:var(--b-panel) solid var(--ink);border-bottom:0;box-shadow:var(--sh) calc(var(--sh)*-1) 0 var(--ink);padding:44px 40px 50px;transform:rotate(-1deg);margin:0 -10px;text-align:left}
+.closer h2{font-size:clamp(40px,9vw,128px)}
+.closer .acts{display:flex;gap:18px;flex-wrap:wrap;margin-top:28px}
+
+footer{background:var(--ink);color:var(--ground);border-top:var(--b-panel) solid var(--ink)}
+footer .wrap{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:var(--gap);padding-top:46px;padding-bottom:40px}
+footer h4{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--yellow);margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:0;font-size:15px}
+footer a{text-decoration:none}
+footer li a{display:inline-block;padding:11px 0;line-height:22px}
+footer a:hover{background:var(--yellow);color:var(--ink)}
+footer .logo{color:var(--yellow);font-size:30px;margin-bottom:10px}
+footer p{font-size:14px;max-width:22em}
+.legal{border-top:var(--b-div) solid var(--ground);font-size:13px;padding:14px 0}
+.legal .wrap{display:flex;justify-content:space-between;padding:0 28px;gap:12px;flex-wrap:wrap}
+
+@media (max-width:1050px){
+  .wrap{padding:0 22px}
+  .pad{padding:56px 0}
+  .band .wrap{gap:28px}
+  .steps{grid-template-columns:1fr 1fr}
+  .plan{grid-template-columns:1fr 1.8fr auto}
+  .plan ul{grid-template-columns:1fr}
+  .benefit .wrap{gap:28px}
+  nav ul a{padding:8px 8px}
+}
+@media (max-width:720px){
+  :root{--sh:5px}
+  body{font-size:16px}
+  .wrap{padding:0 16px}
+  nav .wrap{flex-wrap:wrap}
+  nav ul{order:3;width:100%;flex-wrap:wrap;gap:0}
+  .poster{padding-top:34px}
+  .strip{font-size:clamp(34px,13.2vw,90px);white-space:normal}
+  .s1,.s2,.s3{transform:rotate(-.5deg);margin-left:0;width:auto}
+  .s2{transform:rotate(.5deg);margin-left:4%}
+  .strips{padding-bottom:140px}
+  .arrow{top:auto;bottom:16px;right:4%;width:90px}
+  .sticker{right:auto;left:4%;bottom:50px}
+  .band{padding:36px 0 44px}
+  .band .wrap{grid-template-columns:1fr}
+  .row{grid-template-columns:64px 1fr}
+  .row .sym{grid-row:1;font-size:32px;border-right:var(--b-div) solid var(--ink)}
+  .row h3{grid-row:1;border-right:0;padding:14px 14px}
+  .row p{grid-column:1/3;border-top:var(--b-div) solid var(--ink);padding:14px}
+  .clipgrid{display:block}
+  figure.clip{margin-bottom:26px}
+  .c1,.c2,.c3,.c4{transform:rotate(-.6deg);margin-top:0}
+  .c2,.c4{transform:rotate(.6deg)}
+  .steps{grid-template-columns:1fr;gap:20px}
+  .step:nth-child(even){transform:none}
+  .benefit .wrap{grid-template-columns:1fr;padding-top:44px;padding-bottom:50px}
+  .slip:nth-child(1){transform:rotate(-.6deg)}
+  .slip:nth-child(2){transform:rotate(.6deg);margin-left:0}
+  .plan{grid-template-columns:1fr}
+  .plan>div{border-right:0;border-bottom:var(--b-div) solid var(--ink)}
+  .plan>div:last-child{border-bottom:0;align-items:stretch}
+  .plan ul{grid-template-columns:1fr}
+  .faq summary{font-size:17px;padding:14px;gap:12px}
+  .faq details p{padding:0 14px 18px 14px}
+  .closer .poster2{padding:30px 18px 36px;transform:rotate(-.5deg);margin:0}
+  footer .wrap{grid-template-columns:1fr 1fr}
+  footer .wrap>div:first-child{grid-column:1/3}
+  .btn{padding:14px 18px;font-size:15px}
+}
+@media (max-width:400px){
+  .btn{font-size:14px;padding:13px 14px}
+  .fact b{font-size:30px}
+  .strip{font-size:clamp(30px,12.6vw,60px)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top"><i aria-hidden="true"></i>Big Ink Press</a>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="btn" href="#quote">Get a quote</a>
+  </div>
+</nav>
+
+<header class="poster" id="top">
+  <div class="wrap">
+    <div class="meta label">
+      <span class="tag">Letterpress &amp; riso studio</span>
+      <span class="tag">Est. 2011 / Oakland, CA</span>
+    </div>
+    <h1 class="strips display">
+      <span class="strip s1">Print loud.</span>
+      <span class="strip s2">Ship fast.</span>
+      <span class="strip s3">Stay weird.</span>
+      <span class="arrow" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#000" stroke-width="12" stroke-linecap="square"><path d="M14 50h66M52 22l30 28-30 28"/></svg>
+      </span>
+      <span class="sticker" aria-hidden="true">Proofs in 48 hrs</span>
+    </h1>
+  </div>
+</header>
+
+<div class="band">
+  <div class="wrap">
+    <div>
+      <p class="label" style="margin-bottom:10px">What we do</p>
+      <h2 class="display">Posters, packaging and zines that can't be ignored.</h2>
+      <p>We are a small shop with big presses. Bring a sketch, a logo or a half-baked idea and we turn it into thick, honest ink on real paper, from 50 copies to 50,000.</p>
+      <div class="acts">
+        <a class="btn" href="#quote">Start a job</a>
+        <a class="btn white" href="#work">See the work</a>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>14</b><span>Years inking</span></div>
+      <div class="fact"><b>9,200</b><span>Jobs shipped</span></div>
+      <div class="fact"><b>48h</b><span>Proof turnaround</span></div>
+      <div class="fact"><b>6</b><span>Presses in-house</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="pad" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">What<br>we print</h2>
+      <p>Four things, done properly. Every job gets a human, a proof and a deadline we actually keep.</p>
+    </div>
+    <div class="ledger">
+      <div class="row"><div class="sym" aria-hidden="true">&#9650;</div><h3>Gig posters</h3><p>Screen-printed and riso posters up to 24 x 36 in, hand-pulled with metallic and fluorescent inks.</p></div>
+      <div class="row"><div class="sym" aria-hidden="true">&#9632;</div><h3>Packaging</h3><p>Mailer boxes, sleeves and hang tags with spot colour and blind emboss that survive a shipping bin.</p></div>
+      <div class="row"><div class="sym" aria-hidden="true">&#9679;</div><h3>Zines &amp; books</h3><p>Saddle-stitched or perfect-bound runs, folded, trimmed and counted by hand before they leave.</p></div>
+      <div class="row"><div class="sym" aria-hidden="true">&#10006;</div><h3>Merch &amp; tags</h3><p>Tote bags, tees and woven labels printed in matching Pantone so the whole drop looks like one brand.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="clips pad" id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">Fresh<br>off press</h2>
+      <p>A few clippings from this season's wall. Every one printed, trimmed and packed on-site.</p>
+    </div>
+    <div class="clipgrid">
+      <figure class="clip c1">
+        <svg viewBox="0 0 640 340" role="img" aria-label="Poster artwork of a red sun rising over violet hills with a yellow banner">
+          <rect width="640" height="340" fill="#d4bdff"/>
+          <circle cx="440" cy="150" r="96" fill="#ff4332" stroke="#000" stroke-width="6"/>
+          <path d="M0 260 L120 150 L230 240 L340 130 L470 260 L560 190 L640 250 V340 H0Z" fill="#ffed00" stroke="#000" stroke-width="6" stroke-linejoin="miter"/>
+          <rect x="30" y="30" width="250" height="56" fill="#000"/>
+          <text x="46" y="70" font-family="Host Grotesk, Arial Black, sans-serif" font-weight="900" font-size="32" fill="#ffed00" letter-spacing="-2">SUN RIOT TOUR</text>
+          <rect x="0" y="296" width="640" height="44" fill="#000"/>
+          <text x="20" y="326" font-family="Host Grotesk, Arial Black, sans-serif" font-weight="900" font-size="22" fill="#fff5d6">3-COLOUR SCREENPRINT / 18 x 24</text>
+        </svg>
+        <figcaption>Sun Riot Tour / 3-colour screenprint</figcaption>
+      </figure>
+      <figure class="clip c2">
+        <svg viewBox="0 0 400 340" role="img" aria-label="Packaging artwork of a yellow mailer box with a black stripe and red label">
+          <rect width="400" height="340" fill="#fff5d6"/>
+          <path d="M70 120 L200 70 L330 120 V270 L200 310 L70 270Z" fill="#ffed00" stroke="#000" stroke-width="6"/>
+          <path d="M70 120 L200 170 L330 120 M200 170 V310" fill="none" stroke="#000" stroke-width="6"/>
+          <rect x="120" y="205" width="110" height="46" fill="#ff4332" stroke="#000" stroke-width="5" transform="rotate(-6 175 228)"/>
+          <text x="128" y="236" font-family="Host Grotesk, Arial Black, sans-serif" font-weight="900" font-size="22" fill="#000" transform="rotate(-6 175 228)">HANDLE</text>
+          <rect x="20" y="20" width="80" height="26" fill="#000"/>
+        </svg>
+        <figcaption>Mailer boxes / spot red + blind emboss</figcaption>
+      </figure>
+      <figure class="clip c3">
+        <svg viewBox="0 0 520 300" role="img" aria-label="Zine spread artwork with overlapping paper pages in cream, violet and white">
+          <rect width="520" height="300" fill="#ffed00"/>
+          <g stroke="#000" stroke-width="6">
+            <rect x="50" y="50" width="190" height="210" fill="#fff5d6" transform="rotate(-5 145 155)"/>
+            <rect x="170" y="40" width="190" height="210" fill="#d4bdff" transform="rotate(3 265 145)"/>
+            <rect x="290" y="60" width="180" height="200" fill="#fff" transform="rotate(-2 380 160)"/>
+          </g>
+          <path d="M200 110h110M200 140h110M200 170h70" stroke="#000" stroke-width="8"/>
+          <circle cx="395" cy="140" r="34" fill="#ff4332" stroke="#000" stroke-width="6"/>
+        </svg>
+        <figcaption>Spine Noise Issue 07 / riso + staple</figcaption>
+      </figure>
+      <figure class="clip c4">
+        <svg viewBox="0 0 560 300" role="img" aria-label="Tote bag and tag artwork in red and black on cream">
+          <rect width="560" height="300" fill="#ff4332"/>
+          <path d="M150 110 q130 -90 260 0" fill="none" stroke="#000" stroke-width="10"/>
+          <rect x="130" y="110" width="300" height="170" fill="#fff5d6" stroke="#000" stroke-width="6"/>
+          <text x="156" y="195" font-family="Host Grotesk, Arial Black, sans-serif" font-weight="900" font-size="58" fill="#000" letter-spacing="-4">BIG INK</text>
+          <rect x="156" y="215" width="150" height="14" fill="#000"/>
+          <rect x="450" y="40" width="70" height="46" fill="#ffed00" stroke="#000" stroke-width="5" transform="rotate(8 485 63)"/>
+        </svg>
+        <figcaption>Tote drop / 2-colour water-based ink</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">Four steps<br>to paper</h2>
+      <p>No account manager maze. You talk to the person who runs the press.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Send art</h3><p>Upload a PDF, a photo of a sketch or just a paragraph. We reply the same day.</p></div>
+      <div class="step"><div class="n">02</div><h3>Get a proof</h3><p>A real swatch of ink on your paper stock lands in 48 hours, not a screen mockup.</p></div>
+      <div class="step"><div class="n">03</div><h3>Approve</h3><p>Tweak, sign off and pay. We lock the run date on the wall calendar.</p></div>
+      <div class="step"><div class="n">04</div><h3>We ship</h3><p>Counted, wrapped and boxed. Tracking number in your inbox before the ink is dry.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="benefit">
+  <div class="wrap">
+    <div>
+      <p class="label" style="margin-bottom:10px">The benefit</p>
+      <h2 class="display">Real ink beats pixels.</h2>
+      <p class="big">People keep what they can hold. A thick, honest print on good paper gets pinned to walls, passed around and remembered long after a feed has scrolled by.</p>
+    </div>
+    <div class="quotes">
+      <div class="slip"><q>The posters sold out before doors opened. Fans were asking who printed them.</q><cite>Marisol V. / Booking manager, The Fox Room</cite></div>
+      <div class="slip"><q>Proofs in two days and zero surprises on delivery. We are never going back to online-only printers.</q><cite>Dev A. / Founder, Spine Noise</cite></div>
+    </div>
+  </div>
+</div>
+
+<section class="pad" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">Pick a<br>run</h2>
+      <p>Straight prices, no setup fees. Choose a row and we will build your quote around it.</p>
+    </div>
+    <div class="compare" role="group" aria-label="Plans">
+      <div class="plan">
+        <div><h3>Mini run</h3><span class="label">50 to 250 pieces</span></div>
+        <div><span class="price">$180 <small>from</small></span><ul><li>1 to 2 ink colours</li><li>Free digital proof</li><li>Ships in 7 days</li><li>Uncoated stock</li></ul></div>
+        <div><button class="btn white pick" type="button" aria-pressed="false" data-plan="Mini run">Choose</button></div>
+      </div>
+      <div class="plan feat">
+        <span class="badge">Most picked</span>
+        <div><h3>Street run</h3><span class="label">250 to 2,000 pieces</span></div>
+        <div><span class="price">$640 <small>from</small></span><ul><li>Up to 4 ink colours</li><li>Physical swatch proof</li><li>Ships in 5 days</li><li>Metallic or neon ink</li></ul></div>
+        <div><button class="btn white pick" type="button" aria-pressed="true" data-plan="Street run">Choose</button></div>
+      </div>
+      <div class="plan">
+        <div><h3>Mega run</h3><span class="label">2,000+ pieces</span></div>
+        <div><span class="price">Custom <small>quote</small></span><ul><li>Unlimited colours</li><li>On-press approval</li><li>Pallet shipping</li><li>Dedicated press lead</li></ul></div>
+        <div><button class="btn white pick" type="button" aria-pressed="false" data-plan="Mega run">Choose</button></div>
+      </div>
+    </div>
+    <p id="chosen" class="label" style="margin-top:22px" aria-live="polite">Selected: Street run</p>
+  </div>
+</section>
+
+<section class="pad" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">Fine<br>print</h2>
+    </div>
+    <div class="faq">
+      <details open><summary>What file formats do you take?</summary><p>PDF, AI, PSD and PNG at 300 dpi. A phone photo of a sketch is fine to start. We will help you separate colours.</p></details>
+      <details><summary>Can I get a sample first?</summary><p>Yes. For the Street run and above we print a physical swatch on your chosen stock for $25, credited back to your order.</p></details>
+      <details><summary>How fast can you rush a job?</summary><p>Most Mini runs ship in 72 hours for a 30 percent rush fee. Call us before 10 am Pacific and we will check the press calendar.</p></details>
+      <details><summary>Do you print outside the US?</summary><p>We ship worldwide by tracked courier. Duties are billed by the carrier, never hidden in our price.</p></details>
+    </div>
+  </div>
+</section>
+
+<div class="closer" id="quote">
+  <div class="wrap">
+    <div class="poster2">
+      <h2 class="display">Make some<br>noise on paper.</h2>
+      <div class="acts">
+        <a class="btn red" href="#top">Get a quote</a>
+        <a class="btn white" href="#work">Browse the wall</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="logo" href="#top">Big Ink Press</a>
+      <p>Independent print shop. 1800 Adeline St, Oakland. Open Mon to Sat, ink all day.</p>
+    </div>
+    <div><h4>Shop</h4><ul><li><a href="#services">Services</a></li><li><a href="#work">Work</a></li><li><a href="#pricing">Pricing</a></li></ul></div>
+    <div><h4>Help</h4><ul><li><a href="#process">Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#quote">Contact</a></li></ul></div>
+    <div><h4>Follow</h4><ul><li><a href="#top">Instagram</a></li><li><a href="#top">Newsletter</a></li><li><a href="#top">Zine club</a></li></ul></div>
+  </div>
+  <div class="legal"><div class="wrap" style="display:flex"><span>&copy; 2026 Big Ink Press Co.</span><span>Printed with soy-based ink</span></div></div>
+</footer>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.pick'),out=document.getElementById('chosen');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      btns.forEach(function(o){
+        var on=(o===b);
+        o.setAttribute('aria-pressed',on?'true':'false');
+        o.classList.toggle('black',on);
+        o.classList.toggle('white',!on);
+      });
+      out.textContent='Selected: '+b.getAttribute('data-plan');
+    });
+  });
+  var cur=document.querySelector('.pick[aria-pressed="true"]');
+  if(cur){cur.classList.add('black');cur.classList.remove('white');}
+})();
+</script>
+</body>
+</html>

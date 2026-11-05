@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forma — Build With Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border:0 solid #e5e7eb}
+*{font-family:'Inter',sans-serif}
+html{-webkit-text-size-adjust:100%}
+body{background:#fff;color:#000;-webkit-font-smoothing:antialiased;line-height:1.5}
+button,input,textarea{font:inherit;color:inherit;background:none;outline:none}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+.root{min-height:100vh;background:#fff;padding:12px}
+.card{position:relative;border-radius:16px;overflow:hidden;background:#0a0f14;min-height:calc(100vh - 24px)}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.content{position:relative;z-index:10;display:flex;flex-direction:column;justify-content:space-between;padding:16px;gap:24px;min-height:calc(100vh - 24px)}
+
+.nav{background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.05);padding:8px 8px 8px 12px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;align-self:flex-start}
+.nav-links{display:none;align-items:center;gap:24px}
+.nav-links a{color:#1f2937;font-size:14px;font-weight:500;white-space:nowrap;transition:opacity .15s}
+.nav-links a:hover{opacity:.6}
+.cta{margin-left:auto;background:#000;color:#fff;font-size:14px;font-weight:500;padding:8px 16px;border-radius:12px;transition:background-color .15s;white-space:nowrap}
+.cta:hover{background:#1f2937}
+.spacer{flex:1;min-height:2rem}
+
+.bottom{display:flex;flex-direction:column;gap:24px}
+.headline{font-size:30px;line-height:1.25;font-weight:500;color:#fff;text-shadow:0 10px 15px rgba(0,0,0,.3),0 4px 6px rgba(0,0,0,.2);flex-shrink:0}
+.headline span{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+.panel{width:100%;flex-shrink:0}
+.form-card{background:#fff;border-radius:16px;box-shadow:0 25px 50px -12px rgba(0,0,0,.4);overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:16px}
+h2{font-size:20px;font-weight:600;color:#000;letter-spacing:-.025em;line-height:1.3}
+.socials{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;background:#f9fafb;border-radius:16px;padding:10px 16px}
+.socials .t{min-width:0}
+.socials small{font-size:12px;color:#6b7280;display:block;line-height:1.3}
+.socials a.mail{color:#2563eb;font-weight:600;font-size:14px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.socials a.mail:hover{text-decoration:underline}
+.sb-wrap{display:flex;gap:8px;flex-shrink:0}
+.sb{width:32px;height:32px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:opacity .15s}
+.sb:hover{opacity:.8}
+.sb svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sb.tw{background:#f3f4f6;color:#1f2937}
+.sb.ci{background:#fce7f3;color:#ec4899}
+.sb.ig{background:#ffedd5;color:#fb923c}
+.sb.li{background:#dbeafe;color:#2563eb}
+.or{display:flex;align-items:center;gap:12px}
+.or i{flex:1;height:1px;background:#e5e7eb}
+.or span{color:#9ca3af;font-weight:500;font-size:12px}
+form{display:flex;flex-direction:column;gap:12px}
+label.l{font-size:14px;font-weight:500;color:#000;display:block}
+.row{display:flex;flex-direction:column;gap:8px}
+.in{flex:1;min-width:0;width:100%;font-size:14px;padding:10px 12px;border-radius:12px;border:1px solid #e5e7eb;background:transparent;color:#000;transition:all .15s}
+.in::placeholder{color:#9ca3af}
+.in:focus{box-shadow:0 0 0 2px #111827;border-color:transparent}
+textarea.in{resize:none;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;font-weight:500;padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;color:#374151;transition:all .2s;line-height:1.3}
+.chip:hover{border-color:#9ca3af}
+.chip.on{background:#f3f4f6;color:#000;border-color:#000}
+.send{width:100%;background:#000;color:#fff;font-size:14px;font-weight:600;padding:12px;border-radius:16px;transition:background-color .15s}
+.send:hover:not(:disabled){background:#1f2937}
+.send:disabled{opacity:.6;cursor:not-allowed}
+.done{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 0;gap:12px;animation:fadeIn .3s ease-out}
+.done .ok{width:48px;height:48px;border-radius:9999px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:20px;color:#16a34a;font-weight:700}
+.done h3{font-size:16px;font-weight:600;color:#111827}
+.done p{font-size:14px;color:#6b7280}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+[hidden]{display:none!important}
+
+@media (min-width:640px){
+  .root{padding:16px}
+  .card{border-radius:24px;min-height:calc(100vh - 32px)}
+  .content{padding:24px;min-height:calc(100vh - 32px)}
+  .nav{width:auto;justify-content:flex-start;gap:24px;padding-left:16px}
+  .nav-links{display:flex}
+  .cta{padding:8px 20px;margin-left:0}
+  .headline{font-size:36px}
+  .form-card{border-radius:24px;padding:24px}
+  h2{font-size:24px}
+  .row{flex-direction:row}
+}
+@media (min-width:768px){
+  .root{padding:24px}
+  .card{min-height:calc(100vh - 48px)}
+  .content{padding:32px;min-height:calc(100vh - 48px)}
+}
+@media (min-width:1024px){
+  .card{height:calc(100vh - 48px)}
+  .content{height:100%}
+  .bottom{flex-direction:row;align-items:flex-end;justify-content:space-between}
+  .headline{max-width:32rem}
+  .panel{width:min(480px,45%)}
+}
+@media (min-width:1280px){
+  .headline{font-size:48px;max-width:42rem}
+}
+@media (min-width:1024px) and (max-height:900px){
+  .content{padding:24px}
+  .form-card{padding:16px 20px;gap:10px}
+  form{gap:8px}
+  h2{font-size:22px}
+  .socials{padding:8px 14px}
+  .in{padding:8px 12px}
+  textarea.in{height:68px}
+  .chip{padding:6px 11px}
+  .send{padding:10px}
+}
+</style>
+</head>
+<body>
+<div class="root">
+  <div class="card">
+    <canvas class="bg" id="bg" aria-hidden="true"></canvas>
+    <div class="content">
+      <nav class="nav">
+        <svg width="32" height="32" viewBox="0 0 256 256" aria-label="Forma"><path d="M 256 256 L 128 256 L 0 128 L 128 128 Z" fill="#000000"/><path d="M 256 128 L 128 128 L 0 0 L 128 0 Z" fill="#000000"/></svg>
+        <div class="nav-links"><a href="#">Our story</a><a href="#">Expertise</a><a href="#">Our work</a><a href="#">Journal</a></div>
+        <button class="cta" type="button">Start a project</button>
+      </nav>
+
+      <div class="spacer"></div>
+
+      <div class="bottom">
+        <p class="headline">We craft bold ideas<br>and ship them as <span>products</span></p>
+
+        <div class="panel">
+          <div class="form-card">
+            <h2>Say hello! 👋</h2>
+            <div class="socials">
+              <div class="t"><small>Drop us a line</small><a class="mail" href="mailto:hello@forma.co">hello@forma.co</a></div>
+              <div class="sb-wrap">
+                <a class="sb tw" href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+                <a class="sb ci" href="#" aria-label="Circle"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg></a>
+                <a class="sb ig" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                <a class="sb li" href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a>
+              </div>
+            </div>
+            <div class="or"><i></i><span>OR</span><i></i></div>
+
+            <form id="f" autocomplete="off">
+              <label class="l" for="name">Tell us about your vision</label>
+              <div class="row">
+                <input class="in" id="name" placeholder="Full name">
+                <input class="in" id="email" type="email" placeholder="Email">
+              </div>
+              <textarea class="in" id="msg" rows="4" placeholder="What are you looking to build or improve..."></textarea>
+              <label class="l" style="font-weight:500">I need help with...</label>
+              <div class="chips" id="chips"></div>
+              <button class="send" id="send" type="submit" disabled>Send my message</button>
+            </form>
+
+            <div class="done" id="done" hidden>
+              <div class="ok">✓</div>
+              <h3>You're all set!</h3>
+              <p>Expect a reply within 24 hours.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- form ----
+const SERVICES=['Website','Mobile App','Web App','E-Commerce','Visual Identity','3D & Motion','Digital Marketing','Growth & Consulting','Other'];
+const selected=[];
+const $=id=>document.getElementById(id);
+const chips=$('chips'),send=$('send'),f=$('f'),done=$('done');
+let sending=false;
+SERVICES.forEach(s=>{
+  const b=document.createElement('button');
+  b.type='button';b.className='chip';b.textContent=s;
+  b.onclick=()=>{const i=selected.indexOf(s);i>-1?selected.splice(i,1):selected.push(s);b.classList.toggle('on',i<0)};
+  chips.appendChild(b);
+});
+function upd(){send.disabled=sending||!($('name').value.trim()&&$('email').value.trim()&&$('msg').value.trim())}
+['name','email','msg'].forEach(i=>$(i).addEventListener('input',upd));
+f.addEventListener('submit',async e=>{
+  e.preventDefault();if(send.disabled)return;
+  sending=true;send.textContent='Sending...';upd();
+  await new Promise(r=>setTimeout(r,1000));
+  sending=false;f.hidden=true;done.hidden=false;
+});
+
+// ---- background: slow silk of contour lines (stands in for the video) ----
+(function(){
+  const c=$('bg'),g=c.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,dpr;
+  function size(){
+    dpr=Math.min(devicePixelRatio||1,1.5);
+    const r=c.getBoundingClientRect();
+    W=Math.max(1,r.width);H=Math.max(1,r.height);
+    c.width=W*dpr;c.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);
+  }
+  size();addEventListener('resize',()=>{size();draw(last)});
+  const N=64;
+  function draw(t){
+    t*=0.00007;
+    // base: deep ink with a warm horizon glow low-right
+    const bg=g.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#05080d');bg.addColorStop(.55,'#0b1a22');bg.addColorStop(1,'#10222a');
+    g.fillStyle=bg;g.fillRect(0,0,W,H);
+    const gl=g.createRadialGradient(W*.42,H*.95,0,W*.42,H*.95,Math.max(W,H)*.7);
+    gl.addColorStop(0,'rgba(255,140,70,.5)');gl.addColorStop(.35,'rgba(214,92,70,.2)');gl.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=gl;g.fillRect(0,0,W,H);
+    g.globalCompositeOperation='lighter';
+    g.lineWidth=1;
+    for(let i=0;i<N;i++){
+      const u=i/(N-1);
+      const base=H*(.12+u*.95);
+      g.beginPath();
+      const step=Math.max(6,W/180);
+      for(let x=-step;x<=W+step;x+=step){
+        const nx=x/W;
+        const y=base
+          +Math.sin(nx*3.1+t*5+u*2.4)*H*.09
+          +Math.sin(nx*6.3-t*3.2+u*5.1)*H*.035*(1-u*.4)
+          +Math.sin(nx*1.4+t*2.1)*H*.1*u;
+        x<=-step?g.moveTo(x,y):g.lineTo(x,y);
+      }
+      // cool teal at top fading to ember at bottom
+      const a=.12+.34*Math.sin(u*Math.PI);
+      const hue=190-u*165;
+      g.strokeStyle=`hsla(${hue},70%,${55+u*10}%,${a})`;
+      g.stroke();
+    }
+    g.globalCompositeOperation='source-over';
+    // vignette + bottom shade for legibility
+    const v=g.createRadialGradient(W/2,H/2,Math.min(W,H)*.3,W/2,H/2,Math.max(W,H)*.75);
+    v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,.45)');
+    g.fillStyle=v;g.fillRect(0,0,W,H);
+    // grain-ish noise-free sheen
+    const s=g.createLinearGradient(0,H*.55,0,H);
+    s.addColorStop(0,'rgba(0,0,0,0)');s.addColorStop(1,'rgba(0,0,0,.28)');
+    g.fillStyle=s;g.fillRect(0,0,W,H);
+  }
+  let last=4000;
+  function loop(t){last=t+4000;draw(last);requestAnimationFrame(loop)}
+  draw(last);
+  if(!reduce)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

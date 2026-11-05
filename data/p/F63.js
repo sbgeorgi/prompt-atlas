@@ -1,0 +1,1 @@
+ATLAS_P("F63","\"Make a 9:16 trailer for Dump showing that we\u2019ve added stickers, showing that there are free stickers and then that you can unlock all of them with Pro. Use a very iOS/Apple aesthetic\"");

@@ -1,0 +1,1 @@
+ATLAS_P("F827","Create an animated sequence that starts in a room, zooms into a MacBook, then into an Apple M4 chip, followed by atoms, and finally quarks. Use HTML and Three.js for rendering.");

@@ -1,0 +1,1 @@
+ATLAS_P("L11","make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a r\u00e9sum\u00e9. go all out.\n\nMake sure to showcase properly the usecases, the flow, properly show everything on how it works, also the ascii logo of this is on the kyo-web-online, keep in mind also the color palette.");

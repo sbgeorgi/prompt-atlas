@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HAVEN - A calmer mind, daily.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:#0e1620;color:#f4f8fb;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.scrim{position:fixed;inset:0;z-index:1;pointer-events:none;
+ background:
+  radial-gradient(70% 38% at 50% 92%,rgba(14,22,32,.34),transparent 70%),
+  linear-gradient(180deg,rgba(14,22,32,.30) 0%,rgba(14,22,32,.05) 22%,rgba(14,22,32,.04) 55%,rgba(14,22,32,.46) 100%)}
+.bloom{position:fixed;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;
+ background:radial-gradient(60% 45% at 50% 22%,rgba(127,176,217,.14),transparent 70%)}
+.page{position:relative;z-index:2;height:100vh;height:100dvh;display:flex;flex-direction:column;padding:28px clamp(28px,4.4vw,56px) 34px}
+nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-family:Manrope,sans-serif;font-weight:700;letter-spacing:.22em;font-size:15px;text-shadow:0 1px 14px rgba(14,22,32,.45)}
+.links{display:flex;gap:34px;margin-left:auto;margin-right:34px}
+.links a{font-size:14px;color:rgba(244,248,251,.72);transition:color .25s;text-shadow:0 1px 10px rgba(14,22,32,.4)}
+.links a:hover{color:#fff}
+.pill{display:inline-flex;align-items:center;font-family:Manrope,sans-serif;font-weight:600;font-size:14px;color:#12222f;
+ background:rgba(244,248,251,.94);padding:10px 20px;border-radius:999px;backdrop-filter:blur(10px);
+ box-shadow:0 6px 22px rgba(14,22,32,.25),inset 0 1px 0 rgba(255,255,255,.9);transition:transform .25s,box-shadow .25s}
+.pill:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(14,22,32,.3),inset 0 1px 0 #fff}
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding-bottom:clamp(20px,7vh,64px)}
+.kicker{display:flex;align-items:center;gap:16px;font-family:'JetBrains Mono',monospace;font-weight:400;font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:rgba(244,248,251,.72);margin-bottom:22px}
+.kicker i{display:block;width:34px;height:1px;background:#7fb0d9;opacity:.85}
+h1{font-family:Manrope,sans-serif;font-weight:600;font-size:clamp(52px,8.1vw,104px);line-height:1;letter-spacing:-.035em;color:#f4f8fb;text-shadow:0 2px 40px rgba(14,22,32,.35);max-width:14ch}
+.sub{margin-top:26px;font-size:clamp(16px,1.5vw,19px);line-height:1.55;color:rgba(244,248,251,.72);max-width:520px;text-shadow:0 1px 14px rgba(14,22,32,.4)}
+.actions{margin-top:36px;display:flex;align-items:center;gap:26px}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:Manrope,sans-serif;font-weight:600;font-size:15px;color:#12222f;background:#7fb0d9;padding:15px 26px;border-radius:999px;
+ box-shadow:0 10px 36px rgba(127,176,217,.38),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 14px 42px rgba(127,176,217,.5),inset 0 1px 0 rgba(255,255,255,.4)}
+.btn svg,.quiet svg{width:16px;height:16px;transition:transform .3s}
+.btn:hover svg,.quiet:hover svg{transform:translateX(4px)}
+.quiet{display:inline-flex;align-items:center;gap:8px;font-size:15px;color:rgba(244,248,251,.72);transition:color .25s;text-shadow:0 1px 10px rgba(14,22,32,.4)}
+.quiet:hover{color:#fff}
+footer{text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(244,248,251,.6)}
+@keyframes blurRise{from{opacity:0;filter:blur(16px);transform:translateY(28px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+.r{opacity:0;animation:blurRise 1.05s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d,0ms)}
+@media (max-width:720px){
+ .links{display:none}
+ nav{justify-content:space-between}
+ .actions{flex-direction:column;gap:18px}
+ .kicker{letter-spacing:.24em;font-size:11px;gap:10px}.kicker i{width:20px}
+ h1{font-size:clamp(44px,13vw,64px)}
+}
+@media (prefers-reduced-motion:reduce){.r{animation:none;opacity:1;filter:none;transform:none}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="scrim"></div><div class="bloom"></div>
+<div class="page">
+ <nav>
+  <a class="logo r" href="#" style="--d:0ms">HAVEN</a>
+  <div class="links">
+   <a class="r" href="#" style="--d:70ms">App</a>
+   <a class="r" href="#" style="--d:120ms">Science</a>
+   <a class="r" href="#" style="--d:170ms">Pricing</a>
+  </div>
+  <a class="pill r" href="#" style="--d:220ms">Start free</a>
+ </nav>
+ <main class="hero">
+  <div class="kicker r" style="--d:320ms"><i></i><span>Daily Reflection</span><i></i></div>
+  <h1 class="r" style="--d:420ms">A calmer mind, daily.</h1>
+  <p class="sub r" style="--d:540ms">A few quiet minutes with an AI that listens and helps you reflect.</p>
+  <div class="actions r" style="--d:660ms">
+   <a class="btn" href="#">Start free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+   <a class="quiet" href="#">How it works <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+  </div>
+ </main>
+ <footer class="r" style="--d:800ms">HAVEN · 3 MIN A DAY</footer>
+</div>
+<script>
+(function(){
+ var c=document.getElementById('bg'),g=c.getContext('2d');
+ var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ var W,H,dpr,HZ;
+ // pre-rendered mist sprite
+ var mist=document.createElement('canvas');mist.width=512;mist.height=128;
+ (function(){var m=mist.getContext('2d'),gr=m.createRadialGradient(256,64,0,256,64,256);
+  gr.addColorStop(0,'rgba(240,226,225,.55)');gr.addColorStop(.5,'rgba(230,220,226,.2)');gr.addColorStop(1,'rgba(230,220,226,0)');
+  m.save();m.scale(1,.25);m.translate(0,192);m.fillStyle=gr;m.fillRect(0,-192,512,512);m.restore();})();
+ function resize(){
+  dpr=Math.min(window.devicePixelRatio||1,1.5);
+  W=c.width=Math.ceil(innerWidth*dpr);H=c.height=Math.ceil(innerHeight*dpr);
+  HZ=H*.44;
+ }
+ function island(x,w,h,col,t){ // flat low island silhouette
+  g.fillStyle=col;g.beginPath();g.moveTo(x-w/2,HZ+1);
+  g.bezierCurveTo(x-w*.3,HZ-h,x+w*.2,HZ-h*1.1,x+w/2,HZ+1);g.closePath();g.fill();
+ }
+ function draw(t){
+  var s=t/1000;
+  // sky
+  var sk=g.createLinearGradient(0,0,0,HZ);
+  sk.addColorStop(0,'#8d9fb4');sk.addColorStop(.45,'#a3aec0');sk.addColorStop(.8,'#cdb7bc');sk.addColorStop(1,'#e2bdb6');
+  g.fillStyle=sk;g.fillRect(0,0,W,HZ+2);
+  // sun glow low on horizon
+  var gl=g.createRadialGradient(W*.52,HZ,0,W*.52,HZ,W*.45);
+  gl.addColorStop(0,'rgba(255,214,196,.55)');gl.addColorStop(1,'rgba(255,214,196,0)');
+  g.fillStyle=gl;g.fillRect(0,0,W,HZ+2);
+  // distant haze bank
+  var hz=g.createLinearGradient(0,HZ-H*.05,0,HZ+2);
+  hz.addColorStop(0,'rgba(200,190,205,0)');hz.addColorStop(1,'rgba(190,180,200,.55)');
+  g.fillStyle=hz;g.fillRect(0,HZ-H*.05,W,H*.05+2);
+  // islands
+  island(W*.04,W*.2,H*.012,'#4a5870');
+  island(W*.12,W*.16,H*.008,'#55627a');
+  island(W*.74,W*.24,H*.012,'#505e76');
+  island(W*.93,W*.22,H*.017,'#46546c');
+  // water
+  var wt=g.createLinearGradient(0,HZ,0,H);
+  wt.addColorStop(0,'#8a8fa8');wt.addColorStop(.1,'#6c7690');wt.addColorStop(.3,'#4a5d7c');wt.addColorStop(.6,'#2d4160');wt.addColorStop(1,'#16243a');
+  g.fillStyle=wt;g.fillRect(0,HZ,W,H-HZ);
+  // reflection of glow
+  var rg=g.createRadialGradient(W*.52,HZ,0,W*.52,HZ+H*.12,W*.4);
+  rg.addColorStop(0,'rgba(255,200,190,.28)');rg.addColorStop(1,'rgba(255,200,190,0)');
+  g.save();g.beginPath();g.rect(0,HZ,W,H-HZ);g.clip();g.fillStyle=rg;g.fillRect(0,HZ,W,H);g.restore();
+  // ripples: thin horizontal light bands, drifting & shimmering
+  g.save();g.beginPath();g.rect(0,HZ,W,H-HZ);g.clip();
+  for(var i=0;i<46;i++){
+   var p=i/46,y=HZ+Math.pow(p,1.7)*(H-HZ),hh=(1+p*5)*dpr/1.2;
+   var a=(.035+.05*Math.sin(s*.5+i*1.7)*Math.sin(s*.31+i))*(1-p*.4);
+   if(a<.005)continue;
+   var xo=(Math.sin(s*.13+i*2.3)*.5+.5)*W*.5, wd=W*(.3+.5*((i*37)%10)/10);
+   var gr=g.createLinearGradient(xo-wd/2,0,xo+wd/2,0);
+   gr.addColorStop(0,'rgba(255,235,235,0)');gr.addColorStop(.5,'rgba(255,235,235,'+a+')');gr.addColorStop(1,'rgba(255,235,235,0)');
+   g.fillStyle=gr;g.fillRect(xo-wd/2,y,wd,hh);
+  }
+  g.restore();
+  // drifting mist sprites near horizon
+  for(var k=0;k<7;k++){
+   var sp=.012+k*.004,mx=((s*sp*W*.1+k*W*.23)%(W*1.5))-W*.25;
+   var my=HZ-H*.012+((k*53)%7)*H*.006, mw=W*(.55+.12*(k%3));
+   g.globalAlpha=.55+.25*Math.sin(s*.2+k);
+   g.drawImage(mist,mx-mw/2,my-mw*.06,mw,mw*.25);
+  }
+  g.globalAlpha=1;
+  // soft horizon seam blur
+  var sm=g.createLinearGradient(0,HZ-H*.012,0,HZ+H*.02);
+  sm.addColorStop(0,'rgba(225,200,205,0)');sm.addColorStop(.5,'rgba(215,195,205,.35)');sm.addColorStop(1,'rgba(215,195,205,0)');
+  g.fillStyle=sm;g.fillRect(0,HZ-H*.012,W,H*.032);
+ }
+ function loop(t){draw(t);requestAnimationFrame(loop)}
+ addEventListener('resize',function(){resize();if(reduce)draw(0)});
+ resize();
+ if(reduce)draw(4000);else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+ATLAS_P("F716","I want you to create a very detailed 3D game of a pelican riding a bicycle around a city. It should be almost hyper-realistic, self-contained and have music and effects");

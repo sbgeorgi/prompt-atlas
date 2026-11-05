@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TechForward</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff;color:#000;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.page{position:relative;min-height:100vh;min-height:100svh;background:#fff;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px;pointer-events:none;animation:navIn .8s cubic-bezier(.16,1,.3,1) both}
+.nav>*{pointer-events:auto}
+.left,.right{display:flex;align-items:center;gap:8px}
+.logo{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;letter-spacing:-.01em}
+.logo span{display:none}
+.menu{display:flex;align-items:center;gap:8px;background:#000;color:#fff;border-radius:999px;padding:3px 12px 3px 3px;height:28px}
+.menu i{width:22px;height:22px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center}
+.menu b{font-weight:400;font-size:11px;letter-spacing:.02em;text-transform:uppercase}
+.tags,.sys{display:none;align-items:center;background:#F4F4F6;border-radius:999px}
+.tags{gap:4px;padding:0 6px;height:32px}
+.tags a{font-size:10px;padding:6px 8px;color:rgba(0,0,0,.7);cursor:pointer;transition:color .2s}
+.tags a:hover{color:#000}
+.sys{gap:8px;padding:3px 14px 3px 3px;height:32px;font-size:10px;color:rgba(0,0,0,.7)}
+.sys i{width:26px;height:26px;border-radius:50%;background:#000;display:grid;place-items:center}
+
+/* canvas */
+.vid{position:absolute;inset:0;z-index:0;display:flex;justify-content:center;align-items:center;animation:vidIn 1.8s cubic-bezier(.16,1,.3,1) both}
+.vid .box{width:80%;height:80%;position:relative}
+canvas{width:100%;height:100%;display:block}
+
+/* footer */
+.foot{position:relative;z-index:30;margin-top:auto;padding:80px 16px 24px;background:linear-gradient(to top,#fff 0%,rgba(255,255,255,.8) 50%,transparent 100%);display:flex;flex-direction:column;gap:24px;animation:up 1s .5s cubic-bezier(.16,1,.3,1) both;--y:20px}
+.sub{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(0,0,0,.55);margin-bottom:12px;animation:up .8s .6s cubic-bezier(.16,1,.3,1) both;--y:16px}
+.sub i{width:8px;height:8px;border-radius:50%;background:#000}
+h1{font-weight:300;font-size:clamp(2rem,8vw,4.5rem);letter-spacing:-.03em;line-height:1;margin-bottom:24px;animation:up .8s .8s cubic-bezier(.16,1,.3,1) both;--y:20px}
+.btns{display:flex;gap:8px;animation:up .8s 1s cubic-bezier(.16,1,.3,1) both;--y:16px}
+.btn{font-size:13px;padding:10px 20px;border-radius:999px;transition:transform .2s,background .2s}
+.btn:hover{transform:translateY(-1px)}
+.b1{background:#000;color:#fff}
+.b2{border:1px solid rgba(0,0,0,.35);background:transparent}
+.b2:hover{background:rgba(0,0,0,.05)}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pills span{background:#fff;border:1px solid rgba(0,0,0,.12);font-size:11px;padding:6px 12px;border-radius:999px}
+
+@keyframes navIn{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+@keyframes vidIn{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(var(--y,16px))}to{opacity:1;transform:none}}
+
+@media(min-width:768px){
+  .nav{padding:24px 32px}
+  .left,.right{gap:12px}
+  .logo span{display:inline}
+  .menu{height:32px}.menu i{width:26px;height:26px}
+  .tags,.sys{display:flex}
+  .vid .box{width:100%;height:100%}
+  .foot{padding:96px 32px 32px;flex-direction:row;align-items:flex-end;justify-content:space-between}
+  h1{font-size:clamp(2.5rem,5.5vw,4.5rem)}
+}
+@media(prefers-reduced-motion:reduce){
+  .nav,.vid,.foot,.sub,h1,.btns{animation:none}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <nav class="nav">
+    <div class="left">
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#000"><g transform="rotate(-35 12 12)"><rect x="3" y="4" width="18" height="6.5" rx="3.2"/><rect x="3" y="13.5" width="18" height="6.5" rx="3.2"/></g></svg>
+        <span>NeuralKinetics</span>
+      </div>
+      <button class="menu" aria-label="Menu"><i><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i><b>Menu</b></button>
+      <div class="tags"><a>Advanced Bionics</a><a>Cognitive AI</a></div>
+    </div>
+    <div class="right">
+      <div class="sys"><i><svg width="12" height="12" viewBox="0 0 12 12" fill="#fff"><circle cx="3" cy="3" r="1.5"/><circle cx="9" cy="3" r="1.5"/><circle cx="3" cy="9" r="1.5"/><circle cx="9" cy="9" r="1.5"/></svg></i>Adaptive Systems</div>
+    </div>
+  </nav>
+
+  <div class="vid" aria-hidden="true"><div class="box"><canvas id="c"></canvas></div></div>
+
+  <div style="height:1px"></div>
+  <section class="foot">
+    <div>
+      <div class="sub"><i></i>Best digital banking card 2026</div>
+      <h1>One Card, Zero<br>Limits. Worldwide.</h1>
+      <div class="btns"><button class="btn b1">See Features</button><button class="btn b2">How It Works</button></div>
+    </div>
+    <div class="pills"><span>Neuromorphic</span><span>AGI</span><span>Cybernetics</span></div>
+  </section>
+</main>
+
+<script>
+(function(){
+  var cv=document.getElementById('c'),ctx=cv.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var W,H,dpr;
+  function size(){
+    dpr=Math.min(devicePixelRatio||1,2);
+    var r=cv.getBoundingClientRect();W=r.width;H=r.height;
+    cv.width=W*dpr;cv.height=H*dpr;
+  }
+  // fingers: base x offset on palm, base angle (deg from up, negative = left), segment lengths, base width
+  var F=[
+    {x:-.30,a:-62,L:[.30,.22,.17],w:.085,ph:0},   // thumb-ish (left, low)
+    {x:-.18,a:-38,L:[.34,.26,.20],w:.08,ph:.6},
+    {x:-.04,a:-18,L:[.38,.29,.22],w:.08,ph:1.2},
+    {x:.10,a:2,L:[.36,.27,.21],w:.078,ph:1.8},
+    {x:.22,a:22,L:[.30,.22,.17],w:.072,ph:2.4}
+  ];
+  function seg(x,y,ang,len,w0,w1){
+    // tapered capsule from (x,y) heading angle ang (rad, 0 = up)
+    var dx=Math.sin(ang),dy=-Math.cos(ang),nx=-dy,ny=dx;
+    var x2=x+dx*len,y2=y+dy*len;
+    var g=ctx.createLinearGradient(x-nx*w0,y-ny*w0,x+nx*w0,y+ny*w0);
+    g.addColorStop(0,'#0b0b0d');g.addColorStop(.35,'#3a3b40');g.addColorStop(.5,'#6a6c73');g.addColorStop(.62,'#26272b');g.addColorStop(1,'#050506');
+    ctx.fillStyle=g;
+    ctx.beginPath();
+    ctx.moveTo(x+nx*w0,y+ny*w0);ctx.lineTo(x2+nx*w1,y2+ny*w1);
+    ctx.lineTo(x2-nx*w1,y2-ny*w1);ctx.lineTo(x-nx*w0,y-ny*w0);
+    ctx.closePath();ctx.fill();
+    // joint ring
+    ctx.fillStyle='#111214';
+    ctx.beginPath();ctx.arc(x2,y2,w1,0,7);ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=Math.max(1,w1*.12);
+    ctx.beginPath();ctx.arc(x2,y2,w1*.9,ang-Math.PI*.9,ang-Math.PI*.2);ctx.stroke();
+    return [x2,y2];
+  }
+  function draw(t){
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,W,H);
+    var u=Math.min(W,H*(W>=768?1:.75))*(W>=768?.44:.46);
+    var cx=W>=768?W*.53:W*.56, cy=H*(W>=768?.66:.6);
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate((-14+Math.sin(t*.0004)*2)*Math.PI/180);
+    // wrist + palm
+    var pw=u*.30,ph=u*.28;
+    var g=ctx.createLinearGradient(-pw,0,pw,0);
+    g.addColorStop(0,'#0a0a0c');g.addColorStop(.45,'#55575d');g.addColorStop(.6,'#2b2c30');g.addColorStop(1,'#060607');
+    ctx.fillStyle=g;
+    ctx.beginPath();
+    ctx.moveTo(-pw*.62,ph*1.5);ctx.lineTo(-pw,0);
+    ctx.quadraticCurveTo(-pw*1.05,-ph*.6,-pw*.7,-ph*.8);
+    ctx.lineTo(pw*.7,-ph*.8);
+    ctx.quadraticCurveTo(pw*1.05,-ph*.6,pw,0);
+    ctx.lineTo(pw*.62,ph*1.5);ctx.closePath();ctx.fill();
+    // palm plates
+    ctx.strokeStyle='rgba(255,255,255,.08)';ctx.lineWidth=1;
+    for(var i=0;i<3;i++){ctx.beginPath();ctx.moveTo(-pw*.8,-ph*.3+i*ph*.45);ctx.quadraticCurveTo(0,-ph*.2+i*ph*.45,pw*.8,-ph*.3+i*ph*.45);ctx.stroke();}
+    // fingers
+    F.forEach(function(f,i){
+      var sw=Math.sin(t*.0009+f.ph)*.5+.5;       // 0..1 breathing
+      var curl=(.10+.26*sw)*(i==0?1.2:1);
+      var x=f.x*u*1.0,y=-ph*.75,ang=f.a*Math.PI/180;
+      var wB=f.w*u;
+      for(var s=0;s<3;s++){
+        var w0=wB*(1-s*.12),w1=wB*(1-(s+1)*.12);
+        var p=seg(x,y,ang,f.L[s]*u,w0,w1);
+        x=p[0];y=p[1];ang+=curl*(s==0?.7:1)*(i>0?1:-1)*(i==0?-1:1);
+      }
+    });
+    ctx.restore();
+    // soft bottom fade into white
+    var fg=ctx.createLinearGradient(0,H*.45,0,H*.85);
+    fg.addColorStop(0,'rgba(255,255,255,0)');fg.addColorStop(1,'rgba(255,255,255,1)');
+    ctx.fillStyle=fg;ctx.fillRect(0,H*.45,W,H*.55);
+  }
+  size();
+  addEventListener('resize',function(){size();if(reduce)draw(2000)});
+  if(reduce){draw(2000);return}
+  function loop(t){draw(t);requestAnimationFrame(loop)}
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

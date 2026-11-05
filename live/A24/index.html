@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TERRA — Grow quietly.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@300;400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0d0b;--ink:#f3f1ea;--muted:rgba(243,241,234,.62);--line:rgba(243,241,234,.18);--accent:#57c785}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:'Inter',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#bg,#fb{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0;background:var(--bg)}
+#fb{display:none}
+.vig{position:fixed;inset:0;z-index:1;pointer-events:none;
+ background:radial-gradient(120% 100% at 50% 42%,transparent 40%,rgba(6,9,7,.55) 100%),
+ linear-gradient(to bottom,rgba(6,9,7,.6) 0%,transparent 22%,transparent 58%,rgba(6,9,7,.65) 100%)}
+.scrim{position:fixed;left:50%;top:46%;width:min(1100px,92vw);height:min(560px,72vh);transform:translate(-50%,-50%);z-index:2;pointer-events:none;
+ background:radial-gradient(60% 55% at 50% 50%,rgba(6,9,7,.55) 0%,transparent 72%);filter:blur(8px)}
+.shell{position:relative;z-index:5;display:flex;flex-direction:column;height:100vh;height:100dvh}
+nav{display:flex;justify-content:space-between;align-items:center;padding:26px clamp(24px,5vw,64px)}
+.wm{font-family:'Manrope',sans-serif;font-weight:600;font-size:24px;letter-spacing:.14em}
+.links{display:flex;gap:38px}
+.links a,.shop{font-size:14px;color:var(--muted);text-decoration:none;transition:color .3s}
+.links a:hover{color:var(--ink)}
+.shop{font-weight:500;color:var(--ink)}
+.shop:hover{color:var(--accent)}
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:translateY(-2vh);padding:0 16px}
+.eyebrow{display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:30px}
+.eyebrow i{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+h1{font-family:'Manrope',sans-serif;font-weight:500;font-size:clamp(72px,15vw,188px);line-height:.9;letter-spacing:-.02em}
+h1 em{font-style:normal;font-weight:700;color:var(--accent)}
+.sub{font-weight:300;font-size:clamp(15px,1.6vw,18px);color:var(--muted);margin-top:30px}
+.cta{display:inline-flex;gap:10px;margin-top:40px;padding:15px 34px;border-radius:100px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:15px;font-weight:400;transition:border-color .3s,background .3s,color .3s}
+.cta span{display:inline-block;transition:transform .3s}
+.cta:hover{border-color:var(--accent);background:rgba(87,199,133,.08);color:#fff}
+.cta:hover span{transform:translateX(4px)}
+.cap{display:flex;justify-content:space-between;padding:0 clamp(24px,5vw,64px) 30px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.cap span:last-child{opacity:.7}
+@keyframes blurFadeUp{from{opacity:0;filter:blur(18px);transform:translateY(34px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+.rise{opacity:0;animation:blurFadeUp 1.1s cubic-bezier(.2,.7,.2,1) forwards}
+@media (max-width:720px){.links,.cap span:last-child{display:none}}
+@media (prefers-reduced-motion:reduce){.rise{animation:none;opacity:1;filter:none;transform:none}}
+</style>
+</head>
+<body>
+<video id="bg" src="https://zxdefgavgwfxastwmmjm.supabase.co/storage/v1/object/public/assets/terra.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+<canvas id="fb" aria-hidden="true"></canvas>
+<div class="vig"></div>
+<div class="scrim"></div>
+<div class="shell">
+  <nav>
+    <div class="wm rise" style="animation-delay:0ms">TERRA</div>
+    <div class="links">
+      <a class="rise" style="animation-delay:80ms" href="#">Science</a>
+      <a class="rise" style="animation-delay:140ms" href="#">Products</a>
+      <a class="rise" style="animation-delay:200ms" href="#">Journal</a>
+    </div>
+    <a class="shop rise" style="animation-delay:260ms" href="#">Shop &rarr;</a>
+  </nav>
+  <main class="hero">
+    <div class="eyebrow rise" style="animation-delay:340ms"><i></i>Living Wellness</div>
+    <h1 class="rise" style="animation-delay:420ms">Grow <em>quietly.</em></h1>
+    <p class="sub rise" style="animation-delay:600ms">Living wellness, cultivated slowly.</p>
+    <a class="cta rise" style="animation-delay:720ms" href="#">Explore Terra <span>&rarr;</span></a>
+  </main>
+  <div class="cap rise" style="animation-delay:900ms"><span>TERRA · Living Goods</span><span>Cultivated in glass — No. 001</span></div>
+</div>
+<script>
+// The terrarium video is the background. If it cannot load, a canvas ripple stands in (fallback only).
+(function(){
+  var c=document.getElementById('fb'),x=c.getContext('2d'),W,H,dpr;
+  var still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var spores=[];for(var i=0;i<46;i++)spores.push({a:Math.random()*6.28,r:Math.random(),s:.2+Math.random()*.6,z:Math.random()});
+  function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)}
+  addEventListener('resize',size);size();
+  function ell(cx,cy,rx,ry,lw,col){x.beginPath();x.ellipse(cx,cy,rx,ry,0,0,6.2832);x.lineWidth=lw;x.strokeStyle=col;x.stroke()}
+  function draw(t){
+    var cx=W/2,cy=H*.52,R=Math.min(W*.56,H*1.15);
+    var g=x.createRadialGradient(cx,cy*.8,0,cx,cy,Math.max(W,H)*.75);
+    g.addColorStop(0,'#10241d');g.addColorStop(.5,'#0b1713');g.addColorStop(1,'#060a08');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    // big torus body of the ripple
+    var pul=Math.sin(t*.0006)*.012;
+    for(var i=0;i<26;i++){
+      var k=i/25,rx=R*(1.15-k*.7+pul),ry=rx*.34;
+      var a=.1+1.1*Math.pow(1-Math.abs(k-.55)*1.7,2);if(a<0)a=0;
+      ell(cx,cy+k*R*.03,rx,ry,R*.05,'rgba('+(20+k*60|0)+','+(70+k*110|0)+','+(60+k*70|0)+','+Math.min(a*.4,.5)+')');
+    }
+    // expanding rings
+    for(var j=0;j<4;j++){
+      var p=((t*.00009)+j/4)%1,rx2=R*(.15+p*1.05),ry2=rx2*.34;
+      ell(cx,cy,rx2,ry2,1.5,'rgba(140,230,190,'+(.35*(1-p))+')');
+    }
+    // inner glassy basin
+    var bg=x.createRadialGradient(cx,cy+R*.03,0,cx,cy+R*.03,R*.42);
+    bg.addColorStop(0,'rgba(60,150,120,.55)');bg.addColorStop(1,'rgba(10,30,25,0)');
+    x.save();x.scale(1,.27);x.fillStyle=bg;x.beginPath();x.arc(cx,(cy+R*.03)/.27,R*.42,0,6.2832);x.fill();x.restore();
+    // crown of beads on the rim
+    var n=26;
+    for(var b=0;b<n;b++){
+      var ang=Math.PI*(1.04+b/(n-1)*.92),w=1+Math.sin(t*.0012+b*1.7)*.06;
+      var bx=cx+Math.cos(ang)*R*.26*w,by=cy-R*.012+Math.sin(ang)*R*.2*.4*w-(Math.sin(b/(n-1)*Math.PI))*R*.03;
+      var br=R*(.016+.016*Math.sin(b/(n-1)*Math.PI)),rg=x.createRadialGradient(bx-br*.3,by-br*.4,0,bx,by,br*1.2);
+      rg.addColorStop(0,'rgba(210,255,235,.95)');rg.addColorStop(.35,'rgba(60,150,120,.7)');rg.addColorStop(1,'rgba(5,25,20,.9)');
+      x.fillStyle=rg;x.beginPath();x.arc(bx,by,br,0,6.2832);x.fill();
+    }
+    // hanging droplet
+    var dy=cy-R*.34+Math.sin(t*.0009)*R*.01,dr=R*.036;
+    var dg=x.createRadialGradient(cx-dr*.3,dy-dr*.4,0,cx,dy,dr*1.3);
+    dg.addColorStop(0,'rgba(220,255,240,.95)');dg.addColorStop(.4,'rgba(70,160,130,.75)');dg.addColorStop(1,'rgba(8,28,22,.95)');
+    x.fillStyle=dg;x.beginPath();x.arc(cx,dy,dr,0,6.2832);x.fill();
+    // spores / moss motes
+    for(var s=0;s<spores.length;s++){
+      var o=spores[s],ph=t*.00006*o.s+o.a,px=cx+Math.cos(ph*3)*W*.45*o.r,py=H*.2+((o.z*H*.8+t*.01*o.s)%(H*.8));
+      x.fillStyle='rgba(120,230,170,'+(.1+.25*o.z)+')';x.beginPath();x.arc(px,py,.6+o.z*1.8,0,6.2832);x.fill();
+    }
+  }
+  function loop(t){draw(t);if(!still)requestAnimationFrame(loop)}
+  function start(){c.style.display='block';still?draw(4000):requestAnimationFrame(loop)}
+  var v=document.getElementById('bg');
+  v.addEventListener('error',start);
+  if(v.error)start();
+})();
+</script>
+</body>
+</html>

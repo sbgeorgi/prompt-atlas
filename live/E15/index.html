@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Equilibrium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+html,body{width:100%;height:100%;background:#0b1512;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{border:0;background:none;color:inherit;cursor:pointer;font:inherit}
+.liquid-glass{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.root{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+#bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,10,8,.72) 0%,rgba(4,10,8,.25) 38%,rgba(4,10,8,0) 62%),linear-gradient(180deg,rgba(4,10,8,.35),rgba(4,10,8,0) 22%);pointer-events:none}
+nav{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:20px 20px;color:#fff}
+@media(min-width:640px){nav{padding:20px 32px}}
+.logo{display:flex;align-items:center;gap:8px;color:#fff;font-weight:500;font-size:16px}
+.pill{display:none;align-items:center;gap:4px;border-radius:12px;padding:8px}
+.link{display:flex;align-items:center;gap:2px;padding:6px 12px;border-radius:6px;font-size:14px;color:rgba(255,255,255,.7);transition:color .2s,background-color .2s}
+.link:hover{color:#fff}
+.link.active{background:rgba(255,255,255,.15);color:#fff}
+.link svg{margin-top:1px}
+.ctas{display:none;align-items:center;gap:12px}
+.login{color:#fff;font-size:14px;font-weight:500;padding:10px 16px;border-radius:999px;transition:background-color .2s}
+.login:hover{background:rgba(255,255,255,.05)}
+.solid{background:#fff;color:#000;font-size:14px;font-weight:500;padding:10px 16px;border-radius:999px;transition:background-color .2s}
+.solid:hover{background:rgba(255,255,255,.9)}
+.toggle{color:#fff;padding:8px;border-radius:8px;display:flex}
+.mmenu{display:none;position:absolute;top:72px;left:16px;right:16px;z-index:30;border-radius:16px;padding:16px;flex-direction:column;gap:4px}
+.mmenu.open{display:flex}
+.mmenu .link{justify-content:space-between;width:100%;padding:12px 16px;border-radius:8px}
+.mrow{display:flex;gap:8px;margin-top:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)}
+.mrow button{flex:1}
+.hero{position:absolute;bottom:0;left:0;z-index:20;padding:0 24px 40px;max-width:42rem}
+@media(min-width:640px){.hero{padding:0 48px 64px}}
+h1{color:#fff;font-weight:500;font-size:36px;line-height:1.25;letter-spacing:-.025em;margin-bottom:16px}
+@media(min-width:640px){h1{font-size:48px;line-height:1}}
+@media(min-width:1024px){h1{font-size:60px}}
+.hero p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.625;margin-bottom:28px;max-width:28rem}
+.btns{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.btns .solid,.btns .liquid-glass{font-size:14px;padding:12px 24px;font-weight:500}
+.btns .liquid-glass{color:#fff;border-radius:999px;transition:background-color .2s}
+.btns .liquid-glass:hover{background:rgba(255,255,255,.05)}
+@media(min-width:640px){.btns .solid,.btns .liquid-glass{font-size:16px;padding:12px 28px}}
+@media(min-width:768px){.pill{display:flex}.ctas{display:flex}.toggle,.mmenu{display:none!important}}
+</style>
+</head>
+<body>
+<div class="root">
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="shade"></div>
+
+  <nav>
+    <div class="logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/></svg>
+      <span>Equilibrium</span>
+    </div>
+    <div class="pill liquid-glass" id="pill"></div>
+    <div class="ctas">
+      <button class="login liquid-glass">Log in</button>
+      <button class="solid">Begin Now</button>
+    </div>
+    <button class="toggle liquid-glass" id="tg" aria-label="Menu" aria-expanded="false"></button>
+  </nav>
+
+  <div class="mmenu liquid-glass" id="mm">
+    <div id="mlinks" style="display:flex;flex-direction:column;gap:4px"></div>
+    <div class="mrow">
+      <button class="login liquid-glass">Log in</button>
+      <button class="solid">Begin Now</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Live Better, Feel Whole Every Day</h1>
+    <p>Take charge of how you feel with a companion built for your journey—build routines, follow your growth, and unlock tailored insights for a steadier, more vibrant life each day.</p>
+    <div class="btns">
+      <button class="solid">Start Today</button>
+      <button class="liquid-glass">Discover How</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var chev='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+  var links=[{label:'Home',active:true},{label:'Wellness',dropdown:true},{label:'Routine'},{label:'Our Team'}];
+  function html(){return links.map(function(l){return '<button class="link'+(l.active?' active':'')+'">'+l.label+(l.dropdown?chev:'')+'</button>'}).join('')}
+  document.getElementById('pill').innerHTML=html();
+  document.getElementById('mlinks').innerHTML=html();
+  var menu=document.getElementById('tg'),mm=document.getElementById('mm');
+  var iMenu='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+  var iX='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+  var open=false;menu.innerHTML=iMenu;
+  menu.addEventListener('click',function(){open=!open;mm.classList.toggle('open',open);menu.innerHTML=open?iX:iMenu;menu.setAttribute('aria-expanded',open)});
+
+  // Stand-in for the looping background video: slow-drifting dawn light over layered water ribbons
+  var cv=document.getElementById('bg'),ctx=cv.getContext('2d');
+  var W,H,dpr,motion=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){dpr=Math.min(devicePixelRatio||1,1.5);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  size();addEventListener('resize',function(){size();draw(last)});
+  var motes=[];for(var i=0;i<46;i++)motes.push({x:Math.random(),y:Math.random(),r:Math.random()*1.8+.4,s:Math.random()*.02+.005,p:Math.random()*6.28});
+  var last=0;
+  function draw(t){
+    t=t/1000;
+    var g=ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'#1c3a3c');g.addColorStop(.45,'#3f6a5f');g.addColorStop(.75,'#8fa98a');g.addColorStop(1,'#c9c4a0');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    // sun glow
+    var sx=W*(.68+.03*Math.sin(t*.12)),sy=H*(.34+.02*Math.cos(t*.1)),R=Math.max(W,H)*.55;
+    var rg=ctx.createRadialGradient(sx,sy,0,sx,sy,R);
+    rg.addColorStop(0,'rgba(255,240,205,.95)');rg.addColorStop(.12,'rgba(255,226,170,.55)');rg.addColorStop(.4,'rgba(230,200,150,.16)');rg.addColorStop(1,'rgba(230,200,150,0)');
+    ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
+    // light shafts
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    for(var k=0;k<5;k++){
+      var a=-.5+k*.22+Math.sin(t*.15+k)*.04;
+      ctx.save();ctx.translate(sx,sy);ctx.rotate(a);
+      var sg=ctx.createLinearGradient(0,0,0,H*1.2);sg.addColorStop(0,'rgba(255,235,190,.10)');sg.addColorStop(1,'rgba(255,235,190,0)');
+      ctx.fillStyle=sg;ctx.beginPath();ctx.moveTo(-6,0);ctx.lineTo(6,0);ctx.lineTo(70+k*14,H*1.2);ctx.lineTo(-70-k*14,H*1.2);ctx.fill();ctx.restore();
+    }
+    ctx.restore();
+    // ribbons
+    var cols=[['rgba(20,60,62,.55)',.50],['rgba(46,98,88,.50)',.60],['rgba(92,140,118,.45)',.70],['rgba(160,190,150,.38)',.80],['rgba(235,225,185,.30)',.90]];
+    for(var j=0;j<cols.length;j++){
+      var base=H*cols[j][1],amp=H*(.035+j*.008),f=1.4+j*.35,sp=.18+j*.05;
+      ctx.beginPath();ctx.moveTo(0,H);
+      for(var x=0;x<=W;x+=8){
+        var u=x/W*6.283;
+        var y=base+Math.sin(u*f+t*sp+j)*amp+Math.sin(u*f*2.1-t*sp*1.3+j*2)*amp*.4;
+        ctx.lineTo(x,y);
+      }
+      ctx.lineTo(W,H);ctx.closePath();
+      var fg=ctx.createLinearGradient(0,base-amp,0,H);fg.addColorStop(0,cols[j][0]);fg.addColorStop(1,'rgba(10,22,20,.5)');
+      ctx.fillStyle=fg;ctx.fill();
+    }
+    // motes
+    ctx.fillStyle='rgba(255,250,230,.7)';
+    for(var m=0;m<motes.length;m++){var o=motes[m];
+      var px=(o.x+Math.sin(t*o.s*8+o.p)*.02)*W,py=((o.y-t*o.s*.3)%1+1)%1*H;
+      ctx.globalAlpha=.25+.35*Math.sin(t*.8+o.p)**2;ctx.beginPath();ctx.arc(px,py,o.r,0,6.283);ctx.fill();}
+    ctx.globalAlpha=1;
+  }
+  function loop(ts){last=ts;draw(ts);requestAnimationFrame(loop)}
+  if(motion)requestAnimationFrame(loop);else draw(8000);
+})();
+</script>
+</body>
+</html>

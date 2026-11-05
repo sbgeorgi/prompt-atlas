@@ -1,0 +1,1 @@
+ATLAS_P("F375","r\u00e9alise une vid\u00e9o r\u00e9sumant la vie politique au Maroc depuis l\u2019ind\u00e9pendance");

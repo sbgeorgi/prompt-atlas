@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOVA_AI — Today AI Aligns With Bold Dreams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',system-ui,sans-serif;background:#0a0a0a;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+::selection{background:rgba(255,255,255,.2)}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+.mono{font-family:'Inter',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.15em}
+
+/* video stand-in */
+#bg{position:fixed;inset:0;z-index:0;background:#0a0a0a;overflow:hidden;pointer-events:none}
+#bg canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#root{position:relative;z-index:10}
+
+/* reveal */
+.rv{transform:translateY(2rem);opacity:0;transition:all 700ms ease-out;will-change:transform}
+.rv.in{transform:translateY(0);opacity:1}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.15)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.125rem;font-weight:500;letter-spacing:-.025em}
+.nav-links{display:none;gap:2rem;align-items:center}
+.nav-links a{font-size:.875rem;color:rgba(255,255,255,.85);transition:color .3s;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.nav-links a:hover{color:#fff}
+.nav-links sup{font-size:10px;color:rgba(255,255,255,.6);margin-left:2px}
+.cta-nav{border-radius:6px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.15);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);padding:8px 16px;font-size:.75rem;font-weight:500;transition:background .3s}
+.cta-nav:hover{background:rgba(255,255,255,.25)}
+
+/* shells */
+.sec{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;padding:96px 20px 48px}
+.top{display:flex;flex-direction:column;gap:2rem}
+.svc{display:flex;flex-direction:column;gap:8px}
+.svc span{font-size:.75rem;color:rgba(255,255,255,.9);filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+.lead{font-size:1.125rem;line-height:1.625;color:#fff;max-width:20rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+.lead.s2{max-width:24rem}
+.bottom{display:flex;flex-direction:column;gap:2rem}
+.badge{display:inline-block;border-left:2px solid #fff;background:rgba(255,255,255,.15);padding:6px 12px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font-size:11px}
+h1,h2{font-size:3rem;font-weight:400;line-height:1.05;letter-spacing:-.025em;color:#fff;filter:drop-shadow(0 6px 10px rgba(0,0,0,.22))}
+.badge-wrap{margin-bottom:20px}
+.card{display:flex;align-items:center;gap:16px;border-radius:12px;background:rgba(255,255,255,.15);padding:12px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);align-self:flex-start}
+.portrait{width:80px;height:96px;border-radius:8px;overflow:hidden;flex:none;display:block}
+.card-t{display:flex;flex-direction:column;gap:6px;padding-right:8px}
+.card-t b{font-size:.875rem;font-weight:500}
+.card-t small{font-size:10px;color:rgba(255,255,255,.6)}
+.btn-w{display:inline-flex;align-items:center;gap:4px;border-radius:999px;background:#fff;color:#000;font-weight:500;transition:background .3s}
+.btn-w:hover{background:rgba(255,255,255,.85)}
+.card .btn-w{padding:8px 16px;font-size:.75rem;margin-top:6px;align-self:flex-start}
+.spacer{height:80vh}
+
+.s2-bottom{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3rem;margin-top:3rem}
+.s2-left{max-width:36rem}
+.s2-left p{margin-top:24px;max-width:28rem;font-size:.875rem;color:rgba(255,255,255,.8);filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));line-height:1.6}
+.ctas{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
+.ctas .btn-w{padding:10px 20px;font-size:.75rem}
+.btn-g{border-radius:999px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);padding:10px 20px;font-size:.75rem;transition:background .3s}
+.btn-g:hover{background:rgba(255,255,255,.2)}
+.panel{width:100%;max-width:28rem;border-radius:16px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);padding:0 20px}
+.row{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.15)}
+.row:last-child{border-bottom:0}
+.row .ix{font-size:11px;color:rgba(255,255,255,.55);padding-top:5px}
+.row h3{display:flex;align-items:center;gap:6px;font-size:1rem;font-weight:500;color:#fff;cursor:pointer}
+.row h3 svg{color:rgba(255,255,255,.4);transition:transform .3s,color .3s}
+.row:hover h3 svg{transform:translateX(2px);color:#fff}
+.row p{margin-top:6px;font-size:.875rem;line-height:1.625;color:rgba(255,255,255,.7)}
+
+@media(min-width:640px){
+  .nav-row{padding:16px 32px}.logo{font-size:1.25rem}
+  .cta-nav{padding:8px 20px;font-size:.875rem}
+  .sec{padding:112px 32px 48px}
+  .top{flex-direction:row;justify-content:space-between}
+  .lead{text-align:right;font-size:1.25rem}
+  h1,h2{font-size:3.75rem}
+  .svc span{}
+  .ctas .btn-w,.btn-g{font-size:.875rem}
+  .row h3{font-size:1.125rem}
+  .panel{padding:0 24px}
+  .s2-left p{font-size:1rem}
+}
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .sec{padding-left:48px;padding-right:48px;padding-bottom:64px}
+  .nav-row{padding-left:48px;padding-right:48px}
+  .bottom{flex-direction:row;align-items:flex-end;justify-content:space-between}
+  .card{align-self:auto}
+  .s2-bottom{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:4rem}
+}
+@media(min-width:1024px){h1,h2{font-size:4.5rem}.nav-links{gap:2.5rem}}
+@media(prefers-reduced-motion:reduce){.rv{transform:none;opacity:1;transition:none}}
+</style>
+</head>
+<body>
+<div id="bg"><canvas id="cv" aria-hidden="true"></canvas></div>
+<div id="root">
+<nav>
+  <div class="nav-row">
+    <a class="logo rv" href="#" style="transition-delay:0ms">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      novaai
+    </a>
+    <div class="nav-links">
+      <a class="rv" href="#" style="transition-delay:100ms">Projects<sup class="mono" style="letter-spacing:0">6</sup></a>
+      <a class="rv" href="#" style="transition-delay:200ms">About</a>
+      <a class="rv" href="#" style="transition-delay:300ms">Blog</a>
+      <a class="rv" href="#" style="transition-delay:400ms">Contact</a>
+    </div>
+    <button class="cta-nav rv" style="transition-delay:500ms">Get Free Consultation</button>
+  </div>
+</nav>
+
+<main>
+<section class="sec">
+  <div class="top">
+    <div class="svc mono">
+      <span class="rv" style="transition-delay:150ms">/ AI AUTOMATION</span>
+      <span class="rv" style="transition-delay:270ms">/ AI INTEGRATION</span>
+      <span class="rv" style="transition-delay:390ms">/ AI AGENT DEVELOPMENT</span>
+    </div>
+    <p class="lead rv" style="transition-delay:300ms">We design automation that brings clarity, precision, and efficiency to the way your company operates.</p>
+  </div>
+  <div class="bottom">
+    <div>
+      <div class="badge-wrap rv" style="transition-delay:150ms"><span class="badge mono">We Automate 100+ Businesses</span></div>
+      <h1 class="rv" style="transition-delay:280ms">Clear. Precise.<br>Automated.</h1>
+    </div>
+    <div class="card rv" style="transition-delay:420ms">
+      <svg class="portrait" id="portrait" viewBox="0 0 80 96" role="img" aria-label="Mitha, co-founder of NovaAI"></svg>
+      <div class="card-t">
+        <b>Talk with Mitha</b>
+        <small class="mono">Co-founder of NovaAI</small>
+        <button class="btn-w">Book 15-mins call <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="spacer" aria-hidden="true"></div>
+
+<section class="sec">
+  <div class="top">
+    <div><span class="badge mono rv" style="transition-delay:120ms">Insight On Demand</span></div>
+    <p class="lead s2 rv" style="transition-delay:220ms">Our AI doesn't just respond — it interprets, sharpens, and delivers the signal you need.</p>
+  </div>
+  <div class="s2-bottom">
+    <div class="s2-left">
+      <h2 class="rv" style="transition-delay:180ms">Learn to see<br>brilliantly.</h2>
+      <p class="rv" style="transition-delay:320ms">From the first sketch to the final render, Nova turns raw intent into decisions your team can act on — quietly, precisely, at speed.</p>
+      <div class="ctas rv" style="transition-delay:420ms">
+        <button class="btn-w">Run the demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+        <button class="btn-g">Free consultation</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="row rv" style="transition-delay:300ms"><span class="ix mono">01</span><div><h3>Real-time vision <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></h3><p>Reads context as it happens and surfaces what matters before you ask.</p></div></div>
+      <div class="row rv" style="transition-delay:410ms"><span class="ix mono">02</span><div><h3>Layered insight <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></h3><p>Moves from rough outline to sharp output without losing the thread.</p></div></div>
+      <div class="row rv" style="transition-delay:520ms"><span class="ix mono">03</span><div><h3>Adaptive speed <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></h3><p>Learns your cadence and tightens every pass as you work.</p></div></div>
+    </div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* reveal */
+var rvs=document.querySelectorAll('.rv');
+if(reduce||!('IntersectionObserver' in window)){rvs.forEach(function(e){e.classList.add('in')})}
+else{
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+  rvs.forEach(function(e){io.observe(e)});
+}
+
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+/* portrait stand-in: spiky urchin form on pale ground */
+(function(){
+  var s=document.getElementById('portrait'),r=rng(7),h='';
+  h+='<defs><radialGradient id="pg" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#e9ecef"/><stop offset="1" stop-color="#aab4c2"/></radialGradient><radialGradient id="pc" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#e8a050"/><stop offset=".5" stop-color="#d9d4cc"/><stop offset="1" stop-color="#8b8f95"/></radialGradient></defs>';
+  h+='<rect width="80" height="96" fill="url(#pg)"/>';
+  for(var i=0;i<70;i++){var a=i/70*Math.PI*2+r()*.1,l=22+r()*9,x=40+Math.cos(a)*l,y=48+Math.sin(a)*l;h+='<line x1="'+(40+Math.cos(a)*6).toFixed(1)+'" y1="'+(48+Math.sin(a)*6).toFixed(1)+'" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="'+(i%3?'#f4f4f2':'#7d848d')+'" stroke-width="'+(1+r()*1.2).toFixed(1)+'" stroke-linecap="round" opacity=".9"/>'}
+  h+='<circle cx="40" cy="48" r="13" fill="url(#pc)"/>';
+  s.innerHTML=h;
+})();
+
+/* scroll-scrubbed scene (stand-in for hero video) */
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+var W=0,H=0,dpr=1,grain=null;
+function clamp(x,a,b){return Math.max(a===undefined?0:a,Math.min(b===undefined?1:b,x))}
+function ease(t){t=clamp(t);return t*t*(3-2*t)}
+function lerp(a,b,t){return a+(b-a)*t}
+function mix(c1,c2,t){return 'rgb('+[0,1,2].map(function(i){return Math.round(lerp(c1[i],c2[i],t))}).join(',')+')'}
+
+function makeGrain(){
+  var g=document.createElement('canvas');g.width=g.height=128;var gc=g.getContext('2d'),d=gc.createImageData(128,128),r=rng(3);
+  for(var i=0;i<d.data.length;i+=4){var v=r()*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}
+  gc.putImageData(d,0,0);grain=ctx.createPattern(g,'repeat');
+}
+function resize(){
+  dpr=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+  cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);makeGrain();
+}
+
+/* static data */
+var N=46,cab=[],r=rng(11);
+for(var i=0;i<N;i++)cab.push({u:i/(N-1)-.5,ph:r()*6.28,off:r()*.07,shade:r(),z:r(),wv:.85+r()*.3});
+cab.sort(function(a,b){return a.z-b.z});
+var bok=[];for(var i=0;i<46;i++)bok.push({x:r(),y:r(),s:.5+r()*2.2,v:.15+r()*.5,ph:r()*6.28,par:.2+r()*.9});
+
+function bez(p0,p1,p2,p3,t){var u=1-t;return[u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]]}
+
+function cables(p,T){
+  var cabP=ease(p/.42),vis=1-ease((p-.3)/.22);
+  if(vis<=.003)return;
+  var cx=W*(W<700?.5:.535),baseTip=lerp(H*(W<700?.5:.56),-H*.2,cabP);
+  var w=Math.max(3,Math.min(W*.0085,10)),sp=W<700?W*.34:W*.2;
+  ctx.globalAlpha=vis;ctx.lineCap='round';ctx.lineJoin='round';
+  var tips=[];
+  cab.forEach(function(c){
+    var u=c.u,sw=Math.sin(T*.6+c.ph)*W*.004;
+    var tipY=baseTip+(c.off+(.5-Math.abs(u))*.05)*H*(1-cabP*.6);
+    var p0=[cx+u*W*.03,-30],tip=[cx+u*sp*.5+sw*.6+Math.sin(c.ph*3)*w,tipY];
+    var p1=[cx+u*sp*1.05+sw,tipY*.32],p2=[cx+u*sp*.72+sw,tipY*.74];
+    var pts=[],S=26;for(var k=0;k<=S;k++)pts.push(bez(p0,p1,p2,tip,.965*k/S));
+    var cw=w*c.wv;
+    function path(off){ctx.beginPath();pts.forEach(function(q,k){k?ctx.lineTo(q[0]+off,q[1]):ctx.moveTo(q[0]+off,q[1])})}
+    path(0);ctx.strokeStyle='rgba(110,130,160,.28)';ctx.lineWidth=cw+1.6;ctx.stroke();
+    ctx.strokeStyle=mix([232,237,243],[250,251,252],c.shade);ctx.lineWidth=cw;ctx.stroke();
+    path(-cw*.18);ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=cw*.34;ctx.stroke();
+    path(cw*.3);ctx.strokeStyle='rgba(150,165,190,.22)';ctx.lineWidth=cw*.22;ctx.stroke();
+    /* gold tip */
+    var e=pts[pts.length-1],dx=tip[0]-e[0],dy=tip[1]-e[1],ln=Math.hypot(dx,dy)||1,ext=w*1.9;
+    var ex=e[0]+dx/ln*ext,ey=e[1]+dy/ln*ext;
+    ctx.beginPath();ctx.moveTo(e[0],e[1]);ctx.lineTo(ex,ey);ctx.lineCap='butt';
+    ctx.strokeStyle='#b9772a';ctx.lineWidth=cw*1.02;ctx.stroke();
+    ctx.strokeStyle='#e5a548';ctx.lineWidth=cw*.7;ctx.stroke();
+    ctx.strokeStyle='#f8d98d';ctx.lineWidth=cw*.25;ctx.beginPath();ctx.moveTo(e[0]-cw*.12,e[1]);ctx.lineTo(ex-cw*.12,ey);ctx.stroke();
+    ctx.lineCap='round';
+    tips.push([ex,ey,cw,c.ph]);
+  });
+  tips.forEach(function(t){
+    var pulse=.75+.25*Math.sin(T*2+t[3]*4),R=t[2]*1.9;
+    var g=ctx.createRadialGradient(t[0],t[1],0,t[0],t[1],R);
+    g.addColorStop(0,'rgba(255,240,200,'+.9*pulse+')');g.addColorStop(.3,'rgba(255,200,110,'+.38*pulse+')');g.addColorStop(1,'rgba(255,170,60,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(t[0],t[1],R,0,6.283);ctx.fill();
+    ctx.fillStyle='rgba(255,252,235,'+pulse+')';ctx.beginPath();ctx.arc(t[0],t[1],t[2]*.26,0,6.283);ctx.fill();
+  });
+  ctx.globalAlpha=1;
+}
+
+function sphere(p,T){
+  var sp=ease((p-.24)/.5),core=ease((p-.45)/.4);
+  if(sp<=.002)return;
+  var m=Math.min(W,H),R=m*(W<700?.34:.3)*(.35+.65*sp),cx=W*(W<700?.5:.52),cy=lerp(H*1.3,H*.5,sp);
+  ctx.save();ctx.globalAlpha=clamp(sp*2);
+  /* halo */
+  var hg=ctx.createRadialGradient(cx,cy,R*.8,cx,cy,R*1.9);hg.addColorStop(0,'rgba(255,255,255,.45)');hg.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=hg;ctx.beginPath();ctx.arc(cx,cy,R*1.9,0,6.283);ctx.fill();
+  /* body */
+  var bg=ctx.createRadialGradient(cx-R*.3,cy-R*.38,R*.05,cx,cy,R);
+  bg.addColorStop(0,'#ffffff');bg.addColorStop(.55,'#eef1f5');bg.addColorStop(1,'#bcc8d6');
+  ctx.fillStyle=bg;ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.fill();
+  ctx.save();ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+  /* core glow */
+  var cg=ctx.createRadialGradient(cx,cy,0,cx,cy,R*.95);
+  cg.addColorStop(0,'rgba(255,196,96,'+.95*core+')');cg.addColorStop(.3,'rgba(255,140,40,'+.7*core+')');cg.addColorStop(.7,'rgba(255,150,70,'+.22*core+')');cg.addColorStop(1,'rgba(255,150,70,0)');
+  ctx.fillStyle=cg;ctx.fillRect(cx-R,cy-R,R*2,R*2);
+  /* folds */
+  var rot=p*2.6+T*.05,M=24,tilt=.35;
+  function fold(f){
+    for(var m=0;m<M;m++){
+      var lb=m/M*6.283,started=false;ctx.beginPath();
+      for(var la=-1.5;la<=1.5;la+=.03){
+        var lo=lb+rot+.55*Math.sin(la*3+m*1.3)+.3*Math.sin(la*7+m*2.1);
+        var x=Math.cos(la)*Math.sin(lo),z=Math.cos(la)*Math.cos(lo),y=Math.sin(la);
+        var y2=y*Math.cos(tilt)-z*Math.sin(tilt),z2=y*Math.sin(tilt)+z*Math.cos(tilt);
+        if(z2>-.05){var px=cx+x*R+f.dx,py=cy-y2*R+f.dy;started?ctx.lineTo(px,py):ctx.moveTo(px,py);started=true}else started=false;
+      }
+      ctx.strokeStyle=f.c;ctx.lineWidth=f.w*R;ctx.lineCap='round';ctx.stroke();
+    }
+  }
+  fold({c:'rgba(255,150,50,'+.45*core+')',w:.03,dx:0,dy:0});
+  fold({c:'rgba(120,135,158,.32)',w:.013,dx:R*.012,dy:R*.012});
+  fold({c:'rgba(255,255,255,.85)',w:.008,dx:-R*.012,dy:-R*.012});
+  /* edge shade */
+  var eg=ctx.createRadialGradient(cx-R*.2,cy-R*.25,R*.5,cx,cy,R*1.02);eg.addColorStop(0,'rgba(120,140,170,0)');eg.addColorStop(1,'rgba(110,130,160,.35)');
+  ctx.fillStyle=eg;ctx.fillRect(cx-R,cy-R,R*2,R*2);
+  ctx.restore();
+  /* hot core bloom through */
+  var bl=ctx.createRadialGradient(cx,cy,0,cx,cy,R*.45);bl.addColorStop(0,'rgba(255,230,170,'+.55*core+')');bl.addColorStop(1,'rgba(255,200,120,0)');
+  ctx.fillStyle=bl;ctx.beginPath();ctx.arc(cx,cy,R*.45,0,6.283);ctx.fill();
+  ctx.restore();
+}
+
+function draw(p,T){
+  var dk=ease(p*1.2);
+  var g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,mix([199,211,224],[158,176,198],dk));g.addColorStop(.55,mix([180,196,214],[140,159,184],dk));g.addColorStop(1,mix([168,184,204],[122,142,170],dk));
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  /* mist */
+  var mg=ctx.createRadialGradient(W*.52,H*.35,0,W*.52,H*.35,Math.max(W,H)*.6);mg.addColorStop(0,'rgba(236,242,248,.55)');mg.addColorStop(1,'rgba(236,242,248,0)');
+  ctx.fillStyle=mg;ctx.fillRect(0,0,W,H);
+  /* bokeh */
+  bok.forEach(function(b){
+    var x=(b.x*W+Math.sin(T*.15+b.ph)*18)%W,y=((b.y*H-p*H*b.par*.8+Math.cos(T*.12+b.ph)*14)%H+H)%H,R=b.s*(W<700?2.2:3.2);
+    var a=b.v*(.6+.4*Math.sin(T*.7+b.ph));
+    var bg=ctx.createRadialGradient(x,y,0,x,y,R*2.6);bg.addColorStop(0,'rgba(255,255,255,'+a+')');bg.addColorStop(.3,'rgba(255,255,255,'+a*.55+')');bg.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=bg;ctx.beginPath();ctx.arc(x,y,R*2.6,0,6.283);ctx.fill();
+  });
+  cables(p,T);sphere(p,T);
+  /* vignette + grain */
+  var vg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*.4,W/2,H/2,Math.max(W,H)*.8);vg.addColorStop(0,'rgba(40,55,80,0)');vg.addColorStop(1,'rgba(40,55,80,.22)');
+  ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+  if(grain){ctx.globalAlpha=.07;ctx.globalCompositeOperation='overlay';ctx.fillStyle=grain;ctx.save();ctx.translate((T*37%128)|0,(T*23%128)|0);ctx.fillRect(-128,-128,W+256,H+256);ctx.restore();ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1}
+}
+
+var target=0,sm=0,T=0;
+function readScroll(){var m=document.documentElement.scrollHeight-innerHeight;target=m>0?clamp(scrollY/m):0}
+addEventListener('scroll',readScroll,{passive:true});
+addEventListener('resize',function(){resize();readScroll();if(reduce)draw(sm,0)});
+resize();readScroll();sm=target;
+if(reduce){draw(sm,0);addEventListener('scroll',function(){sm=target;draw(sm,0)},{passive:true})}
+else{
+  (function loop(t){T=t/1000;sm+=(target-sm)*.12;if(Math.abs(target-sm)<.0001)sm=target;draw(sm,T);requestAnimationFrame(loop)})(0);
+}
+})();
+</script>
+</body>
+</html>

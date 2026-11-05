@@ -1,0 +1,1 @@
+ATLAS_P("F598","Create a 3D animation showing a house growing out of a pencil sketch, line by line. The animation should progress through four stages: first lines, massing, detail, and finished home. Use Three.js and TSL for implementation.");

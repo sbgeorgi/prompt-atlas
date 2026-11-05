@@ -1,0 +1,1 @@
+ATLAS_P("F9","You're a world-class motion designer, and this is your 15-second r\u00e9sum\u00e9 reel. Make it dynamic and confident: open with a striking hook in the first second, build through a sequence of distinct techniques (typography, shape play, camera moves, colour shifts), and land on a clean, memorable final frame. Pacing should feel like it's cut to music. Go crazy.");

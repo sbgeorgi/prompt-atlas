@@ -1,0 +1,1 @@
+ATLAS_P("F182","Claude, I want to test your video creation capabilities. I want you to create a launch-style video (like when Anthropic launches a new feature) to showcase YD Store.\nUse only JavaScript, Playwright, and FFmpeg. Be creative and fun.\nTry to make something between 30-40 seconds max.");

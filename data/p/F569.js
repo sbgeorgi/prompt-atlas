@@ -1,0 +1,1 @@
+ATLAS_P("F569","Create a vertical lyric video featuring the lyrics as the main character. Sync the lyrics perfectly with the song. Use an Evangelion title card style. Show me the direction plan before making it.");

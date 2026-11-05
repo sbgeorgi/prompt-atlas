@@ -1,0 +1,1 @@
+ATLAS_P("L2","make a modern slick and punchy video for sherwood protocol. feel free to take branding or components from the landing page or app. the goal is to highlight how it enables agentic hedge funds, explaining it simply");

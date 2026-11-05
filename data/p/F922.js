@@ -1,0 +1,1 @@
+ATLAS_P("F922","Do a quick hand-drawn whiteboard animations explaining what is replica symmetry breaking in the SK model\n\nPrompt 2: build the mp4 version with narration");

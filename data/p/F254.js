@@ -1,0 +1,1 @@
+ATLAS_P("F254","Create a physics simulation of a Rube Goldberg inspired machine where a marble ends up toppling a 1.8m domino. Use Three.js + Rapier. A falling domino can knock over one 1.5\u00d7 its size, so ten growing dominoes carry the push from desk to room scale.");

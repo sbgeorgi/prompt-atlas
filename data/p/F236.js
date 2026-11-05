@@ -1,0 +1,1 @@
+ATLAS_P("F236","make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a r\u00e9sum\u00e9. go all out. Thema: \u897f\u5c3e\u6cf0\u548c(NISHIO Hirokazu)\u306e\u6d3b\u52d5\u30fb\u529f\u7e3e");

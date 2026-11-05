@@ -1,0 +1,1 @@
+ATLAS_P("F872","recreate the blue beret blob from OpenAI's Dots \u2014 fuzzy felt surface, breathing, blinking, squash & stretch, a lagging beret, and a subtle reaction to the mouse.");

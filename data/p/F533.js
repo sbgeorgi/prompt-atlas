@@ -1,0 +1,1 @@
+ATLAS_P("F533","Take a look at our documentation and the product ux and generate a marketing video which narrates how our product works");

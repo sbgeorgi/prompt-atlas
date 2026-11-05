@@ -1,0 +1,1 @@
+ATLAS_P("F286","You are applying as a motion designer in my agency. Make 15s video to showcase your skills and capabilities. Send me a showreel");

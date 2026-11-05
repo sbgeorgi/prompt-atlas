@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kern &amp; Lot - Bauhaus sample</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#f5f4ee;--dp-color-ink:#000;--dp-color-accent:#ff0000;--dp-color-field:#0000ff;
+  --dp-color-field-support:#ffff00;--dp-color-quiet:#e8e8e8;--dp-color-on-field:#fff;
+  --dp-typography-face:"Bauhaus Host","Host Grotesk","Helvetica Neue",Arial,sans-serif;
+  --dp-typography-body:18px;--dp-typography-reading:17px;--dp-typography-label:15px;--dp-typography-caption:14px;
+  --dp-typography-weight-display:800;--dp-typography-weight-action:750;--dp-typography-weight-label:650;--dp-typography-weight-reading:450;
+  --dp-border-rule:4px;--dp-border-rule-compact:3px;
+  --bg:var(--dp-color-ground);--ink:var(--dp-color-ink);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--dp-typography-face);font-size:var(--dp-typography-body);font-weight:var(--dp-typography-weight-reading);line-height:1.5;overflow-x:hidden}
+.page{container-type:inline-size;max-width:1600px;margin:0 auto;border-left:var(--dp-border-rule) solid var(--ink);border-right:var(--dp-border-rule) solid var(--ink)}
+.page>*{--g:clamp(22px,4.45cqi,72px)}
+h1,h2,h3{font-weight:var(--dp-typography-weight-display);letter-spacing:-.045em;line-height:.92}
+p{font-size:var(--dp-typography-reading);max-width:52ch}
+a{color:inherit}
+.label{font-size:var(--dp-typography-label);font-weight:var(--dp-typography-weight-label);text-transform:uppercase;letter-spacing:.08em}
+.cap{font-size:var(--dp-typography-caption)}
+:focus-visible{outline:4px solid var(--ink);outline-offset:4px}
+.red :focus-visible,.blue :focus-visible{outline-color:#fff}
+.skip{position:absolute;left:-999px;top:0;background:#fff;padding:10px 14px;z-index:10;border:3px solid #000}
+.skip:focus{left:8px;top:8px}
+
+/* controls */
+.btn{display:inline-flex;align-items:center;gap:14px;font:inherit;font-weight:var(--dp-typography-weight-action);font-size:var(--dp-typography-body);text-decoration:none;cursor:pointer;border:var(--dp-border-rule) solid var(--ink);padding:16px 24px;background:var(--dp-color-field);color:#fff;border-radius:0;box-shadow:6px 6px 0 var(--ink);transition:none}
+.btn:hover{background:var(--dp-color-ink);color:#fff}
+.btn:active{box-shadow:0 0 0 var(--ink);transform:translate(6px,6px)}
+.btn.y{background:var(--dp-color-field-support);color:#000}.btn.y:hover{background:#000;color:var(--dp-color-field-support)}
+.btn.w{background:#fff;color:#000}.btn.w:hover{background:#000;color:#fff}
+.circle{width:clamp(150px,17cqi,230px);aspect-ratio:1;border-radius:50%;background:#fff;color:#000;border:var(--dp-border-rule) solid var(--ink);box-shadow:10px 10px 0 var(--ink);display:grid;place-content:center;justify-items:center;gap:6px;text-align:center;text-decoration:none;font:inherit;font-weight:var(--dp-typography-weight-action);font-size:clamp(17px,1.9cqi,24px);line-height:1.05;cursor:pointer;padding:12px;transition:none}
+.circle svg{width:34px;height:34px}
+.circle:hover{background:var(--dp-color-field-support)}
+.circle:active{box-shadow:0 0 0 var(--ink);transform:translate(10px,10px)}
+.circle.k{background:#000;color:#fff;box-shadow:10px 10px 0 #fff;border-color:#fff}
+.circle.k:hover{background:var(--dp-color-field-support);color:#000}
+.circle.k:active{box-shadow:0 0 0 #fff}
+
+/* header */
+.top{display:flex;align-items:stretch;justify-content:space-between;border-bottom:var(--dp-border-rule) solid var(--ink);background:var(--bg)}
+.brand{display:flex;align-items:center;gap:12px;padding:14px var(--g);font-weight:800;font-size:22px;letter-spacing:-.04em;text-decoration:none;border-right:var(--dp-border-rule) solid var(--ink)}
+.brand i{display:block;width:26px;height:26px;background:var(--dp-color-accent);border-radius:50%;border:3px solid #000}
+.top nav{display:flex}
+.top nav a{display:flex;align-items:center;padding:0 clamp(14px,2.2cqi,32px);text-decoration:none;font-weight:var(--dp-typography-weight-label);font-size:var(--dp-typography-label);border-left:var(--dp-border-rule-compact) solid var(--ink)}
+.top nav a:hover{background:var(--dp-color-field-support)}
+.top nav a.cta{background:#000;color:#fff}.top nav a.cta:hover{background:var(--dp-color-accent)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.75fr 1fr;border-bottom:var(--dp-border-rule) solid var(--ink);min-height:min(78vh,720px)}
+.hero .txt{padding:calc(var(--g)*1.1) var(--g);display:flex;flex-direction:column;justify-content:space-between;gap:36px;border-right:var(--dp-border-rule) solid var(--ink)}
+.hero h1{font-size:clamp(54px,9.6cqi,150px)}
+.hero h1 span{color:var(--dp-color-accent)}
+.hero .txt p{font-size:19px;max-width:44ch}
+.hero .acts{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.red{background:var(--dp-color-accent);color:#fff}
+.blue{background:var(--dp-color-field);color:#fff}
+.yellow{background:var(--dp-color-field-support);color:#000}
+.hero .act{padding:var(--g);display:flex;flex-direction:column;justify-content:space-between;gap:32px;position:relative}
+.hero .act .big{font-weight:800;font-size:clamp(28px,3.4cqi,52px);letter-spacing:-.04em;line-height:.95;max-width:9ch}
+.hero .act .circle{align-self:flex-end}
+.hero .act .tri{width:clamp(60px,8cqi,110px);aspect-ratio:1}
+.hero .act small{display:block}
+.hero .act .label{color:#000}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:var(--dp-border-rule) solid var(--ink)}
+.facts div{padding:calc(var(--g)*.7) var(--g);border-right:var(--dp-border-rule-compact) solid var(--ink)}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font-size:clamp(48px,7cqi,104px);font-weight:800;letter-spacing:-.06em;line-height:.9}
+.facts span{display:block;margin-top:10px}
+
+/* features */
+.split{display:grid;grid-template-columns:1fr 1.6fr;border-bottom:var(--dp-border-rule) solid var(--ink)}
+.split .head{padding:var(--g);border-right:var(--dp-border-rule) solid var(--ink);display:flex;flex-direction:column;justify-content:space-between;gap:40px}
+.split .head h2{font-size:clamp(40px,5.6cqi,88px)}
+.split .head svg{width:clamp(70px,9cqi,130px);height:auto;display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr}
+.grid article{padding:calc(var(--g)*.75) calc(var(--g)*.7);border-bottom:var(--dp-border-rule-compact) solid var(--ink);border-right:var(--dp-border-rule-compact) solid var(--ink);display:flex;flex-direction:column;gap:14px}
+.grid article:nth-child(2n){border-right:0}
+.grid article:nth-last-child(-n+2){border-bottom:0}
+.grid h3{font-size:clamp(26px,2.8cqi,40px);letter-spacing:-.035em}
+.grid .ic{width:54px;height:54px;display:block}
+.grid p{font-size:16px}
+
+/* editorial */
+.edit{display:grid;grid-template-columns:1.1fr 1fr;border-bottom:var(--dp-border-rule) solid var(--ink)}
+.edit figure{border-right:var(--dp-border-rule) solid var(--ink);background:var(--dp-color-quiet);display:flex;flex-direction:column}
+.edit figure svg{display:block;width:100%;height:auto;aspect-ratio:5/4}
+.edit figcaption{padding:12px var(--g);border-top:var(--dp-border-rule-compact) solid var(--ink);background:var(--bg)}
+.edit .copy{padding:var(--g);display:flex;flex-direction:column;justify-content:center;gap:24px}
+.edit h2{font-size:clamp(36px,4.6cqi,72px)}
+.edit .copy p+p{margin-top:-8px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:var(--dp-border-rule) solid var(--ink)}
+.steps li{list-style:none;padding:var(--g);border-right:var(--dp-border-rule) solid var(--ink);display:flex;flex-direction:column;gap:18px;min-height:340px}
+.steps li:last-child{border-right:0}
+.steps .n{font-size:clamp(90px,13cqi,210px);font-weight:800;letter-spacing:-.07em;line-height:.8}
+.steps h3{font-size:clamp(26px,2.8cqi,40px)}
+.steps li:nth-child(2) .n{color:var(--dp-color-accent)}
+.steps li:nth-child(3){background:var(--dp-color-field);color:#fff}
+.steps li:nth-child(3) .n{color:var(--dp-color-field-support)}
+
+/* yellow field */
+.voices{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:var(--g);gap:var(--g);border-bottom:var(--dp-border-rule) solid var(--ink)}
+.voices h2{font-size:clamp(40px,5.2cqi,80px)}
+.voices ul{list-style:none;margin-top:28px;display:grid;gap:0;border-top:var(--dp-border-rule-compact) solid #000}
+.voices li{padding:14px 0;border-bottom:var(--dp-border-rule-compact) solid #000;font-weight:650;display:flex;gap:14px}
+.voices li::before{content:"";flex:none;width:16px;height:16px;margin-top:6px;background:#000}
+.voices li:nth-child(2)::before{border-radius:50%;background:var(--dp-color-accent);border:3px solid #000;width:20px;height:20px;margin-top:4px}
+.voices li:nth-child(3)::before{background:var(--dp-color-field);width:18px;height:18px;margin-top:5px}
+.voices blockquote{background:#fff;border:var(--dp-border-rule) solid #000;padding:clamp(22px,3cqi,44px);display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+.voices blockquote p{font-size:clamp(24px,2.7cqi,40px);font-weight:750;letter-spacing:-.03em;line-height:1.08;max-width:none}
+.voices cite{font-style:normal}
+
+/* ledger */
+.ledger{border-bottom:var(--dp-border-rule) solid var(--ink)}
+.ledger>h2{font-size:clamp(40px,5.2cqi,80px);padding:var(--g);border-bottom:var(--dp-border-rule) solid var(--ink)}
+.row{display:grid;grid-template-columns:1.1fr 2fr auto;align-items:center;gap:var(--g);padding:calc(var(--g)*.6) var(--g);border-bottom:var(--dp-border-rule-compact) solid var(--ink)}
+.row:last-child{border-bottom:0}
+.row h3{font-size:clamp(28px,3.4cqi,52px)}
+.row .price{display:block;font-size:var(--dp-typography-label);font-weight:650;margin-top:8px}
+.row .tag{display:inline-block;background:#000;color:#fff;padding:3px 10px;margin-bottom:10px}
+.row.feat{background:var(--dp-color-field-support);border-top:0;border-left:0}
+.row.feat h3::after{content:"";display:inline-block;margin-left:14px;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:24px solid #000;vertical-align:.1em}
+.row p{font-size:16px}
+
+/* faq */
+.faq{display:grid;grid-template-columns:1fr 1.6fr;border-bottom:var(--dp-border-rule) solid var(--ink)}
+.faq .head{padding:var(--g);border-right:var(--dp-border-rule) solid var(--ink);background:var(--dp-color-quiet)}
+.faq h2{font-size:clamp(40px,5.2cqi,80px)}
+.faq details{border-bottom:var(--dp-border-rule-compact) solid var(--ink)}
+.faq details:last-child{border-bottom:0}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px var(--g);font-weight:750;font-size:clamp(19px,1.9cqi,26px);letter-spacing:-.02em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{background:var(--dp-color-field-support)}
+.faq summary .pm{flex:none;width:36px;height:36px;border:3px solid #000;position:relative;background:#fff}
+.faq summary .pm::before,.faq summary .pm::after{content:"";position:absolute;background:#000;left:6px;right:6px;top:50%;height:4px;margin-top:-2px}
+.faq summary .pm::after{left:50%;right:auto;width:4px;top:6px;bottom:6px;height:auto;margin:0 0 0 -2px}
+.faq details[open] .pm::after{display:none}
+.faq details[open] summary{background:#000;color:#fff}
+.faq details[open] .pm{background:var(--dp-color-field-support)}
+.faq details p{padding:20px var(--g) 28px}
+
+/* close */
+.close{display:grid;grid-template-columns:1.6fr 1fr;align-items:center;gap:var(--g);padding:calc(var(--g)*1.2) var(--g);border-bottom:var(--dp-border-rule) solid var(--ink)}
+.close h2{font-size:clamp(46px,8cqi,124px)}
+.close p{margin-top:24px;background:#fff;color:#000;display:inline-block;padding:12px 16px;border:3px solid #000;font-size:16px;font-weight:650}
+.close .circle{justify-self:center}
+
+footer{display:grid;grid-template-columns:1.4fr 1fr 1fr;background:#000;color:#fff}
+footer>div{padding:var(--g);border-right:var(--dp-border-rule-compact) solid #fff}
+footer>div:last-child{border-right:0}
+footer h2{font-size:30px;letter-spacing:-.04em;margin-bottom:12px}
+footer h3{font-size:var(--dp-typography-label);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;color:var(--dp-color-field-support);line-height:1.2}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a{text-decoration:none;font-size:16px}footer a:hover{background:var(--dp-color-field-support);color:#000}
+footer :focus-visible{outline-color:#fff}
+footer p{font-size:15px;color:#fff;opacity:.9}
+
+@media(max-width:1050px){
+  .top nav a:not(.cta):nth-child(n+3){display:none}
+  .hero{grid-template-columns:1.4fr 1fr}
+  .row{grid-template-columns:1fr 1.6fr auto;gap:22px}
+  .split,.faq{grid-template-columns:1fr 1.4fr}
+}
+@media(max-width:720px){
+  .page{border-left-width:3px;border-right-width:3px}
+  .top nav a:not(.cta){display:none}
+  .brand{border-right:0;font-size:19px}
+  .hero,.split,.edit,.voices,.faq,.close{grid-template-columns:1fr}
+  .hero{min-height:0}
+  .hero .txt{border-right:0;border-bottom:var(--dp-border-rule) solid var(--ink)}
+  .hero h1{font-size:clamp(50px,17vw,84px)}
+  .hero .act .circle{align-self:flex-start;width:190px}
+  .hero .act .big{max-width:none}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div:nth-child(2){border-right:0}
+  .facts div:nth-child(-n+2){border-bottom:var(--dp-border-rule-compact) solid var(--ink)}
+  .facts b{font-size:clamp(46px,15vw,72px)}
+  .split .head,.faq .head{border-right:0;border-bottom:var(--dp-border-rule) solid var(--ink)}
+  .split .head h2,.edit h2,.voices h2,.ledger>h2,.faq h2{font-size:clamp(38px,12vw,56px)}
+  .grid{grid-template-columns:1fr}
+  .grid article{border-right:0}
+  .grid article:nth-last-child(2){border-bottom:var(--dp-border-rule-compact) solid var(--ink)}
+  .edit figure{border-right:0;border-bottom:var(--dp-border-rule) solid var(--ink)}
+  .steps{grid-template-columns:1fr}
+  .steps li{border-right:0;border-bottom:var(--dp-border-rule) solid var(--ink);min-height:0;flex-direction:row;flex-wrap:wrap;align-items:flex-start}
+  .steps li:last-child{border-bottom:0}
+  .steps .n{font-size:96px;flex:none;width:100%}
+  .row{grid-template-columns:1fr;gap:14px}
+  .row .btn{justify-self:start}
+  .close h2{font-size:clamp(44px,14vw,72px)}
+  .close .circle{justify-self:start;width:190px}
+  footer{grid-template-columns:1fr 1fr}
+  footer>div:first-child{grid-column:1/-1;border-right:0;border-bottom:var(--dp-border-rule-compact) solid #fff}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="page">
+
+<header class="top">
+  <a class="brand" href="#top"><i aria-hidden="true"></i>Kern &amp; Lot</a>
+  <nav aria-label="Primary">
+    <a href="#craft">Craft</a>
+    <a href="#method">Method</a>
+    <a href="#plans">Plans</a>
+    <a href="#faq">Questions</a>
+    <a class="cta" href="#join">Book a visit</a>
+  </nav>
+</header>
+
+<main id="main">
+<section class="hero" id="top" aria-labelledby="h1">
+  <div class="txt">
+    <p class="label">Letterpress &amp; type workshop / Est. 1924 revival</p>
+    <h1 id="h1">Form follows <span>function.</span> Print follows form.</h1>
+    <div>
+      <p>We teach hand-set type, flat colour and honest grids in a working print shop. Six weeks, one press, one poster you will actually be proud of.</p>
+    </div>
+  </div>
+  <div class="act red">
+    <div>
+      <p class="label">Next cohort</p>
+      <div class="big">Starts 12 Jan</div>
+    </div>
+    <svg class="tri" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,6 96,94 4,94" fill="#ffff00" stroke="#000" stroke-width="5"/></svg>
+    <div class="acts" style="display:flex;flex-direction:column;gap:26px;align-items:flex-end">
+      <a class="circle" href="#join">Reserve a seat
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn" href="#method">See the method <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="facts" aria-label="Workshop facts">
+  <div><b>6</b><span class="label">Weeks</span></div>
+  <div><b>12</b><span class="label">Seats per cohort</span></div>
+  <div><b>3</b><span class="label">Colours. Only.</span></div>
+  <div><b>1</b><span class="label">Poster you keep</span></div>
+</section>
+
+<section class="split" id="craft" aria-labelledby="h-craft">
+  <div class="head yellow">
+    <div>
+      <p class="label">What you learn</p>
+      <h2 id="h-craft">Four rules, no ornament.</h2>
+    </div>
+    <svg viewBox="0 0 100 90" aria-hidden="true"><polygon points="50,4 97,86 3,86" fill="#0000ff" stroke="#000" stroke-width="5"/></svg>
+  </div>
+  <div class="grid">
+    <article>
+      <svg class="ic" viewBox="0 0 54 54" aria-hidden="true"><rect x="3" y="3" width="48" height="48" fill="#ff0000" stroke="#000" stroke-width="4"/></svg>
+      <h3>Set by hand</h3>
+      <p>Pick every sort from the case. You learn spacing because your fingers have to do it.</p>
+    </article>
+    <article>
+      <svg class="ic" viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="24" fill="#0000ff" stroke="#000" stroke-width="4"/></svg>
+      <h3>Flat colour</h3>
+      <p>Red, blue, yellow, black. Overprint two inks and read what the paper does with them.</p>
+    </article>
+    <article>
+      <svg class="ic" viewBox="0 0 54 54" aria-hidden="true"><polygon points="27,3 51,51 3,51" fill="#ffff00" stroke="#000" stroke-width="4"/></svg>
+      <h3>Grid first</h3>
+      <p>Every layout starts as a ruled sheet. Margins are decided before words arrive.</p>
+    </article>
+    <article>
+      <svg class="ic" viewBox="0 0 54 54" aria-hidden="true"><path d="M3 27h48M27 3v48" stroke="#000" stroke-width="8"/></svg>
+      <h3>Edit hard</h3>
+      <p>One headline, one image, one action. Whatever is left over gets cut.</p>
+    </article>
+  </div>
+</section>
+
+<section class="edit" aria-labelledby="h-ed">
+  <figure>
+    <svg viewBox="0 0 500 400" role="img" aria-label="Specimen sheet: a red circle, a blue square and a yellow triangle composed on a black ruled grid, as printed in the workshop">
+      <rect width="500" height="400" fill="#f5f4ee"/>
+      <g stroke="#000" stroke-width="3" fill="none"><path d="M0 100H500M0 200H500M0 300H500M125 0V400M250 0V400M375 0V400" opacity=".35"/></g>
+      <rect x="250" y="100" width="125" height="200" fill="#0000ff"/>
+      <circle cx="187" cy="150" r="87" fill="#ff0000"/>
+      <polygon points="375,300 500,300 437,190" fill="#ffff00" stroke="#000" stroke-width="4"/>
+      <rect x="40" y="320" width="170" height="14" fill="#000"/><rect x="40" y="346" width="110" height="14" fill="#000"/>
+      <rect x="4" y="4" width="492" height="392" fill="none" stroke="#000" stroke-width="8"/>
+    </svg>
+    <figcaption class="cap">Week 4 specimen sheet, three inks on 300 gsm cotton. 420 &times; 330 mm.</figcaption>
+  </figure>
+  <div class="copy">
+    <p class="label">The shop</p>
+    <h2 id="h-ed">A press that still knows how to say no.</h2>
+    <p>Our 1952 Vandercook proofing press prints one sheet at a time, which makes every decision visible. You cannot hide behind undo.</p>
+    <p>Tutors are working designers and printers, never more than six students per press.</p>
+  </div>
+</section>
+
+<section id="method" aria-labelledby="h-steps">
+  <h2 id="h-steps" class="label" style="padding:18px var(--g);border-bottom:var(--dp-border-rule-compact) solid #000;background:#fff">How the six weeks run</h2>
+  <ol class="steps" style="padding:0">
+    <li><span class="n" aria-hidden="true">01</span><h3>Look</h3><p>Weeks 1-2. Measure old posters, redraw their grids, set your first line of type.</p></li>
+    <li><span class="n" aria-hidden="true">02</span><h3>Make</h3><p>Weeks 3-5. Build your poster in three plates. Proof, mis-register, fix, proof again.</p></li>
+    <li><span class="n" aria-hidden="true">03</span><h3>Show</h3><p>Week 6. Edition of twenty, a wall to hang it on and a critique that is kind but exact.</p></li>
+  </ol>
+</section>
+
+<section class="voices yellow" aria-labelledby="h-v">
+  <div>
+    <h2 id="h-v">Why people come back.</h2>
+    <ul>
+      <li>Real tools, real ink, real mistakes</li>
+      <li>Small groups with one tutor per press</li>
+      <li>You leave with work, not slides</li>
+    </ul>
+  </div>
+  <blockquote>
+    <p>&ldquo;I arrived with a font collection and left knowing what a margin is for.&rdquo;</p>
+    <cite class="label">Mara Voss, product designer, cohort 14</cite>
+  </blockquote>
+</section>
+
+<section class="ledger" id="plans" aria-labelledby="h-pl">
+  <h2 id="h-pl">Pick a seat.</h2>
+  <div class="row">
+    <div><h3>Evening</h3><span class="price">$480 / 6 weeks</span></div>
+    <p>Tuesday and Thursday, 18:30-21:00. Shared press, own plates, edition of ten.</p>
+    <a class="btn" href="#join">Choose Evening</a>
+  </div>
+  <div class="row feat">
+    <div><span class="tag label">Most chosen</span><h3>Intensive</h3><span class="price">$720 / 6 weeks</span></div>
+    <p>Saturdays, 10:00-16:00. Own press hours, edition of twenty and a framed final print.</p>
+    <a class="btn w" href="#join">Choose Intensive</a>
+  </div>
+  <div class="row">
+    <div><h3>Studio</h3><span class="price">$1,150 / 6 weeks</span></div>
+    <p>Private tutor, open access to the shop on weekdays, edition of fifty with a printed colophon.</p>
+    <a class="btn y" href="#join">Choose Studio</a>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="h-faq">
+  <div class="head"><p class="label">Before you ask</p><h2 id="h-faq">Questions.</h2></div>
+  <div>
+    <details open><summary>Do I need design experience?<span class="pm" aria-hidden="true"></span></summary><p>No. Half of each cohort has never set type. We start from the case and the ruler.</p></details>
+    <details><summary>What do I take home?<span class="pm" aria-hidden="true"></span></summary><p>Your edition of prints, your plates, and a binder of grid studies from weeks one and two.</p></details>
+    <details><summary>Is the shop accessible?<span class="pm" aria-hidden="true"></span></summary><p>Ground floor, step-free entry, adjustable-height benches. Tell us what you need and we will set it up.</p></details>
+    <details><summary>Can I defer a seat?<span class="pm" aria-hidden="true"></span></summary><p>Yes, once, up to two weeks before the cohort starts, at no charge.</p></details>
+  </div>
+</section>
+
+<section class="close red" id="join" aria-labelledby="h-cl">
+  <div>
+    <h2 id="h-cl">Twelve seats. Six weeks. One sheet.</h2>
+    <p>Applications close 5 January. Reply within two days.</p>
+  </div>
+  <a class="circle k" href="#top">Apply now
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg>
+  </a>
+</section>
+</main>
+
+<footer>
+  <div><h2>Kern &amp; Lot</h2><p>14 Foundry Row. Open Tue-Sat, 10:00-18:00.<br>hello@kernandlot.example</p></div>
+  <div><h3>Workshop</h3><ul><li><a href="#craft">Craft</a></li><li><a href="#method">Method</a></li><li><a href="#plans">Plans</a></li></ul></div>
+  <div><h3>Studio</h3><ul><li><a href="#faq">Questions</a></li><li><a href="#join">Apply</a></li><li><a href="#top">Back to top</a></li></ul></div>
+</footer>
+</div>
+</body>
+</html>

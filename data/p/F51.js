@@ -1,0 +1,1 @@
+ATLAS_P("F51","\"Anatomy style Jig of an escalator, showing the inside parts no one usually sees. use nice camera motion and highlight colors on different steps to show hero parts.\"");

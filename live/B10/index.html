@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kollektiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #8d9094; }
+  body { -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  a { color: inherit; }
+
+  .hero {
+    position: relative; height: 100vh; height: 100svh; width: 100%; overflow: hidden;
+    font-family: 'Geist', system-ui, sans-serif; color: #fff;
+  }
+  .bg { position: absolute; inset: 0; opacity: 0; transition: opacity 700ms ease-out; }
+  .bg.on { opacity: 1; }
+  .bg svg { width: 100%; height: 100%; display: block; }
+  .veil { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.20), rgba(0,0,0,.05), rgba(0,0,0,.25)); }
+
+  .content {
+    position: relative; z-index: 10; display: flex; height: 100%; flex-direction: column; justify-content: space-between;
+    padding: 2.5rem 1.5rem 1.5rem;
+  }
+  .top { display: flex; flex-direction: column; gap: 2rem; }
+  h1 {
+    margin: 0; max-width: 36rem; font-size: 1.875rem; line-height: 1.1; font-weight: 400; letter-spacing: -0.025em; color: #fff;
+    text-shadow: 0 1px 30px rgba(0,0,0,.14);
+  }
+  .bio {
+    margin: 0; max-width: 20rem; font-size: .875rem; line-height: 1.625; font-weight: 500; color: rgba(255,255,255,.8);
+    text-shadow: 0 1px 20px rgba(0,0,0,.18); animation: fadeIn .5s ease;
+  }
+  .bottom { display: flex; flex-direction: column; gap: 2rem; }
+  .picker {
+    display: flex; align-items: flex-end; gap: .5rem; overflow-x: auto; padding-bottom: .25rem;
+    scrollbar-width: none;
+  }
+  .picker::-webkit-scrollbar { display: none; }
+  .pick { display: flex; flex-shrink: 0; flex-direction: column; align-items: center; gap: .5rem; }
+  .pick:focus-visible .thumb { outline: 2px solid #fff; outline-offset: 3px; }
+  .dot { display: block; height: 4px; width: 4px; border-radius: 9999px; background: #fff; opacity: 0; transition: opacity 300ms; }
+  .pick.on .dot { opacity: 1; }
+  .thumb { display: block; height: 2.5rem; width: 2.5rem; overflow: hidden; border-radius: 9999px; }
+  .thumb svg { width: 100%; height: 100%; display: block; }
+
+  .meta {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+    border-top: 1px solid rgba(255,255,255,.2); padding-top: 1.25rem; font-size: .875rem; font-weight: 500;
+  }
+  .name { animation: fadeIn .5s ease; }
+  .role, .tenure { display: none; color: rgba(255,255,255,.7); }
+  .wa { text-decoration: underline; text-underline-offset: 4px; transition: color .15s; }
+  .wa:hover { color: rgba(255,255,255,.7); }
+
+  @media (min-width: 640px) {
+    .content { padding: 3.5rem 2.5rem 2rem; }
+    h1 { font-size: 3rem; }
+    .bio { font-size: 1rem; }
+    .picker { gap: .75rem; overflow: visible; padding-bottom: 0; }
+    .thumb { height: 3.5rem; width: 3.5rem; }
+    .role { display: block; }
+  }
+  @media (min-width: 768px) {
+    .top { flex-direction: row; align-items: flex-start; justify-content: space-between; gap: 4rem; }
+    .bio { padding-top: .5rem; }
+    .tenure { display: block; }
+  }
+  @media (min-width: 1024px) {
+    .content { padding-left: 4rem; padding-right: 4rem; }
+    h1 { font-size: 4.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .bio, .name { animation: none; } .bg { transition: none; } }
+</style>
+</head>
+<body>
+<section class="hero" id="hero">
+  <div id="bgs"></div>
+  <div class="veil"></div>
+  <div class="content">
+    <div class="top">
+      <h1>Kollektiva is the talent you build with each&nbsp;day</h1>
+      <p class="bio" id="bio"></p>
+    </div>
+    <div class="bottom">
+      <div class="picker" id="picker"></div>
+      <div class="meta">
+        <span class="name" id="name"></span>
+        <span class="role" id="role"></span>
+        <span class="tenure">In the business since 2020</span>
+        <a class="wa" href="#">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  // Studio portraits are drawn as inline SVG stand-ins (no hotlinked photos).
+  var slides = [
+    { name: 'Andrei Baranov', role: 'Design Chief',
+      text: 'Andrei sets the visual direction of every project. He turns rough ideas into clear, confident design languages that feel effortless yet leave a lasting impression.',
+      bg: '#a3a6a9', skin: '#e6bf9b', hair: '#241d1a', style: 'short', cloth: '#232c3a', collar: 'turtle', glasses: true },
+    { name: 'Daria Lebedeva', role: 'Interface Expert',
+      text: 'Daria crafts interfaces people understand at first glance. Every screen she designs balances clarity and character, making complex products feel simple and warm.',
+      bg: '#aaa39d', skin: '#efcdb2', hair: '#1c1614', style: 'long', cloth: '#d8cfc1', collar: 'v' },
+    { name: 'Ivan Sorokin', role: 'Concept Chief',
+      text: 'Ivan shapes the ideas behind the work. He digs into every brief until the core story emerges, then builds concepts that give each project its reason to exist.',
+      bg: '#9ea5a1', skin: '#d7a982', hair: '#3a2a20', style: 'curly', cloth: '#5b6150', collar: 'crew', beard: true },
+    { name: 'Anna Fedorova', role: 'Brand Consultant',
+      text: 'Anna helps brands find their voice. From positioning to tone, she builds identities that stay consistent everywhere and grow stronger with every appearance.',
+      bg: '#aaa3ac', skin: '#f1d2bb', hair: '#c49b58', style: 'bob', cloth: '#1e1e22', collar: 'crew' },
+    { name: 'Pavel Smirnov', role: 'Movement Artist',
+      text: 'Pavel brings stillness to life. His motion work adds rhythm and personality to every product, guiding attention with transitions that feel natural and precise.',
+      bg: '#9fa5ad', skin: '#dfb792', hair: '#191514', style: 'buzz', cloth: '#98482f', collar: 'crew', glasses: true },
+    { name: 'Olga Kravtsova', role: 'UX Specialist',
+      text: 'Olga studies how people actually use what we make. Her research keeps every decision grounded in real behavior, so the work serves users and not assumptions.',
+      bg: '#a6aa9f', skin: '#edc9ae', hair: '#85391f', style: 'bun', cloth: '#7b8d77', collar: 'v' },
+    { name: 'Igor Zakharenko', role: 'Graphic Creator',
+      text: 'Igor gives every project its finishing touch. From typography to illustration, he sweats the visual details that separate good work from unforgettable work.',
+      bg: '#9d9c9b', skin: '#d6a781', hair: '#1f1a17', style: 'slick', cloth: '#29292d', collar: 'shirt' },
+    { name: 'Ksenia Romanova', role: 'Studio Head',
+      text: 'Ksenia keeps the studio moving as one. She connects people, plans, and priorities so every project ships on time without losing the craft it deserves.',
+      bg: '#a8a39b', skin: '#e8c6a7', hair: '#16120f', style: 'straight', cloth: '#a98557', collar: 'v' }
+  ];
+
+  function shade(hex, amt) {
+    var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+    function f(c) { return Math.max(0, Math.min(255, Math.round(amt < 0 ? c * (1 + amt) : c + (255 - c) * amt))); }
+    return 'rgb(' + f(r) + ',' + f(g) + ',' + f(b) + ')';
+  }
+
+  // Head centre (800,470), rx 125, ry 155 in a 1600x1000 stage.
+  function portrait(s, p, view, par) {
+    var skin = s.skin, sd = shade(skin, -0.18), hair = s.hair, cl = s.cloth, cd = shade(cl, -0.25);
+    var back = '', front = '';
+    var cap = 'M668 462C655 338 722 288 800 288C880 288 947 338 932 462C915 396 885 362 800 358C716 362 686 396 668 462Z';
+    switch (s.style) {
+      case 'long':
+        back = '<path d="M662 450C640 330 720 276 800 276C882 276 962 330 938 450L972 790L628 790Z" fill="' + hair + '"/>';
+        front = '<path d="M664 470C650 336 722 286 800 286C884 286 952 340 936 470C926 410 900 372 862 352C820 400 740 418 664 470Z" fill="' + hair + '"/>'; break;
+      case 'straight':
+        back = '<path d="M658 450C636 326 718 274 800 274C884 274 966 326 942 450L958 800L642 800Z" fill="' + hair + '"/>';
+        front = '<path d="M662 478C650 334 722 284 800 284C882 284 952 336 938 478C924 400 876 366 800 362C724 366 676 400 662 478Z" fill="' + hair + '"/>'; break;
+      case 'bob':
+        back = '<path d="M656 452C646 322 726 282 800 282C876 282 956 322 944 452L950 640Q800 690 650 640Z" fill="' + hair + '"/>';
+        front = '<path d="M662 480C652 340 726 290 800 290C876 290 950 340 940 480C930 412 900 378 800 368C700 378 670 412 662 480Z" fill="' + hair + '"/>'; break;
+      case 'bun':
+        back = '<circle cx="800" cy="280" r="58" fill="' + hair + '"/>';
+        front = '<path d="' + cap + '" fill="' + hair + '"/>'; break;
+      case 'curly':
+        var cs = '';
+        [[690,400,46],[722,336,52],[780,304,56],[845,310,54],[895,350,50],[918,410,44],[672,456,34],[934,456,34]].forEach(function (c) {
+          cs += '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + c[2] + '" fill="' + hair + '"/>';
+        });
+        back = cs; front = '<g fill="' + hair + '"><circle cx="728" cy="352" r="40"/><circle cx="796" cy="338" r="44"/><circle cx="862" cy="352" r="40"/><circle cx="700" cy="400" r="26"/><circle cx="900" cy="400" r="26"/></g>'; break; break;
+      case 'buzz':
+        front = '<path d="' + cap + '" fill="' + hair + '" opacity=".92"/>'; break;
+      case 'slick':
+        front = '<path d="M668 464C652 332 728 282 806 282C890 282 950 336 934 464C924 410 904 372 860 356C800 346 720 356 668 464Z" fill="' + hair + '"/>'; break;
+      default:
+        front = '<path d="' + cap + '" fill="' + hair + '"/>';
+    }
+    var beard = s.beard ? '<path d="M676 500C676 622 736 648 800 648C864 648 924 622 924 500C906 556 862 572 800 572C738 572 694 556 676 500Z" fill="' + hair + '"/>' : '';
+    var collar = '';
+    if (s.collar === 'v') collar = '<path d="M730 700L800 820L870 700Z" fill="' + skin + '"/><path d="M730 700L800 820L868 700" fill="none" stroke="' + cd + '" stroke-width="6"/>';
+    else if (s.collar === 'turtle') collar = '<rect x="738" y="650" width="124" height="96" rx="40" fill="' + shade(cl, .06) + '"/>';
+    else if (s.collar === 'shirt') collar = '<path d="M726 700L800 790L874 700L874 760L800 880L726 760Z" fill="#ece8e1"/><path d="M732 696L800 770L868 696L850 676L800 724L750 676Z" fill="#ece8e1"/>';
+    else collar = '<path d="M738 692Q800 744 862 692L862 712Q800 770 738 712Z" fill="' + cd + '"/>';
+    var glasses = s.glasses ? '<g fill="none" stroke="#1d1a19" stroke-width="5"><rect x="710" y="440" width="76" height="56" rx="22"/><rect x="814" y="440" width="76" height="56" rx="22"/><path d="M786 462Q800 454 814 462M710 462L682 454M890 462L918 454"/></g>' : '';
+    var brow = hair;
+    var face =
+      '<ellipse cx="755" cy="470" rx="9" ry="5.5" fill="#2a211e"/><ellipse cx="845" cy="470" rx="9" ry="5.5" fill="#2a211e"/>' +
+      '<path d="M728 444Q756 430 782 442M818 442Q844 430 872 444" fill="none" stroke="' + brow + '" stroke-width="7" stroke-linecap="round" opacity=".85"/>' +
+      '<path d="M792 500Q786 526 778 538Q800 550 822 538" fill="none" stroke="' + sd + '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/>' +
+      '<path d="M766 574Q800 592 834 574" fill="none" stroke="' + (s.beard ? '#c98a7c' : '#a65f58') + '" stroke-width="6" stroke-linecap="round"/>';
+    var id = p;
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + view + '" preserveAspectRatio="' + par + '" role="img" aria-hidden="true">' +
+      '<defs>' +
+      '<radialGradient id="' + id + 'bg" cx="50%" cy="38%" r="75%"><stop offset="0" stop-color="' + shade(s.bg, .22) + '"/><stop offset=".55" stop-color="' + s.bg + '"/><stop offset="1" stop-color="' + shade(s.bg, -.18) + '"/></radialGradient>' +
+      '<linearGradient id="' + id + 'sh" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".1"/><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>' +
+      '<linearGradient id="' + id + 'fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>' +
+      '</defs>' +
+      '<rect width="1600" height="1000" fill="url(#' + id + 'bg)"/>' +
+      '<rect y="640" width="1600" height="360" fill="url(#' + id + 'fl)"/>' +
+      '<g transform="translate(800 1000) scale(1.12) translate(-800 -1000)">' +
+      back +
+      '<path d="M300 1000C300 800 500 724 700 702L900 702C1100 724 1300 800 1300 1000Z" fill="' + cl + '"/>' +
+      '<path d="M300 1000C300 800 500 724 700 702L900 702C1100 724 1300 800 1300 1000Z" fill="url(#' + id + 'sh)"/>' +
+      '<path d="M742 590L742 700Q800 760 858 700L858 590Z" fill="' + sd + '"/>' +
+      collar +
+      '<ellipse cx="672" cy="480" rx="16" ry="30" fill="' + skin + '"/><ellipse cx="928" cy="480" rx="16" ry="30" fill="' + skin + '"/>' +
+      '<ellipse cx="800" cy="470" rx="125" ry="155" fill="' + skin + '"/>' +
+      '<ellipse cx="800" cy="470" rx="125" ry="155" fill="url(#' + id + 'sh)"/>' +
+      beard + face + front + glasses +
+      '</g></svg>';
+  }
+
+  var bgs = document.getElementById('bgs'), picker = document.getElementById('picker');
+  var bio = document.getElementById('bio'), nameEl = document.getElementById('name'), roleEl = document.getElementById('role');
+  var bgEls = [], pickEls = [], active = 0;
+
+  slides.forEach(function (s, i) {
+    var d = document.createElement('div');
+    d.className = 'bg';
+    d.innerHTML = portrait(s, 'b' + i, '0 0 1600 1000', 'xMidYMid slice');
+    bgs.appendChild(d); bgEls.push(d);
+
+    var b = document.createElement('button');
+    b.className = 'pick'; b.setAttribute('aria-label', 'Show ' + s.name);
+    b.innerHTML = '<span class="dot"></span><span class="thumb">' + portrait(s, 'a' + i, '570 190 460 460', 'xMidYMid slice').replace('role="img" aria-hidden="true"', 'role="img" aria-label="' + s.name + '"') + '</span>';
+    b.addEventListener('click', function () { set(i); });
+    picker.appendChild(b); pickEls.push(b);
+  });
+
+  function restart(el) { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }
+
+  function set(i) {
+    active = i;
+    var s = slides[i];
+    bgEls.forEach(function (e, k) { e.classList.toggle('on', k === i); });
+    pickEls.forEach(function (e, k) { e.classList.toggle('on', k === i); });
+    bio.textContent = s.text; restart(bio);
+    nameEl.textContent = s.name; restart(nameEl);
+    roleEl.textContent = s.role;
+  }
+  set(0);
+})();
+</script>
+</body>
+</html>

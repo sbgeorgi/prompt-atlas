@@ -1,0 +1,1 @@
+ATLAS_P("F818","Create a pure javascript animation. 30s-60s whimsical hand drawn collage style with appropriate audio that will explain the same story as our \u201cabout-us\u201d page. Use assets from our repo when possible.");

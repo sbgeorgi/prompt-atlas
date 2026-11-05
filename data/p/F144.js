@@ -1,0 +1,1 @@
+ATLAS_P("F144","Create an impressive motion design video of a slow-reveal transition that assembles and eventually reveals the TypingMind logo.");

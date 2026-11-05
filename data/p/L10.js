@@ -1,0 +1,1 @@
+ATLAS_P("L10","make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a resume. go all out. use only code");

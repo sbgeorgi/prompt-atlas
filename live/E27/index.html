@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portal - Step Through. Work Smarter.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:#fff}
+body{font-family:'Inter',sans-serif;overflow:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block;flex:none}
+
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;object-fit:cover;background:#000}
+.blur-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  -webkit-mask-image:linear-gradient(to top,black 0%,transparent 45%);mask-image:linear-gradient(to top,black 0%,transparent 45%)}
+
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+  background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box exclude,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(40px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+.animate-blur-fade-up{opacity:0;animation:blurFadeUp 1s ease-out forwards}
+
+.page{position:relative;z-index:10;display:flex;flex-direction:column;height:100vh;height:100dvh}
+nav{position:relative;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 16px}
+.logo{height:32px;display:flex;align-items:center;font-weight:600;letter-spacing:.32em;font-size:15px;gap:10px}
+.logo i{width:12px;height:22px;border:2px solid #fff;border-radius:50%;display:inline-block;box-shadow:0 0 14px rgba(120,220,255,.8)}
+.links{display:none;gap:36px;font-size:14px}
+.links a{transition:color .2s}.links a:hover{color:#d1d5db}
+.right{display:flex;align-items:center;gap:12px}
+.pill{display:none;align-items:center;gap:8px;border-radius:9999px;padding:8px 16px;font-size:14px}
+.circ{width:40px;height:40px;border-radius:9999px;display:none;align-items:center;justify-content:center}
+.ham{display:flex;position:relative}
+.ham svg{position:absolute;transition:all .5s ease-out}
+.ham .ico-x{opacity:0;transform:rotate(-180deg) scale(.5)}
+.ham.open .ico-x{opacity:1;transform:rotate(0) scale(1)}
+.ham.open .ico-m{opacity:0;transform:rotate(180deg) scale(.5)}
+
+.mobile{position:absolute;top:72px;left:0;right:0;z-index:40;background:rgba(17,24,39,.95);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border-top:1px solid #1f2937;border-bottom:1px solid #1f2937;box-shadow:0 25px 50px -12px rgba(0,0,0,.6);padding:12px 16px;
+  transition:all .5s ease-out;transform:translateY(0);opacity:1}
+.mobile.closed{transform:translateY(-16px);opacity:0;pointer-events:none}
+.mobile a{display:block;padding:12px;border-radius:8px;transition:background .2s,transform .5s ease-out,opacity .5s ease-out}
+.mobile a:hover{background:rgba(31,41,55,.5)}
+.mobile.closed a{transform:translateX(-16px);opacity:0}
+.mobile .mb{display:flex;gap:12px;margin-top:8px;padding-top:12px;border-top:1px solid #1f2937}
+.mobile .mb .pill{display:flex}.mobile .mb .circ{display:flex}
+
+.hero{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 32px;z-index:10}
+.row{display:flex;flex-direction:column;align-items:flex-start;gap:32px}
+.left{flex:1;min-width:0}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;font-size:12px;animation-delay:.3s}
+.meta span{display:flex;align-items:center;gap:6px}
+.meta b{font-weight:500}
+h1{font-weight:400;font-size:30px;line-height:1.05;letter-spacing:-.04em;margin-bottom:16px;animation-delay:.4s}
+.desc{font-size:16px;color:#9ca3af;margin-bottom:24px;max-width:42rem;animation-delay:.5s;line-height:1.5}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{border-radius:9999px;font-weight:500;padding:10px 24px;display:inline-flex;align-items:center;gap:8px;font-size:15px}
+.btn.white{background:#fff;color:#000;transition:background .2s}.btn.white:hover{background:#e5e7eb}
+.arrows{display:flex;gap:12px}
+.arrows .btn{padding:10px 16px}
+.liquid-glass{transition:background .25s}
+.liquid-glass:hover{background:rgba(255,255,255,.07)}
+
+@media(min-width:640px){
+  nav{padding:16px 24px}.hero{padding:0 24px 32px}
+  .pill{display:flex;padding:8px 16px}.circ{display:flex}.ham{display:none}
+  .meta{gap:24px;font-size:14px}h1{font-size:48px}.desc{font-size:18px}
+  .btn{padding:12px 32px}.arrows .btn{padding:12px 24px}.cta{gap:16px}
+  .mobile .mb{display:none}.ham.show{display:flex}
+}
+@media(min-width:768px){
+  nav{padding:24px 48px}.hero{padding:0 48px 64px}.logo{height:40px}
+  .pill{padding:8px 24px}.meta{margin-bottom:32px}.desc{font-size:20px;margin-bottom:48px}h1{font-size:60px;margin-bottom:24px}
+  .row{flex-direction:row;align-items:flex-end}
+  .arrows{justify-content:flex-end}
+}
+@media(min-width:1024px){
+  h1{font-size:72px}.links{display:flex}.ham,.ham.show{display:none}.mobile{display:none}
+}
+@media(max-width:1023px){.ham.show,.ham{display:flex}}
+@media(max-width:639px){.pill,.circ:not(.ham){display:none}.mobile .mb .pill,.mobile .mb .circ{display:flex}.mobile .mb{display:flex}}
+@media(prefers-reduced-motion:reduce){
+  .animate-blur-fade-up{animation:none;opacity:1}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="blur-overlay"></div>
+
+<div class="page">
+  <nav>
+    <a href="#" class="logo animate-blur-fade-up" style="animation-delay:0ms"><i></i>PORTAL</a>
+    <div class="links">
+      <a href="#" class="animate-blur-fade-up" style="animation-delay:100ms">Movies</a>
+      <a href="#" class="animate-blur-fade-up" style="animation-delay:150ms">TV Series</a>
+      <a href="#" class="animate-blur-fade-up" style="animation-delay:200ms">Editor's Pick</a>
+      <a href="#" class="animate-blur-fade-up" style="animation-delay:250ms">Interviews</a>
+      <a href="#" class="animate-blur-fade-up" style="animation-delay:300ms">User Reviews</a>
+    </div>
+    <div class="right">
+      <button class="pill liquid-glass animate-blur-fade-up" style="animation-delay:350ms">Search
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+      <button class="circ liquid-glass animate-blur-fade-up" style="animation-delay:400ms" aria-label="Profile">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+      <button id="ham" class="circ ham liquid-glass animate-blur-fade-up" style="animation-delay:350ms" aria-label="Menu" aria-expanded="false">
+        <svg class="ico-m" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg class="ico-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+  </nav>
+
+  <div id="mobile" class="mobile closed">
+    <a href="#" style="transition-delay:0ms">Movies</a>
+    <a href="#" style="transition-delay:50ms">TV Series</a>
+    <a href="#" style="transition-delay:100ms">Editor's Pick</a>
+    <a href="#" style="transition-delay:150ms">Interviews</a>
+    <a href="#" style="transition-delay:200ms">User Reviews</a>
+    <div class="mb">
+      <button class="pill liquid-glass">Search
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+      <button class="circ liquid-glass" aria-label="Profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+    </div>
+  </div>
+
+  <main class="hero">
+    <div class="row">
+      <div class="left">
+        <div class="meta animate-blur-fade-up">
+          <span><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2L8 14.2 3 9.3l6.9-1z"/></svg><b>8.7/10 IMDB</b></span>
+          <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>132 min</span>
+          <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>April, 2025</span>
+        </div>
+        <h1 class="animate-blur-fade-up">Step Through. Work Smarter.</h1>
+        <p class="desc animate-blur-fade-up">A voyage through forgotten realms, where past and future intertwine.</p>
+        <div class="cta">
+          <button class="btn white animate-blur-fade-up" style="animation-delay:600ms">Watch Now
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"><path d="M6 3l14 9-14 9z"/></svg></button>
+          <button class="btn liquid-glass animate-blur-fade-up" style="animation-delay:700ms">Learn More</button>
+        </div>
+      </div>
+      <div class="arrows">
+        <button class="btn liquid-glass animate-blur-fade-up" style="animation-delay:800ms" aria-label="Previous">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+        <button class="btn liquid-glass animate-blur-fade-up" style="animation-delay:900ms" aria-label="Next">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var ham=document.getElementById('ham'),m=document.getElementById('mobile');
+  ham.addEventListener('click',function(){var o=ham.classList.toggle('open');m.classList.toggle('closed',!o);ham.setAttribute('aria-expanded',o)});
+
+  // Stand-in for the background video: a generative portal in deep space (canvas 2D)
+  var cv=document.getElementById('bg'),ctx=cv.getContext('2d'),W,H,dpr;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function rs(){dpr=Math.min(devicePixelRatio||1,1.5);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  addEventListener('resize',rs);rs();
+  var seed=7;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647}
+  var stars=[],parts=[],i;
+  for(i=0;i<160;i++)stars.push({x:rnd(),y:rnd(),r:rnd()*1.2+.2,t:rnd()*6.28,d:rnd()*.8+.2});
+  for(i=0;i<420;i++)parts.push({a:rnd()*6.283,r:.9+rnd()*.5,s:(rnd()*.5+.2)*(rnd()<.5?-1:1),z:rnd(),h:rnd()});
+  function hue(h,a){return h<.55?'rgba(90,210,255,'+a+')':(h<.85?'rgba(255,170,90,'+a+')':'rgba(200,140,255,'+a+')')}
+  function draw(t){
+    var s=Math.min(W,H*1.15),cx=W>700?W*.73:W*.5,cy=H*(W>700?.47:.36),rx=s*.17,ry=s*.33;
+    if(W<=700){rx=W*.3;ry=H*.26}
+    ctx.globalCompositeOperation='source-over';
+    var g=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.8);
+    g.addColorStop(0,'#04141c');g.addColorStop(.5,'#02070b');g.addColorStop(1,'#000');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
+    stars.forEach(function(p){var a=.25+.5*Math.abs(Math.sin(t*.0008*p.d+p.t));ctx.fillStyle='rgba(200,230,255,'+a*p.d+')';ctx.fillRect(p.x*W,p.y*H,p.r,p.r)});
+    // outer halo
+    var h=ctx.createRadialGradient(cx,cy,ry*.4,cx,cy,ry*2.1);
+    h.addColorStop(0,'rgba(60,170,220,.28)');h.addColorStop(.5,'rgba(255,150,70,.07)');h.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=h;ctx.fillRect(0,0,W,H);
+    ctx.save();ctx.translate(cx,cy);ctx.scale(rx/ry,1);
+    // interior swirl
+    var R=ry;
+    ctx.save();ctx.beginPath();ctx.arc(0,0,R*.96,0,6.283);ctx.clip();
+    var ig=ctx.createRadialGradient(0,0,0,0,0,R);
+    ig.addColorStop(0,'rgba(255,245,225,.95)');ig.addColorStop(.25,'rgba(255,200,130,.55)');ig.addColorStop(.6,'rgba(70,190,240,.35)');ig.addColorStop(1,'rgba(20,60,110,.15)');
+    ctx.fillStyle=ig;ctx.fillRect(-R,-R,2*R,2*R);
+    for(i=0;i<14;i++){
+      var a=t*.0003*(i%2?1:-1)+i*.9,rr=R*(.2+.06*i);
+      ctx.beginPath();ctx.arc(Math.cos(a)*R*.08,Math.sin(a)*R*.08,rr,a,a+1.8+.1*i);
+      ctx.strokeStyle=i%3?'rgba(120,220,255,.22)':'rgba(255,190,110,.25)';ctx.lineWidth=R*.03;ctx.stroke();
+    }
+    ctx.restore();
+    // ring
+    for(i=0;i<3;i++){
+      ctx.beginPath();ctx.arc(0,0,R*(1+i*.015),0,6.283);
+      ctx.strokeStyle=i==0?'rgba(255,255,255,.9)':(i==1?'rgba(110,210,255,.4)':'rgba(255,160,80,.25)');
+      ctx.lineWidth=R*(i==0?.012:.03+i*.02);ctx.shadowColor='rgba(110,210,255,.9)';ctx.shadowBlur=R*.12;ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+    // orbiting particles / sparks
+    parts.forEach(function(p){
+      var a=p.a+t*.0004*p.s,rr=R*p.r*(1+.05*Math.sin(t*.001+p.a*3)),x=Math.cos(a)*rr,y=Math.sin(a)*rr*1.0;
+      ctx.fillStyle=hue(p.h,.35+.5*p.z);ctx.beginPath();ctx.arc(x,y,R*(.004+.008*p.z),0,6.283);ctx.fill();
+    });
+    ctx.restore();
+    // floor glow
+    var f=ctx.createRadialGradient(cx,cy+ry*1.05,0,cx,cy+ry*1.05,rx*2.4);
+    f.addColorStop(0,'rgba(90,200,255,.22)');f.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.save();ctx.translate(cx,cy+ry*1.05);ctx.scale(1,.25);ctx.translate(-cx,-(cy+ry*1.05));
+    ctx.fillStyle=f;ctx.fillRect(0,0,W,H*2);ctx.restore();
+    // vignette on left for text legibility
+    ctx.globalCompositeOperation='source-over';
+    var v=ctx.createLinearGradient(0,0,W,0);v.addColorStop(0,'rgba(0,0,0,.35)');v.addColorStop(.6,'rgba(0,0,0,0)');
+    ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
+  }
+  if(reduce){draw(2500)}else{(function loop(t){draw(t);requestAnimationFrame(loop)})(0)}
+})();
+</script>
+</body>
+</html>

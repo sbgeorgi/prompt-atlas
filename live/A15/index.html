@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verdant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:#080b09;color:#fff;font-family:'IBM Plex Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+svg{display:block;flex:none}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.blur{position:fixed;inset:0;z-index:1;pointer-events:none;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+ -webkit-mask-image:linear-gradient(to top,black 0%,transparent 46%);mask-image:linear-gradient(to top,black 0%,transparent 46%)}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.page{position:relative;z-index:10;height:100vh;height:100dvh;display:flex;flex-direction:column}
+
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+ background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);
+ -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.vine-line{height:1px;background:linear-gradient(90deg,transparent,rgba(87,199,133,.7),transparent)}
+
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(40px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.bfu{opacity:0;animation:blurFadeUp 1.2s ease-out forwards}
+.sway{animation:sway 6s ease-in-out infinite alternate;transform-origin:50% 90%}
+
+nav{position:relative;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:500;letter-spacing:.3em;font-size:13px}
+.links{display:none;gap:40px;font-size:14px;color:rgba(255,255,255,.7)}
+.links a{transition:color .3s}.links a:hover{color:#fff}
+.right{display:flex;align-items:center;gap:10px}
+.pill{border-radius:9999px;padding:8px 16px;font-size:14px;display:none}
+.ib{width:40px;height:40px;border-radius:9999px;display:flex;align-items:center;justify-content:center}
+.ib.map{display:none}
+.ham{position:relative}
+.ham svg{position:absolute;inset:0;margin:auto;transition:all .5s}
+.ham .x{opacity:0;transform:rotate(-90deg) scale(.5)}
+.ham.open .x{opacity:1;transform:rotate(0) scale(1)}
+.ham.open .m{opacity:0;transform:rotate(90deg) scale(.5)}
+.mm{position:absolute;left:0;right:0;top:64px;z-index:40;background:rgba(8,11,9,.95);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+ border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 25px 50px -12px rgba(0,0,0,.6);
+ padding:12px 16px;transition:all .5s ease-out;transform:translateY(0);opacity:1}
+.mm.closed{transform:translateY(-16px);opacity:0;pointer-events:none}
+.mm a{display:block;padding:12px;border-radius:8px;font-size:14px;color:rgba(255,255,255,.8);transition:all .5s ease-out;transform:translateX(0)}
+.mm.closed a{transform:translateX(-16px);opacity:0}
+.mm a:hover{background:rgba(255,255,255,.05)}
+.mm .foot{display:flex;gap:12px;margin-top:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)}
+.mm .foot .pill{display:block;flex:1;text-align:center}
+.mm .foot .ib.map{display:flex}
+
+.hero{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 32px;z-index:10}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:24px;font-size:11px;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.24em}
+.meta .vine-line{width:32px}
+.acc{color:#57c785}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;letter-spacing:-.02em;font-size:36px;line-height:1.05;margin-bottom:16px}
+h1 em{font-style:italic;color:#57c785}
+.sub{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:24px;max-width:36rem;line-height:1.6}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;padding:10px 24px;font-size:14px;width:100%}
+.btn.solid{background:#fff;color:#000;font-weight:500;transition:background .3s}.btn.solid:hover{background:#e5e7eb}
+
+@media(min-width:640px){
+ nav{padding:16px 24px}.hero{padding:0 24px 32px}.pill{display:block}
+ .meta{gap:24px}h1{font-size:60px}.sub{font-size:16px}.btn{width:auto;padding:12px 32px}.ctas{gap:16px}
+ .ib.map{display:flex}.mm .foot{display:none}
+}
+@media(min-width:768px){nav{padding:24px 48px}.hero{padding:0 48px 64px}.meta{margin-bottom:32px}h1{font-size:72px;margin-bottom:24px}.sub{margin-bottom:40px}.pill{padding:8px 24px}.mm{top:80px}}
+@media(min-width:1024px){h1{font-size:96px}.links{display:flex}.ham,.mm{display:none}}
+@media(prefers-reduced-motion:reduce){.sway{animation:none}.bfu{animation:none;opacity:1}.mm,.mm a,.ham svg{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="blur"></div>
+<div class="grain"></div>
+
+<div class="page">
+ <nav>
+  <div class="brand bfu" style="animation-delay:0ms"><span class="sway"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#57c785" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>VERDANT</div>
+  <div class="links">
+   <a class="bfu" style="animation-delay:100ms" href="#">The Line</a>
+   <a class="bfu" style="animation-delay:150ms" href="#">Field Notes</a>
+   <a class="bfu" style="animation-delay:200ms" href="#">Visits</a>
+   <a class="bfu" style="animation-delay:250ms" href="#">Archive</a>
+  </div>
+  <div class="right">
+   <button class="pill liquid-glass bfu" style="animation-delay:300ms">Walk it</button>
+   <button class="ib map liquid-glass bfu" style="animation-delay:350ms" aria-label="Map"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg></button>
+   <button id="ham" class="ib ham liquid-glass bfu" style="animation-delay:300ms" aria-label="Menu" aria-expanded="false">
+    <svg class="m" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <svg class="x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+   </button>
+  </div>
+  <div id="mm" class="mm closed">
+   <a href="#" style="transition-delay:0ms">The Line</a>
+   <a href="#" style="transition-delay:50ms">Field Notes</a>
+   <a href="#" style="transition-delay:100ms">Visits</a>
+   <a href="#" style="transition-delay:150ms">Archive</a>
+   <div class="foot">
+    <button class="pill liquid-glass">Walk it</button>
+    <button class="ib map liquid-glass" aria-label="Map"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg></button>
+   </div>
+  </div>
+ </nav>
+
+ <main class="hero">
+  <div class="meta bfu" style="animation-delay:300ms"><span class="vine-line"></span><span>Line 7 — Closed 1974</span><span>·</span><span>Reclaimed by green</span><span>·</span><span class="acc">Free pack</span></div>
+  <h1 class="bfu" style="animation-delay:400ms">The city <em>forgot</em> this platform.</h1>
+  <p class="sub bfu" style="animation-delay:500ms">A station left to the roots, and it kept living.</p>
+  <div class="ctas">
+   <button class="btn solid bfu" style="animation-delay:600ms">Walk the line <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+   <button class="btn liquid-glass bfu" style="animation-delay:700ms">Free download <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#57c785" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
+  </div>
+ </main>
+</div>
+
+<script>
+(function(){
+var ham=document.getElementById('ham'),mm=document.getElementById('mm');
+ham.addEventListener('click',function(){var o=mm.classList.toggle('closed');ham.classList.toggle('open',!o);ham.setAttribute('aria-expanded',String(!o))});
+
+var cv=document.getElementById('bg'),cx=cv.getContext('2d');
+var W,H,base,dpr,parts=[],t0=0;
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rnd(s){var x=Math.sin(s*127.1)*43758.5453;return x-Math.floor(x)}
+
+function fern(c,x,y,s,seed,col){
+ c.save();c.translate(x,y);c.strokeStyle=col;c.lineWidth=Math.max(1,s*.025);c.lineCap='round';
+ for(var f=0;f<7;f++){
+  var a=-Math.PI/2+(f-3)*.34+(rnd(seed+f)-.5)*.2,len=s*(.7+rnd(seed+f*3)*.5);
+  var ex=Math.cos(a)*len,ey=Math.sin(a)*len-len*.25*Math.abs(Math.sin(f));
+  c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(ex*.5,ey*.9,ex,ey+len*.2);c.stroke();
+  for(var k=1;k<=11;k++){var u=k/12,px=ex*u*(1),py=(ey+len*.2)*u*u*.5+ey*u*(1-u*.5);
+   var l=s*.16*(1-u*.8);var nx=-Math.sin(a),ny=Math.cos(a);
+   c.beginPath();c.moveTo(px,py);c.lineTo(px+nx*l,py+ny*l*.6-l*.3);c.moveTo(px,py);c.lineTo(px-nx*l,py-ny*l*.6-l*.3);c.stroke();}
+ }
+ c.restore();
+}
+
+function build(){
+ dpr=Math.min(window.devicePixelRatio||1,1.5);
+ W=cv.width=Math.floor(innerWidth*dpr);H=cv.height=Math.floor(innerHeight*dpr);
+ base=document.createElement('canvas');base.width=W;base.height=H;var c=base.getContext('2d');
+ // deep teal-green void
+ var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0c1a18');g.addColorStop(.5,'#0a1613');g.addColorStop(1,'#060a08');
+ c.fillStyle=g;c.fillRect(0,0,W,H);
+ // far pillars / tunnel arches
+ c.fillStyle='rgba(4,8,7,.8)';
+ for(var i=0;i<6;i++){var px=W*(.04+i*.2+rnd(i)*.04),pw=W*(.05+rnd(i+9)*.05);c.fillRect(px,0,pw,H*.8);}
+ // soft fog blobs
+ for(var j=0;j<10;j++){var rg=c.createRadialGradient(W*rnd(j+3),H*(.25+rnd(j+7)*.4),0,W*rnd(j+3),H*(.25+rnd(j+7)*.4),W*.28);
+  rg.addColorStop(0,'rgba(40,75,62,.13)');rg.addColorStop(1,'rgba(40,75,62,0)');c.fillStyle=rg;c.fillRect(0,0,W,H);}
+ // hanging vines
+ c.lineCap='round';
+ for(var v=0;v<46;v++){
+  var vx=rnd(v*2.3)*W,vl=H*(.12+rnd(v+11)*.4),vw=Math.max(1,W*.0015*(1+rnd(v+5)*2.5));
+  c.strokeStyle='rgba('+(24+rnd(v)*28|0)+','+(52+rnd(v+1)*40|0)+','+(36+rnd(v+2)*20|0)+','+(.35+rnd(v+4)*.4)+')';c.lineWidth=vw;
+  c.beginPath();c.moveTo(vx,-5);
+  for(var s=1;s<=14;s++){var u=s/14;c.lineTo(vx+Math.sin(u*5+v)*W*.006*u,vl*u);}c.stroke();
+  for(var l=0;l<5;l++){var lu=rnd(v*7+l)*.95,ly=vl*lu,lx=vx+Math.sin(lu*14*.357*5+v)*W*.006*lu;
+   c.fillStyle='rgba(50,110,75,'+(.18+rnd(l+v)*.3)+')';c.beginPath();c.ellipse(lx+(rnd(l)-.5)*8*dpr,ly,vw*1.6+1.5,vw*.8+.8,rnd(l+v)*3,0,7);c.fill();}
+ }
+ // mossy arched mound (foreground platform)
+ var mx0=-W*.05,mx1=W*1.1,top=H*.68;
+ c.beginPath();c.moveTo(mx0,H*.88);
+ c.bezierCurveTo(W*.18,H*.66,W*.38,top-H*.02,W*.55,top);
+ c.bezierCurveTo(W*.74,top+H*.02,W*.9,H*.72,mx1,H*.82);
+ c.lineTo(mx1,H);c.lineTo(mx0,H);c.closePath();
+ var mg=c.createLinearGradient(0,top,0,H);mg.addColorStop(0,'#335c3a');mg.addColorStop(.12,'#1f3d28');mg.addColorStop(.4,'#0f1d16');mg.addColorStop(1,'#050806');
+ c.fillStyle=mg;c.fill();
+ c.save();c.clip();
+ // stone blocks
+ c.strokeStyle='rgba(0,0,0,.35)';c.lineWidth=1.5*dpr;
+ for(var r=0;r<7;r++){var ry=top+H*.07+r*H*.055;c.beginPath();c.moveTo(0,ry);c.lineTo(W,ry);c.stroke();
+  for(var q=0;q<18;q++){var qx=(q*W/14+(r%2)*W/28+rnd(r*9+q)*20);c.beginPath();c.moveTo(qx,ry);c.lineTo(qx,ry+H*.055);c.stroke();}}
+ // moss speckle
+ for(var m=0;m<2600;m++){var sx=rnd(m)*W,sy=top-H*.03+rnd(m+4000)*H*.14;
+  c.fillStyle='rgba('+(60+rnd(m+1)*50|0)+','+(120+rnd(m+2)*70|0)+','+(70+rnd(m+3)*40|0)+','+(.08+rnd(m+5)*.25)+')';
+  c.beginPath();c.arc(sx,sy+(sx<W*.4?H*.03:0),(1+rnd(m+6)*3)*dpr,0,7);c.fill();}
+ c.restore();
+ // ferns on crest
+ var fc=['rgba(110,190,110,.85)','rgba(80,160,95,.8)','rgba(130,200,120,.7)'];
+ fern(c,W*.37,top-H*.005,H*.1,3,fc[0]);fern(c,W*.66,top+H*.02,H*.085,11,fc[1]);fern(c,W*.5,top-H*.002,H*.05,21,fc[2]);fern(c,W*.14,H*.76,H*.06,31,fc[1]);
+ // vignette
+ var vg=c.createRadialGradient(W/2,H*.45,H*.25,W/2,H*.5,Math.max(W,H)*.75);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(2,4,3,.78)');
+ c.fillStyle=vg;c.fillRect(0,0,W,H);
+
+ parts=[];for(var p=0;p<90;p++)parts.push({x:rnd(p)*W,y:rnd(p+50)*H*.8,r:(.6+rnd(p+9)*1.8)*dpr,s:.15+rnd(p+7)*.4,ph:rnd(p+3)*6.28,a:.15+rnd(p+2)*.5});
+}
+
+function draw(ts){
+ var t=ts/1000;
+ cx.clearRect(0,0,W,H);cx.drawImage(base,0,0);
+ // light shaft (breathing)
+ var br=.75+.25*Math.sin(t*.5)+.05*Math.sin(t*1.7);
+ var sx=W*(.62+.01*Math.sin(t*.2)),w0=W*.03,w1=W*.2;
+ cx.save();cx.globalCompositeOperation='lighter';
+ var lg=cx.createLinearGradient(0,0,0,H*.75);lg.addColorStop(0,'rgba(150,200,210,'+(.38*br)+')');lg.addColorStop(.6,'rgba(110,170,170,'+(.14*br)+')');lg.addColorStop(1,'rgba(90,150,140,0)');
+ cx.fillStyle=lg;cx.beginPath();cx.moveTo(sx-w0,0);cx.lineTo(sx+w0,0);cx.lineTo(sx+w1+W*.05,H*.8);cx.lineTo(sx-w1+W*.02,H*.8);cx.closePath();
+ cx.filter='blur('+(18*dpr|0)+'px)';cx.fill();cx.filter='none';
+ // pool of light on moss
+ var pg=cx.createRadialGradient(sx+W*.02,H*.64,0,sx+W*.02,H*.64,W*.16);pg.addColorStop(0,'rgba(140,200,150,'+(.22*br)+')');pg.addColorStop(1,'rgba(140,200,150,0)');
+ cx.fillStyle=pg;cx.fillRect(0,0,W,H);
+ // dust
+ for(var i=0;i<parts.length;i++){var p=parts[i];
+  var y=(p.y+t*p.s*18*dpr)%(H*.85),x=p.x+Math.sin(t*.3+p.ph)*14*dpr;
+  var inShaft=Math.abs(x-sx-(y/H)*W*.06)<W*(.04+.14*y/H);
+  cx.fillStyle='rgba(210,235,225,'+(p.a*(inShaft?1:.25)*(.6+.4*Math.sin(t+p.ph)))+')';
+  cx.beginPath();cx.arc(x,y,p.r,0,7);cx.fill();}
+ cx.restore();
+}
+function loop(ts){draw(ts);requestAnimationFrame(loop)}
+function start(){build();if(reduce){draw(2000)}else requestAnimationFrame(loop)}
+var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){build();if(reduce)draw(2000)},120)});
+start();
+})();
+</script>
+</body>
+</html>

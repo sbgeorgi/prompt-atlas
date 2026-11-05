@@ -1,0 +1,1 @@
+ATLAS_P("F570","create a motion design prompt for an ad for our site\n\nPrompt 2: now apply it");

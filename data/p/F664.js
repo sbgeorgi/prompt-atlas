@@ -1,0 +1,1 @@
+ATLAS_P("F664","Make a painful to see 1 minute motion graphics HTML page that shows what an absolutely terrible motion designer you are, like it\u2019s a showreel designed to get your r\u00e9sum\u00e9 immediately rejected. Do the absolute bare minimum.");

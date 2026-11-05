@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claymorphism - Pillow Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#f1f2fa; --ink:#383139; --ink2:#48404b;
+  --accent:#f6a3ca; --mint:#c0efdc; --lav:#ded0f9; --butter:#f9e7a8; --blue:#c5e5fb; --surface:#fffdf7;
+  --face:"Claymorphism Instrument","Instrument Sans",system-ui,sans-serif;
+  --gap:24px; --gap-c:20px; --pgap:18px;
+  --r-surface:38px; --r-tray:70px; --r-control:999px; --r-disc:25px;
+  --focus:3px; --t:180ms;
+  /* light from upper left */
+  --hi:rgba(255,255,255,.85);
+  --lo:rgba(70,40,80,.16);
+  --drop:rgba(80,60,110,.20);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.55 var(--face);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+:focus-visible{outline:var(--focus) solid var(--ink);outline-offset:3px}
+
+/* clay surface: broad outer shadow + light inset upper-left + darker inset lower-right */
+.clay{
+  box-shadow:
+    18px 26px 48px var(--drop),
+    inset 10px 10px 18px var(--hi),
+    inset -12px -14px 22px var(--lo);
+}
+.clay-sm{
+  box-shadow:
+    9px 13px 24px var(--drop),
+    inset 6px 6px 11px var(--hi),
+    inset -7px -8px 14px var(--lo);
+}
+
+/* nav */
+header{padding:22px 0 8px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--surface);border-radius:var(--r-control);padding:12px 14px 12px 26px}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand i{width:26px;height:26px;border-radius:50%;background:var(--accent);box-shadow:3px 4px 8px var(--drop),inset 3px 3px 5px var(--hi),inset -3px -4px 6px rgba(150,40,100,.25)}
+.nav ul{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+.nav ul a{display:block;padding:9px 16px;border-radius:var(--r-control);text-decoration:none;font-weight:600;font-size:15px;color:var(--ink2);transition:background var(--t),transform var(--t)}
+.nav ul a:hover{background:var(--ground)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:700 16px/1 var(--face);color:var(--ink);text-decoration:none;border:0;cursor:pointer;
+  padding:18px 30px;border-radius:var(--r-control);background:var(--mint);
+  box-shadow:6px 10px 18px var(--drop),inset 5px 5px 9px var(--hi),inset -5px -6px 10px rgba(40,90,70,.22);
+  transition:transform var(--t),box-shadow var(--t)}
+.btn:hover{transform:translateY(-3px);box-shadow:8px 15px 24px var(--drop),inset 5px 5px 9px var(--hi),inset -5px -6px 10px rgba(40,90,70,.22)}
+.btn:active{transform:translateY(2px) scale(.97);box-shadow:2px 4px 8px var(--drop),inset 5px 5px 9px rgba(40,90,70,.2),inset -4px -4px 8px var(--hi)}
+.btn.sm{padding:13px 22px;font-size:15px}
+.btn.cream{background:var(--surface);box-shadow:6px 10px 18px var(--drop),inset 5px 5px 9px #fff,inset -5px -6px 10px rgba(90,60,90,.16)}
+.btn.pink{background:var(--accent);box-shadow:6px 10px 18px var(--drop),inset 5px 5px 9px rgba(255,255,255,.7),inset -5px -6px 10px rgba(150,40,100,.28)}
+.ghost{font-weight:700;text-decoration:none;padding:12px 6px;border-radius:12px;border-bottom:2px solid transparent;transition:border-color var(--t)}
+.ghost:hover{border-color:var(--ink)}
+
+/* hero */
+.hero{margin-top:var(--gap);display:grid;grid-template-columns:1.25fr 1fr;gap:var(--gap);align-items:stretch}
+.lead{background:var(--accent);border-radius:var(--r-tray);padding:64px 56px 56px;position:relative;z-index:2}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--surface);padding:8px 16px;border-radius:var(--r-control);box-shadow:3px 4px 8px var(--drop),inset 3px 3px 5px #fff,inset -3px -3px 6px rgba(90,60,90,.15);margin-bottom:26px}
+h1{font-size:clamp(54px,7.2vw,94px);line-height:.98;letter-spacing:-.045em;font-weight:700;text-wrap:balance}
+.lead p.sub{font-size:19px;line-height:1.55;max-width:34ch;margin-top:26px;color:var(--ink2);font-weight:500}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:34px}
+
+/* sculpture */
+.sculpt{position:relative;min-height:440px}
+.blob{position:absolute;box-shadow:16px 24px 40px var(--drop),inset 14px 14px 24px rgba(255,255,255,.75),inset -16px -18px 28px var(--lo)}
+.b1{width:68%;aspect-ratio:1;border-radius:50%;background:var(--lav);top:2%;left:4%}
+.b2{width:44%;aspect-ratio:1.1;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:var(--butter);right:0;top:34%}
+.b3{width:40%;aspect-ratio:1;border-radius:34%;background:var(--mint);left:0;bottom:2%;transform:rotate(-12deg)}
+.b4{width:30%;aspect-ratio:1;border-radius:50%;background:var(--blue);right:14%;bottom:0}
+.b5{width:19%;aspect-ratio:1;border-radius:50%;background:var(--accent);left:44%;top:0}
+.b6{width:34%;height:15%;border-radius:var(--r-control);background:var(--surface);left:30%;top:44%;transform:rotate(-8deg)}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap-c);margin-top:var(--gap)}
+.fact{border-radius:var(--r-surface);padding:26px 26px 24px}
+.fact b{display:block;font-size:20px;letter-spacing:-.02em;line-height:1.2;margin-bottom:6px}
+.fact span{font-size:15px;color:var(--ink2)}
+.f1{background:var(--mint)}.f2{background:var(--butter)}.f3{background:var(--blue)}.f4{background:var(--lav)}
+
+/* tray */
+.tray{border-radius:var(--r-tray);padding:72px 64px;margin-top:calc(var(--gap)*2);background:var(--surface)}
+.tray.lav{background:var(--lav)}
+h2{font-size:clamp(34px,4.2vw,56px);letter-spacing:-.035em;line-height:1.05;font-weight:700;text-wrap:balance}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);margin-bottom:14px}
+.tray-head{max-width:640px;margin-bottom:44px}
+.tray-head p{margin-top:var(--pgap);font-size:17px;color:var(--ink2)}
+
+.features{display:grid;grid-template-columns:1.35fr 1fr;gap:var(--gap)}
+.feat-big{background:var(--mint);border-radius:var(--r-surface);padding:40px;grid-row:span 2;display:flex;flex-direction:column}
+.feat-big h3{font-size:30px;letter-spacing:-.03em;line-height:1.1;margin-bottom:var(--pgap)}
+.feat-big p{color:var(--ink2);max-width:46ch}
+.demo{margin-top:auto;padding-top:30px}
+.demo .well{background:var(--ground);border-radius:28px;padding:22px;box-shadow:inset 8px 8px 16px rgba(70,50,100,.15),inset -6px -6px 12px #fff;display:grid;gap:12px}
+.row{display:flex;align-items:center;gap:14px;background:var(--surface);border-radius:22px;padding:12px 18px;font-weight:600;font-size:15px;box-shadow:4px 6px 12px var(--drop),inset 3px 3px 6px #fff,inset -3px -4px 8px rgba(90,60,90,.12)}
+.row .dot{width:22px;height:22px;border-radius:50%;flex:none;background:var(--accent);box-shadow:inset 2px 2px 4px rgba(255,255,255,.7),inset -2px -3px 5px rgba(150,40,100,.3)}
+.row:nth-child(2) .dot{background:var(--butter)}.row:nth-child(3) .dot{background:var(--blue)}
+.row small{margin-left:auto;font-size:13px;color:var(--ink2);font-weight:600}
+.feat{border-radius:var(--r-surface);padding:32px 34px}
+.feat h3{font-size:22px;letter-spacing:-.02em;margin-bottom:10px;line-height:1.2}
+.feat p{font-size:15px;color:var(--ink2)}
+.feat.w{background:var(--butter)}.feat.c{background:var(--blue)}
+
+/* editorial */
+.shelf-title{margin:72px 0 28px;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.shelf-title h2{font-size:clamp(30px,3.4vw,44px)}
+.editorial{display:grid;grid-template-columns:1.2fr 1fr;gap:var(--gap)}
+.card{background:var(--surface);border-radius:var(--r-surface);padding:22px}
+.cardbox{box-shadow:10px 16px 30px var(--drop),inset 6px 6px 12px #fff,inset -7px -8px 14px rgba(90,60,90,.1)}
+.img{border-radius:28px;overflow:hidden;position:relative;box-shadow:inset 8px 8px 16px rgba(70,50,100,.22),inset -6px -6px 12px rgba(255,255,255,.6)}
+.img svg{display:block;width:100%;height:100%}
+.lead-story .img{aspect-ratio:16/10}
+.lead-story .txt{padding:24px 12px 10px}
+.tag{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
+.lead-story h3{font-size:29px;letter-spacing:-.03em;line-height:1.12;margin:10px 0 var(--pgap)}
+.lead-story p{color:var(--ink2);font-size:16px}
+.by{display:flex;align-items:center;gap:12px;margin-top:22px;font-size:14px;font-weight:600}
+.by .av{width:44px;height:44px;border-radius:50%;flex:none;box-shadow:3px 4px 8px var(--drop),inset 3px 3px 5px rgba(255,255,255,.7),inset -3px -3px 6px rgba(70,40,80,.2);overflow:hidden}
+.by .av svg{width:100%;height:100%;display:block}
+.by small{display:block;font-weight:500;color:var(--ink2);font-size:13px}
+.stories{display:grid;gap:var(--gap-c);align-content:start}
+.story{display:grid;grid-template-columns:132px 1fr;gap:20px;align-items:center;padding:16px}
+.story .img{aspect-ratio:1}
+.story h3{font-size:19px;letter-spacing:-.02em;line-height:1.2;margin:6px 0 6px}
+.story p{font-size:14px;color:var(--ink2);line-height:1.45}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:var(--gap);counter-reset:s}
+.step{background:var(--surface);border-radius:var(--r-surface);padding:28px 30px 30px;position:relative}
+.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--accent);font-weight:700;font-size:19px;margin-bottom:18px;box-shadow:4px 6px 10px var(--drop),inset 3px 3px 6px rgba(255,255,255,.7),inset -3px -4px 7px rgba(150,40,100,.3)}
+.step h3{font-size:21px;letter-spacing:-.02em;margin-bottom:8px}
+.step p{font-size:15px;color:var(--ink2)}
+
+/* compare */
+.seg{display:inline-flex;gap:6px;padding:7px;border-radius:var(--r-control);background:var(--ground);box-shadow:inset 6px 6px 12px rgba(70,50,100,.16),inset -5px -5px 10px #fff;margin-bottom:28px}
+.seg button{font:700 15px/1 var(--face);color:var(--ink);border:0;cursor:pointer;padding:13px 22px;border-radius:var(--r-control);background:transparent;display:flex;align-items:center;gap:10px;transition:transform var(--t),background var(--t),box-shadow var(--t)}
+.seg button .pip{width:16px;height:16px;border-radius:50%;background:var(--surface);box-shadow:inset 2px 2px 3px rgba(70,50,100,.25),inset -1px -1px 2px #fff}
+.seg button[aria-pressed=true]{background:var(--surface);box-shadow:4px 6px 12px var(--drop),inset 3px 3px 6px #fff,inset -3px -4px 8px rgba(90,60,90,.14)}
+.seg button[aria-pressed=true] .pip{background:var(--ink);box-shadow:inset 2px 2px 3px rgba(0,0,0,.4),0 0 0 4px var(--surface) inset}
+.shelves{display:grid;gap:var(--gap-c)}
+.shelf{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) auto;gap:28px;align-items:center;background:var(--surface);border-radius:var(--r-surface);padding:28px 34px;transition:opacity var(--t),transform var(--t)}
+.shelf.hot{background:var(--accent)}
+.shelf h3{font-size:24px;letter-spacing:-.025em;line-height:1.1}
+.shelf .who small{display:block;font-size:14px;font-weight:600;margin-top:6px;color:var(--ink2)}
+.shelf ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;font-size:15px;font-weight:500}
+.shelf li{padding-left:22px;position:relative}
+.shelf li::before{content:"";position:absolute;left:0;top:.45em;width:12px;height:12px;border-radius:50%;background:var(--lav);box-shadow:inset 2px 2px 3px rgba(255,255,255,.8),inset -2px -2px 3px rgba(70,40,80,.3)}
+.shelf.hot li::before{background:var(--surface)}
+.shelf.dim{opacity:.55;transform:scale(.985)}
+
+.faq{display:grid;gap:14px;margin-top:44px}
+details{background:var(--surface);border-radius:var(--r-disc);padding:0}
+details summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;font-weight:700;font-size:17px;border-radius:var(--r-disc)}
+details summary::-webkit-details-marker{display:none}
+details summary i{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ground);position:relative;box-shadow:inset 4px 4px 7px rgba(70,50,100,.22),inset -3px -3px 6px #fff}
+details summary i::before,details summary i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:3px;border-radius:2px;background:var(--ink);transform:translate(-50%,-50%);transition:transform var(--t)}
+details summary i::after{transform:translate(-50%,-50%) rotate(90deg)}
+details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
+details p{padding:0 24px 22px;color:var(--ink2);max-width:62ch}
+
+/* closing */
+.closing{background:var(--accent);border-radius:var(--r-tray);margin-top:calc(var(--gap)*2);padding:84px 64px;text-align:center;position:relative;overflow:hidden}
+.closing h2{font-size:clamp(38px,5.4vw,72px);max-width:14ch;margin:0 auto;letter-spacing:-.04em}
+.closing p{font-size:18px;max-width:44ch;margin:22px auto 0;color:var(--ink2);font-weight:500}
+.closing .actions{justify-content:center}
+.cb{position:absolute;border-radius:50%;box-shadow:10px 16px 28px var(--drop),inset 8px 8px 14px rgba(255,255,255,.7),inset -9px -10px 16px var(--lo)}
+.cb1{width:120px;height:120px;background:var(--butter);left:-30px;top:-30px}
+.cb2{width:90px;height:90px;background:var(--lav);right:6%;bottom:-24px}
+.cb3{width:60px;height:60px;background:var(--mint);right:-14px;top:28%}
+
+/* footer */
+footer{background:var(--surface);border-radius:var(--r-tray) var(--r-tray) 0 0;margin-top:calc(var(--gap)*2);padding:64px 0 40px;box-shadow:0 -14px 40px rgba(80,60,110,.12),inset 8px 8px 16px #fff}
+.foot{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:var(--gap)}
+.foot p.about{font-size:15px;color:var(--ink2);max-width:30ch;margin-top:14px}
+.foot h3{font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15px}
+.foot ul a{text-decoration:none;color:var(--ink2);font-weight:500}
+.foot ul a:hover{color:var(--ink);text-decoration:underline}
+.legal{margin-top:48px;font-size:13px;color:var(--ink2)}
+
+@media (max-width:1100px){
+  :root{--gap:20px}
+  .lead{padding:52px 40px 46px}
+  .tray{padding:56px 40px}
+  .sculpt{min-height:380px}
+  .shelf{grid-template-columns:1fr 1.5fr}
+  .shelf .btn{grid-column:1/-1;justify-self:start}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .nav ul{display:none}
+  .closing{padding:68px 40px}
+}
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .sculpt{min-height:300px;max-width:420px;width:100%;margin:0 auto}
+  .features,.editorial{grid-template-columns:1fr}
+  .feat-big{grid-row:auto}
+  .steps{grid-template-columns:1fr}
+  .tray{padding:44px 26px;border-radius:52px}
+  .lead{border-radius:52px;padding:44px 28px 40px}
+  .closing{border-radius:52px;padding:56px 26px}
+  .shelf{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr 1fr}
+  .foot>div:first-child{grid-column:1/-1}
+  footer{border-radius:52px 52px 0 0}
+}
+@media (max-width:460px){
+  .wrap{padding:0 16px}
+  .nav{padding:10px 10px 10px 20px}
+  .nav .btn{padding:12px 18px;font-size:14px}
+  .lead p.sub{font-size:17px}
+  .lead{padding:36px 22px 34px}
+  .facts{grid-template-columns:1fr 1fr;gap:14px}
+  .fact{padding:18px 18px 16px;border-radius:28px}
+  .fact b{font-size:17px}
+  .fact span{font-size:14px}
+  .sculpt{min-height:230px}
+  .tray{padding:36px 18px}
+  .feat-big{padding:28px 22px}
+  .feat{padding:26px 24px}
+  .shelf ul{grid-template-columns:1fr}
+  .shelf{padding:24px 22px}
+  .story{grid-template-columns:96px 1fr;gap:14px}
+  .seg{display:flex;width:100%}
+  .seg button{flex:1;justify-content:center;padding:13px 6px;font-size:14px}
+  .seg button .pip{display:none}
+  .closing .cb{transform:scale(.6)}
+  .btn{padding:16px 24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .btn:hover,.btn:active{transform:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav class="nav clay-sm" aria-label="Main">
+      <a class="brand" href="#top"><i aria-hidden="true"></i>Pillow Kitchen</a>
+      <ul>
+        <li><a href="#features">How it works</a></li>
+        <li><a href="#journal">Journal</a></li>
+        <li><a href="#plans">Cooking modes</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ul>
+      <a class="btn sm" href="#closing">Start cooking</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap">
+  <section class="hero" aria-label="Introduction">
+    <div class="lead clay">
+      <span class="eyebrow">Meal planning, softened</span>
+      <h1>Dinner, planned gently.</h1>
+      <p class="sub">Pillow Kitchen turns the week's groceries and your free evenings into a calm, doable cooking plan.</p>
+      <div class="actions">
+        <a class="btn" href="#closing">Plan my week</a>
+        <a class="ghost" href="#features">See how it works</a>
+      </div>
+    </div>
+    <div class="sculpt" aria-hidden="true">
+      <div class="blob b1"></div>
+      <div class="blob b5"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+      <div class="blob b6"></div>
+      <div class="blob b4"></div>
+    </div>
+  </section>
+
+  <section class="facts" aria-label="Quick facts">
+    <div class="fact f1 clay-sm"><b>Starts from your fridge</b><span>Tell it what is already home.</span></div>
+    <div class="fact f2 clay-sm"><b>Fits your evenings</b><span>Busy night, short recipe.</span></div>
+    <div class="fact f3 clay-sm"><b>One shopping list</b><span>Merged and sorted by aisle.</span></div>
+    <div class="fact f4 clay-sm"><b>Swap anything</b><span>Every dish has a gentle alternative.</span></div>
+  </section>
+
+  <section class="tray clay" id="features" aria-labelledby="h-feat">
+    <div class="tray-head">
+      <p class="kicker">How it works</p>
+      <h2 id="h-feat">A plan that bends with your week</h2>
+      <p>Everything you need to cook at home sits in one soft place, with room to change your mind.</p>
+    </div>
+    <div class="features">
+      <article class="feat-big clay-sm">
+        <h3>Your week, laid out like cushions</h3>
+        <p>Each evening gets one dish sized to the time you actually have. Drag a Tuesday dinner to Thursday and the shopping list rebalances itself.</p>
+        <div class="demo" aria-hidden="true">
+          <div class="well">
+            <div class="row"><span class="dot"></span>Mon · Lemon orzo with peas<small>25 min</small></div>
+            <div class="row"><span class="dot"></span>Tue · Sheet-pan gnocchi<small>35 min</small></div>
+            <div class="row"><span class="dot"></span>Wed · Tomato and egg rice<small>15 min</small></div>
+          </div>
+        </div>
+      </article>
+      <article class="feat w clay-sm">
+        <h3>Cook once, eat twice</h3>
+        <p>Leftovers are planned in on purpose, so Wednesday's soup quietly becomes Thursday's lunch.</p>
+      </article>
+      <article class="feat c clay-sm">
+        <h3>Pantry first</h3>
+        <p>Pillow Kitchen checks what you already own before it adds anything to the list.</p>
+      </article>
+    </div>
+
+    <div class="shelf-title" id="journal">
+      <h2>From the kitchen journal</h2>
+      <a class="ghost" href="#journal">All stories</a>
+    </div>
+    <div class="editorial">
+      <article class="card cardbox lead-story">
+        <div class="img" role="img" aria-label="Illustration of a pot of soup on a warm table">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3b3"/><stop offset="1" stop-color="#f6a3ca"/></linearGradient>
+              <radialGradient id="pot" cx=".32" cy=".28" r=".9"><stop offset="0" stop-color="#ece8f6"/><stop offset="1" stop-color="#8e86a8"/></radialGradient>
+            </defs>
+            <rect width="640" height="400" fill="url(#bg1)"/>
+            <ellipse cx="320" cy="338" rx="230" ry="26" fill="#a5628a" opacity=".28"/>
+            <rect x="150" y="150" width="340" height="170" rx="56" fill="url(#pot)"/>
+            <ellipse cx="320" cy="156" rx="170" ry="34" fill="#e4a15a"/>
+            <ellipse cx="320" cy="152" rx="150" ry="26" fill="#f3b86b"/>
+            <circle cx="268" cy="150" r="9" fill="#e6704f"/><circle cx="332" cy="156" r="8" fill="#7cbf8e"/><circle cx="376" cy="148" r="7" fill="#e6704f"/><circle cx="300" cy="162" r="6" fill="#fff6dc"/>
+            <rect x="96" y="196" width="64" height="18" rx="9" fill="#8e86a8"/><rect x="480" y="196" width="64" height="18" rx="9" fill="#8e86a8"/>
+            <path d="M270 106c-14-22 14-34 0-58M330 100c-14-22 14-34 0-58M390 106c-14-22 14-34 0-58" stroke="#fffdf7" stroke-width="9" stroke-linecap="round" fill="none" opacity=".75"/>
+          </svg>
+        </div>
+        <div class="txt">
+          <span class="tag">Technique</span>
+          <h3>Why a slow Sunday soup makes Wednesday easier</h3>
+          <p>A single big pot, three small jars, and the quiet math of leftovers. Here is how we plan one cook-up that carries the whole week.</p>
+          <div class="by">
+            <span class="av" aria-hidden="true"><svg viewBox="0 0 44 44"><rect width="44" height="44" fill="#c0efdc"/><circle cx="22" cy="17" r="8" fill="#f2c9a8"/><path d="M6 44c2-13 10-16 16-16s14 3 16 16z" fill="#383139"/><path d="M13 15c0-8 18-9 18 0-5-3-13-3-18 0z" fill="#48404b"/></svg></span>
+            <span>Marta Ellison<small>Test kitchen editor</small></span>
+          </div>
+        </div>
+      </article>
+      <div class="stories">
+        <article class="card cardbox story">
+          <div class="img" role="img" aria-label="Illustration of a bowl of rice and egg">
+            <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#c5e5fb"/><ellipse cx="60" cy="86" rx="46" ry="10" fill="#6b8fb0" opacity=".3"/><path d="M16 60h88a44 40 0 0 1-88 0z" fill="#fffdf7"/><ellipse cx="60" cy="60" rx="44" ry="12" fill="#f9e7a8"/><circle cx="60" cy="56" r="13" fill="#fffdf7"/><circle cx="60" cy="56" r="7" fill="#f2a53e"/></svg>
+          </div>
+          <div><span class="tag">Fifteen minutes</span><h3>Tomato and egg rice, no recipe card</h3><p>The one-bowl dinner we make when nothing is planned.</p></div>
+        </article>
+        <article class="card cardbox story">
+          <div class="img" role="img" aria-label="Illustration of herbs in a jar">
+            <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#c0efdc"/><rect x="38" y="52" width="44" height="52" rx="14" fill="#fffdf7" opacity=".9"/><path d="M60 52V22M60 40c-14-2-20-12-20-18 12 0 20 8 20 18zM60 34c14-2 20-12 20-18-12 0-20 8-20 18z" stroke="#4e9b72" stroke-width="3" fill="#7cc69b"/><rect x="38" y="62" width="44" height="42" rx="14" fill="#fffdf7"/></svg>
+          </div>
+          <div><span class="tag">Pantry</span><h3>Keep herbs alive for two extra weeks</h3><p>A jar, a little water, and one small habit.</p></div>
+        </article>
+        <article class="card cardbox story">
+          <div class="img" role="img" aria-label="Illustration of a shopping list">
+            <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#ded0f9"/><rect x="28" y="16" width="64" height="88" rx="12" fill="#fffdf7"/><g fill="#f6a3ca"><circle cx="42" cy="40" r="5"/><circle cx="42" cy="60" r="5"/><circle cx="42" cy="80" r="5"/></g><g fill="#c9bfe0"><rect x="54" y="36" width="28" height="7" rx="3.5"/><rect x="54" y="56" width="22" height="7" rx="3.5"/><rect x="54" y="76" width="26" height="7" rx="3.5"/></g></svg>
+          </div>
+          <div><span class="tag">Shopping</span><h3>Read your list in aisle order</h3><p>Fewer laps around the store, calmer trips.</p></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="steps" aria-label="Steps">
+      <div class="step"><h3>Tell us your week</h3><p>Pick the evenings you want to cook and how long each one can take.</p></div>
+      <div class="step"><h3>Choose from the shelf</h3><p>Pillow Kitchen offers a few dishes per night. Keep one, swap another.</p></div>
+      <div class="step"><h3>Shop and cook</h3><p>One merged list, one calm step-by-step view at the stove.</p></div>
+    </div>
+  </section>
+
+  <section class="tray lav clay" id="plans" aria-labelledby="h-plans">
+    <div class="tray-head">
+      <p class="kicker">Cooking modes</p>
+      <h2 id="h-plans">Pick the pace that suits you</h2>
+      <p>Three ways to plan. You can switch whenever the week changes shape.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Show modes for">
+      <button type="button" aria-pressed="true" data-f="all"><span class="pip"></span>All modes</button>
+      <button type="button" aria-pressed="false" data-f="solo"><span class="pip"></span>For one</button>
+      <button type="button" aria-pressed="false" data-f="many"><span class="pip"></span>For many</button>
+    </div>
+    <div class="shelves">
+      <article class="shelf clay-sm" data-g="solo">
+        <div class="who"><h3>Weeknight</h3><small>Short, single-pan dinners</small></div>
+        <ul><li>Under 30 minutes</li><li>Five ingredients or fewer</li><li>Planned leftovers</li><li>Quiet cleanup</li></ul>
+        <a class="btn sm cream" href="#closing">Choose weeknight</a>
+      </article>
+      <article class="shelf hot clay-sm" data-g="solo many">
+        <div class="who"><h3>Weekend</h3><small>Slower, bigger, shared</small></div>
+        <ul><li>Long-simmer recipes</li><li>Prep-ahead steps</li><li>Scales to a table</li><li>Freezer notes</li></ul>
+        <a class="btn sm cream" href="#closing">Choose weekend</a>
+      </article>
+      <article class="shelf clay-sm" data-g="many">
+        <div class="who"><h3>Batch</h3><small>One cook-up, many meals</small></div>
+        <ul><li>Cook once on Sunday</li><li>Labelled portions</li><li>Reheat guidance</li><li>Combined list</li></ul>
+        <a class="btn sm cream" href="#closing">Choose batch</a>
+      </article>
+    </div>
+
+    <div class="faq" id="faq">
+      <details>
+        <summary>Do I have to follow the plan exactly?<i aria-hidden="true"></i></summary>
+        <p>No. Every evening can be swapped, skipped or moved, and the shopping list updates to match.</p>
+      </details>
+      <details>
+        <summary>Can it work around allergies?<i aria-hidden="true"></i></summary>
+        <p>Yes. Mark what to avoid once, and those ingredients stay out of every suggestion.</p>
+      </details>
+      <details>
+        <summary>What if I only cook twice a week?<i aria-hidden="true"></i></summary>
+        <p>Pick just those evenings. Pillow Kitchen only plans the nights you choose.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="closing clay" id="closing" aria-labelledby="h-close">
+    <span class="cb cb1" aria-hidden="true"></span><span class="cb cb2" aria-hidden="true"></span><span class="cb cb3" aria-hidden="true"></span>
+    <h2 id="h-close">Make this week feel softer.</h2>
+    <p>Tell Pillow Kitchen what is in your fridge and which evenings are free. Your first plan takes a few minutes.</p>
+    <div class="actions"><a class="btn cream" href="#top">Plan my week</a><a class="ghost" href="#features">Read how it works</a></div>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="brand" href="#top"><i aria-hidden="true"></i>Pillow Kitchen</a>
+        <p class="about">Gentle meal planning for people who like to cook at home.</p>
+      </div>
+      <div><h3>Product</h3><ul><li><a href="#features">How it works</a></li><li><a href="#plans">Cooking modes</a></li><li><a href="#faq">Questions</a></li></ul></div>
+      <div><h3>Journal</h3><ul><li><a href="#journal">Technique</a></li><li><a href="#journal">Pantry</a></li><li><a href="#journal">Shopping</a></li></ul></div>
+      <div><h3>Company</h3><ul><li><a href="#top">About</a></li><li><a href="#top">Contact</a></li><li><a href="#top">Privacy</a></li></ul></div>
+    </div>
+    <p class="legal">Sample page for the Claymorphism style. Pillow Kitchen is an invented product.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.seg button'), shelves=document.querySelectorAll('.shelf');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      var f=b.getAttribute('data-f');
+      shelves.forEach(function(s){
+        var on=f==='all'||(' '+s.getAttribute('data-g')+' ').indexOf(' '+f+' ')>-1;
+        s.classList.toggle('dim',!on);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

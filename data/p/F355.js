@@ -1,0 +1,1 @@
+ATLAS_P("F355","Create a video using Rust + SVG via fframes where every frame is a function. Include particles, 3D geometry, springs, shaders and an audio-reactive ring, synchronized to a 128 BPM beat grid.");

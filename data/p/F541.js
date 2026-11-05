@@ -1,0 +1,1 @@
+ATLAS_P("F541","one Python script that builds a looping claymation desk scene in Blender. A clay mug with steam, a plant with five leaves, and a paper airplane circling the mug. 96 frames, animated on twos.");

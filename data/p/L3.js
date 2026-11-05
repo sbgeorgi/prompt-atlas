@@ -1,0 +1,1 @@
+ATLAS_P("L3","Create a bold, dynamic 15-second motion graphics video that showcases your best motion design skills as if it\u2019s the highlight of your portfolio for a dream job. Bring sharp timing, smooth transitions, and standout visuals. Push your creativity and make every second count.");

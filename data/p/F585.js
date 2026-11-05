@@ -1,0 +1,1 @@
+ATLAS_P("F585","Build the same looping claymation desk scene: a clay mug, a plant and a paper airplane circling the mug, animated on twos like real stop-motion.\n\nFirst in Blender, then in Three.js.");

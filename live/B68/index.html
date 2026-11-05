@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal - Step Through. Work Smarter.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#000;color:#fff}
+body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block;flex:none}
+
+/* background scene (stands in for the looping video) */
+#scene{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+/* bottom blur only, no dark gradient */
+.blur-bottom{position:fixed;inset:0;z-index:1;pointer-events:none;
+  -webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
+  -webkit-mask-image:linear-gradient(to top,black 0%,transparent 45%);
+  mask-image:linear-gradient(to top,black 0%,transparent 45%)}
+
+/* liquid glass */
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:none;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+  background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box exclude,linear-gradient(#fff 0 0);
+  mask-composite:exclude;pointer-events:none}
+.liquid-glass:hover{background:rgba(255,255,255,.07)}
+
+@keyframes blurFadeUp{
+  from{opacity:0;filter:blur(20px);transform:translateY(40px)}
+  to{opacity:1;filter:blur(0);transform:translateY(0)}}
+.animate-blur-fade-up{opacity:0;animation:blurFadeUp 1s ease-out forwards}
+
+/* layout */
+#app{position:relative;z-index:10;height:100vh;height:100dvh;display:flex;flex-direction:column}
+nav{position:relative;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 16px}
+.logo{font-weight:600;letter-spacing:.32em;font-size:15px;height:32px;display:flex;align-items:center;gap:10px}
+.logo i{display:inline-block;width:13px;height:21px;border:1.5px solid #fff;border-radius:50%;box-shadow:0 0 12px rgba(255,190,120,.6),inset 0 0 8px rgba(255,190,120,.5)}
+.links{display:none;gap:36px;align-items:center}
+.links a{font-size:14px;transition:color .2s}
+.links a:hover{color:#d1d5db}
+.right{display:flex;align-items:center;gap:12px}
+.pill{border-radius:9999px;display:none;align-items:center;gap:8px;padding:8px 16px;font-size:14px;font-weight:500}
+.circle{width:40px;height:40px;border-radius:9999px;display:none;align-items:center;justify-content:center}
+.burger{display:flex;position:relative}
+.burger svg{position:absolute;transition:all .5s ease-out}
+.burger .ic-x{opacity:0;transform:rotate(-180deg) scale(.5)}
+.burger.open .ic-menu{opacity:0;transform:rotate(180deg) scale(.5)}
+.burger.open .ic-x{opacity:1;transform:rotate(0) scale(1)}
+
+.mobile-menu{position:absolute;top:72px;left:0;right:0;z-index:40;background:rgba(17,24,39,.95);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid #1f2937;border-bottom:1px solid #1f2937;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.6);padding:12px 16px;
+  transform:translateY(-16px);opacity:0;pointer-events:none;transition:all .5s ease-out}
+.mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+.mobile-menu a{display:block;padding:12px;border-radius:8px;font-size:15px;opacity:0;transform:translateX(-16px);transition:all .5s ease-out,background .2s}
+.mobile-menu.open a{opacity:1;transform:none}
+.mobile-menu a:hover{background:rgba(31,41,55,.5)}
+.mm-actions{display:flex;gap:12px;margin-top:8px;padding-top:12px;border-top:1px solid #1f2937}
+.mm-actions .pill{display:flex}.mm-actions .circle{display:flex}
+
+.hero{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 32px;position:relative;z-index:10}
+.hero-row{display:flex;flex-direction:column;align-items:flex-start;gap:32px}
+.left{flex:1;min-width:0}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;font-size:12px;align-items:center}
+.meta span{display:flex;align-items:center;gap:6px}
+.meta b{font-weight:500}
+h1{font-weight:400;letter-spacing:-.04em;line-height:1.02;font-size:30px;margin-bottom:16px;text-wrap:balance}
+.desc{font-size:16px;color:#9ca3af;margin-bottom:24px;max-width:42rem;line-height:1.5}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{border-radius:9999px;font-weight:500;padding:10px 24px;display:flex;align-items:center;gap:8px;font-size:15px}
+.btn.solid{background:#fff;color:#000;transition:background .2s}
+.btn.solid:hover{background:#e5e7eb}
+.arrows{display:flex;gap:12px}
+.arrows .pill{display:flex;padding:10px 16px}
+
+@media (min-width:640px){
+  nav{padding:16px 24px}
+  .pill{display:flex}.circle{display:flex}.circle.burger{display:flex}
+  .hero{padding:0 24px 32px}
+  .meta{gap:24px;font-size:14px}
+  .meta svg.big{width:20px;height:20px}
+  h1{font-size:48px}
+  .desc{font-size:18px}
+  .cta{gap:16px}
+  .btn{padding:12px 32px}
+  .arrows .pill{padding:12px 24px}
+  .mm-actions{display:none}
+}
+@media (min-width:768px){
+  nav{padding:24px 48px}
+  .logo{height:40px}
+  .hero{padding:0 48px 64px}
+  .hero-row{flex-direction:row;align-items:flex-end}
+  .arrows{justify-content:flex-end}
+  .meta{margin-bottom:32px}
+  h1{font-size:60px;margin-bottom:24px}
+  .desc{font-size:20px;margin-bottom:48px}
+  .pill{padding:8px 24px}
+}
+@media (min-width:1024px){
+  h1{font-size:72px}
+  .links{display:flex}
+  .circle.burger,.mobile-menu{display:none}
+}
+@media (max-width:1023.98px){.burger{display:flex}}
+@media (max-width:639.98px){.right .pill,.right .circle:not(.burger){display:none}}
+@media (prefers-reduced-motion:reduce){.animate-blur-fade-up{animation-duration:.01s}}
+</style>
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="blur-bottom"></div>
+
+<div id="app">
+  <nav>
+    <div class="logo animate-blur-fade-up" style="animation-delay:0ms"><i></i>PORTAL</div>
+    <div class="links">
+      <a class="animate-blur-fade-up" style="animation-delay:100ms" href="#">Movies</a>
+      <a class="animate-blur-fade-up" style="animation-delay:150ms" href="#">TV Series</a>
+      <a class="animate-blur-fade-up" style="animation-delay:200ms" href="#">Editor's Pick</a>
+      <a class="animate-blur-fade-up" style="animation-delay:250ms" href="#">Interviews</a>
+      <a class="animate-blur-fade-up" style="animation-delay:300ms" href="#">User Reviews</a>
+    </div>
+    <div class="right">
+      <button class="pill liquid-glass animate-blur-fade-up" style="animation-delay:350ms">Search
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+      <button class="circle liquid-glass animate-blur-fade-up" style="animation-delay:400ms" aria-label="Profile">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+      <button id="burger" class="circle burger liquid-glass animate-blur-fade-up" style="animation-delay:350ms" aria-label="Menu">
+        <svg class="ic-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg class="ic-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="mm" class="mobile-menu">
+      <a href="#" style="transition-delay:50ms">Movies</a>
+      <a href="#" style="transition-delay:100ms">TV Series</a>
+      <a href="#" style="transition-delay:150ms">Editor's Pick</a>
+      <a href="#" style="transition-delay:200ms">Interviews</a>
+      <a href="#" style="transition-delay:250ms">User Reviews</a>
+      <div class="mm-actions">
+        <button class="pill liquid-glass">Search
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button class="circle liquid-glass" aria-label="Profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="hero">
+    <div class="hero-row">
+      <div class="left">
+        <div class="meta animate-blur-fade-up" style="animation-delay:300ms">
+          <span><svg class="big" width="16" height="16" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><b>8.7/10 IMDB</b></span>
+          <span><svg class="big" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>132 min</span>
+          <span><svg class="big" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>April, 2025</span>
+        </div>
+        <h1 class="animate-blur-fade-up" style="animation-delay:400ms">Step Through. Work Smarter.</h1>
+        <p class="desc animate-blur-fade-up" style="animation-delay:500ms">A voyage through forgotten realms, where past and future intertwine.</p>
+        <div class="cta">
+          <button class="btn solid animate-blur-fade-up" style="animation-delay:600ms">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>Watch Now</button>
+          <button class="btn liquid-glass animate-blur-fade-up" style="animation-delay:700ms">Learn More</button>
+        </div>
+      </div>
+      <div class="arrows">
+        <button class="pill liquid-glass animate-blur-fade-up" style="animation-delay:800ms" aria-label="Previous">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Previous</button>
+        <button class="pill liquid-glass animate-blur-fade-up" style="animation-delay:900ms" aria-label="Next">Next
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var b=document.getElementById('burger'),m=document.getElementById('mm');
+  b.addEventListener('click',function(){b.classList.toggle('open');m.classList.toggle('open')});
+
+  // ---- background: procedural portal scene (replaces the hosted video) ----
+  var cv=document.getElementById('scene'),ctx=cv.getContext('2d'),W,H,DPR,seed=7;
+  function rnd(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
+  var stars=[],parts=[],cols=[];
+  function resize(){
+    DPR=Math.min(window.devicePixelRatio||1,1.5);
+    W=cv.width=Math.floor(innerWidth*DPR);H=cv.height=Math.floor(innerHeight*DPR);
+    seed=7;stars=[];parts=[];cols=[];
+    for(var i=0;i<160;i++)stars.push({x:rnd(),y:rnd()*.62,r:rnd()*1.1+.2,a:rnd()*.6+.15,p:rnd()*6.28});
+    for(var i=0;i<170;i++)parts.push({a:rnd()*6.28,d:rnd(),s:rnd()*.05+.02,z:rnd()*1.2+.4,h:rnd()});
+    // ruined columns flanking the gate
+    var n=W>900*DPR?9:5;
+    for(var i=0;i<n;i++){
+      var side=i%2?1:-1,k=Math.floor(i/2);
+      cols.push({off:side*(.28+k*.17+rnd()*.05),w:.026+rnd()*.018,h:.22+rnd()*.34,broken:rnd()});
+    }
+  }
+  addEventListener('resize',resize);resize();
+
+  function draw(t){
+    var narrow=W<760*DPR;
+    var cx=W*(narrow?.5:.64),hor=H*(narrow?.56:.64),U=Math.min(W,H*1.35);
+    var rx=U*(narrow?.2:.128),ry=rx*1.7,cy=hor-ry*.86;
+    var g=ctx.createLinearGradient(0,0,0,hor);
+    g.addColorStop(0,'#01030a');g.addColorStop(.7,'#08121f');g.addColorStop(1,'#1a2230');
+    ctx.globalCompositeOperation='source-over';ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+
+    // stars
+    for(var i=0;i<stars.length;i++){var s=stars[i],tw=.6+.4*Math.sin(t*.0012+s.p);
+      ctx.fillStyle='rgba(220,230,255,'+(s.a*tw)+')';ctx.fillRect(s.x*W,s.y*H,s.r*DPR,s.r*DPR)}
+
+    // halo behind portal
+    var halo=ctx.createRadialGradient(cx,cy,ry*.1,cx,cy,ry*3.2);
+    halo.addColorStop(0,'rgba(255,170,90,.34)');halo.addColorStop(.35,'rgba(60,150,190,.16)');halo.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=halo;ctx.fillRect(0,0,W,hor+H*.1);
+
+    // distant dunes
+    ctx.fillStyle='#050a13';ctx.beginPath();ctx.moveTo(0,hor);
+    for(var x=0;x<=W;x+=W/40)ctx.lineTo(x,hor-Math.abs(Math.sin(x/W*5+1.3))*H*.05-Math.sin(x/W*13)*H*.008);
+    ctx.lineTo(W,hor);ctx.closePath();ctx.fill();
+
+    // columns (silhouettes with rim light facing the portal)
+    for(var i=0;i<cols.length;i++){var c=cols[i],x=cx+c.off*U*1.1,w=c.w*U,h=c.h*H,top=hor-h;
+      if(x<-w||x>W+w)continue;
+      var dir=x<cx?1:-1,lg=ctx.createLinearGradient(x-w/2,0,x+w/2,0);
+      var lit='rgba(255,170,100,'+(.5/(1+Math.abs(c.off)*3))+')';
+      if(dir>0){lg.addColorStop(0,'#02040a');lg.addColorStop(.7,'#05080f');lg.addColorStop(1,lit)}
+      else{lg.addColorStop(0,lit);lg.addColorStop(.3,'#05080f');lg.addColorStop(1,'#02040a')}
+      ctx.fillStyle=lg;ctx.beginPath();ctx.moveTo(x-w/2,hor);ctx.lineTo(x-w/2,top+(c.broken>.5?h*.12:0));
+      ctx.lineTo(x-w*.1,top+h*.05*c.broken);ctx.lineTo(x+w/2,top+(c.broken<.5?h*.15:0));ctx.lineTo(x+w/2,hor);ctx.closePath();ctx.fill();
+      ctx.fillRect(x-w*.7,hor-h*.04,w*1.4,h*.04)}
+
+    // floor
+    var fl=ctx.createLinearGradient(0,hor,0,H);
+    fl.addColorStop(0,'#0b121c');fl.addColorStop(.25,'#04070c');fl.addColorStop(1,'#000');
+    ctx.fillStyle=fl;ctx.fillRect(0,hor,W,H-hor);
+    // reflection of portal on floor
+    ctx.globalCompositeOperation='lighter';
+    var rf=ctx.createRadialGradient(cx,hor+2,0,cx,hor+2,rx*2.4);
+    rf.addColorStop(0,'rgba(255,200,140,.5)');rf.addColorStop(.4,'rgba(70,160,200,.14)');rf.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.save();ctx.translate(0,hor);ctx.scale(1,.22);ctx.translate(0,-hor);ctx.fillStyle=rf;ctx.fillRect(cx-rx*3,hor-rx*3,rx*6,rx*6);ctx.restore();
+    for(var i=0;i<26;i++){var yy=hor+Math.pow(i/26,1.8)*(H-hor)*.55+2,ww=rx*(.4+i*.05)*(1+.25*Math.sin(t*.0015+i*1.7));
+      ctx.fillStyle='rgba(255,190,130,'+(.16*(1-i/26))+')';ctx.fillRect(cx-ww/2,yy,ww,Math.max(1,DPR*(1+i*.12)))}
+
+    // portal body
+    ctx.save();ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,6.2832);ctx.clip();
+    ctx.globalCompositeOperation='source-over';
+    var core=ctx.createRadialGradient(cx,cy+ry*.1,0,cx,cy,ry);
+    core.addColorStop(0,'#fff6e4');core.addColorStop(.18,'#ffc784');core.addColorStop(.5,'#2f7f9c');core.addColorStop(1,'#071727');
+    ctx.fillStyle=core;ctx.fillRect(cx-rx,cy-ry,rx*2,ry*2);
+    ctx.globalCompositeOperation='lighter';
+    // swirling arcs inside
+    for(var i=0;i<46;i++){
+      var f=i/46,rr=.08+f*.95,ang=t*.0006*(1.6-f)+i*2.4;
+      ctx.strokeStyle='hsla('+(28+f*170)+',90%,'+(78-f*30)+'%,'+(.34-f*.2)+')';
+      ctx.lineWidth=DPR*(.6+(1-f)*1.4);
+      ctx.beginPath();ctx.ellipse(cx,cy,rx*rr,ry*rr,ang*.15,ang,ang+.9+Math.sin(i)*.5);ctx.stroke()}
+    ctx.restore();
+    ctx.globalCompositeOperation='lighter';
+
+    // portal rim (energy ring)
+    for(var k=0;k<4;k++){
+      ctx.strokeStyle='rgba(255,'+(200-k*30)+','+(150-k*20)+','+(.65-k*.14)+')';ctx.lineWidth=DPR*(1.6+k*2.2);
+      ctx.globalAlpha=.55+.15*Math.sin(t*.002+k);
+      ctx.beginPath();ctx.ellipse(cx,cy,rx+k*DPR*2.5,ry+k*DPR*2.5,0,0,6.2832);ctx.stroke()}
+    ctx.globalAlpha=1;
+    // orbiting arc sparks on rim
+    for(var i=0;i<3;i++){var a0=t*.0004*(i%2?-1:1)*(1+i*.4)+i*2.1;
+      ctx.strokeStyle='rgba(140,220,255,'+(.55-i*.12)+')';ctx.lineWidth=DPR*(1.2+i*.7);
+      ctx.beginPath();ctx.ellipse(cx,cy,rx*(1.1+i*.1),ry*(1.07+i*.08),0,a0,a0+1.1);ctx.stroke()}
+
+    // light shaft from portal to floor
+    var sh=ctx.createLinearGradient(0,cy+ry*.6,0,H);
+    sh.addColorStop(0,'rgba(255,190,130,.10)');sh.addColorStop(1,'rgba(255,190,130,0)');
+    ctx.fillStyle=sh;ctx.beginPath();ctx.moveTo(cx-rx*.8,cy+ry*.6);ctx.lineTo(cx+rx*.8,cy+ry*.6);
+    ctx.lineTo(cx+rx*3.2,H);ctx.lineTo(cx-rx*3.2,H);ctx.closePath();ctx.fill();
+
+    // particles spiral into the portal
+    for(var i=0;i<parts.length;i++){var p=parts[i];
+      p.d-=p.s*.0035*(1+(1-p.d)*1.3);p.a+=.0022*(1.5-p.d);
+      if(p.d<.02){p.d=1;p.a=rnd()*6.28}
+      var R=p.d*U*.5*p.z,px=cx+Math.cos(p.a)*R,py=cy+Math.sin(p.a)*R*.75+ (1-p.d)*0;
+      var al=Math.min(1,p.d*3)*(1-p.d*.5)*.7;
+      ctx.fillStyle=p.h>.5?'rgba(255,200,140,'+al+')':'rgba(140,215,255,'+al+')';
+      var sz=DPR*(.8+p.z*.9)*(1.3-p.d*.6);ctx.fillRect(px,py,sz,sz)}
+    ctx.globalCompositeOperation='source-over';
+
+    // vignette
+    var v=ctx.createRadialGradient(W/2,H*.45,Math.min(W,H)*.45,W/2,H/2,Math.max(W,H)*.8);
+    v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,.55)');ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
+  }
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function loop(t){draw(t);if(!reduce)requestAnimationFrame(loop)}
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

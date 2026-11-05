@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brand New Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --raw-ink-950:#150406; --raw-ink-900:#1e070a; --raw-ink-800:#2c0e13; --raw-ink-700:#431a20;
+  --raw-bone-50:#f2f3f5; --raw-bone-400:#9a8a8d; --raw-bone-500:#75666a;
+  --raw-scarlet-500:#e0202b; --raw-scarlet-300:#ff5d64; --raw-cobalt-500:#2b4fd0;
+  /* semantic roles */
+  --bg:var(--raw-ink-950); --fg:var(--raw-bone-50); --fg-dim:var(--raw-bone-400); --fg-faint:var(--raw-bone-500);
+  --accent-figure:var(--raw-scarlet-300); --accent-room:var(--raw-cobalt-500);
+  --hdr:var(--fg);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+html,body{overflow-x:clip}
+body{font-family:"Inter Tight",system-ui,sans-serif}
+#track{height:2200vh;position:relative}
+#stage{position:sticky;top:0;height:100vh;height:100svh;width:100%;overflow:hidden;background:var(--bg)}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ov{position:absolute;inset:0;pointer-events:none;visibility:hidden;opacity:0}
+.ch{display:inline-block;white-space:pre;will-change:transform,filter,opacity;backface-visibility:hidden}
+.w{display:inline-block;white-space:nowrap}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;text-transform:uppercase}
+#hdr{position:absolute;inset:0 0 auto 0;display:flex;justify-content:space-between;padding:clamp(16px,2.6vw,34px) clamp(16px,3.4vw,44px);
+  font:500 clamp(10px,1.05vw,13px)/1 "JetBrains Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--hdr);pointer-events:none;z-index:5}
+/* act 1 */
+#o1 .phraseA{position:absolute;left:3.8vw;top:65%;font-size:clamp(9px,1.05vw,14px);letter-spacing:.22em;color:var(--raw-scarlet-500)}
+#o1 .title{position:absolute;left:3.6vw;top:70%;margin:0;font-weight:500;font-size:9.6vw;line-height:1;letter-spacing:-.025em;color:var(--fg)}
+#o1 .phraseB{position:absolute;left:3.8vw;top:91%;font-size:clamp(9px,1.05vw,14px);letter-spacing:.22em;color:var(--fg-faint)}
+/* act 3 */
+#o2{display:grid;place-items:center;text-align:center}
+#o2 p{margin:0;font-size:clamp(11px,1.6vw,22px);letter-spacing:.42em;color:var(--fg);padding:0 6vw;line-height:2.2}
+/* act 4-5 */
+#o3{display:grid;place-items:center;text-align:center}
+#o3 p{margin:0;font-weight:600;font-size:clamp(34px,9vw,150px);letter-spacing:-.03em;line-height:.92;color:var(--fg);padding:0 4vw}
+/* closing wipe: bone field (the new day) */
+#wipe{position:absolute;inset:0;pointer-events:none;background:var(--raw-bone-50);clip-path:inset(100% 0 0 0);visibility:hidden}
+#wipe .t{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+#wipe h2{margin:0;font-weight:600;font-size:clamp(36px,10.6vw,190px);letter-spacing:-.03em;line-height:.95;color:var(--raw-ink-950)}
+#wipe small{display:block;margin-top:2.2vw;font-size:clamp(9px,1.05vw,14px);letter-spacing:.26em;color:var(--raw-scarlet-500)}
+@media (max-width:760px){
+  #o1 .title{font-size:12.4vw;top:72%}
+  #o1 .phraseA{top:67%;left:5vw;letter-spacing:.14em}
+  #o1 .title{left:4.6vw}
+  #o2 p{letter-spacing:.26em}
+}
+@media (prefers-reduced-motion:reduce){.ch{will-change:auto}}
+</style>
+</head>
+<body>
+<div id="track">
+  <div id="stage">
+    <canvas id="c"></canvas>
+    <div id="hdr"><span>Brand New Day</span><span>A Fan Tribute</span></div>
+
+    <div class="ov" id="o1">
+      <div class="phraseA mono" data-split>Come on, come on, come on</div>
+      <h1 class="title" data-split>BRAND NEW DAY</h1>
+      <div class="phraseB mono" data-split>Come on</div>
+    </div>
+    <div class="ov" id="o2"><p class="mono" data-split>Here it comes, here it comes</p></div>
+    <div class="ov" id="o3"><p data-split>Come on, come on, come on</p></div>
+    <div id="wipe"><div class="t"><h2 data-split>BRAND NEW DAY</h2><small class="mono" data-split>Come on, come on, come on</small></div></div>
+  </div>
+</div>
+
+<script type="importmap">
+{"imports":{
+ "three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+ "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+import {ShaderPass} from 'three/addons/postprocessing/ShaderPass.js';
+import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
+import {VignetteShader} from 'three/addons/shaders/VignetteShader.js';
+import {LineSegments2} from 'three/addons/lines/LineSegments2.js';
+import {LineSegmentsGeometry} from 'three/addons/lines/LineSegmentsGeometry.js';
+import {LineMaterial} from 'three/addons/lines/LineMaterial.js';
+
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MOBILE = innerWidth < 760;
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const sstep=(a,b,x)=>{const t=clamp((x-a)/(b-a));return t*t*(3-2*t)};
+const smooth=t=>{t=clamp(t);return t*t*(3-2*t)};
+
+/* ---------- THE ONE RULE: a single mutable scalar, written once per frame ---------- */
+const S={p:0,sp:0};
+const ACT_END=0.82;
+
+/* ---------- renderer / scene ---------- */
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:false,powerPreference:'high-performance'});
+const DPR=Math.min(devicePixelRatio||1, MOBILE?1.0:1.5);
+renderer.setPixelRatio(DPR);
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.0;
+
+const scene=new THREE.Scene();
+const INK950=new THREE.Color('#150406');
+scene.fog=new THREE.Fog(INK950,20,150);
+
+// red-black backdrop: radial plate + faint pinstripes, same hue as the accent
+{
+  const c=document.createElement('canvas'); c.width=1280; c.height=720; const g=c.getContext('2d',{willReadFrequently:true});
+  const r=g.createRadialGradient(640,380,0,640,380,760);
+  r.addColorStop(0,'#5a1325'); r.addColorStop(.45,'#34101a'); r.addColorStop(1,'#2c0e13');
+  g.fillStyle=r; g.fillRect(0,0,1280,720);
+  g.fillStyle='rgba(255,110,120,0.035)'; for(let x=0;x<1280;x+=26) g.fillRect(x,0,1,720);
+  const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; scene.background=tex;
+}
+
+const camera=new THREE.PerspectiveCamera(38,1,0.1,900);
+camera.rotation.order='YXZ';
+
+/* ---------- THE FIGURE: portrait plate -> 40k instanced beads ---------- */
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const rnd=rng(20241104);
+
+function drawPlate(){
+  const W=320,H=640,cx=W/2;
+  const c=document.createElement('canvas'); c.width=W; c.height=H; const g=c.getContext('2d',{willReadFrequently:true});
+  const shade=(x0,x1,stops)=>{const gr=g.createLinearGradient(x0,0,x1,0);stops.forEach((s,i)=>gr.addColorStop(i/(stops.length-1),s));return gr};
+  const poly=(pts,fill)=>{g.beginPath();g.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)g.lineTo(pts[i][0],pts[i][1]);g.closePath();g.fillStyle=fill;g.fill()};
+  const RED=['#ff4a52','#d1202c','#8a0f1a'], BLU=['#4f78ff','#2b4fd0','#16276e'];
+  // legs
+  poly([[cx-52,330],[cx-4,330],[cx-12,600],[cx-46,600]],shade(cx-52,cx-4,BLU));
+  poly([[cx+4,330],[cx+52,330],[cx+46,600],[cx+12,600]],shade(cx+4,cx+52,BLU));
+  // boots
+  poly([[cx-48,590],[cx-10,590],[cx-8,632],[cx-62,632]],shade(cx-62,cx-8,RED));
+  poly([[cx+10,590],[cx+48,590],[cx+62,632],[cx+8,632]],shade(cx+8,cx+62,RED));
+  // arms
+  poly([[cx-96,160],[cx-66,150],[cx-72,330],[cx-84,392],[cx-110,392],[cx-110,300]],shade(cx-110,cx-66,BLU));
+  poly([[cx+96,160],[cx+66,150],[cx+72,330],[cx+84,392],[cx+110,392],[cx+110,300]],shade(cx+66,cx+110,BLU));
+  // torso: red chest, blue flanks
+  poly([[cx-100,150],[cx+100,150],[cx+60,336],[cx-60,336]],shade(cx-100,cx+100,BLU));
+  poly([[cx-70,152],[cx+70,152],[cx+44,330],[cx-44,330]],shade(cx-70,cx+70,RED));
+  // neck / head (mask)
+  poly([[cx-16,128],[cx+16,128],[cx+22,156],[cx-22,156]],shade(cx-22,cx+22,RED));
+  g.beginPath(); g.ellipse(cx,76,34,48,0,0,Math.PI*2); g.fillStyle=shade(cx-34,cx+34,RED); g.fill();
+  // hands
+  g.beginPath(); g.ellipse(cx-100,402,14,20,0,0,Math.PI*2); g.fillStyle=shade(cx-114,cx-86,RED); g.fill();
+  g.beginPath(); g.ellipse(cx+100,402,14,20,0,0,Math.PI*2); g.fillStyle=shade(cx+86,cx+114,RED); g.fill();
+  // specular patches (near-white, low saturation)
+  g.fillStyle='rgba(250,245,245,0.9)';
+  [[cx-14,48,5,9],[cx-52,190,6,26],[cx-30,420,4,30],[cx-96,260,3,24],[cx+26,64,3,6]].forEach(([x,y,rx,ry])=>{g.beginPath();g.ellipse(x,y,rx,ry,0,0,Math.PI*2);g.fill()});
+  // web-line modelling
+  g.strokeStyle='rgba(20,4,6,0.5)'; g.lineWidth=1.4;
+  for(let i=0;i<9;i++){g.beginPath();g.moveTo(cx,70+i*0);g.lineTo(cx+(i-4)*9,120);g.stroke()}
+  for(let r=1;r<6;r++){g.beginPath();g.arc(cx,60,r*9,0.2,Math.PI-0.2);g.stroke()}
+  return {data:g.getImageData(0,0,W,H).data,W,H};
+}
+
+const BEADS=40000;
+const figure=new THREE.Group(); figure.position.set(0,9,0); scene.add(figure);
+const beadMat=new THREE.ShaderMaterial({
+  uniforms:{uDis:{value:0},uScale:{value:0.075}},
+  vertexShader:`
+    attribute vec3 aOff; attribute vec3 aCol; attribute vec3 aRnd;
+    uniform float uDis; uniform float uScale;
+    varying vec3 vCol; varying vec3 vN;
+    void main(){
+      float d=uDis;
+      vec3 scatter=(aRnd-.5)*vec3(2.,2.,3.)*60.*d*d + vec3(0.,0.,aRnd.x*30.)*d;
+      float s=uScale*(1.-.9*d);
+      vec3 p=position*s+aOff+scatter;
+      vN=normalize(normalMatrix*normal);
+      vCol=aCol;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);
+    }`,
+  fragmentShader:`
+    varying vec3 vCol; varying vec3 vN;
+    void main(){
+      vec3 n=normalize(vN);
+      float l=.78+.22*max(dot(n,normalize(vec3(-.4,.5,.8))),0.);
+      gl_FragColor=vec4(vCol*l,1.);
+    }`
+});
+{
+  const {data,W,H}=drawPlate();
+  const cand=[]; for(let i=0;i<W*H;i++) if(data[i*4+3]>128) cand.push(i);
+  const sc=14/H, off=new Float32Array(BEADS*3), colA=new Float32Array(BEADS*3), rn=new Float32Array(BEADS*3);
+  const col=new THREE.Color(), hsl={h:0,s:0,l:0}, n=new THREE.Vector3(), L=new THREE.Vector3(-.5,.45,.75).normalize();
+  const HS=0.985, HC=0.625;
+  const arc=(a,b)=>{let d=b-a; d-=Math.round(d); return d};
+  for(let k=0;k<BEADS;k++){
+    const idx=cand[(rnd()*cand.length)|0]; const px=idx%W+rnd(), py=((idx/W)|0)+rnd();
+    const x=(px-W/2)*sc, y=-(py-H/2)*sc, z=(rnd()+rnd()-1)*1.5;
+    off[k*3]=x; off[k*3+1]=y; off[k*3+2]=z;
+    rn[k*3]=rnd(); rn[k*3+1]=rnd(); rn[k*3+2]=rnd();
+    // bake shade once: normal = offset from the figure's OWN axis
+    n.set(x,y*0.15,z).normalize();
+    const shadeV=0.42+0.7*Math.max(0,n.dot(L));
+    col.setRGB(data[idx*4]/255,data[idx*4+1]/255,data[idx*4+2]/255,THREE.SRGBColorSpace);
+    col.getHSL(hsl,THREE.SRGBColorSpace);
+    let h=hsl.h; const s=hsl.s;
+    if(s>=0.12){ // skip specular highlights
+      const ds=arc(h,HS), dc=arc(h,HC);
+      const d=Math.abs(ds)<=Math.abs(dc)?ds:dc;
+      h=((h+0.85*d)%1+1)%1;
+    }
+    const l=clamp(hsl.l*shadeV*(0.62+rnd()*0.3),0,0.97);
+    col.setHSL(h,s,l,THREE.SRGBColorSpace);
+    colA[k*3]=col.r; colA[k*3+1]=col.g; colA[k*3+2]=col.b;
+  }
+  const base=new THREE.SphereGeometry(0.5,8,6);
+  const geo=new THREE.InstancedBufferGeometry();
+  geo.index=base.index; geo.setAttribute('position',base.attributes.position); geo.setAttribute('normal',base.attributes.normal);
+  geo.setAttribute('aOff',new THREE.InstancedBufferAttribute(off,3));
+  geo.setAttribute('aCol',new THREE.InstancedBufferAttribute(colA,3));
+  geo.setAttribute('aRnd',new THREE.InstancedBufferAttribute(rn,3));
+  geo.instanceCount=BEADS;
+  const beads=new THREE.Mesh(geo,beadMat); beads.frustumCulled=false; figure.add(beads);
+}
+
+/* ---------- THE LATTICE: self-drawing wireframe cage ---------- */
+const latMat=new THREE.ShaderMaterial({
+  uniforms:{uBuild:{value:0},uColor:{value:new THREE.Color('#ff5d64')}},
+  transparent:true,depthWrite:false,
+  vertexShader:`
+    attribute vec3 aOther; attribute float aRand; attribute float aEnd;
+    uniform float uBuild;
+    void main(){
+      float t=clamp((uBuild-aRand*.6)/.4,0.,1.); t=t*t*(3.-2.*t);
+      vec3 p=aEnd>.5?mix(aOther,position,t):position;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);
+    }`,
+  fragmentShader:`uniform vec3 uColor; void main(){gl_FragColor=vec4(uColor*1.1,.5);}`
+});
+const lattice=(()=>{
+  const w=new THREE.WireframeGeometry(new THREE.BoxGeometry(8.6,15.6,5,4,8,2));
+  const a=w.attributes.position.array, n=a.length/3;
+  const other=new Float32Array(a.length), rr=new Float32Array(n), en=new Float32Array(n);
+  for(let i=0;i<n;i+=2){
+    const r=rnd();
+    for(let k=0;k<3;k++){other[i*3+k]=a[(i+1)*3+k]; other[(i+1)*3+k]=a[i*3+k]}
+    rr[i]=rr[i+1]=r; en[i]=0; en[i+1]=1;
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(a,3));
+  g.setAttribute('aOther',new THREE.BufferAttribute(other,3));
+  g.setAttribute('aRand',new THREE.BufferAttribute(rr,1));
+  g.setAttribute('aEnd',new THREE.BufferAttribute(en,1));
+  const m=new THREE.LineSegments(g,latMat); m.frustumCulled=false; figure.add(m); return m;
+})();
+
+/* ---------- THE GRID ROOM: three nested wireframe cylinders ---------- */
+const ROOM_LEN=340, ROOM_Z=-150;
+const rooms=[[9,0.055],[13.95,-0.03],[19.8,0.014]].map(([r,d])=>{
+  const cg=new THREE.CylinderGeometry(r,r,ROOM_LEN,28,Math.round(ROOM_LEN/2.8),true);
+  cg.rotateX(Math.PI/2); cg.translate(0,0,ROOM_Z);
+  const e=new THREE.EdgesGeometry(cg,1);
+  const m=new THREE.LineSegments(e,new THREE.LineBasicMaterial({color:0x2b4fd0,transparent:true,opacity:0,depthWrite:false}));
+  m.userData.drift=d; m.frustumCulled=false; scene.add(m); return m;
+});
+// one thin horizon bar
+const bar=new THREE.Mesh(new THREE.BoxGeometry(70,0.14,0.1),new THREE.MeshBasicMaterial({color:0x6f8dff,transparent:true,opacity:0}));
+bar.position.set(0,0,-262); scene.add(bar);
+
+/* ---------- THE WEB: one table drives strands AND camera ---------- */
+const TABLE=[
+  {at:0.400,span:0.09,side: 1,radius:4.4,lift:2.2},
+  {at:0.445,span:0.09,side:-1,radius:4.6,lift:1.6},
+  {at:0.490,span:0.09,side: 1,radius:4.2,lift:2.4},
+  {at:0.528,span:0.09,side:-1,radius:4.8,lift:1.8},
+  {at:0.563,span:0.09,side: 1,radius:4.4,lift:2.2},
+  {at:0.594,span:0.09,side:-1,radius:4.6,lift:1.9},
+].map(e=>({...e,lead:3.8*e.radius}));
+
+// camera spine: smoothstep only from rest; corridor legs LINEAR, gears 300 -> 150 -> 360 stepping at strand catch/release
+const zOf=sp=>{
+  if(sp<=0.14) return 55-17*smooth(sp/0.14);
+  if(sp<=0.30) return 38-38*(sp-0.14)/0.16;
+  if(sp<=0.49) return -300*(sp-0.30);
+  if(sp<=0.594) return -57-150*(sp-0.49);
+  return -72.6-360*(sp-0.594);
+};
+const yOf=sp=>9*(1-smooth((sp-0.1)/0.3));
+const spine=(sp,o)=>o.set(0,yOf(sp),zOf(sp));
+
+const SWING=RM?0:1;
+const _v=new THREE.Vector3(), _ax=new THREE.Vector3(), _c=new THREE.Vector3(), _up=new THREE.Vector3();
+const camState={pos:new THREE.Vector3(),tgt:new THREE.Vector3(),bank:0};
+function camAt(sp){
+  spine(sp,camState.pos);
+  camState.tgt.copy(camState.pos).add(_v.set(0,0,-20));
+  // bank out ~15deg mid-drop, upright by arrival
+  const du=clamp((sp-0.1)/0.35);
+  let bank=(15*Math.PI/180)*Math.sin(Math.PI*du);
+  for(const e of TABLE){
+    const t=(sp-e.at)/e.span, u=(t-0.08)/0.74;
+    if(u>0&&u<1){
+      const env=Math.sin(Math.PI*u);
+      camState.pos.x+=e.side*3.2*env*SWING;
+      camState.pos.y-=1.5*env*SWING;
+      bank+=e.side*0.15*env*SWING;
+    }
+  }
+  camState.bank=bank;
+}
+function applyCamera(){
+  camera.position.copy(camState.pos);
+  _ax.copy(camState.tgt).sub(camState.pos).normalize();
+  _up.set(0,1,0);
+  if(Math.abs(_ax.y)<0.98){ // Rodrigues about the view axis
+    const th=camState.bank, cs=Math.cos(th), sn=Math.sin(th);
+    _c.crossVectors(_ax,_up).multiplyScalar(sn);
+    const dot=_ax.dot(_up)*(1-cs);
+    _up.multiplyScalar(cs).add(_c).addScaledVector(_ax,dot);
+  }
+  camera.up.copy(_up);
+  camera.lookAt(camState.tgt);
+  camera.updateMatrixWorld();
+}
+
+// strands: fat lines, interleaved buffer written in place
+const NSEG=MOBILE?24:48, NS=TABLE.length;
+const sGeo=new LineSegmentsGeometry();
+sGeo.setPositions(new Float32Array(NS*NSEG*6)); sGeo.setColors(new Float32Array(NS*NSEG*6));
+const sPos=sGeo.attributes.instanceStart.data, sCol=sGeo.attributes.instanceColorStart.data;
+const sMat=new LineMaterial({linewidth:2.4,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,worldUnits:false});
+const strands=new LineSegments2(sGeo,sMat); strands.frustumCulled=false; scene.add(strands);
+const BONE=new THREE.Color('#f2f3f5').multiplyScalar(1.25), SCAR=new THREE.Color('#ff5d64').multiplyScalar(1.25);
+const D=new THREE.Vector3(), A=new THREE.Vector3(), Sx=new THREE.Vector3(), R=new THREE.Vector3(), U=new THREE.Vector3(), F=new THREE.Vector3(), P=new THREE.Vector3();
+const PX=new Float32Array(NSEG+1),PY=new Float32Array(NSEG+1),PZ=new Float32Array(NSEG+1),CR=new Float32Array(NSEG+1),CG=new Float32Array(NSEG+1),CB=new Float32Array(NSEG+1);
+const easeOut=t=>1-(1-t)*(1-t);
+function updateStrands(sp){
+  const pa=sPos.array, ca=sCol.array;
+  R.setFromMatrixColumn(camera.matrixWorld,0); U.setFromMatrixColumn(camera.matrixWorld,1); F.setFromMatrixColumn(camera.matrixWorld,2).negate();
+  for(let i=0;i<NS;i++){
+    const e=TABLE[i], t=(sp-e.at)/e.span, off=i*NSEG*6;
+    if(t<=0||t>=1){ pa.fill(0,off,off+NSEG*6); ca.fill(0,off,off+NSEG*6); continue; }
+    // anchor derived from the spine, never authored in world space
+    spine(e.at,A); A.x+=e.side*e.radius; A.y+=e.lift; A.z-=e.lead;
+    // free hand: low corner, on the anchor's side
+    Sx.copy(camera.position).addScaledVector(F,1.4).addScaledVector(R,e.side*0.8).addScaledVector(U,-0.95);
+    const L=A.distanceTo(Sx); D.copy(A).sub(Sx);
+    const f=t<0.12?easeOut(t/0.12):1;
+    const r=t<0.55?0:clamp((t-0.55)/0.25);
+    const sagA=L*(0.012+0.11*easeOut(r));
+    const fade=t<0.8?1:Math.pow(1-smooth((t-0.8)/0.2),2);
+    const impulse=t<0.22?1-smooth(t/0.22):0;
+    for(let j=0;j<=NSEG;j++){
+      const s=j/NSEG;
+      P.copy(Sx).addScaledVector(D,f*s);
+      const sag=sagA*Math.sin(Math.PI*s);
+      const wave=L*0.045*r*(1-0.5*r)*Math.sin(s*9-r*14)*Math.sin(Math.PI*s);
+      PX[j]=P.x+R.x*wave; PY[j]=P.y-sag+U.y*wave; PZ[j]=P.z+R.z*wave;
+      // bone at gain 1.25 (over bloom threshold); scarlet only as a MIX at the firing edge
+      const k=clamp(Math.exp(-(1-s)*9)*impulse*1.4+impulse*0.12*(1-s));
+      const edge=Math.min(1,s*6+0.25)*fade;
+      CR[j]=(BONE.r+(SCAR.r-BONE.r)*k)*edge; CG[j]=(BONE.g+(SCAR.g-BONE.g)*k)*edge; CB[j]=(BONE.b+(SCAR.b-BONE.b)*k)*edge;
+    }
+    for(let j=0;j<NSEG;j++){
+      const o=off+j*6;
+      pa[o]=PX[j];pa[o+1]=PY[j];pa[o+2]=PZ[j];pa[o+3]=PX[j+1];pa[o+4]=PY[j+1];pa[o+5]=PZ[j+1];
+      ca[o]=CR[j];ca[o+1]=CG[j];ca[o+2]=CB[j];ca[o+3]=CR[j+1];ca[o+4]=CG[j+1];ca[o+5]=CB[j+1];
+    }
+  }
+  sPos.needsUpdate=true; sCol.needsUpdate=true;
+}
+
+/* ---------- POST: bloom -> vignette -> output (tone map) -> grain ---------- */
+const composer=new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene,camera));
+const bloom=new UnrealBloomPass(new THREE.Vector2(512,512),0.55,0.45,1.15);
+bloom.highPassUniforms['smoothWidth'].value=0.35;
+composer.addPass(bloom);
+const vig=new ShaderPass(VignetteShader);
+vig.uniforms.darkness.value=1.0; vig.uniforms.offset.value=0.95;
+composer.addPass(vig);
+composer.addPass(new OutputPass());
+const grain=new ShaderPass({
+  uniforms:{tDiffuse:{value:null},uTime:{value:0},uAmt:{value:0.055}},
+  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+  fragmentShader:`uniform sampler2D tDiffuse;uniform float uTime,uAmt;varying vec2 vUv;
+    float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
+    void main(){vec4 c=texture2D(tDiffuse,vUv);float g=h(vUv*vec2(1731.,977.)+uTime)-.5;
+      c.rgb+=g*uAmt*(1.-.5*dot(c.rgb,vec3(.33)));gl_FragColor=c;}`
+});
+composer.addPass(grain);
+
+/* ---------- DOM overlays (windows on the ACT axis) ---------- */
+function splitInto(el){
+  const chars=[];
+  const walk=node=>{
+    [...node.childNodes].forEach(ch=>{
+      if(ch.nodeType===3){
+        const frag=document.createDocumentFragment();
+        ch.textContent.split(/(\s+)/).forEach(tok=>{
+          if(!tok) return;
+          if(/^\s+$/.test(tok)){const sp=document.createElement('span');sp.className='ch';sp.textContent=' ';sp.style.width='.3em';frag.appendChild(sp);chars.push(sp);return}
+          const w=document.createElement('span'); w.className='w';
+          [...tok].forEach(c=>{const s=document.createElement('span');s.className='ch';s.textContent=c;w.appendChild(s);chars.push(s)});
+          frag.appendChild(w);
+        });
+        ch.replaceWith(frag);
+      }else if(ch.nodeType===1) walk(ch);
+    });
+  };
+  walk(el); return chars;
+}
+function mkOv(sel,enter,exit){
+  const el=document.querySelector(sel), chars=[];
+  el.querySelectorAll('[data-split]').forEach(n=>chars.push(...splitInto(n)));
+  return {el,chars,enter,exit,last:''};
+}
+const OV=[
+  mkOv('#o1',null,[0.05,0.17]),
+  mkOv('#o2',[0.33,0.40],[0.50,0.57]),
+  mkOv('#o3',[0.60,0.68],[0.86,0.96]),
+];
+const wipe=mkOv('#wipe .t',[0.93,0.99],null);
+const wipeEl=document.getElementById('wipe');
+const ramp=(w,x)=>w?smooth((x-w[0])/(w[1]-w[0])):null;
+function paintOv(o,x){
+  const E=o.enter?ramp(o.enter,x):1, X=o.exit?ramp(o.exit,x):0;
+  const op=Math.min(o.enter?smooth((x-o.enter[0])/(o.enter[1]-o.enter[0])*2):1,1-X*X*1.0);
+  const key=E.toFixed(3)+'|'+X.toFixed(3);
+  if(key===o.last) return; o.last=key;
+  if(op<0.01||(E<=0)){o.el.style.visibility='hidden';o.el.style.opacity='0';return}
+  o.el.style.visibility='visible'; o.el.style.opacity=String(clamp(op*1.0,0,1));
+  const n=o.chars.length;
+  for(let i=0;i<n;i++){
+    const q=n>1?i/(n-1):0;
+    // openings leave back-to-front; closings arrive front-to-back
+    const le=1-clamp((E-q*0.55)/0.45), lx=clamp((X-(1-q)*0.55)/0.45);
+    const l=Math.max(le,lx), c=o.chars[i].style;
+    if(l<0.002){c.opacity='1';c.filter='none';c.transform='none'}
+    else{c.opacity=String(1-l);c.filter='blur('+(l*10).toFixed(1)+'px)';c.transform='translate3d(0,'+((lx>le?-1:1)*l*26).toFixed(1)+'px,0) scale('+(1+l*0.08).toFixed(3)+')'}
+  }
+}
+const HDR=document.getElementById('hdr');
+window.__dev={strands:()=>({n:NS,pos:Array.from(sPos.array.slice(0,NSEG*6)).filter((v,i)=>i%(NSEG*3)<6).map(v=>+v.toFixed(2)),col:Array.from(sCol.array.slice(0,NSEG*6)).filter((v,i)=>i%(NSEG*3)<6).map(v=>+v.toFixed(2)),cam:camera.position.toArray()})};
+
+/* ---------- act gates (six acts, each boundary overlaps its neighbour) ---------- */
+const ACTS=[[-1,0.20],[0.14,0.38],[0.32,0.62],[0.56,0.80],[0.74,1.0]];
+const OVERLAP=0.06;
+const gates=new Array(6).fill(0);
+function computeGates(sp,p){
+  ACTS.forEach(([a,b],i)=>{
+    const up=a<0?1:sstep(a,a+OVERLAP,sp), dn=b>=1?1:1-sstep(b-OVERLAP,b,sp);
+    gates[i]=up*dn;
+  });
+  gates[5]=sstep(0.80,0.97,p);
+  window.__gates={p:S.p,sp:S.sp,gates:gates.slice()};
+}
+
+/* ---------- pointer tilt (idle only) ---------- */
+const ptr={x:0,y:0,sx:0,sy:0};
+addEventListener('pointermove',e=>{ptr.x=(e.clientX/innerWidth)*2-1;ptr.y=(e.clientY/innerHeight)*2-1},{passive:true});
+
+/* ---------- sizing ---------- */
+function resize(){
+  const w=Math.max(1,innerWidth), h=Math.max(1,innerHeight);
+  renderer.setSize(w,h,false); composer.setPixelRatio(DPR); composer.setSize(w,h);
+  camera.aspect=w/h;
+  // keep ~29deg half-frame across even in portrait
+  const a=w/h;
+  camera.fov=a>=1.2?38:Math.min(80,THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(29))/a)));
+  camera.updateProjectionMatrix();
+  sMat.resolution.set(w,h);
+  bloom.resolution.set(w,h);
+}
+addEventListener('resize',resize); resize();
+
+/* ---------- frame ---------- */
+const t0=performance.now();
+function frame(now){
+  const max=document.documentElement.scrollHeight-innerHeight;
+  S.p=max>0?clamp(scrollY/max):0;
+  S.sp=clamp(S.p/ACT_END);
+  const sp=S.sp,p=S.p, time=(now-t0)/1000;
+  computeGates(sp,p);
+
+  // figure: pure function of sp; idle float + cursor tilt (pivot kept at own centre)
+  const dis=sstep(0.14,0.30,sp);
+  beadMat.uniforms.uDis.value=dis;
+  figure.visible=dis<0.999;
+  ptr.sx+=(ptr.x-ptr.sx)*0.06; ptr.sy+=(ptr.y-ptr.sy)*0.06;
+  const fl=RM?0:Math.sin(time*0.9)*0.22;
+  figure.position.set(0,9+fl,0);
+  figure.rotation.set(RM?0:ptr.sy*0.12+Math.sin(time*0.6)*0.02,RM?0:ptr.sx*0.4+Math.sin(time*0.45)*0.05,0);
+  latMat.uniforms.uBuild.value=smooth(sp/0.14)*(1-smooth((sp-0.2)/0.12));
+  lattice.visible=latMat.uniforms.uBuild.value>0.001;
+
+  // room: cobalt, only after the figure has gone
+  const roomOp=0.3*sstep(0.24,0.34,sp);
+  rooms.forEach(m=>{m.material.opacity=roomOp;m.visible=roomOp>0.002;m.rotation.z=m.userData.drift*sp*22});
+  bar.material.opacity=0.9*sstep(0.30,0.40,sp); bar.visible=bar.material.opacity>0.002;
+
+  // fog far closes for the wipe
+  scene.fog.far=150-105*sstep(0.78,0.98,p);
+
+  camAt(sp); applyCamera();
+  updateStrands(sp);
+
+  grain.uniforms.uTime.value=RM?0:(time%7)*3.1;
+
+  // DOM
+  OV.forEach(o=>paintOv(o,sp));
+  const wg=sstep(0.80,0.97,p);
+  wipeEl.style.clipPath='inset('+((1-wg)*100).toFixed(2)+'% 0 0 0)';
+  wipeEl.style.visibility=wg>0.002?'visible':'hidden';
+  paintOv(wipe,p);
+  HDR.style.setProperty('--hdr',wg>0.6?'#150406':'#f2f3f5');
+
+  composer.render();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

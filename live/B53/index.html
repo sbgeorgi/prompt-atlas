@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neo Museum (NHM)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fcfcfc;--ink:#111;--dark:#0a0a0a;--g300:#d1d5db;--g400:#9ca3af;--g500:#6b7280;--g600:#4b5563;--g700:#374151;--g800:#1f2937;--ease:cubic-bezier(.16,1,.3,1);
+--sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased}
+::selection{background:#000;color:#fff}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+.mono{font-family:var(--mono)}
+svg.ic{display:block;flex:none}
+
+/* entrance */
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes lb{from{opacity:0;transform:translateY(120px)}to{opacity:1;transform:none}}
+@keyframes sc{from{transform:scale(1.03)}to{transform:none}}
+.fu{opacity:0;animation:fu .8s ease-out forwards;animation-delay:var(--d,0s)}
+
+/* HERO */
+.hero{position:relative;width:100%;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;overflow:hidden}
+.hdr{position:relative;z-index:20;padding:24px 24px 0}
+.logo{display:block;width:100%;transform-origin:50% 0;animation:sc 1.4s var(--ease) both;animation-delay:.1s}
+.logo svg{display:block;width:100%;height:auto;fill:#111;overflow:hidden}
+.logo polygon{opacity:0;animation:lb 1.2s var(--ease) forwards;animation-delay:calc(.2s + var(--i)*.06s)}
+.sub{display:flex;justify-content:space-between;align-items:flex-start;margin-top:32px;font:400 10px/1.7 var(--mono);letter-spacing:.2em;text-transform:uppercase}
+.sub .grp{display:flex;align-items:flex-start;flex:1}
+.sub .c1{width:auto;flex:none;margin-right:24px}
+.sub .c2{flex:1;color:var(--g800);line-height:1.7}
+.sub .arr{display:none;width:5%;justify-content:center;color:var(--g400);padding-top:4px}
+.sub .c3{display:none;width:15%;color:var(--g800)}
+.sub .c3 a:hover{color:#000;text-decoration:underline}
+.sub .dk{display:none}
+.burger{position:relative;z-index:60;width:40px;height:28px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;margin-top:2px;flex:none}
+.burger i{display:block;height:1.5px;width:32px;background:#000;transition:all .3s;transform-origin:center}
+.burger:hover i:first-child{width:24px}.burger:hover i:last-child{width:40px}
+.burger.open i:first-child{width:32px;transform:translateY(3.75px) rotate(45deg)}
+.burger.open i:last-child{width:32px;transform:translateY(-3.75px) rotate(-45deg)}
+.mm{position:absolute;left:0;right:0;top:100%;z-index:50;background:var(--bg);border-bottom:1px solid #e5e7eb;box-shadow:0 20px 25px -5px rgba(0,0,0,.1);padding:32px 24px;opacity:0;transform:translateY(-20px);pointer-events:none;transition:all .35s var(--ease)}
+.mm.open{opacity:1;transform:none;pointer-events:auto}
+.mm li+li{margin-top:24px}
+.mm a{font:400 14px var(--mono);letter-spacing:.2em;text-transform:uppercase}
+
+.bg{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.8s ease}
+.bg.on{opacity:1}
+.bg .paper{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 62% 62%,#f3f2ef 0%,rgba(252,252,252,0) 70%)}
+.bg svg.rex{position:absolute;left:34vw;bottom:46px;width:min(46vw,700px);height:auto;color:#111;--bf:#fcfcfc;overflow:visible}
+.rex .jaw{transform-origin:262px 198px;animation:jaw 5.5s ease-in-out infinite}
+@keyframes jaw{0%,100%{transform:rotate(0)}45%{transform:rotate(3.5deg)}60%{transform:rotate(3.5deg)}}
+.rex .dim{stroke:#9ca3af;fill:none;stroke-width:1}
+.rex text{font:500 11px var(--mono);letter-spacing:.14em;fill:#6b7280;text-transform:uppercase}
+
+.row{position:relative;z-index:10;display:flex;justify-content:space-between;padding:0 40px;margin-top:clamp(2rem,4vh,8rem);flex:1;padding-bottom:104px}
+.left{width:320px;flex:none}
+.left>*{opacity:0;animation:fu .8s ease-out forwards}
+.idx{display:flex;align-items:center;gap:14px;font:400 12px var(--mono);margin-bottom:20px}
+.idx i{display:block;width:64px;height:1.5px;background:rgba(0,0,0,.2)}
+h2.hl{font:400 3.5rem/1 var(--sans);letter-spacing:-.025em;white-space:nowrap;text-transform:uppercase}
+.desc{font-size:13px;line-height:1.6;color:var(--g700);width:240px;margin-top:20px}
+.cta{position:relative;display:inline-block;margin-top:26px;background:#1a1a1a;padding:14px 24px;border:1px solid #1a1a1a;border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.05);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.cta .sl{position:absolute;inset:0;background:var(--bg);transform:translateX(-101%);transition:transform .7s var(--ease)}
+.cta .in{position:relative;display:flex;align-items:center;gap:10px;color:#fff;transition:color .5s}
+.cta .in span{font-size:15px;font-weight:500}
+.cta svg{transition:transform .5s var(--ease)}
+.cta:hover{transform:translateY(-.5px);box-shadow:3px 3px 0 rgba(17,17,17,.5);overflow:visible}
+.cta:hover .sl{transform:none}.cta:hover .in{color:#111}
+.cta:hover svg{transform:scale(1.1) rotate(-12deg) translateY(-4px)}
+.cta:active{transform:none;box-shadow:none}
+.cta .clip{position:absolute;inset:0;border-radius:5px;overflow:hidden}
+
+.right{width:200px;margin-top:40px;display:none;flex-direction:column;flex:none}
+.right>*{opacity:0;animation:fu .8s ease-out forwards}
+.right h3{font:700 10px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.right p.s{font-size:12px;line-height:1.6;color:var(--g600);margin-top:8px}
+.stat{margin-top:20px;padding-top:12px;border-top:1px solid #e5e7eb}
+.stat small{display:block;font:400 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--g500)}
+.stat b{display:block;font-size:13px;font-weight:500;margin-top:4px}
+.vd{display:flex;align-items:center;gap:12px;margin-top:28px}
+.vd i{width:40px;height:40px;border-radius:50%;border:1px solid var(--g400);display:flex;align-items:center;justify-content:center;transition:all .3s}
+.vd span{font:700 10px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.vd:hover i{border-color:#000;background:#111;color:#fff}
+
+.scroll{position:absolute;bottom:40px;left:40px;z-index:10;display:none;align-items:center;gap:14px;opacity:0;animation:fu .8s ease-out 1.2s forwards}
+.scroll i{width:48px;height:48px;border-radius:50%;border:1px solid var(--g300);display:flex;align-items:center;justify-content:center;gap:4px}
+.scroll i b{width:1px;height:12px;background:var(--g600)}
+.scroll span{font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--g500)}
+
+/* SECTION 2 */
+.s2{position:relative;z-index:20;width:100%;min-height:75vh;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding:96px 24px 0}
+.lab{font:400 10px var(--mono);letter-spacing:.2em;margin-bottom:48px}
+.lab em{font-style:normal;color:var(--g500)}.lab b{color:#111;font-weight:700;text-transform:uppercase}
+.s2 h2{font:500 2.2rem/1.1 var(--sans);letter-spacing:-.025em;text-align:center;max-width:1000px;text-wrap:balance}
+.s2 h2 br{display:none}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:40px 0}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;border:1px solid var(--g300);background:rgba(255,255,255,.5);backdrop-filter:blur(4px);font:500 11px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:#1f2937;transition:all .3s}
+.pill:hover{border-color:#000;background:#000;color:#fff}
+.spacer{min-height:220px}
+.s2 .bt{display:none;position:absolute;left:0;right:0;bottom:0;padding:0 32px 32px;justify-content:space-between;pointer-events:none;font:500 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--g500)}
+.rv{opacity:0;transform:translateY(40px);transition:opacity .9s ease-out,transform .9s ease-out;transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+/* SECTION 3 */
+.s3{position:relative;z-index:30;width:100%;background:var(--dark);color:#fff;display:flex;flex-direction:column}
+.ptero{position:absolute;top:0;left:50%;width:160vw;transform:translate(-50%,-65%);opacity:0;pointer-events:none;z-index:0;transition:transform 1.4s ease-out,opacity 1.4s ease-out}
+.ptero.in{transform:translate(-50%,-78%);opacity:1}
+.ptero svg{display:block;width:100%;height:auto}
+.hd{position:relative;z-index:10;padding:128px 32px 0;margin-bottom:64px;display:flex;flex-direction:column;justify-content:space-between;gap:40px}
+.hd h2{font:500 1.8rem/1.15 var(--sans);letter-spacing:-.025em;max-width:880px}
+.ci{display:inline-flex;gap:8px;vertical-align:middle;margin:0 8px;transform:translateY(-4px)}
+.ci i{width:40px;height:40px;border-radius:50%;border:1px solid var(--g600);background:#000;color:var(--g400);display:flex;align-items:center;justify-content:center;transition:all .3s}
+.ci i:hover{background:#fff;color:#000;border-color:#fff}
+.tag{font:400 9px/1.7 var(--mono);letter-spacing:.1em;color:var(--g400);text-transform:uppercase;margin-bottom:24px}
+.pl{display:flex;flex-wrap:wrap;gap:8px}
+.pl span{padding:8px 20px;border-radius:999px;border:1px solid var(--g600);font:400 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#d1d5db;transition:all .3s}
+.pl span:hover{background:#fff;color:#000;border-color:#fff}
+.panel{position:relative;z-index:10;display:flex;flex-direction:column;border-top:1px solid var(--g800)}
+.pl-l{position:relative;width:100%;min-height:400px;border-bottom:1px solid var(--g800);padding:32px;display:flex;flex-direction:column;justify-content:space-between}
+.stars{color:var(--g500);font-size:20px;letter-spacing:.3em;position:relative;z-index:2}
+.stage{position:absolute;inset:0;margin:auto;width:80%;height:80%;color:#e9e9e9;--bf:#0a0a0a}
+.stage .lay{position:absolute;inset:0;mix-blend-mode:lighten}
+.stage svg{width:100%;height:100%;display:block}
+.cnt{position:relative;z-index:2;display:flex;gap:10px;align-items:center;font:400 10px var(--mono);letter-spacing:.1em;color:#888;text-transform:uppercase}
+.cnt .num{display:block;height:1.4em;overflow:hidden;line-height:1.4em}
+.cnt .num span{display:block;animation:nup .6s var(--ease)}
+.cnt .dv{color:#333}
+@keyframes nup{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+.pl-r{flex:1}
+.topbar{display:flex;justify-content:space-between;padding:32px;border-bottom:1px solid var(--g800);font:400 10px var(--mono);letter-spacing:.1em;color:var(--g400)}
+.topbar b{font-weight:400;color:#fff;display:inline-block;animation:nup .6s var(--ease)}
+.ch{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;padding:32px;border-bottom:1px solid rgba(31,41,55,.8);color:#444;transition:color .3s}
+.ch:hover{color:#999}
+.ch.act{color:#fff}
+.ch span{font:500 1.5rem/1.2 var(--sans);letter-spacing:-.025em}
+.ch svg{color:var(--g400);opacity:0;transform:translate(-10px,10px);transition:all .4s var(--ease)}
+.ch.act svg{opacity:1;transform:none}
+.foot{border-top:1px solid var(--g800);padding:32px;font:400 10px var(--mono);letter-spacing:.1em;color:var(--g500);text-transform:uppercase;background:var(--dark)}
+
+@media (min-width:768px){
+ .hdr{padding:24px 64px 0}
+ .sub{font-size:11px}
+ .sub .c1{width:15%;margin-right:0}
+ .sub .c2{flex:none;width:30%}
+ .sub .arr{display:flex}.sub .c3{display:block}
+ .sub .mb{display:none}.sub .dk{display:inline}
+ .mm{display:none}
+ .row{padding:0 64px 104px}
+ h2.hl{font-size:5rem}
+ .desc{font-size:14px}
+ .right{display:flex}
+ .scroll{display:flex;left:64px}
+ .s2{min-height:100vh;padding-top:128px}
+ .s2 h2{font-size:3.5rem}
+ .lab{font-size:11px}
+ .pills{gap:16px;margin-bottom:96px}
+ .spacer{min-height:450px}
+ .s2 .bt{display:flex;padding:0 64px 48px}
+ .ptero{width:1100px}
+ .hd{padding:192px 64px 0}
+ .hd h2{font-size:3rem}
+ .ci i{width:56px;height:56px}.ci{gap:12px;margin:0 16px}
+ .tag{font-size:10px}
+ .panel{flex-direction:row}
+ .pl-l{width:35%;min-height:500px;border-bottom:0;border-right:1px solid var(--g800)}
+ .pl-r{width:65%}
+ .ch span{font-size:2rem}
+}
+@media (min-width:1024px){.s2 h2{font-size:3.9rem}.hd h2{font-size:3.8rem}}
+@media (min-width:1280px){.hd{flex-direction:row}.hd h2{font-size:4rem}.hd .rt{padding-top:16px}}
+@media (min-width:768px) and (max-width:1100px){.bg svg.rex{left:24vw;width:72vw;bottom:12px}.right{display:none}}
+@media (max-width:767px){
+ .bg svg.rex{width:150vw;right:-45vw;bottom:2%}
+ .row{flex-direction:column;margin-top:80px;padding:0 40px 80px}
+ .left{margin-top:0;padding:0}
+ .sub .grp{gap:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+
+<svg id="defs" width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="sandDefs"></defs></svg>
+
+<!-- SECTION 1 -->
+<section class="hero" id="top">
+  <div class="bg" id="bg">
+    <div class="paper"></div>
+    <svg class="rex" id="rex" viewBox="0 0 900 520" role="img" aria-label="Tyrannosaurus rex skeleton"></svg>
+  </div>
+
+  <header class="hdr">
+    <h1 class="logo" aria-label="NHM">
+      <svg viewBox="0 0 840 100" aria-hidden="true">
+        <g transform="translate(0,0)"><polygon style="--i:0" points="0,0 14,0 14,100 0,100"/><polygon style="--i:1" points="200,0 214,0 214,100 200,100"/><polygon style="--i:2" points="0,0 33,0 214,100 181,100"/></g>
+        <g transform="translate(280,0)"><polygon style="--i:3" points="0,0 14,0 14,100 0,100"/><polygon style="--i:4" points="200,0 214,0 214,100 200,100"/><polygon style="--i:5" points="14,43 200,43 200,57 14,57"/></g>
+        <g transform="translate(560,0)"><polygon style="--i:6" points="0,0 14,0 14,100 0,100"/><polygon style="--i:7" points="266,0 280,0 280,100 266,100"/><polygon style="--i:8" points="0,0 26,0 153,100 127,100"/><polygon style="--i:9" points="254,0 280,0 153,100 127,100"/></g>
+      </svg>
+    </h1>
+    <div class="sub fu" style="--d:.9s">
+      <div class="grp">
+        <div class="c1"><div>Natura</div><div>History</div><div>Museum</div></div>
+        <div class="arr" data-icon="arrow-right" data-size="14" data-sw="1"></div>
+        <div class="c2 mono">
+          <span class="dk">Exploring the story of life<br>on earth through science,<br>discovery and wonder.</span>
+          <span class="mb">Exploring the story<br>of life on earth through<br>science, discovery<br>and wonder.</span>
+        </div>
+        <div class="arr" data-icon="arrow-right" data-size="14" data-sw="1"></div>
+        <ul class="c3"><li><a href="#">Visit</a></li><li><a href="#">Exhibitions</a></li><li><a href="#">Discover</a></li><li><a href="#">Learn</a></li><li><a href="#">About</a></li></ul>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
+    </div>
+    <nav class="mm" id="mm"><ul><li><a href="#">Visit</a></li><li><a href="#">Exhibitions</a></li><li><a href="#">Discover</a></li><li><a href="#">Learn</a></li><li><a href="#">About</a></li></ul></nav>
+  </header>
+
+  <div class="row">
+    <div class="left">
+      <div class="idx" style="animation-delay:.6s"><span>01</span><i></i></div>
+      <h2 class="hl" style="animation-delay:.75s">Timeless<br>Wonders</h2>
+      <p class="desc" style="animation-delay:.9s">Step into the natural world and<br>discover the stories written<br>millions of years ago.</p>
+      <div style="animation-delay:1.05s"><a class="cta" href="#explore"><span class="clip"><span class="sl"></span></span>
+        <span class="in"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 14c-4 0-7-2.5-7-7 4 0 7 2.5 7 7z"/><path d="M12 11c0-3.5 2.5-6 7-6 0 4-2.5 6-7 6z"/><path d="M12 21c-2 0-4-1-5-3"/></svg><span>Explore Now</span></span></a></div>
+    </div>
+    <div class="right">
+      <div style="animation-delay:.9s"><h3>Tyrannosaurus Rex</h3><p class="s">Late Cretaceous period<br>68-66 million years ago</p></div>
+      <div class="stat" style="animation-delay:1.05s"><small>Length</small><b>12.3 m</b></div>
+      <div class="stat" style="animation-delay:1.2s;margin-top:12px"><small>Height</small><b>4.0 m</b></div>
+      <button class="vd" style="animation-delay:1.35s"><i data-icon="plus" data-size="16" data-sw="1.5"></i><span>View Details</span></button>
+    </div>
+  </div>
+
+  <div class="scroll"><i><b></b><b></b></i><span>Scroll to explore</span></div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="s2" id="explore">
+  <div class="lab rv"><em>[ 02 ]</em> <b>Explore Our World</b></div>
+  <h2 class="rv">Unearth the stories of our planet's past<br> through fossils, minerals, and ancient wonders.</h2>
+  <div class="pills">
+    <button class="pill rv" style="--d:.3s"><span data-icon="bone" data-size="14" data-sw="2"></span>Dinosaurs</button>
+    <button class="pill rv" style="--d:.4s"><span data-icon="dna" data-size="14" data-sw="2"></span>Ancient Life</button>
+    <button class="pill rv" style="--d:.5s"><span data-icon="gem" data-size="14" data-sw="2"></span>Minerals</button>
+    <button class="pill rv" style="--d:.6s"><span data-icon="leaf" data-size="14" data-sw="2"></span>Fossils</button>
+    <button class="pill rv" style="--d:.7s"><span data-icon="book-open" data-size="14" data-sw="2"></span>Learn More</button>
+  </div>
+  <div class="spacer"></div>
+  <div class="bt"><span>We don't just tell stories.</span><span>Paleontology (C) 2026</span></div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="s3">
+  <div class="ptero" id="ptero"></div>
+  <div class="hd">
+    <h2>Curated from millions of years of wonder <span class="ci"><i data-icon="bone" data-size="22"></i><i data-icon="dna" data-size="22"></i><i data-icon="leaf" data-size="22"></i></span> &amp; discovery.</h2>
+    <div class="rt"><p class="tag">We don't just display fossils<br>We share Earth's story</p><div class="pl"><span>Educational</span><span>Authentic</span><span>Inspiring</span></div></div>
+  </div>
+  <div class="panel">
+    <div class="pl-l">
+      <div class="stars">***</div>
+      <div class="stage" id="stage"></div>
+      <div class="cnt"><span class="num" id="cnum"><span>03</span></span><span class="dv">/</span><span>05</span></div>
+    </div>
+    <div class="pl-r">
+      <div class="topbar"><span>Explore the past. Understand the present.</span><span>Chapter <b id="clab">03</b></span></div>
+      <div id="chs"></div>
+    </div>
+  </div>
+  <div class="foot">Digging into our planet's past</div>
+</section>
+
+<script>
+/* ---------- icons (lucide paths) ---------- */
+const IC={
+ 'arrow-right':['M5 12h14','m12 5 7 7-7 7'],
+ 'arrow-up-right':['M7 7h10v10','M7 17 17 7'],
+ 'plus':['M5 12h14','M12 5v14'],
+ 'leaf':['M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z','M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12'],
+ 'bone':['M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z'],
+ 'dna':['m10 16 1.5 1.5','m14 8-1.5-1.5','M15 2c-1.798 1.998-2.518 3.995-2.807 5.993','m16.5 10.5 1 1','m17 6-2.891-2.891','M2 15c6.667-6 13.333 0 20-6','m20 9 .891.891','M3.109 14.109 4 15','m6.5 12.5 1 1','m7 18 2.891 2.891','M9 22c1.798-1.998 2.518-3.995 2.807-5.993'],
+ 'gem':['M6 3h12l4 6-10 13L2 9Z','M11 3 8 9l4 13 4-13-3-6','M2 9h20'],
+ 'book-open':['M12 7v14','M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z']
+};
+function icon(n,s,w){return `<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.5}" stroke-linecap="round" stroke-linejoin="round">${IC[n].map(d=>`<path d="${d}"/>`).join('')}</svg>`}
+document.querySelectorAll('[data-icon]').forEach(e=>{
+  const h=icon(e.dataset.icon,+e.dataset.size||16,+e.dataset.sw||1.5);
+  e.insertAdjacentHTML('afterbegin',h);
+  if(e.classList.contains('arr')||e.tagName==='I'||e.tagName==='SPAN'){e.style.display=e.style.display||''}
+});
+document.querySelectorAll('i[data-icon]').forEach(e=>{e.style.display='flex'});
+
+/* ---------- bone helpers ---------- */
+const B=(x1,y1,x2,y2,w)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="currentColor" stroke-width="${w+2.6}" stroke-linecap="round"/><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--bf)" stroke-width="${w}" stroke-linecap="round"/>`;
+const P=(d,extra)=>`<path d="${d}" fill="var(--bf)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" ${extra||''}/>`;
+const E=(cx,cy,rx,ry,f)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${f||'var(--bf)'}" stroke="currentColor" stroke-width="1.6"/>`;
+
+function teeth(x0,x1,y,n,h,dir){let s='';const st=(x1-x0)/n;for(let i=0;i<n;i++){const x=x0+i*st,hh=h*(0.75+0.25*Math.sin(i*1.7));s+=`<path d="M${x},${y} L${x+st*.8},${y} L${x+st*.4},${y+dir*hh}Z" fill="#fcfcfc" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>`}return s}
+
+function skullUpper(){return P('M70,174 L76,154 Q104,140 150,131 L196,112 Q244,106 270,122 L286,172 L270,198 L240,206 L206,186 L84,186 Z')
+ +E(212,148,13,18,'#111')+P('M134,152 Q160,128 188,148 Q166,166 134,152Z','fill-opacity=".0"')+E(98,162,6,4,'#111')
+ +`<path d="M262,128 Q276,160 262,196" fill="none" stroke="currentColor" stroke-width="1.2"/>`+teeth(90,200,186,10,13,1)}
+function skullLower(){return P('M72,190 L90,187 L204,190 Q238,194 262,198 L280,212 Q252,230 200,226 Q140,226 100,210 L74,198 Z')+teeth(96,200,188,9,9,-1)}
+const skull=()=>skullUpper()+`<g class="jaw">${skullLower()}</g>`;
+
+/* ---------- T. rex ---------- */
+(function(){
+ const svg=document.getElementById('rex');
+ const spine='M268,150 C300,108 342,110 374,140 C420,168 470,170 520,176 C640,184 760,214 872,262';
+ let g=`<ellipse cx="470" cy="470" rx="400" ry="9" fill="rgba(0,0,0,.05)"/><line x1="20" y1="456" x2="880" y2="456" stroke="#111" stroke-width="1"/>`;
+ // far limbs (muted)
+ g+=`<g opacity=".38" transform="translate(34,-4)">${B(535,215,455,300,17)}${B(455,300,515,394,12)}${B(515,394,508,432,9)}${B(508,432,432,455,6)}${B(508,432,468,456,6)}${B(508,432,520,456,6)}${B(352,182,336,216,7)}${B(336,216,314,238,5)}</g>`;
+ // tail + spine vertebrae (generated)
+ const tmp=document.createElementNS('http://www.w3.org/2000/svg','path');tmp.setAttribute('d',spine);
+ const L=tmp.getTotalLength();let v='',ribs='';
+ for(let s=0,i=0;s<L;s+=9,i++){
+  const p=tmp.getPointAtLength(s),q=tmp.getPointAtLength(Math.min(L,s+1)),a=Math.atan2(q.y-p.y,q.x-p.x)*180/Math.PI;
+  const t=s/L,h=t<.42?15:Math.max(3,15-(t-.42)*21);
+  v+=`<g transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${a.toFixed(1)})"><rect x="-4" y="${-h/2}" width="8" height="${h}" rx="2.2" fill="var(--bf)" stroke="currentColor" stroke-width="1.4"/><line x1="0" y1="${-h/2}" x2="0" y2="${-h/2-Math.min(11,h*.7)}" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>${t>.2&&t<.9?`<line x1="2" y1="${h/2}" x2="-3" y2="${h/2+Math.max(2,h*.7)}" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`:''}</g>`;
+  if(p.x>378&&p.x<492&&i%1===0&&s%18<9){const k=(p.x-378)/114,len=122-k*58;
+   ribs+=`<path d="M${p.x.toFixed(1)},${(p.y+6).toFixed(1)} C${(p.x-38).toFixed(1)},${(p.y+34).toFixed(1)} ${(p.x-44+k*18).toFixed(1)},${(p.y+len*.7).toFixed(1)} ${(p.x-16+k*14).toFixed(1)},${(p.y+len).toFixed(1)}" fill="none" stroke="currentColor" stroke-width="5.4" stroke-linecap="round"/><path d="M${p.x.toFixed(1)},${(p.y+6).toFixed(1)} C${(p.x-38).toFixed(1)},${(p.y+34).toFixed(1)} ${(p.x-44+k*18).toFixed(1)},${(p.y+len*.7).toFixed(1)} ${(p.x-16+k*14).toFixed(1)},${(p.y+len).toFixed(1)}" fill="none" stroke="var(--bf)" stroke-width="3" stroke-linecap="round"/>`}
+ }
+ g+=ribs+v;
+ // pelvis + near hindlimb
+ g+=P('M472,160 L566,172 L582,214 L548,238 L522,216 L490,192 Z');
+ g+=B(522,226,468,278,9)+B(548,238,596,292,9);
+ g+=B(535,214,455,300,19)+E(535,214,13,13)+E(455,300,10,10)+B(455,300,515,394,13)+E(515,394,8,8)+B(515,394,508,432,10);
+ g+=[[430,455],[470,457],[522,457]].map(([x,y])=>B(508,432,x,y,6)+`<path d="M${x},${y-3} l-10,4 l10,4z" fill="#111"/>`).join('');
+ // arms
+ g+=B(352,182,336,216,8)+B(336,216,314,238,6)+`<path d="M314,238 l-12,8 M314,238 l-6,12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`;
+ // skull
+ g+=skull();
+ // dimension lines
+ g+=`<g class="dim"><path d="M70,486 H872 M70,478 V494 M872,478 V494"/><path d="M26,215 V456 M18,215 H34 M18,456 H34"/></g><text x="471" y="506" text-anchor="middle">12.3 m</text><text transform="translate(14,340) rotate(-90)" text-anchor="middle">4.0 m</text>`;
+ svg.innerHTML=g;
+})();
+
+/* "video": fades in after 2800 ms */
+setTimeout(()=>document.getElementById('bg').classList.add('on'),2800);
+
+/* mobile menu */
+const burger=document.getElementById('burger'),mm=document.getElementById('mm');
+burger.onclick=()=>{const o=burger.classList.toggle('open');mm.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)};
+
+/* ---------- pterosaur ---------- */
+(function(){
+ const wing=`<path d="M540,138 L392,96 L40,52 Q74,112 120,172 Q170,196 205,214 Q250,222 292,252 Q340,268 380,294 Q430,300 470,318 L540,310 Z" fill="#0f0f0f" stroke="#2a2a2a" stroke-width="1.2" stroke-linejoin="round"/>
+ <path d="M392,96 L120,172 M392,96 L205,214 M392,96 L292,252 M392,96 L380,294" stroke="#2c2c2c" stroke-width="1" fill="none"/><path d="M540,138 L392,96 L40,52" stroke="#4a4a4a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M40,52 L96,150" stroke="#222" stroke-width="1"/>`;
+ document.getElementById('ptero').innerHTML=`<svg viewBox="0 0 1100 460" aria-hidden="true"><g>${wing}</g><g transform="translate(1100,0) scale(-1,1)">${wing}</g>
+ <path d="M550,6 L561,70 L574,122 L566,200 L580,300 L560,350 L550,420 L540,350 L520,300 L534,200 L526,122 L539,70Z" fill="#0b0b0b" stroke="#333" stroke-width="1.4" stroke-linejoin="round"/>
+ <path d="M550,6 L555,70" stroke="#555" stroke-width="1.5"/><ellipse cx="550" cy="112" rx="4" ry="2.4" fill="#555"/><path d="M526,122 L550,60 L574,122" fill="none" stroke="#2c2c2c"/></svg>`;
+})();
+
+/* ---------- reveal on view ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -100px 0px'});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{rootMargin:'100px'}).observe(document.getElementById('ptero'));
+// ptero starts above its slot; observe the section top instead
+(function(){const s=document.querySelector('.s3'),p=document.getElementById('ptero');
+ new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){p.classList.add('in');o.disconnect()}}),{rootMargin:'0px 0px 100px 0px'}).observe(s)})();
+
+/* ---------- chapter art ---------- */
+const S=(inner)=>`<svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+const ART=[
+ // 01 skull
+ ()=>S(`<g transform="translate(-30,40) scale(1.5)">${skull()}</g><text x="200" y="372" text-anchor="middle" style="font:500 9px 'JetBrains Mono',monospace;letter-spacing:.2em;fill:#888;stroke:none">TYRANNOSAURUS REX - SKULL</text>`),
+ // 02 trilobite
+ ()=>{let t='';for(let i=11;i>=0;i--){const y=165+i*15,w=92-i*4.4;t+=`<path d="M${200-w},${y} Q200,${y-14} ${200+w},${y} Q${200+w+4},${y+10} ${200+w-8},${y+16} Q200,${y+4} ${200-w+8},${y+16} Q${200-w-4},${y+10} ${200-w},${y}Z" fill="var(--bf)"/>`}
+  return S(`<path d="M200,326 m-46,0 a46,40 0 0 0 92,0 Q200,300 154,326Z" fill="var(--bf)"/>${t}<path d="M108,150 Q110,70 200,70 Q290,70 292,150 Q200,170 108,150Z" fill="var(--bf)"/><ellipse cx="200" cy="118" rx="28" ry="40" fill="var(--bf)"/><path d="M92,150 L80,176 M308,150 L320,176" /><path d="M148,112 q10,-16 22,-4 M252,112 q-10,-16 -22,-4"/><path d="M200,176 V316" stroke-dasharray="2 8"/><circle cx="144" cy="118" r="7"/><circle cx="256" cy="118" r="7"/>`)},
+ // 03 reptile (top-down skeleton)
+ ()=>{const sx=y=>200+Math.sin(y/34)*14;let v='',r='';
+  for(let y=96;y<=372;y+=11){const k=(y-96)/276,s=7*(1-k*.8);v+=`<ellipse cx="${sx(y).toFixed(1)}" cy="${y}" rx="${s.toFixed(1)}" ry="5" fill="var(--bf)"/>`;
+   if(y>110&&y<210){const l=44-Math.abs(y-160)*.6;r+=`<path d="M${sx(y)},${y} q${-l*.7},-4 ${-l},${14}M${sx(y)},${y} q${l*.7},-4 ${l},${14}"/>`}}
+  return S(`${r}<path d="M${sx(126)-4},126 L124,98 L84,66 M${sx(126)+4},126 L276,98 L318,70"/><path d="M${sx(222)-4},222 L118,246 L96,308 L72,318 M${sx(222)+4},222 L282,246 L306,308 L330,318"/>${v}<path d="M200,92 C170,88 160,56 178,38 Q200,24 222,38 C240,56 230,88 200,92Z" fill="var(--bf)"/><circle cx="184" cy="56" r="6"/><circle cx="216" cy="56" r="6"/><path d="M190,34 V24 M210,34 V24"/><path d="M200,140 L200,200" stroke-dasharray="1 7"/>`)},
+ // 04 ammonite
+ ()=>{const a=6,b=.2,c=200,d=200;let o='',i2='',rb='';const pt=(th,k)=>{const r=a*Math.exp(b*th)*k,ang=th-1.5;return [c+r*Math.cos(ang)*1,d+r*Math.sin(ang)*1]};
+  for(let th=0;th<=16;th+=.12){const [x,y]=pt(th,1),[x2,y2]=pt(th,.72);o+=(th?'L':'M')+x.toFixed(1)+','+y.toFixed(1);}
+  for(let th=0;th<=16;th+=.12){const [x,y]=pt(th,.72);i2+=(th?'L':'M')+x.toFixed(1)+','+y.toFixed(1)}
+  for(let th=3.4;th<=16;th+=.26){const [x,y]=pt(th,1),[x2,y2]=pt(th,.7),[x3,y3]=pt(th+.1,1.0);rb+=`M${x2.toFixed(1)},${y2.toFixed(1)} Q${((x+x2)/2+3).toFixed(1)},${((y+y2)/2).toFixed(1)} ${x.toFixed(1)},${y.toFixed(1)}`}
+  return S(`<g transform="translate(-6,0) scale(1.0)"><path d="${o}" fill="var(--bf)"/><path d="${rb}"/><path d="${i2}" stroke-opacity=".5"/></g>`)},
+ // 05 triceratops
+ ()=>{let sc='';for(let i=0;i<22;i++){const a=Math.PI+ i/21*Math.PI,x=200+Math.cos(a)*134,y=176+Math.sin(a)*128;sc+=`<circle cx="${x.toFixed(1)}" cy="${(y).toFixed(1)}" r="5" fill="var(--bf)"/>`}
+  return S(`<ellipse cx="200" cy="190" rx="128" ry="118" fill="var(--bf)"/>${sc}<path d="M96,190 Q200,100 304,190" stroke-opacity=".4"/><ellipse cx="200" cy="244" rx="58" ry="84" fill="var(--bf)"/><path d="M146,196 Q114,126 78,64 Q122,120 160,170Z M254,196 Q286,126 322,64 Q278,120 240,170Z" fill="var(--bf)"/><path d="M200,236 L192,262 L200,284 L208,262Z" fill="var(--bf)"/><path d="M168,318 Q200,346 232,318 Q200,300 168,318Z" fill="var(--bf)"/><circle cx="162" cy="214" r="6"/><circle cx="238" cy="214" r="6"/><path d="M176,300 q24,10 48,0"/><path d="M60,372 H340 M60,366 V378 M340,366 V378" stroke="#777"/><text x="200" y="392" text-anchor="middle" style="font:500 9px 'JetBrains Mono',monospace;letter-spacing:.2em;fill:#888;stroke:none">SCALE 1:20</text>`)}
+];
+const NAMES=["Age of Dinosaurs","Fossils of Ancient Life","Reptiles of the Mesozoic","Marine Fossil Gallery","Prehistoric Giants"];
+
+/* ---------- sand transition ---------- */
+let fid=0,gen=0;
+const stage=document.getElementById('stage'),defs=document.getElementById('sandDefs');
+function sandLayer(html,mode,done){
+ const id='sf'+(fid++),lay=document.createElement('div');lay.className='lay';lay.innerHTML=html;
+ defs.insertAdjacentHTML('beforeend',`<filter id="${id}" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="1.8" numOctaves="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" result="d"/><feOffset in="d" dx="0" dy="0" result="o"/><feGaussianBlur in="o" stdDeviation="0" result="b"/><feColorMatrix in="b" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter>`);
+ const f=defs.lastElementChild,dm=f.children[1],of=f.children[2],bl=f.children[3],cm=f.children[4];
+ lay.style.filter=`url(#${id})`;stage.appendChild(lay);
+ const enter=mode==='enter',sign=Math.random()<.5?-1:1,T=900;let t0=null,fin=false;
+ const apply=p=>{dm.setAttribute('scale',150*p);of.setAttribute('dy',(enter?-80:120)*p);of.setAttribute('dx',30*sign*p);bl.setAttribute('stdDeviation',6*p);
+  cm.setAttribute('values',`1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 ${Math.max(0,1-p*1.2).toFixed(3)} 0`)};
+ const end=()=>{if(fin)return;fin=true;if(enter){lay.style.filter='none';f.remove()}else{lay.remove();f.remove()}done&&done()};
+ lay._cancel=()=>{fin=true;lay.remove();f.remove()};
+ const step=ts=>{if(fin)return;if(t0===null)t0=ts;const t=Math.min(1,(ts-t0)/T);
+  apply(enter?1-(1-Math.pow(1-t,4)):Math.pow(t,3));
+  if(t<1)requestAnimationFrame(step);else end()};
+ apply(enter?1:0);requestAnimationFrame(step);setTimeout(end,T+250);
+ return lay;
+}
+function showArt(i){
+ const my=++gen,old=[...stage.children];
+ const go=()=>{if(my!==gen)return;sandLayer(ART[i](),'enter')};
+ if(!old.length)return go();
+ old.forEach(l=>l._exit||(l._exit=1));
+ // exit existing, then enter (AnimatePresence mode="wait")
+ const cur=old[old.length-1];old.slice(0,-1).forEach(l=>l._cancel&&l._cancel());
+ cur.style.filter='none';const html=cur.innerHTML;cur.remove();
+ sandLayer(html,'exit',go);
+}
+
+/* ---------- chapters ---------- */
+let active=2,timer;
+const chs=document.getElementById('chs');
+chs.innerHTML=NAMES.map((n,i)=>`<button class="ch" data-i="${i}"><span>${n}</span>${icon('arrow-up-right',22,1)}</button>`).join('');
+const pad=n=>String(n+1).padStart(2,'0');
+function setActive(i,first){
+ active=i;chs.querySelectorAll('.ch').forEach((b,k)=>b.classList.toggle('act',k===i));
+ const n=document.getElementById('cnum'),l=document.getElementById('clab');
+ n.innerHTML=`<span>${pad(i)}</span>`;l.textContent=pad(i);l.style.animation='none';void l.offsetWidth;l.style.animation='';
+ if(first){sandLayer(ART[i](),'enter')}else showArt(i);
+}
+function restart(){clearInterval(timer);timer=setInterval(()=>setActive((active+1)%5),3500)}
+chs.addEventListener('click',e=>{const b=e.target.closest('.ch');if(!b)return;const i=+b.dataset.i;if(i!==active){setActive(i);restart()}});
+setActive(2,true);restart();
+</script>
+</body>
+</html>

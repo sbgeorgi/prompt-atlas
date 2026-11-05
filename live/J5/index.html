@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maison Calder — Luxury</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#f3eee4;--ground-2:#e4dbcc;--ink:#262321;--ink-2:#5f5750;
+  --field:#262321;--field-deep:#302c29;--field-line:#46403a;--on-field:#f3eee4;--on-field-2:#c6bdb0;
+  --panel:#e4dbcc;--panel-line:#c6b89f;
+  --accent:#b69355;--accent-text:#76591f;--accent-light:#d2b071;--rule:#d5cab8;
+  --serif:"EB Garamond","Luxury Garamond",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans","Luxury Sans","Helvetica Neue",Arial,sans-serif;
+  --body:1rem;--leading:1.55;--label:.75rem;--tracking:.16em;--small:.9375rem;--caption:.875rem;--attr:.8125rem;
+  --item:1.375rem;--item-leading:1.15;--item-track:-.01em;
+  --pad:3rem;--gap:1.5rem;--pad-mid:2rem;--pad-narrow:1.25rem;--gap-compact:1rem;
+  --block:6rem;--roomy:7rem;
+  --focus:2px;--hair:1px;--interaction:150ms;
+  --door-content:600ms;--door-delay:450ms;--door-ease:cubic-bezier(.2,.7,.2,1);
+  --ov:9rem;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--body);line-height:var(--leading);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.serif{font-family:var(--serif);font-weight:400;font-variant-numeric:oldstyle-nums proportional-nums}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:var(--focus) solid var(--accent-text);outline-offset:3px}
+.on-field :focus-visible,.field :focus-visible{outline-color:var(--accent-light)}
+.label{font-family:var(--sans);font-size:var(--label);letter-spacing:var(--tracking);text-transform:uppercase;font-weight:500}
+.gold{color:var(--accent-text)}.field .gold,.on-field .gold{color:var(--accent-light)}
+p{max-width:38em}
+.lead{font-size:1.125rem;line-height:1.55;color:var(--ink)}
+.sec-title{font-size:clamp(2.25rem,5.2cqi,4.25rem);line-height:1;letter-spacing:-.02em}
+.sec-title em,.hero h1 em,.close h2 em{font-style:italic}
+
+/* page / grid */
+.page{container-type:inline-size;position:relative}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);padding-inline:var(--pad);max-width:1440px;margin-inline:auto;position:relative}
+.band{position:relative}
+.band-taupe{background:var(--ground-2)}
+.band-field{background:var(--field);color:var(--on-field)}
+.field{color:var(--on-field)}
+.field p,.band-field p{color:var(--on-field-2)}
+.spinewrap{position:relative}
+.spine{position:absolute;inset:0 auto 0 50%;width:min(100%,1440px);transform:translateX(-50%);pointer-events:none;z-index:1}
+.spine::before{content:"";position:absolute;top:0;bottom:0;width:1px;background:var(--accent);
+  left:calc(var(--pad) + (100% - 2*var(--pad) - 11*var(--gap))/12*2 + 2*var(--gap) - var(--gap)/2)}
+.section{padding-block:var(--block)}
+.num{grid-column:1/3;text-align:right;padding-right:var(--gap);position:sticky;top:5.5rem;align-self:start;z-index:4}
+.num b{display:block;font-family:var(--serif);font-weight:400;font-size:1.75rem;line-height:1;color:var(--accent-text);letter-spacing:.04em}
+.num span{display:block;margin-top:.5rem;font-size:.6875rem;letter-spacing:var(--tracking);text-transform:uppercase;color:var(--ink-2)}
+.field .num b,.band-field .num b{color:var(--accent-light)}
+.field .num span,.band-field .num span{color:var(--on-field-2)}
+
+/* nav */
+.nav{position:relative;z-index:10;padding-block:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
+.nav .logo{font-family:var(--serif);font-size:1.5rem;letter-spacing:-.01em;text-decoration:none}
+.nav ul{list-style:none;padding:0;display:flex;gap:2rem;flex-wrap:wrap}
+.nav a.l{text-decoration:none;color:var(--ink-2);font-size:var(--label);letter-spacing:var(--tracking);text-transform:uppercase;font-weight:500;padding:.5rem 0;border-bottom:1px solid transparent;transition:color var(--interaction),border-color var(--interaction)}
+.nav a.l:hover{color:var(--ink);border-bottom-color:var(--accent)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:3rem;padding:0 1.75rem;border:1px solid var(--ink);background:var(--ink);color:var(--ground);
+  font-family:var(--sans);font-size:var(--label);letter-spacing:var(--tracking);text-transform:uppercase;font-weight:500;text-decoration:none;cursor:pointer;border-radius:0;
+  transition:background-color var(--interaction),border-color var(--interaction),color var(--interaction)}
+.btn:hover{background:var(--field-deep);border-color:var(--accent)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ground-2)}
+.field .btn,.band-field .btn{background:var(--on-field);color:var(--field);border-color:var(--on-field)}
+.field .btn:hover,.band-field .btn:hover{background:var(--ground-2);border-color:var(--accent-light)}
+.tlink{display:inline-block;color:var(--ink);text-decoration:none;font-size:var(--label);letter-spacing:var(--tracking);text-transform:uppercase;font-weight:500;padding:.9rem 0;border-bottom:1px solid var(--accent);transition:color var(--interaction),border-color var(--interaction)}
+.tlink:hover{color:var(--accent-text);border-bottom-color:var(--accent-text)}
+.band-field .tlink{color:var(--on-field)}.band-field .tlink:hover{color:var(--accent-light)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 2rem}
+
+/* hero */
+.hero{padding-top:2rem;position:relative;z-index:2}
+.hero h1{position:relative;z-index:2;grid-column:1/-1;font-size:clamp(3rem,8.4cqi,7.75rem);line-height:.96;letter-spacing:-.03em;max-width:8.6em;margin-bottom:3rem}
+.hero .body{grid-column:3/8;align-self:start}
+.hero .body .lead{margin-bottom:1.5rem}
+.hero .body p+p{margin-bottom:2rem;color:var(--ink-2)}
+.hero .label.gold{margin-bottom:1.25rem;display:block}
+.portrait{grid-column:9/13;grid-row:2;position:relative;z-index:5;margin-bottom:calc(-1*var(--ov));align-self:start}
+.frame{position:relative;padding:.625rem;border:1px solid var(--accent);background:var(--ground)}
+.frame .img{aspect-ratio:4/5}
+.img{position:relative;overflow:hidden;background:var(--ground-2)}
+.img svg{width:100%;height:100%}
+figcaption{font-size:var(--attr);color:var(--ink-2);margin-top:.75rem;letter-spacing:.02em}
+.facts{position:relative;z-index:1;padding-top:calc(var(--ov) + 3rem);padding-bottom:var(--block)}
+.facts .intro{grid-column:3/9}
+.facts .intro p{font-size:var(--small);color:var(--ink-2)}
+.fact-list{grid-column:3/9;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:2.5rem;border-top:1px solid var(--panel-line);padding-top:1.5rem}
+.fact b{display:block;font-family:var(--serif);font-weight:400;font-size:3.25rem;line-height:1;letter-spacing:-.02em;font-variant-numeric:oldstyle-nums proportional-nums}
+.fact span{display:block;margin-top:.5rem;font-size:var(--caption);color:var(--ink-2);max-width:14em}
+
+/* statement */
+.stmt{grid-column:3/-1;font-size:clamp(2rem,4.6cqi,4rem);line-height:1.04;letter-spacing:-.02em;max-width:17em;margin-bottom:3.5rem}
+.stmt em{font-style:italic;color:var(--accent-text)}
+.two{grid-column:3/-1;display:grid;grid-template-columns:1fr 1fr;gap:var(--gap) 3rem;max-width:56rem}
+.two p{color:var(--ink-2)}
+
+/* practice */
+.prac-head{grid-column:3/6;position:sticky;top:5.5rem;align-self:start}
+.prac-head p{margin-top:1.25rem;color:var(--ink-2);font-size:var(--small)}
+.rows{grid-column:6/-1;list-style:none;padding:0;border-top:1px solid var(--rule)}
+.rows li{display:grid;grid-template-columns:3rem 1fr 1.25fr;gap:var(--gap);padding:1.75rem 0;border-bottom:1px solid var(--rule);align-items:baseline;transition:background-color var(--interaction)}
+.rows .n{font-family:var(--serif);font-size:1rem;color:var(--accent-text)}
+.rows h3{font-size:var(--item);line-height:var(--item-leading);letter-spacing:var(--item-track);font-weight:500}
+.rows p{font-size:var(--small);color:var(--ink-2)}
+
+/* residences */
+.res-head{grid-column:3/-1;margin-bottom:3rem;display:flex;justify-content:space-between;align-items:end;gap:var(--gap);flex-wrap:wrap}
+.res-main{grid-column:3/9}
+.res-main .img{aspect-ratio:6/7}
+.res-main h3{font-size:2.25rem;line-height:1.05;letter-spacing:-.015em;margin-top:1.25rem}
+.res-main p{margin-top:.5rem;color:var(--ink-2);font-size:var(--small)}
+.res-side{grid-column:10/13;display:flex;flex-direction:column;gap:2.5rem;padding-top:4rem}
+.res-side .img{aspect-ratio:4/3}
+.res-side h3{font-size:var(--item);line-height:var(--item-leading);letter-spacing:var(--item-track);font-weight:500;margin-top:.9rem}
+.res-side p{font-size:var(--caption);color:var(--ink-2);margin-top:.25rem}
+
+/* voices */
+.voices{padding-block:var(--roomy) 0}
+.voices .head{grid-column:3/-1;margin-bottom:4rem}
+.quotes{grid-column:3/-1;display:flex;flex-direction:column;gap:4rem;padding-bottom:var(--roomy)}
+blockquote{margin:0;max-width:34rem}
+blockquote p{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,2.5cqi,2.25rem);line-height:1.18;color:var(--on-field);letter-spacing:-.01em}
+blockquote footer{margin-top:1rem;font-size:var(--attr);letter-spacing:.04em;color:var(--accent-light)}
+blockquote:nth-child(2){margin-left:28%}
+blockquote:nth-child(3){margin-left:8%}
+
+/* engagements */
+.eng{padding-top:0;padding-bottom:var(--block)}
+.eng .grid{align-items:start}
+.eng-head{grid-column:3/6;padding-top:var(--block);position:sticky;top:5.5rem}
+.eng-head p{margin-top:1.25rem;color:var(--ink-2);font-size:var(--small)}
+.cols{grid-column:6/-1;display:grid;grid-template-columns:repeat(3,1fr);margin-top:0}
+.col{border-top:2px solid var(--rule);padding:calc(var(--block) - 2px) 1.5rem 2.5rem;display:flex;flex-direction:column;gap:1rem;position:relative}
+.col+.col{border-left:1px solid var(--rule)}
+.col.feat{background:var(--field);color:var(--on-field);border-left-color:var(--field);margin-top:calc(-1*var(--roomy));padding-top:calc(var(--roomy) + var(--block));border-top:0}
+.col.feat::before{content:"";position:absolute;left:0;right:0;top:var(--roomy);height:2px;background:var(--field-line)}
+.col.feat:has(input:checked)::before{background:var(--accent)}
+.col.feat+.col{border-left-color:var(--field)}
+.col:has(input:checked){border-top-color:var(--accent)}
+.col h3{font-size:1.75rem;line-height:1.05;letter-spacing:-.01em}
+.col .price{font-family:var(--serif);font-size:2rem;line-height:1;font-variant-numeric:oldstyle-nums proportional-nums}
+.col .price small{display:block;font-family:var(--sans);font-size:var(--attr);margin-top:.35rem;color:var(--ink-2)}
+.col.feat .price small,.col.feat li{color:var(--on-field-2)}
+.col ul{list-style:none;padding:0;border-top:1px solid var(--rule);flex:1}
+.col.feat ul{border-top-color:var(--field-line)}
+.col li{padding:.7rem 0;border-bottom:1px solid var(--rule);font-size:var(--small);color:var(--ink-2)}
+.col.feat li{border-bottom-color:var(--field-line)}
+.opt{display:block;position:relative;margin-top:1rem}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0;width:100%;height:100%}
+.opt .btn{width:100%;background:transparent;color:var(--ink);border-color:var(--ink);pointer-events:none}
+.opt:hover .btn{background:var(--ground-2);border-color:var(--accent)}
+.opt input:checked+.btn{background:var(--ink);color:var(--ground)}
+.opt input:checked+.btn::before{content:"Selected";}
+.opt input:not(:checked)+.btn::before{content:"Select";}
+.col.feat .opt .btn{color:var(--on-field);border-color:var(--on-field)}
+.col.feat .opt:hover .btn{background:var(--field-deep);border-color:var(--accent-light)}
+.col.feat .opt input:checked+.btn{background:var(--on-field);color:var(--field)}
+.opt input:focus-visible+.btn{outline:var(--focus) solid var(--accent-text);outline-offset:3px}
+.col.feat .opt input:focus-visible+.btn{outline-color:var(--accent-light)}
+.opt:active .btn{transform:translateY(1px)}
+.status{grid-column:6/-1;margin-top:1.25rem;font-size:var(--caption);color:var(--ink-2);min-height:1.5em}
+
+/* faq */
+.faq-head{grid-column:3/6;position:sticky;top:5.5rem;align-self:start}
+.faq-head p{margin-top:1.25rem;color:var(--ink-2);font-size:var(--small)}
+.faq{grid-column:6/-1;border-top:1px solid var(--rule)}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:1rem;align-items:baseline;padding:1.5rem 0;font-family:var(--serif);font-size:var(--item);line-height:var(--item-leading);letter-spacing:var(--item-track);font-weight:500}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--serif);color:var(--accent);font-size:1.75rem;line-height:1;transition:color var(--interaction)}
+.faq details[open] summary::after{content:"\2212"}
+.faq summary:hover::after{color:var(--accent-text)}
+.faq details p{padding-bottom:1.5rem;color:var(--ink-2);font-size:var(--small);max-width:34em}
+
+/* closing */
+.close{background:var(--field);color:var(--on-field);padding-block:var(--roomy);position:relative}
+.close .grid{align-items:center}
+.close h2{grid-column:1/6;font-size:clamp(2.75rem,6.4cqi,6rem);line-height:.98;letter-spacing:-.03em;padding-right:1rem}
+.close .narrow{grid-column:6/8}
+.close .narrow .img{aspect-ratio:3/5;background:var(--field-deep)}
+.close .cl-copy{grid-column:9/13}
+.close .cl-copy p{margin-bottom:2rem;color:var(--on-field-2)}
+.close .btn{background:var(--on-field);color:var(--field);border-color:var(--on-field)}
+.close .btn:hover{background:var(--ground-2);border-color:var(--accent-light)}
+.close .tlink{color:var(--on-field)}.close .tlink:hover{color:var(--accent-light);border-bottom-color:var(--accent-light)}
+.close :focus-visible{outline-color:var(--accent-light)}
+.close .actions{flex-direction:column;align-items:flex-start;gap:1rem}
+@media (min-width:721px) and (prefers-reduced-motion:no-preference){
+  .close.arm{clip-path:inset(0 calc(50% - 2.5rem))}
+  .close.arm.open{clip-path:inset(0);transition:clip-path 900ms var(--door-ease)}
+  .close.arm h2,.close.arm .cl-copy{opacity:0;transform:translateY(20px)}
+  .close.arm.open h2,.close.arm.open .cl-copy{opacity:1;transform:none;transition:opacity var(--door-content) var(--door-ease) var(--door-delay),transform var(--door-content) var(--door-ease) var(--door-delay)}
+}
+footer.foot{background:var(--field);color:var(--on-field);border-top:1px solid var(--accent);padding-block:4rem 2.5rem}
+.foot .fg{grid-column:1/-1;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:var(--gap)}
+.foot h4{font-size:var(--label);letter-spacing:var(--tracking);text-transform:uppercase;font-weight:500;color:var(--accent-light);margin-bottom:1rem}
+.foot p,.foot a{color:var(--on-field-2);font-size:var(--caption);text-decoration:none;display:block;padding:.2rem 0}
+.foot a:hover{color:var(--on-field)}
+.foot .logo{font-family:var(--serif);font-size:2rem;color:var(--on-field);margin-bottom:.75rem}
+.foot .legal{grid-column:1/-1;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--field-line);font-size:var(--attr);color:var(--on-field-2);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* mid */
+@media (max-width:1100px){
+  .grid{padding-inline:var(--pad-mid);column-gap:var(--gap-compact)}
+  :root{--ov:6rem;--block:5rem;--roomy:5.5rem}
+  .spine::before{left:calc(var(--pad-mid) + (100% - 2*var(--pad-mid) - 11*var(--gap-compact))/12*2 + 2*var(--gap-compact) - var(--gap-compact)/2)}
+  .hero .body{grid-column:3/9}
+  .portrait{grid-column:9/13}
+  .facts .intro,.fact-list{grid-column:3/-1}
+  .prac-head,.eng-head,.faq-head{grid-column:3/-1;position:static;padding-top:0;margin-bottom:2rem}
+  .eng-head{padding-top:var(--block)}
+  .rows,.faq{grid-column:3/-1}
+  .cols,.status{grid-column:3/-1}
+  .col.feat{margin-top:0;padding-top:var(--block)}
+  .col.feat::before{top:0}
+  .res-main{grid-column:3/9}.res-side{grid-column:9/13}
+  .num{top:1rem}
+}
+/* narrow */
+@media (max-width:720px){
+  :root{--ov:5rem;--block:4rem;--roomy:4.5rem}
+  .grid{display:block;padding-inline:2.75rem var(--pad-narrow)}
+  .spine::before{left:1.1rem}
+  .nav{padding-inline:2.75rem var(--pad-narrow)}
+  .nav ul{gap:1.25rem}
+  .num{position:static;text-align:left;padding:0;margin-bottom:1.25rem;display:flex;align-items:baseline;gap:.75rem;margin-left:-2.75rem;padding-left:2.75rem}
+  .num span{margin:0}
+  .hero h1{margin-bottom:1.75rem}
+  .portrait{width:82%;margin:2.5rem 0 calc(-1*var(--ov)) auto}
+  .facts{padding-top:calc(var(--ov) + 2.5rem)}
+  .fact-list{grid-template-columns:1fr 1fr 1fr;gap:.75rem}
+  .fact b{font-size:2.25rem}
+  .stmt{margin-bottom:2rem}
+  .two{grid-template-columns:1fr}
+  .rows li{grid-template-columns:2.25rem 1fr;gap:.25rem var(--gap-compact)}
+  .rows li p{grid-column:2}
+  .res-side{padding-top:2.5rem;gap:2rem}
+  .res-head{margin-bottom:2rem}
+  blockquote:nth-child(n){margin-left:0}
+  .quotes{gap:2.75rem}
+  .cols{grid-template-columns:1fr}
+  .col{padding-inline:1.25rem;padding-top:2rem}
+  .col+.col{border-left:0}
+  .col.feat{padding-top:2rem}
+  .col.feat::before{top:0}
+  .eng-head{padding-top:var(--block)}
+  .close .narrow{max-width:12rem;margin:2.5rem 0}
+  .close h2{padding:0}
+  .foot .fg{grid-template-columns:1fr 1fr}
+  .foot .fg>div:first-child{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+  .btn:active,.opt:active .btn{transform:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="wallA" x1="0" x2="1"><stop offset="0" stop-color="#dccfb7"/><stop offset="1" stop-color="#b3a07f"/></linearGradient>
+    <linearGradient id="wallB" x1="0" x2="1"><stop offset="0" stop-color="#cfc1a6"/><stop offset="1" stop-color="#e2d6bd"/></linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe9bd"/><stop offset="1" stop-color="#c79a5b"/></linearGradient>
+    <linearGradient id="floorA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9b8460"/><stop offset="1" stop-color="#6d5a3f"/></linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7f0dc"/><stop offset="1" stop-color="#e9dcb9"/></linearGradient>
+    <linearGradient id="shaft" x1="0" x2="1"><stop offset="0" stop-color="#fff6de" stop-opacity=".5"/><stop offset="1" stop-color="#fff6de" stop-opacity="0"/></linearGradient>
+
+    <!-- Doorway scene 400x500 -->
+    <g id="sD">
+      <rect width="400" height="500" fill="url(#wallA)"/>
+      <polygon points="0,0 150,0 330,500 40,500" fill="url(#shaft)"/>
+      <rect y="410" width="400" height="90" fill="url(#floorA)"/>
+      <path d="M135 410 L265 410 L350 500 L60 500Z" fill="#edcf92" opacity=".55"/>
+      <path d="M118 410V198a82 82 0 0 1 164 0V410Z" fill="#ece3d0"/>
+      <path d="M118 410V198a82 82 0 0 1 164 0V410" fill="none" stroke="#c9bb9e" stroke-width="2"/>
+      <path d="M140 410V204a60 60 0 0 1 120 0V410Z" fill="url(#glow)"/>
+      <path d="M176 410V250a24 24 0 0 1 48 0V410Z" fill="#fff4d2" opacity=".85"/>
+      <rect x="140" y="330" width="120" height="3" fill="#a77d44" opacity=".5"/>
+      <rect x="140" y="405" width="120" height="8" fill="#7d6644"/>
+      <rect x="36" y="352" width="62" height="60" fill="#b3a487"/>
+      <ellipse cx="67" cy="352" rx="31" ry="8" fill="#cabc9f"/>
+      <ellipse cx="86" cy="414" rx="62" ry="9" fill="#2b2118" opacity=".28"/>
+      <path d="M318 410c-16-10-22-42-8-70 6-12 30-12 36 0 14 28 8 60-8 70Z" fill="#7e6e58"/>
+      <path d="M332 336c-4-60 4-110 22-150M332 336c6-40 28-80 50-110M332 340c-10-30-18-60-14-90" stroke="#5b4c38" stroke-width="2.5" fill="none"/>
+      <ellipse cx="338" cy="414" rx="40" ry="7" fill="#2b2118" opacity=".3"/>
+    </g>
+
+    <!-- Room scene 600x700 -->
+    <g id="sR">
+      <rect width="600" height="700" fill="url(#wallB)"/>
+      <rect x="120" y="70" width="340" height="400" fill="#c9bb9e"/>
+      <rect x="132" y="82" width="316" height="376" fill="url(#sky)"/>
+      <path d="M290 82v376M132 270h316" stroke="#c4b595" stroke-width="6"/>
+      <rect y="470" width="600" height="230" fill="url(#floorA)"/>
+      <polygon points="150,470 420,470 560,700 60,700" fill="#f2dcaa" opacity=".4"/>
+      <polygon points="132,82 300,82 460,470 300,470" fill="#fff6de" opacity=".18"/>
+      <rect x="40" y="405" width="290" height="92" rx="8" fill="#6f6254"/>
+      <rect x="40" y="365" width="290" height="55" rx="8" fill="#85766a"/>
+      <rect x="52" y="420" width="266" height="30" rx="6" fill="#928376"/>
+      <ellipse cx="190" cy="508" rx="170" ry="12" fill="#2b2118" opacity=".3"/>
+      <ellipse cx="430" cy="500" rx="46" ry="12" fill="#cdbfa2"/>
+      <rect x="384" y="470" width="92" height="30" fill="#b6a789"/>
+      <ellipse cx="430" cy="470" rx="46" ry="12" fill="#d8ccb0"/>
+      <ellipse cx="440" cy="514" rx="70" ry="9" fill="#2b2118" opacity=".28"/>
+      <path d="M520 700V330a50 50 0 0 1 100 0V700Z" fill="#a9976f"/>
+      <path d="M440 468c-6-20-4-34 4-44 6 10 8 24 2 44Z" fill="#7d8266"/>
+      <path d="M200 20v50" stroke="#4a3f33" stroke-width="2"/><circle cx="200" cy="82" r="16" fill="#efe3c2"/>
+    </g>
+
+    <!-- Stair/arches scene 400x300 -->
+    <g id="sS">
+      <rect width="400" height="300" fill="#cdbf9f"/>
+      <path d="M40 300V130a70 70 0 0 1 140 0V300Z" fill="#ddd0b3"/>
+      <path d="M62 300V135a48 48 0 0 1 96 0V300Z" fill="#b99f72"/>
+      <path d="M200 300V140a60 60 0 0 1 120 0V300Z" fill="#d5c7a8"/>
+      <path d="M220 300V145a40 40 0 0 1 80 0V300Z" fill="#9c8660"/>
+      <path d="M62 300l96-20v20Z M62 280l96-20v20Z" fill="#e6dbc0"/>
+      <rect y="262" width="400" height="38" fill="#85704f"/>
+      <rect x="330" y="30" width="50" height="3" fill="#fff6de" opacity=".6"/>
+    </g>
+
+    <!-- Still life 400x300 -->
+    <g id="sT">
+      <rect width="400" height="300" fill="#d4c7ac"/>
+      <polygon points="0,0 120,0 260,300 0,300" fill="#fff6de" opacity=".14"/>
+      <rect y="214" width="400" height="86" fill="#7d6a4c"/>
+      <rect y="210" width="400" height="8" fill="#a28d69"/>
+      <path d="M90 212c-22-6-30-44-10-64 4-8 16-8 20 0 20 20 12 58-10 64Z" fill="#e9dfc8"/>
+      <path d="M190 212c-14-4-18-60-6-96 2-6 14-6 16 0 12 36 8 92-6 96Z" fill="#8a8b6a"/>
+      <path d="M270 212c-16-2-26-26-14-46 6-8 28-8 34 0 12 20 2 44-14 46Z" fill="#b2693f"/>
+      <path d="M196 120c-6-30-2-60 14-84M196 124c14-24 36-40 52-48" stroke="#5b4c38" stroke-width="2" fill="none"/>
+      <ellipse cx="190" cy="220" rx="150" ry="7" fill="#2b2118" opacity=".25"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="page">
+  <header class="band">
+    <nav class="grid" aria-label="Primary" style="display:block">
+      <div class="nav">
+        <a class="logo" href="#top">Maison Calder</a>
+        <ul>
+          <li><a class="l" href="#atelier">Atelier</a></li>
+          <li><a class="l" href="#practice">Practice</a></li>
+          <li><a class="l" href="#residences">Residences</a></li>
+          <li><a class="l" href="#engage">Engage</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="spinewrap" id="top">
+    <div class="spine" aria-hidden="true"></div>
+
+    <section class="band hero">
+      <div class="grid">
+        <h1>Rooms made for <em>stillness</em>.</h1>
+        <div class="body">
+          <span class="label gold">Architecture &amp; interiors, Lisbon</span>
+          <p class="lead">Maison Calder designs private residences that reward slow attention: thick walls, honest stone, and light that is allowed to travel through a day.</p>
+          <p>We work with a small number of households each year, from the first walk across the plot to the final hanging of the linen. Every drawing is made by hand before it is made on a screen.</p>
+          <div class="actions">
+            <a class="btn" href="#engage">Begin a conversation</a>
+            <a class="tlink" href="#residences">View residences</a>
+          </div>
+        </div>
+        <figure class="portrait">
+          <div class="frame"><div class="img"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="An arched stone doorway opening onto a warm, light-filled room, with a stone stool and a vase of branches"><use href="#sD"/></svg></div></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band band-taupe facts" aria-label="The practice in figures">
+      <div class="grid">
+        <div class="intro"><p>Founded in 1998 by Inês Calder, the atelier keeps a deliberately small studio. The same people who draw your house will walk its site every month until it is finished.</p></div>
+        <div class="fact-list">
+          <div class="fact"><b>1998</b><span>Atelier founded on the Rua das Flores</span></div>
+          <div class="fact"><b>64</b><span>Private residences completed</span></div>
+          <div class="fact"><b>11</b><span>People in the studio, none outsourced</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="atelier" aria-labelledby="h-atelier">
+      <div class="grid">
+        <div class="num"><b>I</b><span>Atelier</span></div>
+        <h2 class="sec-title stmt" id="h-atelier">A house should <em>settle</em> into its place, and then ask very little of the people who live in it.</h2>
+        <div class="two">
+          <p>We begin with the ground, the orientation and the oldest wall on the site. Nothing is added until we understand what is already doing its work, and what has been quietly asking to be removed.</p>
+          <p>Materials are chosen for how they age: lime plaster, oiled oak, honed limestone, unlacquered brass. Each is sourced within a day's drive, and every one is selected by hand with the household present.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="practice" aria-labelledby="h-practice" style="padding-top:0">
+      <div class="grid">
+        <div class="num"><b>II</b><span>Practice</span></div>
+        <div class="prac-head">
+          <h2 class="sec-title" id="h-practice">What we <em>make</em></h2>
+          <p>Five disciplines under one roof, so that a staircase and the light that falls on it are drawn by the same hand.</p>
+        </div>
+        <ul class="rows">
+          <li><span class="n">01</span><h3>Architecture</h3><p>New houses and patient renovations, drawn outward from the plot and its weather.</p></li>
+          <li><span class="n">02</span><h3>Interior design</h3><p>Plans, palettes and the quiet sequence of rooms, down to where a chair should rest.</p></li>
+          <li><span class="n">03</span><h3>Joinery &amp; furniture</h3><p>Pieces built in our own workshop to fit one wall, one window, one household.</p></li>
+          <li><span class="n">04</span><h3>Light</h3><p>Daylight studies and a restrained, dimmable artificial scheme for evening.</p></li>
+          <li><span class="n">05</span><h3>Site stewardship</h3><p>Monthly visits, contractor coordination and a handover that includes the garden.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="residences" aria-labelledby="h-res" style="padding-top:2rem">
+      <div class="grid">
+        <div class="num"><b>III</b><span>Residences</span></div>
+        <div class="res-head">
+          <h2 class="sec-title" id="h-res">Recent <em>houses</em></h2>
+          <a class="tlink" href="#engage">Request the portfolio</a>
+        </div>
+        <figure class="res-main">
+          <div class="img"><svg viewBox="0 0 600 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A sunlit living room with a low linen sofa, a stone side table and a tall window"><use href="#sR"/></svg></div>
+          <h3>Casa da Encosta</h3>
+          <p>Sintra &middot; Renovation of a 1920s hillside villa &middot; 2024</p>
+        </figure>
+        <div class="res-side">
+          <figure>
+            <div class="img"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Two plastered arches with a stepped plinth"><use href="#sS"/></svg></div>
+            <h3>Pátio dos Arcos</h3><p>Comporta &middot; New build &middot; 2023</p>
+          </figure>
+          <figure>
+            <div class="img"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ceramic vases and dried branches on an oak table against plaster"><use href="#sT"/></svg></div>
+            <h3>Apartment, Chiado</h3><p>Lisbon &middot; Interiors &middot; 2022</p>
+          </figure>
+          <figure>
+            <div class="img"><svg viewBox="0 140 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Detail of a stone threshold and warm interior light"><use href="#sD"/></svg></div>
+            <h3>Quinta do Vale</h3><p>Alentejo &middot; Farmhouse &middot; 2021</p>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-field voices" id="voices" aria-labelledby="h-voices">
+      <div class="grid">
+        <div class="num"><b>IV</b><span>Voices</span></div>
+        <div class="head"><h2 class="sec-title" id="h-voices">In their <em>words</em></h2></div>
+        <div class="quotes">
+          <blockquote><p>We kept expecting to be sold something. Instead they spent two days sitting in our empty rooms, watching the light.</p><footer>Inês &amp; Marco R., Alfama</footer></blockquote>
+          <blockquote><p>The house is quiet in a way I did not know a house could be. Nothing shouts. Everything is in its place.</p><footer>Dr. H. Valente, Sintra</footer></blockquote>
+          <blockquote><p>Eleven months on site and not one surprise we were not told about beforehand.</p><footer>The Almeida family, Comporta</footer></blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="eng" id="engage" aria-labelledby="h-eng">
+      <div class="grid">
+        <div class="num" style="padding-top:var(--block)"><b>V</b><span>Engage</span></div>
+        <div class="eng-head">
+          <h2 class="sec-title" id="h-eng">Ways to <em>begin</em></h2>
+          <p>Every engagement starts with the same unhurried visit to your site. Choose the scope that fits; it can grow later.</p>
+        </div>
+        <div class="cols" role="radiogroup" aria-label="Engagement scope">
+          <div class="col">
+            <h3>Consultation</h3>
+            <div class="price">from €2,400<small>One site visit and written brief</small></div>
+            <ul><li>Half-day on site</li><li>Material and palette direction</li><li>Written recommendations</li></ul>
+            <label class="opt"><input type="radio" name="eng" value="Consultation"><span class="btn"></span></label>
+          </div>
+          <div class="col feat">
+            <h3>Design</h3>
+            <div class="price">from €18,000<small>Concept through construction drawings</small></div>
+            <ul><li>Full architectural drawings</li><li>Interior scheme and joinery</li><li>Lighting study</li><li>Contractor tender</li></ul>
+            <label class="opt"><input type="radio" name="eng" value="Design" checked><span class="btn"></span></label>
+          </div>
+          <div class="col">
+            <h3>Residence</h3>
+            <div class="price">By proposal<small>Design and stewardship to handover</small></div>
+            <ul><li>Everything in Design</li><li>Monthly site stewardship</li><li>Furniture and styling</li><li>Garden and handover</li></ul>
+            <label class="opt"><input type="radio" name="eng" value="Residence"><span class="btn"></span></label>
+          </div>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite">Selected: Design.</p>
+      </div>
+    </section>
+
+    <section class="section" id="questions" aria-labelledby="h-faq" style="padding-top:0">
+      <div class="grid">
+        <div class="num"><b>VI</b><span>Questions</span></div>
+        <div class="faq-head">
+          <h2 class="sec-title" id="h-faq">Asked <em>often</em></h2>
+          <p>If yours is not here, write to the studio and a person will answer.</p>
+        </div>
+        <div class="faq">
+          <details><summary>How many projects do you take each year?</summary><p>Four to six. The studio is intentionally small so that a principal is present at every site visit.</p></details>
+          <details><summary>Do you work outside Portugal?</summary><p>Yes, within southern Europe. We travel for the initial visit and then from the Lisbon studio, with fortnightly calls and monthly site days.</p></details>
+          <details><summary>Can we keep part of the existing house?</summary><p>Usually we will ask you to. Old walls, stairs and floors tend to hold the character a new build spends decades trying to earn.</p></details>
+          <details><summary>How long does a residence take?</summary><p>Design runs six to nine months. Construction depends on the site, typically twelve to eighteen months.</p></details>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="close" id="close" aria-labelledby="h-close">
+    <div class="grid">
+      <h2 id="h-close">Let us walk <em>your</em> threshold.</h2>
+      <div class="narrow"><div class="img"><svg viewBox="105 120 190 317" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><use href="#sD"/></svg></div></div>
+      <div class="cl-copy">
+        <p>Write to the studio with a few lines about the place and the people. We reply within two working days, always in person.</p>
+        <div class="actions">
+          <a class="btn" href="mailto:studio@maisoncalder.example">Write to the studio</a>
+          <a class="tlink" href="#top">Return to the beginning</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="grid">
+      <div class="fg">
+        <div><div class="logo">Maison Calder</div><p>Architecture and interiors for private residences.</p></div>
+        <div><h4>Studio</h4><p>Rua das Flores 41</p><p>1200-195 Lisboa</p></div>
+        <div><h4>Contact</h4><a href="mailto:studio@maisoncalder.example">studio@maisoncalder.example</a><a href="#close">+351 21 000 0000</a></div>
+        <div><h4>Follow</h4><a href="#top">Journal</a><a href="#top">Instagram</a></div>
+      </div>
+      <div class="legal"><span>&copy; 2026 Maison Calder Lda.</span><span>Privacy &middot; Terms</span></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var radios=document.querySelectorAll('input[name=eng]'),st=document.getElementById('status');
+  radios.forEach(function(r){r.addEventListener('change',function(){st.textContent='Selected: '+r.value+'.';});});
+
+  var close=document.getElementById('close'),img=close.querySelector('.narrow');
+  var mq=window.matchMedia('(min-width:721px)'),rm=window.matchMedia('(prefers-reduced-motion:reduce)');
+  function onFirst(){
+    window.removeEventListener('scroll',onFirst);
+    if(!mq.matches||rm.matches||!('IntersectionObserver' in window))return;
+    if(img.getBoundingClientRect().top<=window.innerHeight)return;
+    close.classList.add('arm');
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){close.classList.add('open');io.disconnect();}});
+    },{threshold:0.35});
+    io.observe(img);
+  }
+  window.addEventListener('scroll',onFirst,{passive:true});
+})();
+</script>
+</body>
+</html>

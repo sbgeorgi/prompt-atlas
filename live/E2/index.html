@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOONHUB - 3D Collectible Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:#F4845F;overflow-x:hidden}
+#root{position:relative;width:100%;overflow:hidden;font-family:'Inter',sans-serif;background-color:#F4845F;transition:background-color 650ms cubic-bezier(0.4,0,0.2,1)}
+.stage{position:relative;width:100%;height:100vh;height:100svh;overflow:hidden}
+.grain{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.4;background-size:200px 200px;background-repeat:repeat;
+background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.08'/></svg>")}
+.ghost{position:absolute;left:0;right:0;top:18%;z-index:2;display:flex;align-items:center;justify-content:center;pointer-events:none;user-select:none;
+font-family:'Anton',sans-serif;font-size:clamp(90px,28vw,380px);font-weight:900;color:#fff;line-height:1;text-transform:uppercase;letter-spacing:-.02em;white-space:nowrap}
+.brand{position:absolute;top:24px;left:16px;z-index:60;font-size:12px;font-weight:600;text-transform:uppercase;color:#fff;opacity:.9;letter-spacing:.18em}
+.carousel{position:absolute;inset:0;z-index:3}
+.item{position:absolute;aspect-ratio:.6/1;will-change:transform,filter,opacity;
+transition:transform 650ms cubic-bezier(0.4,0,0.2,1),filter 650ms cubic-bezier(0.4,0,0.2,1),opacity 650ms cubic-bezier(0.4,0,0.2,1),left 650ms cubic-bezier(0.4,0,0.2,1),height 650ms cubic-bezier(0.4,0,0.2,1),bottom 650ms cubic-bezier(0.4,0,0.2,1)}
+.item svg{width:100%;height:100%;display:block;-webkit-user-drag:none;user-select:none}
+.copy{position:absolute;bottom:24px;left:16px;z-index:60;max-width:320px;color:#fff}
+.copy h2{font-weight:700;text-transform:uppercase;letter-spacing:.02em;margin-bottom:8px;font-size:16px;opacity:.95}
+.copy p{display:none;font-size:12px;opacity:.85;line-height:1.6;margin-bottom:16px}
+.btns{display:flex;gap:12px}
+.btn{width:48px;height:48px;border-radius:50%;background:transparent;border:2px solid #fff;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 150ms,background-color 150ms}
+.btn:hover{transform:scale(1.08);background:rgba(255,255,255,.12)}
+.btn:focus-visible,.disc:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.btn svg{width:26px;height:26px}
+.disc{position:absolute;bottom:24px;right:16px;z-index:60;display:flex;align-items:center;gap:6px;font-family:'Anton',sans-serif;font-size:clamp(20px,4vw,56px);font-weight:400;color:#fff;opacity:.95;transition:opacity 200ms;letter-spacing:-.02em;line-height:1;text-transform:uppercase;text-decoration:none}
+.disc:hover{opacity:1}
+.disc svg{width:20px;height:20px}
+@media(min-width:640px){
+.brand{left:32px}
+.copy{bottom:80px;left:96px}
+.copy h2{font-size:22px;margin-bottom:12px}
+.copy p{display:block;font-size:14px;margin-bottom:20px}
+.btn{width:64px;height:64px}
+.disc{bottom:80px;right:40px}
+.disc svg{width:32px;height:32px}
+}
+@media(prefers-reduced-motion:reduce){
+#root,.item,.btn,.disc{transition:none!important}
+}
+</style>
+</head>
+<body>
+<div id="root">
+ <div class="stage">
+  <div class="grain"></div>
+  <div class="ghost">3D SHAPE</div>
+  <div class="brand">TOONHUB</div>
+  <div class="carousel" id="carousel"></div>
+  <div class="copy">
+   <h2>TOONHUB FIGURINES</h2>
+   <p>The artwork is stunning, shipped fully prepared. The finish is a vision, the 3D craft is flawless. Many thanks! Wishing you the win. Order now.</p>
+   <div class="btns">
+    <button class="btn" id="prev" aria-label="Previous figurine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></button>
+    <button class="btn" id="next" aria-label="Next figurine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+   </div>
+  </div>
+  <a class="disc" href="#">DISCOVER IT <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+ </div>
+</div>
+<script>
+// Stand-in vinyl-toy figurines drawn in SVG (viewBox 300x500, feet at the bottom edge).
+function fig(id,o){
+ const g=(n)=>id+n;
+ const ears={
+  round:`<circle cx="62" cy="88" r="34" fill="${o.skin}"/><circle cx="62" cy="88" r="18" fill="${o.inner}"/><circle cx="238" cy="88" r="34" fill="${o.skin}"/><circle cx="238" cy="88" r="18" fill="${o.inner}"/>`,
+  long:`<rect x="82" y="-20" width="46" height="150" rx="23" fill="${o.skin}" transform="rotate(-10 105 110)"/><rect x="92" y="0" width="22" height="110" rx="11" fill="${o.inner}" transform="rotate(-10 105 110)"/><rect x="172" y="-20" width="46" height="150" rx="23" fill="${o.skin}" transform="rotate(12 195 110)"/><rect x="186" y="0" width="22" height="110" rx="11" fill="${o.inner}" transform="rotate(12 195 110)"/>`,
+  eyes:`<circle cx="95" cy="82" r="34" fill="${o.skin}"/><circle cx="205" cy="82" r="34" fill="${o.skin}"/>`,
+  antenna:`<rect x="146" y="20" width="8" height="60" fill="${o.inner}"/><circle cx="150" cy="20" r="16" fill="${o.accent}"/><rect x="38" y="140" width="24" height="50" rx="10" fill="${o.inner}"/><rect x="238" y="140" width="24" height="50" rx="10" fill="${o.inner}"/>`
+ }[o.ears];
+ const eye=(cx)=>o.ears==='eyes'
+  ?`<circle cx="${cx}" cy="82" r="22" fill="#fff"/><circle cx="${cx}" cy="86" r="11" fill="#1d1d2b"/><circle cx="${cx-4}" cy="81" r="4" fill="#fff"/>`
+  :`<ellipse cx="${cx}" cy="168" rx="17" ry="22" fill="#fff"/><ellipse cx="${cx+2}" cy="173" rx="10" ry="14" fill="#1d1d2b"/><circle cx="${cx-2}" cy="167" r="4.5" fill="#fff"/>`;
+ const mouth=o.mouth==='open'
+  ?`<path d="M122 205 Q150 245 178 205 Q150 214 122 205Z" fill="#1d1d2b"/><path d="M134 222 Q150 236 166 222 Q150 228 134 222Z" fill="#ff7a8a"/>`
+  :o.mouth==='flat'
+  ?`<rect x="126" y="208" width="48" height="10" rx="5" fill="#1d1d2b"/>`
+  :`<path d="M124 208 Q150 232 176 208" fill="none" stroke="#1d1d2b" stroke-width="7" stroke-linecap="round"/>`;
+ const nose=o.nose?`<ellipse cx="150" cy="192" rx="13" ry="9" fill="${o.nose}"/>`:'';
+ const extra=o.extra||'';
+ return `<svg viewBox="-60 -150 420 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+ <defs>
+  <radialGradient id="${g('h')}" cx=".3" cy=".25" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="${g('s')}" x1="0" y1="0" x2="1" y2="1"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
+ </defs>
+ <ellipse cx="150" cy="493" rx="100" ry="9" fill="#000" opacity=".22"/>
+ <!-- legs -->
+ <rect x="100" y="395" width="44" height="90" rx="20" fill="${o.suit}"/><rect x="156" y="395" width="44" height="90" rx="20" fill="${o.suit}"/>
+ <ellipse cx="116" cy="480" rx="38" ry="16" fill="${o.accent}"/><ellipse cx="184" cy="480" rx="38" ry="16" fill="${o.accent}"/>
+ <ellipse cx="116" cy="480" rx="38" ry="16" fill="url(#${g('s')})"/><ellipse cx="184" cy="480" rx="38" ry="16" fill="url(#${g('s')})"/>
+ <!-- arms -->
+ <rect x="48" y="268" width="38" height="110" rx="19" fill="${o.suit}" transform="rotate(14 67 270)"/><circle cx="46" cy="384" r="22" fill="${o.skin}"/>
+ <rect x="214" y="268" width="38" height="110" rx="19" fill="${o.suit}" transform="rotate(-14 233 270)"/><circle cx="254" cy="384" r="22" fill="${o.skin}"/>
+ <!-- body -->
+ <path d="M80 300 Q80 250 150 250 Q220 250 220 300 L222 410 Q222 430 200 430 L100 430 Q78 430 78 410Z" fill="${o.suit}"/>
+ <path d="M80 300 Q80 250 150 250 Q220 250 220 300 L222 410 Q222 430 200 430 L100 430 Q78 430 78 410Z" fill="url(#${g('s')})"/>
+ <path d="M80 300 Q80 250 150 250 Q220 250 220 300 L222 410 Q222 430 200 430 L100 430 Q78 430 78 410Z" fill="url(#${g('h')})"/>
+ ${extra}
+ <!-- head -->
+ ${ears}
+ <ellipse cx="150" cy="165" rx="112" ry="100" fill="${o.skin}"/>
+ <ellipse cx="150" cy="165" rx="112" ry="100" fill="url(#${g('s')})"/>
+ <ellipse cx="150" cy="165" rx="112" ry="100" fill="url(#${g('h')})"/>
+ <ellipse cx="86" cy="198" rx="18" ry="11" fill="${o.cheek}" opacity=".75"/><ellipse cx="214" cy="198" rx="18" ry="11" fill="${o.cheek}" opacity=".75"/>
+ ${eye(110)}${eye(190)}${nose}${mouth}
+ <ellipse cx="102" cy="104" rx="32" ry="14" fill="#fff" opacity=".5" transform="rotate(-25 102 104)"/>
+</svg>`;
+}
+const IMAGES=[
+ {bg:'#F4845F',panel:'#F79B7F',svg:fig('a',{skin:'#FFE7C7',inner:'#F6B7A0',suit:'#1F7A8C',accent:'#FFD23F',cheek:'#FF8A7A',ears:'round',nose:'#5a3a2a',mouth:'smile',
+   extra:'<circle cx="150" cy="300" r="12" fill="#FFD23F"/><circle cx="150" cy="340" r="12" fill="#FFD23F"/><circle cx="150" cy="380" r="12" fill="#FFD23F"/>'})},
+ {bg:'#6BBF7A',panel:'#85CC92',svg:fig('b',{skin:'#FFFFFF',inner:'#FFB3C7',suit:'#7B4DDB',accent:'#2B2B3A',cheek:'#FF9DB5',ears:'long',nose:'#FF6F91',mouth:'open',
+   extra:'<path d="M110 260 L150 330 L190 260Z" fill="#F4F0FF"/><circle cx="150" cy="352" r="9" fill="#FFD23F"/>'})},
+ {bg:'#E882B4',panel:'#ED9DC4',svg:fig('c',{skin:'#7BE08A',inner:'#3C9E52',suit:'#FFF4E0',accent:'#FF5B79',cheek:'#FF8FA8',ears:'eyes',mouth:'smile',
+   extra:'<rect x="80" y="330" width="140" height="28" fill="#FF5B79"/><rect x="80" y="372" width="140" height="14" fill="#FF5B79"/>'})},
+ {bg:'#6EB5FF',panel:'#8DC4FF',svg:fig('d',{skin:'#E8EEF5',inner:'#FF8A3D',suit:'#FF8A3D',accent:'#2B3A55',cheek:'#B9C6D9',ears:'antenna',mouth:'flat',
+   extra:'<rect x="112" y="290" width="76" height="62" rx="12" fill="#2B3A55"/><circle cx="134" cy="321" r="9" fill="#6EF0C2"/><circle cx="166" cy="321" r="9" fill="#FFD23F"/>'})}
+];
+IMAGES.forEach(i=>{});
+const root=document.getElementById('root');
+const car=document.getElementById('carousel');
+let active=0,animating=false,mobile=innerWidth<640;
+const items=IMAGES.map(im=>{const d=document.createElement('div');d.className='item';d.innerHTML=im.svg;car.appendChild(d);return d});
+function apply(){
+ root.style.backgroundColor=IMAGES[active].bg;
+ const L=(active+3)%4,R=(active+1)%4,B=(active+2)%4;
+ items.forEach((el,i)=>{
+  const s=el.style;
+  if(i===active){s.transform=`translateX(-50%) scale(${mobile?1.25:1.68})`;s.filter='blur(0px)';s.opacity=1;s.zIndex=20;s.left='50%';s.height=mobile?'60%':'92%';s.bottom=mobile?'22%':'0'}
+  else if(i===L||i===R){s.transform='translateX(-50%) scale(1)';s.filter='blur(2px)';s.opacity=.85;s.zIndex=10;s.left=(i===L?(mobile?'20%':'30%'):(mobile?'80%':'70%'));s.height=mobile?'16%':'28%';s.bottom=mobile?'32%':'12%'}
+  else{s.transform='translateX(-50%) scale(1)';s.filter='blur(4px)';s.opacity=1;s.zIndex=5;s.left='50%';s.height=mobile?'13%':'22%';s.bottom=mobile?'32%':'12%'}
+ });
+}
+function nav(dir){
+ if(animating)return;animating=true;
+ active=dir==='next'?(active+1)%4:(active+3)%4;apply();
+ setTimeout(()=>{animating=false},650);
+}
+document.getElementById('prev').onclick=()=>nav('prev');
+document.getElementById('next').onclick=()=>nav('next');
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')nav('next');if(e.key==='ArrowLeft')nav('prev')});
+addEventListener('resize',()=>{mobile=innerWidth<640;apply()});
+// no-transition first paint
+items.forEach(e=>e.style.transition='none');apply();void car.offsetWidth;items.forEach(e=>e.style.transition='');
+</script>
+</body>
+</html>

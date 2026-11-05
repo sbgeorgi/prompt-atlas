@@ -1,0 +1,1 @@
+ATLAS_P("F876","una l\u00e1mpara de lava realista en UN solo HTML con WebGL, sin im\u00e1genes ni librer\u00edas. Metal cepillado, vidrio en cono, cera que sube, se estira y se parte; interruptor, bot\u00f3n de color y control de temperatura.");

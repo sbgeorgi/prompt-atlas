@@ -1,0 +1,1 @@
+ATLAS_P("F229","Create a player and tools for Another World's approach to animation. Also create a realtime video for Kavinsky-Nightcall starring Lester from Another World driving to the lab. Use crude compression for binary+data <250KB.");

@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Financial - Harbor Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#07090e;--dp-color-ground-tint:#101522;--dp-color-panel:#10141c;
+  --dp-color-accent:#ff951f;--dp-color-value:#edcd8c;--dp-color-ink:#f4f5f7;--dp-color-ink-muted:#c9ced8;--dp-color-line:#303139;
+  --dp-typography-body-face:"Financial Plex Sans","IBM Plex Sans",sans-serif;
+  --dp-typography-data-face:"Financial Plex Mono","IBM Plex Mono",monospace;
+  --dp-typography-body:16px;--dp-typography-supporting:14px;--dp-typography-metadata:13px;
+  --dp-typography-body-leading:1.6;--dp-typography-reading-leading:1.65;
+  --dp-spacing-cluster-gap:24px;--dp-spacing-compact-gap:12px;
+  --dp-radius-panel:5px;--dp-radius-editorial:4px;--dp-radius-control:40px;
+  --dp-border-hairline:1px;--dp-motion-interaction:160ms;--dp-motion-easing:ease;
+  --depth:18px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--dp-color-ground);color:var(--dp-color-ink);font:400 var(--dp-typography-body)/var(--dp-typography-body-leading) var(--dp-typography-body-face);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--dp-color-accent);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+.mono{font-family:var(--dp-typography-data-face)}
+.meta{font:400 var(--dp-typography-metadata)/1.4 var(--dp-typography-data-face);color:var(--dp-color-ink-muted);letter-spacing:.04em;text-transform:uppercase}
+h1,h2,h3{font-weight:500;letter-spacing:-.03em;line-height:1.05}
+h1{font-size:clamp(44px,7vw,88px)}
+h2{font-size:clamp(32px,4.4vw,52px)}
+h3{font-size:20px;letter-spacing:-.01em;line-height:1.25}
+p{color:var(--dp-color-ink-muted);line-height:var(--dp-typography-reading-leading)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:var(--dp-radius-control);font:500 15px/1 var(--dp-typography-body-face);border:1px solid transparent;cursor:pointer;transition:background var(--dp-motion-interaction) var(--dp-motion-easing),border-color var(--dp-motion-interaction) var(--dp-motion-easing),color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.btn-p{background:var(--dp-color-accent);color:#1a0f00}
+.btn-p:hover{background:#ffab4d}
+.btn-s{background:var(--dp-color-panel);color:var(--dp-color-ink);border-color:var(--dp-color-line)}
+.btn-s:hover{border-color:var(--dp-color-accent);background:var(--dp-color-ground-tint)}
+.arr{width:14px;height:14px;flex:none}
+
+/* nav */
+header{border-bottom:1px solid var(--dp-color-line);position:sticky;top:0;z-index:20;background:rgba(7,9,14,.96)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em}
+.logo i{width:22px;height:22px;border:1.5px solid var(--dp-color-accent);border-radius:4px;position:relative}
+.logo i:after{content:"";position:absolute;inset:4px;background:var(--dp-color-value);border-radius:1px}
+.nav ul{display:flex;gap:32px;list-style:none;padding:0;font-size:var(--dp-typography-supporting)}
+.nav ul a{color:var(--dp-color-ink-muted);transition:color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.nav ul a:hover{color:var(--dp-color-ink)}
+.nav .btn{padding:10px 20px;font-size:14px}
+
+/* hero */
+.hero{padding:96px 0 104px;background:radial-gradient(900px 500px at 85% 30%,rgba(255,149,31,.09),transparent 70%),var(--dp-color-ground)}
+.hero-g{display:grid;grid-template-columns:1.25fr 1fr;gap:72px;align-items:center}
+.hero h1{margin:20px 0 28px}
+.hero h1 em{font-style:normal;color:var(--dp-color-value)}
+.hero p.lead{font-size:19px;max-width:520px;margin-bottom:36px}
+.cta{display:flex;gap:var(--dp-spacing-compact-gap);flex-wrap:wrap}
+.frame{position:relative;margin:0 var(--depth) var(--depth) 0}
+.frame:before,.frame:after,.frame .o3{content:"";position:absolute;border:1px solid var(--dp-color-line);border-radius:var(--dp-radius-panel);inset:0;pointer-events:none}
+.frame:before{transform:translate(calc(var(--depth)*.5),calc(var(--depth)*.5));border-color:#5a4b38}
+.frame:after{transform:translate(var(--depth),var(--depth));border-color:#40414c}
+.frame .o3{transform:translate(calc(var(--depth)*1.5),calc(var(--depth)*1.5));border-color:#2e2f38}
+.frame{margin:0 calc(var(--depth)*1.5) calc(var(--depth)*1.5) 0}
+.panel-obj{position:relative;z-index:1;background:linear-gradient(180deg,#151a24,var(--dp-color-panel) 40%);border:1px solid var(--dp-color-line);border-radius:var(--dp-radius-panel);padding:28px;box-shadow:0 30px 80px -30px rgba(255,149,31,.35),inset 0 1px 0 rgba(237,205,140,.12)}
+.panel-obj .row{display:flex;justify-content:space-between;align-items:center}
+.big{font:500 clamp(54px,6vw,84px)/1 var(--dp-typography-data-face);font-variant-numeric:tabular-nums;color:var(--dp-color-value);letter-spacing:-.04em;margin:30px 0 8px}
+.big small{font-size:.28em;color:var(--dp-color-ink-muted);letter-spacing:0;margin-left:10px}
+.panel-obj .sub{font-size:var(--dp-typography-supporting)}
+.ledger{margin-top:26px;border-top:1px solid var(--dp-color-line)}
+.ledger div{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--dp-color-line);font:400 var(--dp-typography-metadata)/1.3 var(--dp-typography-data-face);color:var(--dp-color-ink-muted)}
+.ledger b{font-weight:500;color:var(--dp-color-ink)}
+.ledger .ok{color:var(--dp-color-value)}
+.tag{display:inline-block;font:500 12px/1 var(--dp-typography-data-face);padding:6px 10px;border:1px solid var(--dp-color-line);border-radius:var(--dp-radius-control);color:var(--dp-color-value)}
+
+/* facts strip */
+.facts{border-top:1px solid var(--dp-color-line);border-bottom:1px solid var(--dp-color-line);background:var(--dp-color-ground-tint)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.fact{padding:30px 24px;border-left:1px solid var(--dp-color-line)}
+.fact:first-child{border-left:0;padding-left:0}
+.fact .v{font:500 28px/1 var(--dp-typography-data-face);color:var(--dp-color-value);margin-bottom:10px;font-variant-numeric:tabular-nums}
+.fact span{font-size:var(--dp-typography-supporting);color:var(--dp-color-ink-muted)}
+
+section{padding:112px 0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.pair p+p{margin-top:18px}
+.pair p{font-size:18px}
+.pair h2{margin-top:16px}
+
+/* capability matrix */
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--dp-color-line);border-radius:var(--dp-radius-panel);background:var(--dp-color-panel);margin-top:56px;overflow:hidden}
+.cell{padding:34px 30px 38px;border-right:1px solid var(--dp-color-line);border-bottom:1px solid var(--dp-color-line);transition:background var(--dp-motion-interaction) var(--dp-motion-easing)}
+.cell:hover{background:var(--dp-color-ground-tint)}
+.cell:nth-child(3n){border-right:0}
+.cell:nth-last-child(-n+3){border-bottom:0}
+.ico{width:38px;height:38px;border:1px solid var(--dp-color-line);border-radius:var(--dp-radius-panel);display:grid;place-items:center;margin-bottom:26px;color:var(--dp-color-accent)}
+.ico svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5}
+.cell h3{margin-bottom:10px}
+.cell p{font-size:var(--dp-typography-supporting)}
+
+/* editorial */
+.edit{background:var(--dp-color-ground-tint);border-top:1px solid var(--dp-color-line);border-bottom:1px solid var(--dp-color-line)}
+.edit-g{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--dp-spacing-cluster-gap);margin-top:56px}
+.edit-g figure .img{aspect-ratio:4/5;border-radius:var(--dp-radius-editorial);border:1px solid var(--dp-color-line);overflow:hidden}
+.edit-g figure:nth-child(2) .img{aspect-ratio:4/5}
+.edit-g svg{width:100%;height:100%;display:block}
+figcaption{padding-top:18px}
+figcaption h3{margin:8px 0 6px}
+figcaption p{font-size:var(--dp-typography-supporting)}
+
+/* process */
+.proc{display:grid;grid-template-columns:repeat(4,1fr);margin-top:64px;position:relative}
+.proc:before{content:"";position:absolute;top:19px;left:20px;right:20px;border-top:1px solid var(--dp-color-line)}
+.step{position:relative;padding-right:28px}
+.dot{position:relative;width:40px;height:40px;border-radius:50%;background:var(--dp-color-ground);border:1px solid var(--dp-color-value);display:grid;place-items:center;font:500 13px var(--dp-typography-data-face);color:var(--dp-color-value);margin-bottom:26px}
+.step h3{margin-bottom:8px}
+.step p{font-size:var(--dp-typography-supporting)}
+
+/* compare */
+.cmp{background:var(--dp-color-ground-tint);border-top:1px solid var(--dp-color-line)}
+.cmp-h{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--dp-color-line);border-radius:var(--dp-radius-control);padding:4px;background:var(--dp-color-panel)}
+.seg button{font:500 14px var(--dp-typography-body-face);color:var(--dp-color-ink-muted);background:transparent;border:0;border-radius:var(--dp-radius-control);padding:10px 20px;cursor:pointer;transition:background var(--dp-motion-interaction) var(--dp-motion-easing),color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.seg button[aria-pressed=true]{background:var(--dp-color-accent);color:#1a0f00}
+.seg button:not([aria-pressed=true]):hover{color:var(--dp-color-ink)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--dp-spacing-cluster-gap);margin-top:48px}
+.plan{position:relative;background:var(--dp-color-panel);border:1px solid var(--dp-color-line);border-top:2px solid var(--dp-color-line);border-radius:var(--dp-radius-panel);padding:34px 30px;display:flex;flex-direction:column;cursor:pointer;transition:border-color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.plan:hover{border-color:#4a4b55}
+.plan.sel{border-color:var(--dp-color-line);border-top-color:var(--dp-color-accent)}
+.plan .feat{position:absolute;top:-1px;right:24px;transform:translateY(-50%);background:var(--dp-color-value);color:#1a1405;font:500 12px/1 var(--dp-typography-data-face);padding:7px 12px;border-radius:var(--dp-radius-control);letter-spacing:.04em}
+.plan .nm{margin-bottom:20px}
+.plan .num{font:500 44px/1 var(--dp-typography-data-face);color:var(--dp-color-ink);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.plan .num small{font-size:14px;color:var(--dp-color-ink-muted);letter-spacing:0}
+.plan ul{list-style:none;padding:0;margin:26px 0 32px;border-top:1px solid var(--dp-color-line)}
+.plan li{padding:12px 0;border-bottom:1px solid var(--dp-color-line);font-size:var(--dp-typography-supporting);color:var(--dp-color-ink-muted);display:flex;gap:10px}
+.plan li:before{content:"";width:6px;height:6px;margin-top:8px;background:var(--dp-color-value);flex:none}
+.plan .btn{margin-top:auto;justify-content:center}
+.plan[aria-checked=true] .btn{background:var(--dp-color-accent);color:#1a0f00;border-color:transparent}
+
+/* faq */
+.faq-g{display:grid;grid-template-columns:1fr 1.7fr;gap:72px}
+.faq-g h2{position:sticky;top:110px;align-self:start}
+details{border-top:1px solid var(--dp-color-line)}
+details:last-child{border-bottom:1px solid var(--dp-color-line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:26px 0;font-size:19px;font-weight:500;letter-spacing:-.01em}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";font:400 24px/1 var(--dp-typography-data-face);color:var(--dp-color-accent);flex:none;width:24px;text-align:center}
+details[open] summary:after{content:"\2212"}
+details p{padding:0 48px 28px 0}
+
+/* closing */
+.close{padding:0 0 112px}
+.close-box{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--dp-color-ground-tint),#0b0e17);border:1px solid var(--dp-color-line);border-radius:var(--dp-radius-panel);text-align:center;padding:96px 32px 130px}
+.close-box:after{content:"";position:absolute;left:50%;bottom:-170px;width:760px;height:300px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(255,149,31,.5),rgba(255,149,31,.12) 60%,transparent);pointer-events:none}
+.close-box>*{position:relative;z-index:1}
+.close-box h2{max-width:720px;margin:0 auto 20px}
+.close-box p{max-width:520px;margin:0 auto 36px}
+.close-box .cta{justify-content:center}
+
+footer{border-top:1px solid var(--dp-color-line);padding:56px 0 40px}
+.ft{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:40px}
+.ft h4{font:500 var(--dp-typography-metadata)/1 var(--dp-typography-data-face);letter-spacing:.06em;text-transform:uppercase;color:var(--dp-color-value);margin-bottom:18px}
+.ft ul{list-style:none;padding:0;display:grid;gap:10px;font-size:var(--dp-typography-supporting)}
+.ft ul a{color:var(--dp-color-ink-muted);transition:color var(--dp-motion-interaction) var(--dp-motion-easing)}
+.ft ul a:hover{color:var(--dp-color-ink)}
+.ft p{font-size:var(--dp-typography-supporting);margin-top:14px;max-width:280px}
+.legal{margin-top:48px;padding-top:24px;border-top:1px solid var(--dp-color-line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media(max-width:1100px){
+  .wrap{padding:0 28px}.hero-g{gap:44px}.pair{gap:44px}.faq-g{gap:44px}
+  .facts .wrap{grid-template-columns:repeat(2,1fr)}
+  .fact:nth-child(3){border-left:0;padding-left:0}.fact:nth-child(n+3){border-top:1px solid var(--dp-color-line)}
+  .cell{padding:28px 24px}
+}
+@media(max-width:800px){
+  section{padding:80px 0}.hero{padding:64px 0 72px}
+  .hero-g,.pair,.faq-g{grid-template-columns:1fr}
+  .faq-g h2{position:static}
+  .matrix{grid-template-columns:repeat(2,1fr)}
+  .cell:nth-child(3n){border-right:1px solid var(--dp-color-line)}.cell:nth-child(2n){border-right:0}
+  .cell:nth-last-child(-n+3){border-bottom:1px solid var(--dp-color-line)}.cell:nth-last-child(-n+2){border-bottom:0}
+  .edit-g{grid-template-columns:1fr;gap:40px}
+  .edit-g figure{display:grid;grid-template-columns:44% 1fr;gap:24px;align-items:start}
+  .edit-g figure .img,.edit-g figure:nth-child(2) .img{aspect-ratio:1/1}
+  figcaption{padding-top:0}
+  .plans{grid-template-columns:1fr;gap:36px}
+  .proc{grid-template-columns:repeat(2,1fr);row-gap:48px}.proc:before{display:none}
+  .nav ul{display:none}
+  .ft{grid-template-columns:1fr 1fr 1fr}.ft>div:first-child{grid-column:1/-1}
+}
+@media(max-width:520px){
+  .wrap{padding:0 20px}
+  :root{--depth:10px}
+  .cta .btn{width:100%;justify-content:center}
+  .nav .btn{width:auto}
+  .panel-obj{padding:22px}
+  .facts .wrap{grid-template-columns:1fr}.fact{border-left:0;padding:22px 0;border-top:1px solid var(--dp-color-line)}.fact:first-child{border-top:0}
+  .matrix{grid-template-columns:1fr}
+  .cell,.cell:nth-child(n){border-right:0;border-bottom:1px solid var(--dp-color-line)}.cell:last-child{border-bottom:0}
+  .edit-g figure{grid-template-columns:1fr}
+  .proc{grid-template-columns:1fr;row-gap:0;padding-left:0}
+  .proc:before{display:block;top:20px;bottom:20px;left:19px;right:auto;border-top:0;border-left:1px solid var(--dp-color-line)}
+  .step{padding:0 0 36px 64px}.step:last-child{padding-bottom:0}
+  .dot{position:absolute;left:0;top:0;margin:0}
+  .seg button{padding:10px 14px}
+  details p{padding-right:0}
+  .ft{grid-template-columns:1fr 1fr}
+  .close-box{padding:72px 20px 110px}
+  summary{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top"><i></i>Harbor Ledger</a>
+    <ul>
+      <li><a href="#about">Product</a></li>
+      <li><a href="#capabilities">Capabilities</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#plans">Plans</a></li>
+      <li><a href="#faq">Questions</a></li>
+    </ul>
+    <a class="btn btn-p" href="#close">Book a walkthrough</a>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div class="wrap hero-g">
+    <div>
+      <span class="meta">Month-end close, simplified</span>
+      <h1>Every account matched. <em>Every month.</em></h1>
+      <p class="lead">Harbor Ledger reconciles bank feeds against your books as transactions arrive, so the close is a review instead of a scramble.</p>
+      <div class="cta">
+        <a class="btn btn-p" href="#close">Book a walkthrough <svg class="arr" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        <a class="btn btn-s" href="#process">See how it works</a>
+      </div>
+    </div>
+    <div class="frame">
+      <i class="o3"></i>
+      <div class="panel-obj" role="group" aria-label="Sample close summary">
+        <div class="row"><span class="meta">Close summary / sample</span><span class="tag">In review</span></div>
+        <div class="big">12<small>of 14 accounts matched</small></div>
+        <p class="sub">Two accounts have open items waiting for a reviewer.</p>
+        <div class="ledger">
+          <div><span>Operating - checking</span><b class="ok">matched</b></div>
+          <div><span>Payroll clearing</span><b class="ok">matched</b></div>
+          <div><span>Card settlements</span><b>3 open items</b></div>
+          <div><span>Vendor prepayments</span><b>1 open item</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="facts">
+  <div class="wrap">
+    <div class="fact"><div class="v">Daily</div><span>Bank feed sync and matching</span></div>
+    <div class="fact"><div class="v">Per entry</div><span>Audit trail of who changed what</span></div>
+    <div class="fact"><div class="v">Read-only</div><span>Bank connections never move funds</span></div>
+    <div class="fact"><div class="v">CSV + API</div><span>Export to the tools you already use</span></div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap pair">
+    <div>
+      <span class="meta">The product</span>
+      <h2>A quieter way to finish the month</h2>
+    </div>
+    <div>
+      <p>Most teams close the books by chasing differences between a bank statement and a spreadsheet. Harbor Ledger keeps those two sides in conversation all month, flagging what does not line up while the context is still fresh.</p>
+      <p>Reviewers see one queue of open items, each with the source transaction, a suggested match and a plain note of why it is unresolved. Nothing is posted until someone approves it.</p>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities" style="padding-top:0">
+  <div class="wrap">
+    <span class="meta">Capabilities</span>
+    <h2 style="margin-top:16px;max-width:720px">Six tools, one reviewable trail</h2>
+    <div class="matrix">
+      <div class="cell"><div class="ico"><svg viewBox="0 0 20 20"><path d="M3 5h14M3 10h14M3 15h9"/></svg></div><h3>Rule-based matching</h3><p>Write matching rules in plain terms and see which transactions they would catch before you save them.</p></div>
+      <div class="cell"><div class="ico"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg></div><h3>Continuous sync</h3><p>Feeds refresh through the day, so the open-items queue is current whenever someone looks at it.</p></div>
+      <div class="cell"><div class="ico"><svg viewBox="0 0 20 20"><path d="M4 3h9l3 3v11H4z"/><path d="M7 10h6M7 13h6"/></svg></div><h3>Document linking</h3><p>Attach invoices and receipts to the entry they support, so a reviewer never has to hunt for evidence.</p></div>
+      <div class="cell"><div class="ico"><svg viewBox="0 0 20 20"><path d="M3 16V8l7-5 7 5v8z"/><path d="M8 16v-5h4v5"/></svg></div><h3>Entity workspaces</h3><p>Keep each company or location in its own workspace with shared rules and separate permissions.</p></div>
+      <div class="cell"><div class="ico"><svg viewBox="0 0 20 20"><path d="M10 3l6 3v4c0 4-3 6-6 7-3-1-6-3-6-7V6z"/></svg></div><h3>Approval gates</h3><p>Require a second reviewer for anything above a threshold you set, with the decision recorded on the entry.</p></div>
+      <div class="cell"><div class="ico"><svg viewBox="0 0 20 20"><path d="M4 16V9M10 16V4M16 16v-5"/></svg></div><h3>Close reports</h3><p>Export a clean package of balances, open items and sign-offs for your accountant or auditor.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="edit">
+  <div class="wrap">
+    <span class="meta">Field notes</span>
+    <h2 style="margin-top:16px;max-width:760px">Built for the people who read the numbers</h2>
+    <div class="edit-g">
+      <figure>
+        <div class="img"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Concrete and glass building facade at dusk">
+          <defs><linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8b88a"/><stop offset=".45" stop-color="#9aa8b8"/><stop offset="1" stop-color="#4a5666"/></linearGradient></defs>
+          <rect width="400" height="500" fill="url(#a)"/>
+          <g fill="#2d3541"><path d="M60 500V120l140-40v420z"/><path d="M200 500V80l150 50v370z" fill="#3a4350"/></g>
+          <g stroke="#cfd6de" stroke-width="1.2" opacity=".55"><path d="M60 180l140-40M60 240l140-40M60 300l140-40M60 360l140-40M60 420l140-40M200 130l150 50M200 190l150 50M200 250l150 50M200 310l150 50M200 370l150 50"/><path d="M130 100v400M270 105v395"/></g>
+          <g fill="#f3d9a6" opacity=".75"><rect x="150" y="270" width="26" height="20"/><rect x="290" y="240" width="30" height="22"/><rect x="85" y="330" width="26" height="18"/><rect x="225" y="380" width="30" height="22"/></g>
+        </svg></div>
+        <figcaption><span class="meta">Architecture</span><h3>Offices that keep their books</h3><p>Property teams use separate workspaces per building and reconcile rent deposits daily.</p></figcaption>
+      </figure>
+      <figure>
+        <div class="img"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Rolling hills under an overcast morning sky">
+          <defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfd8de"/><stop offset=".55" stop-color="#e9dcc4"/><stop offset="1" stop-color="#f0e2c0"/></linearGradient></defs>
+          <rect width="400" height="500" fill="url(#b)"/>
+          <circle cx="290" cy="190" r="34" fill="#f7ecd0" opacity=".9"/>
+          <path d="M0 300Q100 240 200 290T400 260V500H0z" fill="#7d8a6c"/>
+          <path d="M0 350Q120 300 240 340T400 320V500H0z" fill="#5f6d53"/>
+          <path d="M0 410Q140 370 260 410T400 395V500H0z" fill="#44503d"/>
+          <path d="M0 460Q150 430 400 455V500H0z" fill="#2f382c"/>
+        </svg></div>
+        <figcaption><span class="meta">Landscape</span><h3>Seasonal businesses, steady books</h3><p>Farms and guesthouses match irregular income against fixed costs without a spreadsheet per season.</p></figcaption>
+      </figure>
+      <figure>
+        <div class="img"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Close-up of brushed brass and dark slate material">
+          <defs><linearGradient id="c" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a6a36"/><stop offset=".4" stop-color="#d1a863"/><stop offset=".6" stop-color="#9c7a3f"/><stop offset="1" stop-color="#5e4624"/></linearGradient><pattern id="d" width="400" height="3" patternUnits="userSpaceOnUse"><rect width="400" height="1" fill="#fff" opacity=".07"/></pattern></defs>
+          <rect width="400" height="500" fill="#252a33"/>
+          <path d="M0 0h400v270L0 330z" fill="url(#c)"/><path d="M0 0h400v270L0 330z" fill="url(#d)"/>
+          <path d="M0 330L400 270v18L0 350z" fill="#1a1d24" opacity=".6"/>
+          <g stroke="#3a404b" stroke-width="1" opacity=".7"><path d="M40 380l120 90M120 360l180 130M240 350l130 110"/></g>
+        </svg></div>
+        <figcaption><span class="meta">Material</span><h3>Craft shops with tidy margins</h3><p>Makers track material purchases against sales and see where the month actually landed.</p></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <span class="meta">Process</span>
+    <h2 style="margin-top:16px;max-width:720px">From feed to sign-off in four steps</h2>
+    <div class="proc">
+      <div class="step"><div class="dot">01</div><h3>Connect</h3><p>Link read-only bank feeds and import your chart of accounts.</p></div>
+      <div class="step"><div class="dot">02</div><h3>Match</h3><p>Rules and suggestions pair transactions with ledger entries as they arrive.</p></div>
+      <div class="step"><div class="dot">03</div><h3>Review</h3><p>Work one queue of open items, each with its evidence attached.</p></div>
+      <div class="step"><div class="dot">04</div><h3>Sign off</h3><p>Approve, lock the period and export the close package.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cmp" id="plans">
+  <div class="wrap">
+    <div class="cmp-h">
+      <div><span class="meta">Workspace sizes</span><h2 style="margin-top:16px">Pick the shape of your team</h2></div>
+      <div class="seg" role="group" aria-label="Billing view">
+        <button type="button" aria-pressed="true" data-v="m">Monthly</button>
+        <button type="button" aria-pressed="false" data-v="y">Annual</button>
+      </div>
+    </div>
+    <div class="plans" role="radiogroup" aria-label="Workspace size">
+      <div class="plan" role="radio" aria-checked="false" tabindex="0" data-m="Sample A" data-y="Sample A">
+        <h3 class="nm">Solo</h3>
+        <div class="num mono"><span class="pv">Quote</span> <small class="pu">per workspace</small></div>
+        <ul><li>1 workspace</li><li>2 bank connections</li><li>Rule-based matching</li><li>CSV export</li></ul>
+        <span class="btn btn-s">Choose Solo</span>
+      </div>
+      <div class="plan sel" role="radio" aria-checked="true" tabindex="0">
+        <span class="feat">FEATURED</span>
+        <h3 class="nm">Team</h3>
+        <div class="num mono"><span class="pv">Quote</span> <small class="pu">per workspace</small></div>
+        <ul><li>5 workspaces</li><li>Unlimited connections</li><li>Approval gates</li><li>Document linking</li></ul>
+        <span class="btn btn-s">Selected</span>
+      </div>
+      <div class="plan" role="radio" aria-checked="false" tabindex="0">
+        <h3 class="nm">Firm</h3>
+        <div class="num mono"><span class="pv">Quote</span> <small class="pu">per workspace</small></div>
+        <ul><li>Unlimited workspaces</li><li>Shared rule library</li><li>Client access roles</li><li>API access</li></ul>
+        <span class="btn btn-s">Choose Firm</span>
+      </div>
+    </div>
+    <p class="meta" style="margin-top:28px;text-transform:none" id="note">Monthly view. Pricing is quoted in a walkthrough; nothing is purchased on this page.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap faq-g">
+    <h2>Questions, answered plainly</h2>
+    <div>
+      <details open><summary>Can Harbor Ledger move money?</summary><p>No. Bank connections are read-only. The product reads transactions and balances; it cannot initiate payments or transfers.</p></details>
+      <details><summary>What happens to entries I do not approve?</summary><p>They stay in the open-items queue with their suggested match. Nothing is posted to the ledger until a reviewer approves it.</p></details>
+      <details><summary>Can my accountant get access?</summary><p>Yes. Invite them with a reviewer or read-only role, scoped to the workspaces you choose.</p></details>
+      <details><summary>How do I get my data out?</summary><p>Every report and the full entry history export as CSV, and the same data is available through the API.</p></details>
+    </div>
+  </div>
+</section>
+
+<div class="close" id="close">
+  <div class="wrap">
+    <div class="close-box">
+      <h2>See your own month-end in the queue</h2>
+      <p>Bring one bank account and one spreadsheet. We will walk through how the matching looks on your real transactions.</p>
+      <div class="cta">
+        <a class="btn btn-p" href="#close">Book a walkthrough <svg class="arr" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        <a class="btn btn-s" href="#plans">Compare workspace sizes</a>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <div><a class="logo" href="#top"><i></i>Harbor Ledger</a><p>Reconciliation software for small teams and the accountants who support them.</p></div>
+      <div><h4>Product</h4><ul><li><a href="#capabilities">Capabilities</a></li><li><a href="#process">Process</a></li><li><a href="#plans">Plans</a></li></ul></div>
+      <div><h4>Resources</h4><ul><li><a href="#faq">Questions</a></li><li><a href="#about">Guides</a></li><li><a href="#about">Changelog</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#about">About</a></li><li><a href="#close">Contact</a></li><li><a href="#about">Security</a></li></ul></div>
+    </div>
+    <div class="legal meta"><span>&copy; 2026 Harbor Ledger</span><span>Sample brand for style preview</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var plans=[].slice.call(document.querySelectorAll('.plan'));
+  function pick(p){plans.forEach(function(q){var on=q===p;q.classList.toggle('sel',on);q.setAttribute('aria-checked',on);var b=q.querySelector('.btn');var n=q.querySelector('.nm').textContent;b.textContent=on?'Selected':'Choose '+n;});}
+  plans.forEach(function(p){
+    p.addEventListener('click',function(){pick(p)});
+    p.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(p)}});
+  });
+  var seg=[].slice.call(document.querySelectorAll('.seg button')),note=document.getElementById('note');
+  seg.forEach(function(b){b.addEventListener('click',function(){
+    seg.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    var y=b.dataset.v==='y';
+    document.querySelectorAll('.pu').forEach(function(u){u.textContent=y?'per workspace, billed yearly':'per workspace'});
+    note.textContent=(y?'Annual view. ':'Monthly view. ')+'Pricing is quoted in a walkthrough; nothing is purchased on this page.';
+  })});
+})();
+</script>
+</body>
+</html>

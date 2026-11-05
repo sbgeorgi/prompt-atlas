@@ -1,0 +1,1 @@
+ATLAS_P("F446","Build a miniature 3D Middle-earth from scratch in Three.js. Include procedural terrain, 24 procedural landmarks, water/smoke/lava effects, day/night transitions, camera choreography, and frame-by-frame rendering for a 3:47 cinematic journey.");

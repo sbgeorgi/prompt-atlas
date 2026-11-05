@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cinematic Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block;flex:none}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;background:#000}
+#blur{position:fixed;inset:0;z-index:1;pointer-events:none;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
+ -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 45%);mask-image:linear-gradient(to top,#000 0%,transparent 45%)}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:none;
+ box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+ background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);
+ -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(40px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+.anim{opacity:0;animation:blurFadeUp 1s ease-out forwards}
+#page{position:relative;z-index:10;height:100%;height:100dvh;display:flex;flex-direction:column}
+nav{position:relative;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 16px}
+.logo{font-weight:700;letter-spacing:.32em;font-size:18px;height:32px;display:flex;align-items:center}
+.logo b{font-weight:300}
+.links{display:none;gap:32px;font-size:14px}
+.links a{transition:color .2s}.links a:hover{color:#d1d5db}
+.right{display:flex;align-items:center;gap:12px}
+.pill{border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.search{display:none;padding:8px 16px;font-size:14px}
+.circle{width:40px;height:40px;border-radius:9999px;display:none;align-items:center;justify-content:center}
+.burger{display:flex;position:relative}
+.burger svg{position:absolute;transition:all .5s ease-out}
+.burger .x{opacity:0;transform:rotate(-180deg) scale(.5)}
+.burger.open .x{opacity:1;transform:rotate(0) scale(1)}
+.burger.open .m{opacity:0;transform:rotate(180deg) scale(.5)}
+#menu{position:absolute;top:72px;left:0;right:0;z-index:40;background:rgba(17,24,39,.95);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+ border-top:1px solid #1f2937;border-bottom:1px solid #1f2937;box-shadow:0 25px 50px -12px rgba(0,0,0,.6);padding:16px;
+ transition:all .5s ease-out;transform:translateY(-16px);opacity:0;pointer-events:none}
+#menu.open{transform:none;opacity:1;pointer-events:auto}
+#menu a{display:block;padding:12px;border-radius:8px;font-size:15px;opacity:0;transform:translateX(-16px);transition:all .5s ease-out,background .2s}
+#menu.open a{opacity:1;transform:none}
+#menu a:hover{background:rgba(31,41,55,.5)}
+#menu .mb{display:flex;gap:12px;margin-top:12px;padding-top:16px;border-top:1px solid #1f2937}
+#menu .mb .pill{padding:8px 16px;font-size:14px}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 32px;position:relative;z-index:10;min-height:0}
+.row{display:flex;flex-direction:column;align-items:stretch;gap:32px}
+.left{flex:1}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;font-size:12px}
+.meta span{display:flex;align-items:center;gap:8px}
+.meta .fw{font-weight:500}
+h1{font-weight:400;letter-spacing:-.04em;line-height:1;font-size:30px;margin-bottom:16px}
+.desc{color:#9ca3af;font-size:16px;line-height:1.5;margin-bottom:24px;max-width:42rem}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{border-radius:9999px;font-weight:500;padding:10px 24px;display:inline-flex;align-items:center;gap:8px;font-size:14px}
+.white{background:#fff;color:#000;transition:background .2s}.white:hover{background:#e5e7eb}
+.arrows{display:flex;gap:12px}
+.arrows .btn{padding:10px 16px}
+@media(min-width:640px){
+ nav{padding:16px 24px}.search{display:inline-flex}.circle{display:flex}
+ .hero{padding:0 24px 32px}.meta{gap:24px;font-size:14px}.meta svg.st{width:20px;height:20px}
+ h1{font-size:48px}.desc{font-size:18px}.ctas{gap:16px}.btn{padding:12px 32px;font-size:15px}.arrows .btn{padding:12px 24px}
+}
+@media(min-width:768px){
+ nav{padding:24px 48px}.logo{height:40px;font-size:22px}
+ .hero{padding:0 48px 64px}.meta{margin-bottom:32px}
+ h1{font-size:60px;margin-bottom:24px}.desc{font-size:20px;margin-bottom:48px}
+ .row{flex-direction:row;align-items:flex-end}.arrows{justify-content:flex-end}
+}
+@media(min-width:1024px){
+ .links{display:flex}.burger,#menu{display:none}h1{font-size:72px}
+}
+@media(max-width:1023px){.circle.prof{display:none}}
+@media(min-width:640px) and (max-width:1023px){.circle.prof{display:flex}}
+@media(min-width:1024px){.circle.prof{display:flex}}
+.circle.burger{display:flex}
+@media(min-width:1024px){.circle.burger{display:none}}
+@media(min-width:640px){#menu .mb{display:none}}
+@media(prefers-reduced-motion:reduce){.anim{animation:none;opacity:1}#menu,#menu a,.burger svg{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div id="blur"></div>
+<div id="page">
+ <nav>
+  <div class="logo anim" style="animation-delay:0ms">CINE<b>MATIC</b></div>
+  <div class="links">
+   <a class="anim" href="#" style="animation-delay:100ms">Movies</a>
+   <a class="anim" href="#" style="animation-delay:150ms">TV Series</a>
+   <a class="anim" href="#" style="animation-delay:200ms">Editor's Pick</a>
+   <a class="anim" href="#" style="animation-delay:250ms">Interviews</a>
+   <a class="anim" href="#" style="animation-delay:300ms">User Reviews</a>
+  </div>
+  <div class="right">
+   <button class="pill search liquid-glass anim" style="animation-delay:350ms">Search
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+   <button class="circle prof liquid-glass anim" style="animation-delay:400ms" aria-label="Profile">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+   <button id="bb" class="circle burger liquid-glass anim" style="animation-delay:350ms" aria-label="Menu" aria-expanded="false">
+    <svg class="m" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
+    <svg class="x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  </div>
+  <div id="menu">
+   <a href="#" style="transition-delay:50ms">Movies</a>
+   <a href="#" style="transition-delay:100ms">TV Series</a>
+   <a href="#" style="transition-delay:150ms">Editor's Pick</a>
+   <a href="#" style="transition-delay:200ms">Interviews</a>
+   <a href="#" style="transition-delay:250ms">User Reviews</a>
+   <div class="mb">
+    <button class="pill liquid-glass">Search <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+    <button class="circle liquid-glass" style="display:flex" aria-label="Profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+   </div>
+  </div>
+ </nav>
+ <main class="hero">
+  <div class="row">
+   <div class="left">
+    <div class="meta anim" style="animation-delay:300ms">
+     <span><svg class="st" width="16" height="16" viewBox="0 0 24 24" fill="#fff" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span class="fw">8.7/10 IMDB</span></span>
+     <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>132 min</span>
+     <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>April, 2025</span>
+    </div>
+    <h1 class="anim" style="animation-delay:400ms">Step Through. Work Smarter.</h1>
+    <p class="desc anim" style="animation-delay:500ms">A voyage through forgotten realms, where past and future intertwine.</p>
+    <div class="ctas">
+     <button class="btn white anim" style="animation-delay:600ms"><svg width="18" height="18" viewBox="0 0 24 24" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>Watch Now</button>
+     <button class="btn liquid-glass anim" style="animation-delay:700ms">Learn More</button>
+    </div>
+   </div>
+   <div class="arrows">
+    <button class="btn liquid-glass anim" style="animation-delay:800ms" aria-label="Previous"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="btn liquid-glass anim" style="animation-delay:900ms" aria-label="Next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+   </div>
+  </div>
+ </main>
+</div>
+<script>
+(function(){
+var bb=document.getElementById('bb'),mn=document.getElementById('menu');
+bb.addEventListener('click',function(){var o=!mn.classList.contains('open');mn.classList.toggle('open',o);bb.classList.toggle('open',o);bb.setAttribute('aria-expanded',o)});
+
+/* Stand-in for the cinematic.mp4: procedural looping scene (monoliths, ember sky, drifting smoke) */
+var cv=document.getElementById('bg'),ctx=cv.getContext('2d'),W,H,sky,fixed,sprites=[],clouds=[];
+var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function rnd(s){var x=Math.sin(s*127.1)*43758.5453;return x-Math.floor(x)}
+function sprite(r,g,b){var c=document.createElement('canvas');c.width=c.height=128;var x=c.getContext('2d'),gr=x.createRadialGradient(64,64,0,64,64,64);
+ gr.addColorStop(0,'rgba('+r+','+g+','+b+',.55)');gr.addColorStop(.5,'rgba('+r+','+g+','+b+',.25)');gr.addColorStop(1,'rgba('+r+','+g+','+b+',0)');x.fillStyle=gr;x.fillRect(0,0,128,128);return c}
+sprites=[sprite(46,42,48),sprite(64,56,60),sprite(255,110,110)];
+function poly(x,pts,fill){x.beginPath();pts.forEach(function(p,i){i?x.lineTo(p[0]*W,p[1]*H):x.moveTo(p[0]*W,p[1]*H)});x.closePath();x.fillStyle=fill;x.fill()}
+function build(){
+ var dpr=Math.min(devicePixelRatio||1,1.5);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+ /* sky */
+ sky=document.createElement('canvas');sky.width=W;sky.height=H;var s=sky.getContext('2d');
+ var g=s.createLinearGradient(0,0,0,H);g.addColorStop(0,'#8a3f40');g.addColorStop(.3,'#c25a4c');g.addColorStop(.55,'#f07a42');g.addColorStop(.72,'#ffb867');g.addColorStop(1,'#3a1010');
+ s.fillStyle=g;s.fillRect(0,0,W,H);
+ /* foreground: monoliths + ground + beam (drawn after clouds) */
+ fixed=document.createElement('canvas');fixed.width=W;fixed.height=H;var f=fixed.getContext('2d');
+ var fog=f.createLinearGradient(0,.2*H,0,.8*H);
+ poly(f,[[.255,.52],[.28,.30],[.31,.22],[.36,.19],[.38,.13],[.465,.125],[.472,.25],[.475,.76],[.40,.80],[.30,.74]],'#1a0e10');
+ poly(f,[[.56,.76],[.558,.20],[.572,.115],[.59,.12],[.62,.20],[.64,.33],[.65,.52],[.64,.68],[.61,.74]],'#150c0e');
+ poly(f,[[.62,.30],[.66,.34],[.70,.44],[.72,.56],[.70,.70],[.64,.70]],'#26181a');
+ poly(f,[[.20,.62],[.25,.44],[.30,.50],[.30,.72],[.20,.72]],'#241619');
+ /* edge rim light facing the gap */
+ f.strokeStyle='rgba(255,150,90,.35)';f.lineWidth=2;f.beginPath();f.moveTo(.465*W,.13*H);f.lineTo(.475*W,.76*H);f.moveTo(.558*W,.20*H);f.lineTo(.56*W,.76*H);f.stroke();
+ /* ground */
+ var gg=f.createLinearGradient(0,.72*H,0,H);gg.addColorStop(0,'#1c0d0f');gg.addColorStop(.4,'#0d0607');gg.addColorStop(1,'#000');
+ f.fillStyle=gg;f.beginPath();f.moveTo(0,.80*H);f.quadraticCurveTo(.3*W,.76*H,.5*W,.79*H);f.quadraticCurveTo(.75*W,.74*H,W,.80*H);f.lineTo(W,H);f.lineTo(0,H);f.fill();
+ /* red beam */
+ var bg=f.createLinearGradient(.54*W,.76*H,.30*W,.96*H);bg.addColorStop(0,'rgba(255,90,60,.95)');bg.addColorStop(.6,'rgba(200,40,40,.55)');bg.addColorStop(1,'rgba(150,20,20,0)');
+ f.fillStyle=bg;f.beginPath();f.moveTo(.55*W,.755*H);f.lineTo(.545*W,.79*H);f.lineTo(.28*W,.98*H);f.lineTo(.33*W,.96*H);f.closePath();f.fill();
+ /* clouds */
+ clouds=[];for(var i=0;i<46;i++){var t=i<4?2:(i%3===0?1:0);
+  var side=i%2?1:-1;clouds.push({x:(rnd(i+1)),y:.35+rnd(i+9)*.5,r:(.12+rnd(i+20)*.18)*Math.max(W,H*1.2),v:(.0006+rnd(i+30)*.0014)*side*(i%5?1:-1),t:t,a:.55+rnd(i+40)*.45});
+  if(t===2){clouds[i].x=.05+rnd(i)*.2;clouds[i].y=.18+rnd(i+5)*.22;clouds[i].r=.09*W+rnd(i+3)*.05*W;clouds[i].v=.0002}}
+}
+function frame(t){
+ ctx.drawImage(sky,0,0,W,H);
+ /* pulsing glow in the gap */
+ var p=.88+.12*Math.sin(t/1400);ctx.save();ctx.translate(.515*W,.72*H);ctx.scale(.3,1);
+ var gl=ctx.createRadialGradient(0,0,0,0,0,.6*H);gl.addColorStop(0,'rgba(255,215,130,'+p+')');gl.addColorStop(.35,'rgba(255,140,70,'+.7*p+')');gl.addColorStop(1,'rgba(255,90,50,0)');
+ ctx.fillStyle=gl;ctx.fillRect(-W*4,-H,W*8,2*H);ctx.restore();
+ ctx.globalCompositeOperation='source-over';
+ /* far clouds behind towers */
+ for(var i=0;i<clouds.length;i++){var c=clouds[i];if(c.t===2||c.x<0&&0)continue;
+  var x=((c.x+c.v*t/16)%1.3+1.3)%1.3-.15;ctx.globalAlpha=c.a*.9;ctx.drawImage(sprites[c.t],x*W-c.r,c.y*H-c.r*.6,c.r*2,c.r*1.2)}
+ ctx.globalAlpha=1;
+ for(i=0;i<clouds.length;i++){c=clouds[i];if(c.t!==2)continue;ctx.globalAlpha=.8;ctx.drawImage(sprites[2],c.x*W-c.r,c.y*H-c.r,c.r*2,c.r*2)}
+ ctx.globalAlpha=1;ctx.drawImage(fixed,0,0,W,H);
+ /* low smoke over the towers' base */
+ for(i=0;i<14;i++){c=clouds[i];var x2=((c.x*1.7+c.v*t/10*1.4)%1.4+1.4)%1.4-.2;ctx.globalAlpha=.5*c.a;ctx.drawImage(sprites[i%2],x2*W-c.r,(.62+c.y*.25)*H-c.r*.5,c.r*2,c.r)}
+ ctx.globalAlpha=1;
+ /* vignette */
+ var v=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*.3,W/2,H/2,Math.max(W,H)*.75);v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,.4)');ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
+}
+function loop(t){frame(t);requestAnimationFrame(loop)}
+build();
+if(reduce){frame(4000)}else requestAnimationFrame(loop);
+addEventListener('resize',function(){build();if(reduce)frame(4000)});
+})();
+</script>
+</body>
+</html>

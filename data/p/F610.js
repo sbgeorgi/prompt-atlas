@@ -1,0 +1,1 @@
+ATLAS_P("F610","make a dynamic 20-second motion graphics video that shows what an incredible our email verify tool is, put all the use case you can imagine. go all out'\ni want you to make it really modern and saas style. inspiration is yc videos and claude social videos");

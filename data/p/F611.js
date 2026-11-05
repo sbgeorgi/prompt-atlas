@@ -1,0 +1,1 @@
+ATLAS_P("F611","Create a pure JavaScript/HTML animation around the theme: \u201cWhat happens when Dal\u00ed meets generative AI?\u201d");

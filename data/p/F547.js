@@ -1,0 +1,1 @@
+ATLAS_P("F547","make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a r\u00e9sum\u00e9. go all out. (About the pipefitters bible)");

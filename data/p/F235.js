@@ -1,0 +1,1 @@
+ATLAS_P("F235","I want to know how good a graphic designer you are. To prove this to me, I want you to prepare a 15-second motion graphics video. I want you to do an introduction related to my account. I'm sharing my logo and my X cover image, use those too.");

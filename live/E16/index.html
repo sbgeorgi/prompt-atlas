@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Halo - USD Halo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border:0 solid #e5e7eb}
+html,body{font-family:'TT Norms Pro','Figtree',ui-sans-serif,system-ui,sans-serif;font-weight:400;background:#F5F5F5;color:#000;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+*{font-family:inherit}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+.page{display:flex;flex-direction:column;background:#F5F5F5}
+.first{height:100vh;height:100svh;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.nav{position:absolute;top:0;left:0;right:0;z-index:20;padding:1.25rem 1.5rem}
+.nav-row{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.5rem}
+.brand svg{width:1.75rem;height:1.75rem;color:#000}
+.brand span{font-size:1.5rem;line-height:2rem;font-weight:500;letter-spacing:-.025em}
+.links{display:none;gap:2rem}
+.links a{font-size:1rem;color:#374151;font-weight:500;transition:color .2s}
+.links a:hover{color:#000}
+.btn{display:inline-flex;align-items:center;background:#000;color:#fff;font-weight:500;border-radius:9999px;transition:background-color .2s;cursor:pointer}
+.btn:hover{background:#1f2937}
+.btn-nav{font-size:1rem;padding:.625rem 1.75rem}
+.btn-arrow{gap:.75rem;padding:.5rem .5rem .5rem 2rem;font-size:1rem}
+.btn-arrow i{background:#fff;border-radius:9999px;padding:.5rem;display:flex;transition:background-color .2s}
+.btn-arrow svg{width:1.25rem;height:1.25rem;color:#000}
+.hero{flex:1;padding:5rem 1.5rem 1.5rem;display:flex;align-items:flex-end;min-height:0}
+.hero-card{position:relative;width:100%;border-radius:1rem;overflow:hidden;height:calc(100vh - 96px);height:calc(100svh - 96px)}
+canvas.bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-in{position:relative;z-index:10;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;height:100%;padding:3rem;padding-top:9rem}
+h1{font-size:3rem;line-height:1.25;font-weight:500;max-width:36rem;margin-bottom:1rem;letter-spacing:-.04em}
+.hero-in p{font-family:'Inter',ui-sans-serif,system-ui,sans-serif;color:rgba(0,0,0,.7);font-size:1rem;max-width:28rem;margin-bottom:2rem;line-height:1.625}
+.hero-in .btn-arrow{font-size:1rem}
+.marq{margin-top:6rem;width:100%;max-width:28rem;overflow:hidden}
+.marquee-track{display:flex;width:max-content;animation:marquee 22s linear infinite}
+.backers-track{display:flex;width:max-content;animation:backers-marquee 30s linear infinite}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes backers-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-track span{margin:0 1.75rem;flex-shrink:0;color:rgba(0,0,0,.6);white-space:nowrap}
+.backers-track span{margin:0 2.5rem;flex-shrink:0;color:rgba(0,0,0,.5);white-space:nowrap}
+section{background:#F5F5F5;padding:6rem 1.5rem}
+.wrap{max-width:88rem;margin:0 auto}
+.g2{display:grid;grid-template-columns:1fr;gap:3rem;align-items:start}
+.info h2{font-size:2.25rem;line-height:1.25;font-weight:500;margin-bottom:2rem;letter-spacing:-.03em}
+.info .lead{color:rgba(0,0,0,.7);font-size:1.5rem;line-height:1.625}
+.cards{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:4rem}
+.card{border-radius:1rem;padding:1.75rem;min-height:20rem;display:flex;flex-direction:column;justify-content:space-between}
+.card h3{font-size:1.5rem;line-height:1.375;font-weight:500;letter-spacing:-.02em}
+.card p{font-size:1rem;max-width:20rem}
+.c1{background:#e9d9ee;position:relative;overflow:hidden}
+.c1 canvas{position:absolute;inset:0;width:100%;height:100%}
+.c1>*:not(canvas){position:relative;z-index:1}
+.c1 h3{color:#000}.c1 p{color:rgba(0,0,0,.7)}
+.c2{background:#2B2644;color:#fff}.c2 p{color:rgba(255,255,255,.6)}
+.backed{padding-top:0;padding-bottom:0}
+.backed .wrap{display:grid;grid-template-columns:1fr;gap:2rem;align-items:center}
+.backed .t{color:rgba(0,0,0,.7);font-size:1rem;line-height:1.625}
+.backed .m{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.uc{padding-top:6rem}
+.uc .l{padding-top:.5rem}
+.eyebrow{color:rgba(0,0,0,.6);font-size:.875rem;margin-bottom:.5rem}
+.uc h2{font-size:3rem;line-height:1;font-weight:500;margin-bottom:1.5rem;letter-spacing:-.04em}
+.uc .l p{color:rgba(0,0,0,.6);font-size:1rem;line-height:1.625;max-width:24rem}
+.big{position:relative;border-radius:1.5rem;overflow:hidden;min-height:720px}
+.big-in{position:relative;z-index:10;padding:2.5rem}
+.big h3{font-size:2.25rem;line-height:1.25;font-weight:500;margin-bottom:1.25rem;letter-spacing:-.03em}
+.big p{color:rgba(0,0,0,.7);font-size:1rem;max-width:28rem;margin-bottom:2rem;line-height:1.5}
+.know{display:inline-flex;align-items:center;gap:.75rem;font-weight:500}
+.know i{width:2.25rem;height:2.25rem;border-radius:9999px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:background-color .2s}
+.know:hover i{background:#fff}
+.know svg{width:1rem;height:1rem;color:#000}
+footer{padding:2rem 1.5rem 3rem;color:rgba(0,0,0,.5);font-size:.875rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+@media(min-width:640px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:768px){
+ .links{display:flex}
+ h1{font-size:3.75rem}
+ .hero-in p{font-size:1.125rem}
+ .hero-in .btn-arrow{font-size:1.125rem}
+ .info h2{font-size:3rem}.info .lead{font-size:1.875rem}
+ .g2{grid-template-columns:1fr 1fr}
+ .backed .wrap{grid-template-columns:repeat(4,1fr)}
+ .backed .m{grid-column:span 3}
+ .uc .l{padding-right:3rem}
+ .uc h2{font-size:3.75rem}
+ .big-in{padding:3rem}.big h3{font-size:3rem}
+}
+@media(min-width:1024px){.cards{grid-template-columns:repeat(4,1fr)}.c1{grid-column:span 2}}
+@media(max-width:480px){.hero-in{padding:1.75rem;padding-top:6.5rem}.hero{padding-left:1rem;padding-right:1rem}.nav{padding-left:1rem;padding-right:1rem}.btn-nav{padding:.5rem 1.25rem}}
+@media(prefers-reduced-motion:reduce){.marquee-track,.backers-track{animation:none}}
+</style>
+</head>
+<body>
+<div class="page">
+ <div class="first">
+  <nav class="nav"><div class="nav-row">
+   <a class="brand" href="#"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M 128.005 191.173 C 128.448 156.208 156.93 128 192 128 L 192 64 L 128 64 C 128 99.346 99.346 128 64 128 L 64 192 L 128 192 Z M 192 256 L 64 256 C 28.654 256 0 227.346 0 192 L 0 64 L 64 64 L 64 0 L 192 0 C 227.346 0 256 28.654 256 64 L 256 192 L 192 192 Z"/></svg><span>Halo</span></a>
+   <div class="links"><a href="#">Network</a><a href="#">Ecosystem</a><a href="#">Rewards</a><a href="#">Help</a><a href="#">News</a></div>
+   <a class="btn btn-nav" href="#">Open Wallet</a>
+  </div></nav>
+  <div class="hero"><div class="hero-card">
+   <canvas class="bg" data-pal="hero"></canvas>
+   <div class="hero-in">
+    <h1>Your Wealth<br/>Works</h1>
+    <p>An automated, reward-powered digital dollar built for native passive earnings and effortless connection into DeFi.</p>
+    <a class="btn btn-arrow" href="#">Join us <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></i></a>
+    <div class="marq"><div class="marquee-track" id="mq"></div></div>
+   </div>
+  </div></div>
+ </div>
+
+ <section class="info"><div class="wrap">
+  <div class="g2" style="margin-bottom:4rem">
+   <div><h2>Meet USD Halo.</h2><a class="btn btn-arrow" href="#">Discover it <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></i></a></div>
+   <p class="lead">USD Halo is a reward-earning dollar coin that lets your savings grow while remaining tied to the U.S. dollar.</p>
+  </div>
+  <div class="cards" style="margin-top:0">
+   <div class="card c1"><canvas data-pal="bloom"></canvas><h3>Savings that bloom</h3><p>Gain steady returns as your dollar tokens are routed into top-performing DeFi strategies.</p></div>
+   <div class="card c2"><h3>Always fluid,<br/>always pegged.</h3><p>Keep fully dollar-anchored with on-demand access to funds — no lockups or waits.</p></div>
+   <div class="card c2"><h3>Fully<br/>automated</h3><p>Skip the task of tuning positions yourself. USD Halo runs in the background for you.</p></div>
+  </div>
+ </div></section>
+
+ <section class="backed"><div class="wrap">
+  <p class="t">Funded by premier partners<br/>and forward-thinking leaders.</p>
+  <div class="m"><div class="backers-track" id="bk"></div></div>
+ </div></section>
+
+ <section class="uc"><div class="wrap g2">
+  <div class="l"><p class="eyebrow">USD Halo in Practice</p><h2>Use modes</h2><p>USD Halo powers a wide range of modes for builders, companies and treasuries wanting safe and rewarding stablecoin integrations plus more</p></div>
+  <div class="big"><canvas class="bg" data-pal="modes"></canvas>
+   <div class="big-in"><h3>Commerce</h3><p>Lift customer retention by offering USD Halo, a trusted dollar-backed stablecoin with strong yields, letting your patrons earn with zero effort on your platform.</p>
+   <a class="know group" href="#"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></i>Know more</a></div>
+  </div>
+ </div></section>
+ <footer><div class="wrap"><span>&copy; 2026 Halo. USD Halo is a sample product.</span><span>Network · Ecosystem · Rewards · Help · News</span></div></footer>
+</div>
+
+<script>
+(function(){
+ var B=[
+  ['Stripe',"Georgia,serif",700,'-0.02em',15],
+  ['Coinbase',"Arial,sans-serif",900,'0.08em',13,'uppercase'],
+  ['Uniswap',"'Trebuchet MS',sans-serif",600,'0.01em',15,'','italic'],
+  ['Aave',"'Courier New',monospace",700,'0.12em',13,'uppercase'],
+  ['Compound',"Palatino,'Book Antiqua',serif",400,'-0.01em',16],
+  ['MakerDAO',"Impact,'Arial Narrow',sans-serif",400,'0.04em',14],
+  ['Chainlink',"Verdana,sans-serif",700,'-0.03em',13]];
+ var K=[
+  ['Fundamental Labs',"'Times New Roman',serif",400,'0.02em',14],
+  ['KUCOIN',"'Arial Black',Arial,sans-serif",900,'0.08em',16],
+  ['NGC',"Impact,sans-serif",700,'0.05em',18],
+  ['NxGen',"Georgia,serif",600,'-0.02em',17],
+  ['Matter Labs',"Helvetica,Arial,sans-serif",700,'-0.01em',15],
+  ['DEXTools',"Verdana,sans-serif",700,'0.06em',14,'uppercase'],
+  ['NGRAVE',"'Courier New',monospace",700,'0.18em',14],
+  ['Polychain',"Palatino,'Book Antiqua',serif",500,'0.03em',15]];
+ function fill(id,list){var el=document.getElementById(id);for(var r=0;r<2;r++)list.forEach(function(b){var s=document.createElement('span');s.textContent=b[0];s.style.cssText='font-family:'+b[1]+';font-weight:'+b[2]+';letter-spacing:'+b[3]+';font-size:'+b[4]+'px;'+(b[5]?'text-transform:'+b[5]+';':'')+(b[6]?'font-style:'+b[6]+';':'');el.appendChild(s)})}
+ fill('mq',B);fill('bk',K);
+
+ // Canvas stand-ins for the prompt's videos / bloom image: soft drifting halo gradients
+ var PAL={
+  hero:{base:'#eef0f6',blobs:[['#ffd9c2',.2,.3,.5],['#cfd6ff',.8,.25,.55],['#f7c9e6',.65,.85,.5],['#bfe6f2',.15,.9,.45],['#fff1d6',.5,.5,.35]],ring:'rgba(255,255,255,.65)'},
+  bloom:{base:'#efe2f2',blobs:[['#f6b8d0',.25,.7,.55],['#d9b8f0',.75,.35,.6],['#ffd8b8',.9,.9,.45],['#f9e6a8',.45,.15,.4]],ring:'rgba(255,255,255,.5)'},
+  modes:{base:'#e6f0ea',blobs:[['#bfe8d4',.3,.2,.6],['#cfe0ff',.8,.4,.6],['#fbe3b8',.5,.85,.5],['#f0c8e8',.1,.75,.45]],ring:'rgba(255,255,255,.6)'}
+ };
+ var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ var cvs=[].slice.call(document.querySelectorAll('canvas[data-pal]'));
+ var vis=new Map();
+ function size(c){var d=Math.min(devicePixelRatio||1,1.5),w=c.clientWidth,h=c.clientHeight;c.width=Math.max(2,w*d>>0);c.height=Math.max(2,h*d>>0)}
+ function draw(c,t){
+  var p=PAL[c.dataset.pal],g=c.getContext('2d'),w=c.width,h=c.height,m=Math.max(w,h);
+  g.globalCompositeOperation='source-over';g.fillStyle=p.base;g.fillRect(0,0,w,h);
+  p.blobs.forEach(function(b,i){
+   var x=(b[1]+Math.sin(t*.00018+i*1.7)*.12)*w,y=(b[2]+Math.cos(t*.00015+i*2.3)*.12)*h,r=b[3]*m*(1+Math.sin(t*.0002+i)*.08);
+   var gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,b[0]);gr.addColorStop(1,b[0]+'00');
+   g.fillStyle=gr;g.fillRect(0,0,w,h)});
+  // halo rings echoing the logo mark
+  g.lineWidth=Math.max(2,m*.012);g.strokeStyle=p.ring;
+  for(var i=0;i<3;i++){var cx=w*(.72+i*.04)+Math.sin(t*.0003+i)*w*.02,cy=h*(.55-i*.05)+Math.cos(t*.00025+i)*h*.02,rr=m*(.18+i*.1);
+   g.globalAlpha=.55-i*.15;rr=Math.min(rr,m*.5);var s=rr*1.6;g.beginPath();
+   var x0=cx-s/2,y0=cy-s/2,k=s*.3;g.moveTo(x0+k,y0);g.arcTo(x0+s,y0,x0+s,y0+s,k);g.arcTo(x0+s,y0+s,x0,y0+s,k);g.arcTo(x0,y0+s,x0,y0,k);g.arcTo(x0,y0,x0+s,y0,k);g.stroke()}
+  g.globalAlpha=1;
+ }
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){vis.set(e.target,e.isIntersecting)})});
+ cvs.forEach(function(c){size(c);vis.set(c,true);io.observe(c);draw(c,0)});
+ addEventListener('resize',function(){cvs.forEach(function(c){size(c);draw(c,performance.now())})});
+ if(!reduce){(function loop(t){cvs.forEach(function(c){if(vis.get(c))draw(c,t)});requestAnimationFrame(loop)})(0)}
+})();
+</script>
+</body>
+</html>

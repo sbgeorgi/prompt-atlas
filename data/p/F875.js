@@ -1,0 +1,1 @@
+ATLAS_P("F875","I asked Opus 5.5 to make a game about @dhh , Ruby and the end of hand-written code.");

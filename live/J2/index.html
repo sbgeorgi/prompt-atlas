@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halden - Modern Dark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#050505;--dp-color-panel:#0e0e0e;--dp-color-hairline:#222222;--dp-color-hairline-2:#303030;
+  --dp-color-bright:#f2f2f2;--dp-color-read:#a6a9ad;--dp-color-meta:#8a8d91;--dp-color-live:#3fd6c6;
+  --dp-color-inverse-ink:#0a0a0a;--dp-color-dim:#96999d;
+  --face:"Geist","Helvetica Neue",Arial,sans-serif;--mono:"Geist Mono","SFMono-Regular",Menlo,monospace;
+  --gutter:48px;--gap:24px;--max:1360px;--r-panel:6px;--r-pill:999px;--dur:120ms;--ease:ease-out;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{background:var(--dp-color-ground);color:var(--dp-color-read);font-family:var(--face);font-weight:400;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--dp-color-bright);outline-offset:4px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+b,strong{font-weight:400;color:var(--dp-color-bright)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dp-color-meta)}
+h1,h2,h3{font-weight:400;color:var(--dp-color-bright);letter-spacing:-.035em}
+h1{font-size:clamp(44px,8vw,104px);line-height:1;letter-spacing:-.045em}
+h2{font-size:clamp(32px,4.4vw,56px);line-height:1.05}
+h3{font-size:22px;line-height:1.2;letter-spacing:-.02em}
+
+/* nav */
+nav{position:relative;z-index:5;border-bottom:1px solid var(--dp-color-hairline)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;color:var(--dp-color-bright);font-size:18px;letter-spacing:-.02em}
+.logo i{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#fff,#777)}
+.links{display:flex;gap:32px;font-size:14px}
+.links a{color:var(--dp-color-read);transition:color var(--dur) var(--ease)}
+.links a:hover{color:var(--dp-color-bright)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 20px;border-radius:var(--r-pill);font-size:14px;font-family:var(--face);cursor:pointer;border:1px solid transparent;transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.btn.p{background:var(--dp-color-bright);color:var(--dp-color-inverse-ink)}
+.btn.p:hover{background:#fff}
+.btn.s{background:transparent;color:var(--dp-color-bright);border-color:var(--dp-color-hairline-2)}
+.btn.s:hover{border-color:var(--dp-color-read);background:var(--dp-color-panel)}
+.btn.sm{height:36px;padding:0 16px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:
+  radial-gradient(ellipse 60% 70% at 78% 8%,rgba(255,255,255,.24),rgba(255,255,255,.06) 45%,transparent 70%)}
+.hero .wrap{padding-top:96px}
+.hero-grid{align-items:center;padding-bottom:88px}
+.hero-copy{grid-column:1/9;position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:32px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--dp-color-live)}
+.lede{max-width:520px;margin-top:32px;font-size:19px;line-height:1.55}
+.cta{display:flex;gap:12px;margin-top:40px;flex-wrap:wrap}
+.hero-obj{grid-column:9/13;grid-row:1;position:relative;align-self:end;margin-left:-60px;margin-right:-30px}
+.panel{background:linear-gradient(160deg,#1b1b1c 0%,#101011 55%,#0e0e0e 100%);border:1px solid var(--dp-color-hairline);border-radius:var(--r-panel)}
+.obj{padding:20px;display:flex;flex-direction:column;gap:18px;box-shadow:0 40px 80px rgba(0,0,0,.6)}
+.obj-top{display:flex;justify-content:space-between;align-items:center}
+.live{display:inline-flex;align-items:center;gap:8px;color:var(--dp-color-live)}
+.bars{display:flex;align-items:flex-end;gap:7px;height:130px;padding-top:10px;border-top:1px solid var(--dp-color-hairline)}
+.bars span{flex:1;border-radius:2px 2px 0 0;background:linear-gradient(#5a5c5f,#2a2b2d)}
+.bars span.on{background:linear-gradient(#f2f2f2,#9a9c9f)}
+.obj svg{width:100%;height:auto;display:block}
+.rows{display:grid;gap:0;font-size:13px}
+.rows div{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--dp-color-hairline);color:var(--dp-color-read)}
+.rows div b{font-family:var(--mono);font-size:12px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--dp-color-hairline);position:relative;z-index:2}
+.facts div{padding:24px 24px 28px 0;border-right:1px solid var(--dp-color-hairline);margin-right:24px}
+.facts div:last-child{border-right:0;margin-right:0}
+.facts b{display:block;font-size:22px;letter-spacing:-.02em;margin-top:8px}
+
+/* sections */
+section{padding:128px 0 0}
+.sec-head{margin-bottom:64px;align-items:end}
+.sec-head h2{grid-column:1/8}
+.sec-head p{grid-column:9/13;font-size:16px}
+.feat{border-top:1px solid var(--dp-color-hairline)}
+.feat .item{padding:28px 0 8px;grid-column:span 4;border-right:0}
+.feat .item:nth-child(1){grid-column:1/6}
+.feat .item:nth-child(2){grid-column:6/9}
+.feat .item:nth-child(3){grid-column:9/13}
+.feat h3{margin:14px 0 12px}
+.feat p{max-width:36ch;font-size:16px}
+
+.ed{align-items:stretch;row-gap:var(--gap)}
+.ed .lead{grid-column:1/7}
+.ed .side{grid-column:8/13;display:flex;flex-direction:column;gap:32px;justify-content:space-between}
+.img{position:relative;border-radius:var(--r-panel);overflow:hidden;background:#111;filter:grayscale(1) contrast(.92) brightness(.82)}
+.img svg{display:block;width:100%;height:100%}
+.lead .img{aspect-ratio:4/5}
+.row{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:start}
+.row .img{aspect-ratio:1/1}
+.row h3{margin-bottom:8px}
+.row p{font-size:15px}
+.cap{margin-top:14px}
+
+.pair{align-items:center;padding:56px 0;border-top:1px solid var(--dp-color-hairline)}
+.pair:last-child{border-bottom:1px solid var(--dp-color-hairline)}
+.pair .txt{grid-column:1/6}
+.pair .view{grid-column:7/13}
+.pair.rev .txt{grid-column:8/13;grid-row:1}
+.pair.rev .view{grid-column:1/7;grid-row:1}
+.pair h3{font-size:clamp(26px,3vw,36px);margin:16px 0 16px}
+.pair .txt p{max-width:42ch}
+.view{padding:20px}
+.tl{display:grid;gap:0}
+.tl div{display:grid;grid-template-columns:70px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-top:1px solid var(--dp-color-hairline);font-size:14px}
+.tl div:first-child{border-top:0}
+.tl .t{font-family:var(--mono);font-size:12px;color:var(--dp-color-meta)}
+.tl .b{color:var(--dp-color-bright)}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:3px 8px;border:1px solid var(--dp-color-hairline-2);border-radius:var(--r-pill);color:var(--dp-color-read);text-transform:uppercase}
+.tag.l{color:var(--dp-color-live);border-color:#1d5a54}
+.graph svg{width:100%;height:auto;display:block}
+
+/* faq */
+.faq{border-top:1px solid var(--dp-color-hairline)}
+details{border-bottom:1px solid var(--dp-color-hairline)}
+summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:56px 1fr 24px;gap:12px;align-items:baseline;padding:26px 0;color:var(--dp-color-bright);font-size:20px;letter-spacing:-.015em;transition:color var(--dur) var(--ease)}
+summary::-webkit-details-marker{display:none}
+summary:hover{color:#fff}
+summary .n{font-family:var(--mono);font-size:12px;color:var(--dp-color-meta)}
+summary .pm::before{content:"+";font-family:var(--mono);color:var(--dp-color-read)}
+details[open] summary .pm::before{content:"\2212"}
+details p{padding:0 0 28px 68px;max-width:62ch}
+
+/* closing */
+.close{position:relative;overflow:hidden;margin-top:128px;border-top:1px solid var(--dp-color-hairline);background:radial-gradient(ellipse 55% 90% at 85% 100%,rgba(255,255,255,.12),transparent 70%)}
+.close .wrap{position:relative;padding-top:120px;padding-bottom:120px}
+.close h2{font-size:clamp(40px,7vw,88px);line-height:1;letter-spacing:-.045em;grid-column:1/9;position:relative;z-index:2}
+.close .cta{position:relative;z-index:2}
+.cropped{position:absolute;right:calc(-1 * var(--gutter) - 40px);bottom:-70px;width:min(36vw,460px);aspect-ratio:1/.9;border-radius:var(--r-panel);padding:22px;z-index:1}
+.cropped .bars{height:100px}
+
+footer{border-top:1px solid var(--dp-color-hairline);padding:64px 0 48px}
+.fcols{row-gap:40px}
+.fcols .brand{grid-column:1/5}
+.fcols .brand p{margin-top:16px;max-width:30ch;font-size:15px}
+.fcols nav{grid-column:span 2;border:0;display:block}
+.fcols .fc:nth-child(2){grid-column:6/8}
+.fcols .fc{grid-column:span 2}
+.fc h4{font-weight:400;margin-bottom:16px}
+.fc a{display:block;padding:5px 0;font-size:15px;color:var(--dp-color-read);transition:color var(--dur) var(--ease)}
+.fc a:hover{color:var(--dp-color-bright)}
+.legal{margin-top:64px;padding-top:24px;border-top:1px solid var(--dp-color-hairline);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:1180px){
+  :root{--gutter:32px}
+  .hero-copy{grid-column:1/13}
+  .hero-obj{grid-column:6/13;grid-row:2;margin:56px 0 0;align-self:auto}
+  .hero-grid{row-gap:0}
+}
+@media (max-width:900px){
+  section{padding-top:96px}
+  .sec-head h2,.sec-head p{grid-column:1/13}
+  .sec-head p{margin-top:20px}
+  .feat .item:nth-child(n){grid-column:1/13;padding-bottom:28px;border-bottom:1px solid var(--dp-color-hairline)}
+  .ed .lead,.ed .side{grid-column:1/13}
+  .ed .side{margin-top:24px}
+  .pair .txt,.pair .view,.pair.rev .txt,.pair.rev .view{grid-column:1/13;grid-row:auto}
+  .pair .view{margin-top:32px}
+  .pair.rev .txt{order:-1}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div{border-bottom:1px solid var(--dp-color-hairline);margin-right:0;padding-left:0}
+  .facts div:nth-child(2n){border-right:0}
+  .links{display:none}
+  .hero-obj{grid-column:1/13}
+  .close h2{grid-column:1/13}
+  .fcols .brand{grid-column:1/13}
+  .fcols .fc,.fcols .fc:nth-child(2){grid-column:span 4}
+}
+@media (max-width:560px){
+  :root{--gutter:20px}
+  body{font-size:16px}
+  .hero .wrap{padding-top:64px}
+  .row{grid-template-columns:1fr}
+  .row .img{aspect-ratio:16/10}
+  .lead .img{aspect-ratio:4/4.4}
+  .facts{grid-template-columns:1fr}
+  .facts div{border-right:0}
+  .fcols .fc,.fcols .fc:nth-child(2){grid-column:span 6}
+  summary{grid-template-columns:36px 1fr 20px;font-size:18px}
+  details p{padding-left:48px}
+  .tl div{grid-template-columns:54px 1fr auto}
+  .cropped{width:70vw;right:-12vw;bottom:-90px;opacity:.9}
+  .close .wrap{padding-bottom:200px}
+  nav .btn{display:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8d8d8"/><stop offset="1" stop-color="#7a7a7a"/></linearGradient>
+    <linearGradient id="sk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bdbdbd"/><stop offset="1" stop-color="#5c5c5c"/></linearGradient>
+    <symbol id="scene1" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="500" fill="url(#sky)"/>
+      <circle cx="290" cy="150" r="52" fill="#f1f1f1" opacity=".85"/>
+      <path d="M0 330 L70 250 L130 310 L210 200 L300 320 L360 270 L400 310 V500 H0Z" fill="#555"/>
+      <path d="M0 390 L90 320 L170 380 L250 300 L340 390 L400 350 V500 H0Z" fill="#333"/>
+      <path d="M0 450 L110 400 L220 440 L330 410 L400 440 V500 H0Z" fill="#161616"/>
+    </symbol>
+    <symbol id="scene2" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice">
+      <rect width="300" height="300" fill="url(#sk2)"/>
+      <rect x="40" y="90" width="70" height="210" fill="#2a2a2a"/>
+      <rect x="120" y="50" width="60" height="250" fill="#1d1d1d"/>
+      <rect x="190" y="120" width="80" height="180" fill="#3a3a3a"/>
+      <g fill="#8a8a8a"><rect x="52" y="108" width="10" height="14"/><rect x="72" y="108" width="10" height="14"/><rect x="132" y="70" width="10" height="14"/><rect x="152" y="70" width="10" height="14"/><rect x="132" y="100" width="10" height="14"/><rect x="204" y="140" width="10" height="14"/><rect x="226" y="140" width="10" height="14"/></g>
+    </symbol>
+    <symbol id="scene3" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice">
+      <rect width="300" height="300" fill="#9a9a9a"/>
+      <circle cx="150" cy="130" r="70" fill="#e0e0e0"/>
+      <circle cx="150" cy="130" r="70" fill="url(#sk2)" opacity=".5"/>
+      <path d="M0 230 Q80 190 150 225 T300 205 V300 H0Z" fill="#2c2c2c"/>
+      <path d="M0 265 Q90 240 170 262 T300 250 V300 H0Z" fill="#111"/>
+    </symbol>
+  </defs>
+</svg>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top"><i></i>Halden</a>
+    <div class="links"><a href="#product">Product</a><a href="#stories">Stories</a><a href="#views">Views</a><a href="#faq">Questions</a></div>
+    <a class="btn s sm" href="#close">Request access</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="grid hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow mono"><span class="dot"></span>Now in private beta</div>
+        <h1><b>See every deploy</b><br>as it happens, <span style="color:var(--dp-color-read)">then understand why.</span></h1>
+        <p class="lede"><b>Halden traces releases from commit to customer.</b> Quiet dashboards, exact timelines and one place to ask what changed, written for teams who would rather read than refresh.</p>
+        <div class="cta"><a class="btn p" href="#close">Request access</a><a class="btn s" href="#product">See how it works</a></div>
+      </div>
+      <aside class="hero-obj" aria-label="Product preview">
+        <div class="panel obj">
+          <div class="obj-top"><span class="mono">release / 4.18</span><span class="live mono"><span class="dot"></span>Live</span></div>
+          <div class="bars" aria-hidden="true">
+            <span style="height:34%"></span><span style="height:48%"></span><span style="height:41%"></span><span style="height:62%"></span><span style="height:55%"></span><span style="height:72%"></span><span style="height:58%"></span><span class="on" style="height:92%"></span><span style="height:66%"></span><span style="height:50%"></span>
+          </div>
+          <div class="rows">
+            <div><span>Build</span><b>passed</b></div>
+            <div><span>Rollout</span><b>3 of 5 regions</b></div>
+            <div><span>Owner</span><b>platform</b></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="facts">
+      <div><span class="mono">Setup</span><b>One CLI command</b></div>
+      <div><span class="mono">Sources</span><b>Git, CI, runtime</b></div>
+      <div><span class="mono">Hosting</span><b>Cloud or self-run</b></div>
+      <div><span class="mono">Access</span><b>Single sign-on</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="product">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <h2><b>One timeline</b> for code, config and consequences.</h2>
+      <p>Halden joins the records you already keep and lays them out in order. Nothing to configure before it becomes useful.</p>
+    </div>
+    <div class="grid feat">
+      <div class="item"><span class="mono">01 / Trace</span><h3>Follow a change to its effect</h3><p>Pick any commit and see the builds, flags and rollouts it touched, in sequence.</p></div>
+      <div class="item"><span class="mono">02 / Compare</span><h3>Diff two moments</h3><p>Set two points on the timeline and read exactly what moved between them.</p></div>
+      <div class="item"><span class="mono">03 / Notify</span><h3>Say less, mean more</h3><p>Messages go to the owner of the change, with the evidence attached and nothing else.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="stories">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <h2>Field notes from <b>teams that ship daily.</b></h2>
+      <p>Short accounts of how Halden changed a routine week.</p>
+    </div>
+    <div class="grid ed">
+      <div class="lead">
+        <div class="img"><svg role="img" aria-label="Grayscale mountain ridge under a pale sun"><use href="#scene1"/></svg></div>
+        <p class="mono cap">Fig. 01 / Ridge release, 06:40</p>
+      </div>
+      <div class="side">
+        <div class="row">
+          <div class="img"><svg role="img" aria-label="Grayscale city blocks"><use href="#scene2"/></svg></div>
+          <div><span class="mono">Platform team</span><h3>Rollbacks became a non-event</h3><p>With the timeline in view, the team reverses a bad release before the second region starts.</p></div>
+        </div>
+        <div class="row">
+          <div class="img"><svg role="img" aria-label="Grayscale dunes under a bright disc"><use href="#scene3"/></svg></div>
+          <div><span class="mono">Support desk</span><h3>Answers with a timestamp</h3><p>Support can see which release a customer was on and say so, without opening a ticket to engineering.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="views">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <h2>Two views, <b>built to be read.</b></h2>
+      <p>Both are plain on purpose. Information first, ornament never.</p>
+    </div>
+    <div>
+      <div class="grid pair">
+        <div class="txt"><span class="mono">Timeline</span><h3><b>The day, in order.</b></h3><p>Every build, flag change and rollout on one ruled list. Filter by owner, region or service; the order never changes.</p></div>
+        <div class="view panel">
+          <div class="tl">
+            <div><span class="t">09:02</span><span class="b">api-gateway 4.18 built</span><span class="tag">passed</span></div>
+            <div><span class="t">09:11</span><span class="b">Flag checkout-v2 at 25%</span><span class="tag">flag</span></div>
+            <div><span class="t">09:24</span><span class="b">Rollout to eu-west</span><span class="tag l">live</span></div>
+            <div><span class="t">09:40</span><span class="b">Rollout to us-east</span><span class="tag">queued</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="grid pair rev">
+        <div class="txt"><span class="mono">Dependency map</span><h3><b>What touches what.</b></h3><p>A calm map of services and the releases between them. Select a node to open its recent history.</p></div>
+        <div class="view panel graph">
+          <svg viewBox="0 0 420 240" role="img" aria-label="Service dependency map">
+            <g stroke="#3a3a3a" stroke-width="1.2" fill="none">
+              <path d="M70 120 L190 60"/><path d="M70 120 L190 180"/><path d="M190 60 L320 120"/><path d="M190 180 L320 120"/><path d="M190 60 L190 180"/><path d="M320 120 L380 60"/>
+            </g>
+            <g fill="#161616" stroke="#4a4a4a" stroke-width="1.2">
+              <circle cx="70" cy="120" r="22"/><circle cx="190" cy="60" r="22"/><circle cx="190" cy="180" r="22"/><circle cx="380" cy="60" r="16"/>
+            </g>
+            <circle cx="320" cy="120" r="26" fill="#f2f2f2"/>
+            <circle cx="320" cy="120" r="4" fill="#0a0a0a"/>
+            <circle cx="190" cy="60" r="4" fill="#3fd6c6"/>
+            <g font-family="Geist Mono,monospace" font-size="10" fill="#8a8d91" text-anchor="middle">
+              <text x="70" y="160">web</text><text x="190" y="30">auth</text><text x="190" y="222">billing</text><text x="320" y="170">gateway</text><text x="380" y="92">cache</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <h2>Questions, <b>answered plainly.</b></h2>
+    </div>
+    <div class="faq">
+      <details open><summary><span class="n">01</span><span>Does Halden need access to our source code?</span><span class="pm"></span></summary><p>No. It reads commit metadata, build results and deploy events. Source files stay where they are.</p></details>
+      <details><summary><span class="n">02</span><span>Can we run it on our own infrastructure?</span><span class="pm"></span></summary><p>Yes. The same release ships as a hosted service or as a container you operate yourself.</p></details>
+      <details><summary><span class="n">03</span><span>How long does setup take?</span><span class="pm"></span></summary><p>Install the CLI, sign in, and connect one repository. The timeline fills in from your existing history.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="close" id="close">
+  <div class="wrap">
+    <div class="grid"><h2><b>Read the release,</b> not the refresh button.</h2></div>
+    <div class="cta"><a class="btn p" href="#top">Request access</a><a class="btn s" href="#product">Read the overview</a></div>
+    <div class="panel cropped" aria-hidden="true">
+      <div class="obj-top"><span class="mono">halden / status</span><span class="live mono"><span class="dot"></span>Live</span></div>
+      <div class="bars" style="margin-top:16px"><span style="height:40%"></span><span style="height:60%"></span><span style="height:46%"></span><span class="on" style="height:90%"></span><span style="height:64%"></span><span style="height:52%"></span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="grid fcols">
+      <div class="brand"><a class="logo" href="#top"><i></i>Halden</a><p>Release visibility for teams who prefer calm tools.</p></div>
+      <div class="fc"><h4 class="mono">Product</h4><a href="#product">Overview</a><a href="#views">Views</a><a href="#faq">Questions</a></div>
+      <div class="fc"><h4 class="mono">Company</h4><a href="#stories">Stories</a><a href="#close">Contact</a><a href="#close">Careers</a></div>
+      <div class="fc"><h4 class="mono">Legal</h4><a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Security</a></div>
+    </div>
+    <div class="legal"><span class="mono">&copy; 2026 Halden Labs</span><span class="mono">Sample page / Modern Dark</span></div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+ATLAS_P("F837","Make a 15-second motion-design showreel, like a r\u00e9sum\u00e9 portfolio reel for a motion designer named CLAUDE. Go all out.\n- 1920\u00d71080, 60 fps, exactly 15 s. Every frame and every sound is generated in code.\n- 128 BPM, 8 bars; each section is one bar (1.875 s), and every move lands on the beat.");

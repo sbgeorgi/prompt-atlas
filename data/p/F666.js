@@ -1,0 +1,1 @@
+ATLAS_P("F666","show me a beautiful story about Prometheus, the Titan who betrayed the gods to give Man fire, who was doomed to suffer for it until Heracles saved his endless torment.");

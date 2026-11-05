@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SynapseX - Neon Logic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton+SC&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root{--font-sans:"Space Mono",monospace;--font-serif:"Space Mono",monospace;--font-mono:"Space Mono",monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;color:#fff;overflow-x:hidden;overflow-y:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:"Space Mono",monospace}
+#app{font-family:"Space Mono",monospace;position:relative;overflow:hidden}
+.sec{position:relative;width:100%;overflow:hidden;background:#000}
+.h-screen{height:100vh;height:100dvh}
+canvas.bg{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.shade{position:absolute;inset:0;pointer-events:none}
+.up{opacity:0;transform:translateY(var(--y,30px));transition:opacity var(--d,.8s) cubic-bezier(.215,.61,.355,1) var(--dl,0s),transform var(--d,.8s) cubic-bezier(.215,.61,.355,1) var(--dl,0s)}
+.fade{opacity:0;transition:opacity var(--d,1s) ease var(--dl,0s)}
+.up.in,.fade.in{opacity:1;transform:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;height:80px;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 16px;opacity:0;transition:opacity .8s}
+nav.on{opacity:1}
+.left{display:flex;gap:8px;align-items:center;min-width:0}
+.pill{height:36px;border-radius:10px;background:rgba(255,255,255,.15);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;align-items:center;overflow:hidden;white-space:nowrap;color:#fff;cursor:pointer;transition:transform .2s,background .2s}
+.logo-pill{padding:0 14px;gap:8px;font-size:13px;font-weight:700;letter-spacing:-.025em;max-width:200px;transition:max-width .5s cubic-bezier(.4,1.3,.5,1),padding .5s,transform .2s,background .2s}
+.logo-pill:hover{transform:scale(1.02);background:rgba(255,255,255,.22)}
+.logo-pill:active{transform:scale(.98)}
+.logo-pill svg{width:15px;height:15px;flex:none}
+.menu{height:36px;border-radius:10px;background:rgba(255,255,255,.15);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;align-items:center;overflow:hidden;width:36px;transition:width .55s cubic-bezier(.34,1.4,.5,1)}
+.burger{width:36px;height:36px;flex:none;border:0;background:transparent;color:#fff;border-radius:10px;cursor:pointer;position:relative;transition:background .2s,width .3s,height .3s,margin .3s}
+.burger i{position:absolute;left:50%;width:15px;height:1.2px;background:#fff;margin-left:-7.5px;transition:transform .45s cubic-bezier(.34,1.5,.5,1),opacity .25s,top .45s cubic-bezier(.34,1.5,.5,1)}
+.burger i:nth-child(1){top:calc(50% - 5px)}.burger i:nth-child(2){top:calc(50% - .6px)}.burger i:nth-child(3){top:calc(50% + 4px)}
+.menu.open .burger{width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,.1);margin-left:4px}
+.menu.open .burger:hover{background:rgba(255,255,255,.2)}
+.menu.open .burger i:nth-child(1){top:calc(50% - .6px);transform:rotate(45deg)}
+.menu.open .burger i:nth-child(2){opacity:0;transform:scaleX(0)}
+.menu.open .burger i:nth-child(3){top:calc(50% - .6px);transform:rotate(-45deg)}
+.links{display:flex;gap:18px;padding:0 16px 0 14px;opacity:0;transform:translateX(15px);transition:opacity .3s,transform .4s;pointer-events:none}
+.menu.open .links{opacity:1;transform:none;pointer-events:auto;transition-delay:.12s}
+.links a{font-size:13px;color:rgba(255,255,255,.85);cursor:pointer;text-decoration:none;font-weight:400}
+.links a:hover{color:#fff}
+.dl{height:36px;padding:0 14px;border-radius:999px;background:#fff;color:#000;border:0;display:flex;align-items:center;gap:6px;font:400 13px "Space Mono",monospace;cursor:pointer;transition:transform .2s,background .2s;flex:none}
+.dl:hover{transform:scale(1.03);background:#e2e2e6}.dl:active{transform:scale(.97)}
+.dl svg{width:14px;height:14px}
+@media(max-width:767px){.menu.open{width:calc(100vw - 32px - 8px - 118px)!important}.left.opened .logo-pill{max-width:0;padding:0}}
+@media(min-width:640px){
+ nav{padding:0 24px}.pill,.menu,.dl{height:48px}.pill,.menu{border-radius:14px}
+ .logo-pill{padding:0 20px;font-size:16px;gap:10px}.logo-pill svg{width:18px;height:18px}
+ .menu{width:48px}.menu.open{width:290px}
+ .burger{width:48px;height:48px;border-radius:14px}
+ .burger i{width:18px;margin-left:-9px;height:1.5px}
+ .burger i:nth-child(1){top:calc(50% - 6px)}.burger i:nth-child(3){top:calc(50% + 5px)}
+ .menu.open .burger{width:36px;height:36px;border-radius:11px;margin-left:6px}
+ .links{gap:26px;padding:0 20px 0 18px}.links a{font-size:16px}
+ .dl{padding:0 24px;font-size:16px;gap:8px}.dl svg{width:17px;height:17px}
+}
+@media(min-width:640px) and (max-width:767px){.menu.open{width:290px!important}.left.opened .logo-pill{max-width:0;padding:0}}
+@media(min-width:768px){.left.opened .logo-pill{max-width:240px}}
+
+/* HERO */
+.hero{display:flex;flex-direction:column;padding:80px 16px 32px}
+.dots{position:absolute;inset:0;pointer-events:none;opacity:.05;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:24px 24px}
+.wm{position:absolute;left:0;right:0;top:50%;transform:translateY(calc(-50% + 50px));text-align:center;pointer-events:none;font-family:"Anton SC",Impact,sans-serif;font-size:clamp(120px,30vw,521px);line-height:1;text-transform:uppercase;letter-spacing:-4px;opacity:.1;background:radial-gradient(circle,rgba(142,127,148,0) 0%,#8E7F94 70%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;white-space:nowrap;overflow:hidden}
+.hero-in{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;opacity:0;transition:opacity 1s}
+.hero-in.on{opacity:1}
+.spacer{flex:1}
+.brow{display:flex;flex-direction:column;gap:24px}
+.col{display:flex;flex-direction:column;gap:16px}
+h1.big{font-weight:300;line-height:.95;letter-spacing:-.03em;font-size:clamp(40px,10vw,100px);color:#fff;white-space:pre}
+h1.big span{display:block;min-height:.95em}
+.desc{max-width:24rem;font-size:13px;color:rgba(255,255,255,.6);line-height:1.625;opacity:0;transform:translateY(25px)}
+.hero-in.on .desc{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.215,.61,.355,1) .2s,transform .9s cubic-bezier(.215,.61,.355,1) .2s}
+@media(min-width:640px){.hero{padding:96px 24px 48px}.desc{font-size:15px}}
+@media(min-width:768px){.hero{padding:96px 32px 48px}.brow{flex-direction:row;align-items:flex-end;justify-content:space-between}h1.r{text-align:right}}
+h1.r{text-align:left}
+@media(min-width:768px){h1.r{text-align:right}}
+.hint{position:absolute;z-index:5;left:50%;bottom:18px;transform:translateX(-50%);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);pointer-events:none;white-space:nowrap}
+
+/* S2 */
+.s2{display:flex;align-items:center;justify-content:center}
+.s2 .top{position:absolute;top:0;left:0;right:0;height:180px;background:linear-gradient(#010103,transparent);z-index:10;pointer-events:none}
+.persp{perspective:400px;max-width:64rem;width:100%;position:relative;z-index:5}
+#cine{font-size:22px;color:#fff;line-height:1.35;letter-spacing:-.02em;text-align:center;padding:0 24px;user-select:none;transform:rotateX(24deg) translateY(60px) translateZ(15px);opacity:0;text-shadow:0 0 24px rgba(0,0,0,.7)}
+@media(min-width:640px){#cine{font-size:30px;padding:0 48px}}
+@media(min-width:768px){#cine{font-size:36px}}
+@media(min-width:1024px){#cine{font-size:42px}}
+
+/* S3 */
+.s3{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:128px 24px}
+.wrap6{position:relative;z-index:5;max-width:72rem;width:100%}
+.sub{color:rgba(255,255,255,.4);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-align:center}
+@media(min-width:640px){.sub{font-size:14px}}
+.metrics{display:grid;grid-template-columns:1fr;gap:64px;margin-top:80px;text-align:center}
+@media(min-width:768px){.metrics{grid-template-columns:repeat(3,1fr);gap:32px}}
+.mv{font-size:clamp(48px,10vw,96px);font-weight:300;letter-spacing:-.04em;line-height:1}
+.ml{color:rgba(255,255,255,.4);font-size:13px;margin-top:16px;letter-spacing:.025em}
+@media(min-width:640px){.ml{font-size:15px}}
+
+/* S4 */
+.s4{display:flex;flex-direction:column;padding:48px 32px}
+.s4>*:not(canvas):not(.shade){position:relative;z-index:5}
+@media(min-width:640px){.s4{padding:64px 48px}}
+@media(min-width:768px){.s4{padding:64px}}
+.s4top{display:flex;flex-direction:column;gap:24px}
+@media(min-width:768px){.s4top{flex-direction:row;justify-content:space-between;align-items:flex-start}}
+.s4 h2{font-weight:300;font-size:clamp(36px,8vw,72px);line-height:.95;letter-spacing:-.03em}
+.s4 .rp{color:rgba(255,255,255,.5);font-size:13px;line-height:1.625;max-width:20rem}
+@media(min-width:640px){.s4 .rp{font-size:15px}}
+@media(min-width:768px){.s4 .rp{text-align:right;padding-top:8px}}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(min-width:768px){.feat{grid-template-columns:repeat(4,1fr);gap:24px}}
+.feat h3{font-size:14px;font-weight:400;margin-bottom:8px}
+.feat p{color:rgba(255,255,255,.4);font-size:12px;line-height:1.625}
+@media(min-width:640px){.feat h3{font-size:16px}.feat p{font-size:14px}}
+
+/* S5 */
+.s5{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:128px 24px}
+.s5 .in{max-width:48rem;width:100%}
+.s5 .sub{margin-bottom:32px}
+.s5 h2{font-weight:300;font-size:clamp(28px,6vw,56px);line-height:1.15;letter-spacing:-.02em;margin-bottom:40px}
+.s5 p{color:rgba(255,255,255,.45);font-size:15px;line-height:1.625;max-width:36rem;margin:0 auto}
+@media(min-width:640px){.s5 p{font-size:17px}}
+.cards{margin-top:80px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.card{width:100%;max-width:28rem;height:72px;border:1px solid rgba(255,255,255,.1);border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;transition:border-color .3s,background .3s}
+.card:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.03)}
+.card b{font-weight:400;color:rgba(255,255,255,.3);font-size:12px;letter-spacing:.15em;text-transform:uppercase}
+.card span{font-size:16px;font-weight:300}
+@media(min-width:640px){.card span{font-size:18px}}
+
+/* Footer */
+footer{background:#000;overflow:hidden;display:flex;flex-direction:column;min-height:400px}
+.fv{position:relative;height:300px;width:100%}
+.fr{display:flex;flex-direction:column;justify-content:space-between;padding:40px}
+@media(min-width:640px){.fr{padding:64px}}
+@media(min-width:768px){footer{flex-direction:row}.fv{height:auto;width:50%}.fr{width:50%}}
+.fb{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.7);font-size:15px;font-weight:700;letter-spacing:-.025em;margin-bottom:32px}
+.fb svg{width:18px;height:18px}
+.fr p{color:rgba(255,255,255,.4);font-size:14px;line-height:1.625;max-width:24rem}
+@media(min-width:640px){.fr p{font-size:15px}}
+.copy{color:rgba(255,255,255,.25);font-size:12px;margin-top:48px}
+
+@media(prefers-reduced-motion:reduce){
+ .up,.fade,.hero-in,nav,.desc{opacity:1!important;transform:none!important;transition:none!important}
+ #cine{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="logo" viewBox="-50 -50 100 100"><g fill="currentColor">
+<path id="q" d="M 1.5,23 L 1.5,33 C 1.5,38.5 6,43 11.5,43 L 16.5,43 C 22,43 26.5,38.5 26.5,33 Q 28,28 33,26.5 C 38.5,26.5 43,22 43,16.5 L 43,11.5 C 43,6 38.5,1.5 33,1.5 L 23,1.5 Q 12,12 1.5,23 Z"/>
+<use href="#q" transform="rotate(90)"/><use href="#q" transform="rotate(180)"/><use href="#q" transform="rotate(270)"/></g></symbol>
+<symbol id="apple" viewBox="0 0 16 16"><path fill="currentColor" d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"/></symbol>
+</defs></svg>
+
+<div id="app">
+<nav id="nav">
+  <div class="left" id="left">
+    <div class="pill logo-pill" id="logoPill"><svg><use href="#logo"/></svg>SynapseX</div>
+    <div class="menu" id="menu">
+      <button class="burger" id="burger" aria-label="Menu"><i></i><i></i><i></i></button>
+      <div class="links"><a data-go="1" data-s="About">About</a><a data-go="2" data-s="Metrics">Metrics</a></div>
+    </div>
+  </div>
+  <button class="dl" id="dl"><svg><use href="#apple"/></svg><span data-s="Download">Download</span></button>
+</nav>
+
+<section class="sec h-screen hero" id="hero">
+  <canvas class="bg" data-scene="0"></canvas>
+  <div class="shade" style="background:radial-gradient(ellipse at 50% 40%,transparent 30%,rgba(0,0,0,.55) 100%),linear-gradient(transparent 55%,rgba(0,0,0,.6))"></div>
+  <div class="dots"></div>
+  <div class="wm" aria-hidden="true">TRANSCENDENCE</div>
+  <div class="hero-in" id="heroIn">
+    <div class="spacer"></div>
+    <div class="brow">
+      <div class="col">
+        <h1 class="big" data-scr="Brain|200,And Body|500"></h1>
+        <p class="desc">Built at the intersection of neuroscience and artificial intelligence. SynapseX continuously maps neural pathways, cognitive load, and physiological states into a single adaptive intelligence layer.</p>
+      </div>
+      <h1 class="big r" data-scr="One|700,Network|1000"></h1>
+    </div>
+  </div>
+  <div class="hint">move cursor to scrub</div>
+</section>
+
+<section class="sec h-screen s2" id="s2">
+  <canvas class="bg" data-scene="1"></canvas>
+  <div class="shade" style="background:rgba(0,0,0,.35)"></div>
+  <div class="top"></div>
+  <div class="persp"><p id="cine">A neural-AI interface built on the architecture of the human nervous system. SynapseX translates synaptic activity into computational intelligence. Every signal becomes measurable, structured, and visible. It continuously reconstructs internal state as a dynamic neural map. Biological noise is filtered into actionable cognitive patterns.</p></div>
+</section>
+
+<section class="sec s3" id="s3">
+  <canvas class="bg" data-scene="2"></canvas>
+  <div class="shade" style="background:rgba(0,0,0,.45)"></div>
+  <div class="wrap6">
+    <p class="sub fade" style="--d:1.2s">Performance Metrics</p>
+    <div class="metrics">
+      <div class="up" style="--dl:0s"><div class="mv">2.4ms</div><div class="ml">Synaptic Latency</div></div>
+      <div class="up" style="--dl:.15s"><div class="mv">99.7%</div><div class="ml">Signal Accuracy</div></div>
+      <div class="up" style="--dl:.3s"><div class="mv">140B</div><div class="ml">Neural Parameters</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec h-screen s4" id="s4">
+  <canvas class="bg" data-scene="3"></canvas>
+  <div class="shade" style="background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.2) 50%,rgba(0,0,0,.7))"></div>
+  <div class="s4top">
+    <h2 class="up" style="--y:40px;--d:1s">Adaptive<br>Intelligence</h2>
+    <p class="rp up" style="--y:20px;--d:1s;--dl:.2s">The system learns your neural baseline within 72 hours. From there, every cognitive state is mapped, predicted, and optimized in real time.</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="feat fade" style="--d:1s;--dl:.3s">
+    <div class="up" style="--y:20px;--d:.7s;--dl:0s"><h3>Cortical Mapping</h3><p>Real-time spatial reconstruction of active neural regions.</p></div>
+    <div class="up" style="--y:20px;--d:.7s;--dl:.1s"><h3>Signal Isolation</h3><p>Separates cognitive intent from biological noise.</p></div>
+    <div class="up" style="--y:20px;--d:.7s;--dl:.2s"><h3>State Prediction</h3><p>Anticipates cognitive transitions before they occur.</p></div>
+    <div class="up" style="--y:20px;--d:.7s;--dl:.3s"><h3>Loop Feedback</h3><p>Closed-loop adjustment based on outcome correlation.</p></div>
+  </div>
+</section>
+
+<section class="sec s5" id="s5">
+  <div class="in">
+    <div class="up" style="--d:1s">
+      <p class="sub" style="color:rgba(255,255,255,.4)">Architecture</p>
+      <h2>Three layers. Zero friction.</h2>
+      <p>Sensor layer captures raw bioelectric signals. Processing layer isolates intent. Interface layer delivers structured output to any connected system.</p>
+    </div>
+    <div class="cards fade" style="--d:1.2s;--dl:.4s">
+      <div class="card"><b>Layer 1</b><span>Capture</span></div>
+      <div class="card"><b>Layer 2</b><span>Process</span></div>
+      <div class="card"><b>Layer 3</b><span>Interface</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fv"><canvas class="bg" data-scene="4"></canvas></div>
+  <div class="fr">
+    <div>
+      <div class="fb"><svg><use href="#logo"/></svg>SynapseX</div>
+      <p>The next evolution of human-machine interaction. Built for those who refuse to be limited by biology alone.</p>
+    </div>
+    <div class="copy">&copy; 2026 SynapseX Labs. All rights reserved.</div>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var TAU=Math.PI*2;
+function rng(s){return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296}}
+
+/* ---------- Canvas "video" stand-ins ---------- */
+var scenes={};
+// 0: neural sphere (scrubbed)
+(function(){
+  var r=rng(7),P=[],E=[],N=240;
+  for(var i=0;i<N;i++){var y=1-2*(i+.5)/N,rad=Math.sqrt(1-y*y),a=i*2.399963;
+    var n=.85+.3*r();P.push([Math.cos(a)*rad*1.25*n,y*n*.95,Math.sin(a)*rad*n])}
+  for(i=0;i<N;i++){var d=[];for(var j=0;j<N;j++)if(j!==i){var dx=P[i][0]-P[j][0],dy=P[i][1]-P[j][1],dz=P[i][2]-P[j][2];d.push([dx*dx+dy*dy+dz*dz,j])}
+    d.sort(function(a,b){return a[0]-b[0]});for(j=0;j<3;j++)E.push([i,d[j][1]])}
+  scenes[0]=function(c,w,h,t){
+    c.fillStyle='#030207';c.fillRect(0,0,w,h);
+    var g=c.createRadialGradient(w/2,h*.45,0,w/2,h*.45,Math.max(w,h)*.6);g.addColorStop(0,'rgba(90,50,140,.35)');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,w,h);
+    var a=t*1.1,ca=Math.cos(a),sa=Math.sin(a),S=Math.min(w*.42,h*.62),cx=w/2,cy=h*.46,tilt=.25,ct=Math.cos(tilt),st=Math.sin(tilt),pr=[];
+    for(var i=0;i<P.length;i++){var p=P[i],x=p[0]*ca-p[2]*sa,z=p[0]*sa+p[2]*ca,y=p[1]*ct-z*st;z=p[1]*st+z*ct;
+      var k=1/(1.9-z*.55);pr.push([cx+x*S*k*1.25,cy+y*S*k*1.25,z,k])}
+    c.globalCompositeOperation='lighter';c.lineWidth=1;
+    for(i=0;i<E.length;i++){var A=pr[E[i][0]],B=pr[E[i][1]],al=.1+.22*((A[2]+B[2])/2+1)/2;
+      c.strokeStyle='rgba(170,140,255,'+al.toFixed(3)+')';c.beginPath();c.moveTo(A[0],A[1]);c.lineTo(B[0],B[1]);c.stroke();
+      var f=((t*.6+i*.137)%1);if(f<.5){var q=f*2;c.fillStyle='rgba(255,255,255,'+(.9*(1-q)).toFixed(2)+')';c.fillRect(A[0]+(B[0]-A[0])*q-1.5,A[1]+(B[1]-A[1])*q-1.5,3,3)}}
+    for(i=0;i<pr.length;i++){var p2=pr[i],s=1.2+2.2*p2[3]*p2[3];c.fillStyle='rgba(230,215,255,'+(.35+.4*(p2[2]+1)/2).toFixed(2)+')';c.beginPath();c.arc(p2[0],p2[1],s,0,TAU);c.fill()}
+    c.globalCompositeOperation='source-over'}
+})();
+// 1: flowing signal ribbons
+scenes[1]=function(c,w,h,t){
+  c.fillStyle='#02030a';c.fillRect(0,0,w,h);c.globalCompositeOperation='lighter';c.lineWidth=1.2;
+  for(var i=0;i<18;i++){var u=i/17,col='hsla('+(215+u*80)+',90%,'+(55+u*15)+'%,.28)';c.strokeStyle=col;c.beginPath();
+    for(var x=0;x<=w;x+=6){var y=h*(.15+.7*u)+Math.sin(x*.006+t*.5+i*.7)*h*.09+Math.sin(x*.015-t*.8+i)*h*.03*(1+u);x?c.lineTo(x,y):c.moveTo(x,y)}c.stroke()}
+  var r=rng(3);for(i=0;i<60;i++){var px=((r()*w+t*30*(.3+r()))%w),py=h*(.15+.7*r())+Math.sin(px*.01+t+i)*10;c.fillStyle='rgba(200,220,255,.6)';c.fillRect(px,py,2,2)}
+  c.globalCompositeOperation='source-over'};
+// 2: pulse rings + orbits
+scenes[2]=function(c,w,h,t){
+  c.fillStyle='#010608';c.fillRect(0,0,w,h);var cx=w/2,cy=h/2,M=Math.max(w,h)*.6;
+  var g=c.createRadialGradient(cx,cy,0,cx,cy,M*.7);g.addColorStop(0,'rgba(0,170,170,.25)');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,w,h);
+  c.globalCompositeOperation='lighter';
+  for(var k=0;k<9;k++){var f=(t*.12+k/9)%1,rr=f*M;c.strokeStyle='rgba(80,230,220,'+(.35*(1-f)).toFixed(3)+')';c.lineWidth=1.5;c.beginPath();c.arc(cx,cy,rr,0,TAU);c.stroke()}
+  var r=rng(11);for(var i=0;i<90;i++){var o=r()*TAU,rad=M*(.12+.8*r()),sp=(.05+.15*r())*(r()>.5?1:-1),a=o+t*sp;
+    c.fillStyle='rgba(180,255,250,'+(.25+.5*r()).toFixed(2)+')';c.beginPath();c.arc(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad*.6,1+2*r(),0,TAU);c.fill()}
+  c.globalCompositeOperation='source-over'};
+// 3: cortical grid heat map
+scenes[3]=function(c,w,h,t){
+  c.fillStyle='#030806';c.fillRect(0,0,w,h);var s=Math.max(18,Math.round(w/46)),bl=[];
+  for(var i=0;i<4;i++)bl.push([w*(.5+.38*Math.sin(t*.21+i*1.7)),h*(.5+.32*Math.cos(t*.17+i*2.3)),Math.min(w,h)*(.22+.06*i)]);
+  c.globalCompositeOperation='lighter';
+  for(var y=s/2;y<h;y+=s)for(var x=s/2;x<w;x+=s){var v=0;for(i=0;i<4;i++){var dx=x-bl[i][0],dy=y-bl[i][1];v+=Math.exp(-(dx*dx+dy*dy)/(bl[i][2]*bl[i][2]))}
+    v=Math.min(1,v);var hue=150-v*110;c.fillStyle='hsla('+hue+',90%,'+(35+v*35)+'%,'+(.12+v*.85).toFixed(2)+')';c.beginPath();c.arc(x,y,1+v*s*.38,0,TAU);c.fill()}
+  c.strokeStyle='rgba(120,255,190,.25)';c.lineWidth=1;for(i=0;i<4;i++){var j=(i+1)%4;c.beginPath();c.moveTo(bl[i][0],bl[i][1]);c.lineTo(bl[j][0],bl[j][1]);c.stroke();c.beginPath();c.arc(bl[i][0],bl[i][1],10+3*Math.sin(t*3+i),0,TAU);c.stroke()}
+  c.globalCompositeOperation='source-over'};
+// 4: dendrite growth
+scenes[4]=function(c,w,h,t){
+  c.fillStyle='#050309';c.fillRect(0,0,w,h);c.globalCompositeOperation='lighter';var r=rng(5);
+  for(var i=0;i<34;i++){var a0=-Math.PI/2+(r()-.5)*2.1,len=.4+.6*r(),ph=r()*TAU,hue=290+r()*50;c.strokeStyle='hsla('+hue+',80%,65%,.3)';c.lineWidth=1;c.beginPath();
+    var x=w*(.15+.7*r()),y=h+10,a=a0;c.moveTo(x,y);var steps=46;
+    for(var s=0;s<steps;s++){a+=Math.sin(s*.4+ph+t*.4)*.1;var st=h*len/steps;x+=Math.cos(a)*st;y+=Math.sin(a)*st;c.lineTo(x,y)}c.stroke();
+    var f=(t*.25+r())%1,px=x,py=y;c.fillStyle='rgba(255,230,255,.8)';c.beginPath();c.arc(px,py,1.5+1.5*Math.sin(t*2+i)**2,0,TAU);c.fill()}
+  c.globalCompositeOperation='source-over'};
+
+var cvs=[].slice.call(document.querySelectorAll('canvas.bg')).map(function(el){return{el:el,ctx:el.getContext('2d'),fn:scenes[el.dataset.scene],vis:false,w:0,h:0,scale:.6}});
+function size(o){var r=o.el.getBoundingClientRect();o.w=Math.max(2,Math.round(r.width*o.scale));o.h=Math.max(2,Math.round(r.height*o.scale));o.el.width=o.w;o.el.height=o.h}
+// hero time is mouse-scrubbed
+var DUR=8,heroT=DUR/2,lastX=null;
+function drawAll(now){cvs.forEach(function(o){if(!o.vis&&!o.first)return;o.first=true;var t=o.el.dataset.scene==='0'?heroT:now/1000;o.fn(o.ctx,o.w,o.h,t)})}
+cvs.forEach(size);
+addEventListener('resize',function(){cvs.forEach(size);drawAll(performance.now())});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){var o=cvs.filter(function(c){return c.el===e.target})[0];if(o)o.vis=e.isIntersecting})},{rootMargin:'100px'});
+cvs.forEach(function(o){io.observe(o.el)});
+function loop(now){
+  cvs.forEach(function(o){if(o.vis){var t=o.el.dataset.scene==='0'?heroT:now/1000;o.fn(o.ctx,o.w,o.h,t)}});
+  requestAnimationFrame(loop)}
+if(RM){cvs.forEach(function(o){o.fn(o.ctx,o.w,o.h,o.el.dataset.scene==='0'?heroT:3)})}else requestAnimationFrame(loop);
+// mouse scrub: delta based, 0.8 sensitivity
+function scrub(x){if(lastX!==null){heroT+=(x-lastX)/innerWidth*DUR*.8;heroT=Math.max(0,Math.min(DUR,heroT))}lastX=x}
+if(!RM){addEventListener('mousemove',function(e){scrub(e.clientX)});addEventListener('touchmove',function(e){scrub(e.touches[0].clientX)},{passive:true});
+  // gentle idle drift so a still viewer still sees motion
+  var idle=0;setInterval(function(){idle++;if(lastX===null){heroT=DUR/2+Math.sin(idle*.04)*DUR*.2}},40)}
+
+/* ---------- Scramble ---------- */
+var CH='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~|}{[]:;?><';
+function rc(){return CH[Math.floor(Math.random()*CH.length)]}
+function scrambleIn(el,text,delay){
+  if(RM){el.textContent=text;return}
+  el.textContent=' ';
+  setTimeout(function(){var pos=0;var iv=setInterval(function(){pos+=.5;var out='';
+    for(var i=0;i<text.length;i++){var ch=text[i];if(ch===' ')out+=' ';else if(i<pos)out+=ch;else if(i<pos+3)out+=rc();else out+=' '}
+    el.textContent=out;if(pos>=text.length){el.textContent=text;clearInterval(iv)}},25)},delay)}
+function bindScrambleHover(el,host){
+  var orig=el.dataset.s,iv;
+  host.addEventListener('mouseenter',function(){if(RM)return;clearInterval(iv);var f=0;iv=setInterval(function(){f++;var rev=Math.floor(f/4),out='';
+    for(var i=0;i<orig.length;i++)out+=i<rev?orig[i]:rc();el.textContent=out;if(rev>=orig.length){el.textContent=orig;clearInterval(iv)}},25)});
+  host.addEventListener('mouseleave',function(){clearInterval(iv);el.textContent=orig})}
+document.querySelectorAll('[data-s]').forEach(function(el){bindScrambleHover(el,el.tagName==='A'?el:el.parentNode)});
+var heroH1=[].slice.call(document.querySelectorAll('h1[data-scr]')).map(function(h){
+  return h.dataset.scr.split(',').map(function(p){var q=p.split('|'),s=document.createElement('span');h.appendChild(s);s.textContent=RM?q[0]:' ';return{el:s,text:q[0],delay:+q[1]}})});
+
+/* ---------- Entrance ---------- */
+var nav=document.getElementById('nav'),hi=document.getElementById('heroIn');
+setTimeout(function(){nav.classList.add('on');hi.classList.add('on');heroH1.forEach(function(l){l.forEach(function(x){scrambleIn(x.el,x.text,x.delay)})})},RM?0:800);
+
+/* ---------- Menu ---------- */
+var menu=document.getElementById('menu'),left=document.getElementById('left');
+document.getElementById('burger').addEventListener('click',function(){var o=menu.classList.toggle('open');left.classList.toggle('opened',o)});
+document.querySelectorAll('[data-go]').forEach(function(a){a.addEventListener('click',function(){scrollTo({top:innerHeight*(+a.dataset.go),behavior:RM?'auto':'smooth'})})});
+
+/* ---------- Reveal on view ---------- */
+var rev=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');rev.unobserve(e.target)}})},{threshold:.3});
+document.querySelectorAll('.up,.fade').forEach(function(el){rev.observe(el)});
+// the nested feat grid: parent fade must not hide children if threshold is hard; keep both observed
+
+/* ---------- Cinematic 3D text (spring-smoothed scroll) ---------- */
+var s2=document.getElementById('s2'),cine=document.getElementById('cine'),sm=0,vel=0,target=0;
+function prog(){var r=s2.getBoundingClientRect();return Math.max(0,Math.min(1,(innerHeight-r.top)/(innerHeight+r.height)))}
+function applyCine(p){var y=60+(-120-60)*p,o=Math.max(0,Math.min(1,(p-.3)/.2));cine.style.transform='rotateX(24deg) translateY('+y.toFixed(1)+'px) translateZ(15px)';cine.style.opacity=o.toFixed(3)}
+if(!RM){var last=performance.now();(function tick(now){var dt=Math.min(.05,(now-last)/1000);last=now;target=prog();
+  var k=15,c=32,m=1.8;vel+=((k*(target-sm)-c*vel)/m)*dt;sm+=vel*dt;applyCine(sm);requestAnimationFrame(tick)})(last)}
+</script>
+</body>
+</html>

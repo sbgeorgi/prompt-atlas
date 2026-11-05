@@ -1,0 +1,1 @@
+ATLAS_P("F473","Create a 45-second promotional video for https://t.co/4PtUhRtzAT with the cinematic world, typography, mystery, music, and epicness of [your favourite movie].\n\nYou\u2019re the movie director - decide the story and creative direction. Use real product");

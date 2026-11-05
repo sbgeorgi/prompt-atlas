@@ -1,0 +1,1 @@
+ATLAS_P("F219","use my HeyGen avatar n make a video about common editing effects in HyperFrames Studio:\nCrash zoom, \nwhip pan, \nzoom-through, \nvertigo, \nrack focus, \ntext behind you, \nkinetic type, \nglass captions, \nchart grow, \nsplit screen, \nglitch cut, \npull-back reveal\n\nuse Reference Any Video tool, learn from: https://www.instagram.com/reels/Def9pj5TWtA/");

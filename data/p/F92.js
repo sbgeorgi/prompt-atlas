@@ -1,0 +1,1 @@
+ATLAS_P("F92","> Create a 30s animated video with sythesized voice where an animated pelican on a unicycle explains the shell command `w | tail -n +3 | cut -d ' ' -f1 | sort -u` with visuals while juggling several fish.\n\nClaude Opus 5.5 (Extra)");

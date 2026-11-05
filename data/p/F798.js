@@ -1,0 +1,1 @@
+ATLAS_P("F798","As a motion designer, make a dynamic motion graphics video that shows Indian civilisation, like it's your showreel for a r\u00e9sum\u00e9. go all out.  Use three.js for any 3D graphics.\n\nTotal cost around 9$\nModel: Opus 5.5, effort: xHigh");

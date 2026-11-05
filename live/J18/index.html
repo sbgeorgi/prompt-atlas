@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harlow &amp; Vane — Private Counsel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#f7f4ec;--dp-color-surface:#fcfaf5;--dp-color-ink:#29271f;--dp-color-ink-muted:#514d44;
+  --dp-color-accent:#8b713a;--dp-color-accent-ink:#68501f;--dp-color-line:#d4ccbd;--dp-color-band-edge:#e7e0d3;
+  --dp-color-action-hover:#454034;
+  --dp-typography-display:"Professional Garamond","EB Garamond",Georgia,serif;
+  --dp-typography-reading:"Professional Instrument","Instrument Sans",Arial,sans-serif;
+  --dp-typography-supporting:15px;--dp-typography-metadata:12px;--dp-typography-body-leading:1.65;
+  --dp-spacing-control-gap:24px;--dp-radius-corner:3px;--dp-border-hairline:1px;--dp-motion-interaction:160ms linear;
+  --gutter:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--dp-color-ground);color:var(--dp-color-ink);font:400 var(--dp-typography-supporting)/var(--dp-typography-body-leading) var(--dp-typography-reading);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--dp-color-accent-ink);outline-offset:3px}
+.wrap{max-width:1360px;margin:0 auto;padding:0 var(--gutter)}
+.eyebrow{font:500 var(--dp-typography-metadata)/1.4 var(--dp-typography-reading);letter-spacing:.2em;text-transform:uppercase;color:var(--dp-color-accent-ink);margin:0 0 20px}
+.rule{height:1px;background:var(--dp-color-accent);border:0;margin:0;width:56px}
+h1,h2,h3,h4,blockquote{font-family:var(--dp-typography-display);font-weight:400;margin:0}
+p{margin:0}
+
+/* nav */
+header{border-bottom:1px solid var(--dp-color-line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:22px;padding-bottom:22px}
+.brand{white-space:nowrap;font-family:var(--dp-typography-display);font-size:24px;letter-spacing:.01em;text-decoration:none}
+.brand i{color:var(--dp-color-accent-ink)}
+.nav ul{display:flex;gap:32px;list-style:none;margin:0;padding:0}
+.nav ul a,.nav-cta{font-size:var(--dp-typography-metadata);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--dp-color-ink-muted);transition:color var(--dp-motion-interaction),border-color var(--dp-motion-interaction)}
+.nav ul a:hover{color:var(--dp-color-accent-ink)}
+.nav-cta{color:var(--dp-color-ink);border-bottom:1px solid var(--dp-color-accent);padding-bottom:3px}
+.nav-cta:hover{color:var(--dp-color-accent-ink);border-color:var(--dp-color-accent-ink)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:space-between;gap:var(--dp-spacing-control-gap);padding:14px 20px;border-radius:var(--dp-radius-corner);border:1px solid var(--dp-color-ink);font:500 14px/1 var(--dp-typography-reading);text-decoration:none;transition:background var(--dp-motion-interaction),color var(--dp-motion-interaction),border-color var(--dp-motion-interaction);cursor:pointer}
+.btn.primary{background:var(--dp-color-ink);color:var(--dp-color-ground)}
+.btn.primary:hover{background:var(--dp-color-action-hover);border-color:var(--dp-color-action-hover)}
+.btn.secondary{background:transparent;color:var(--dp-color-ink);border-color:var(--dp-color-line)}
+.btn.secondary:hover{border-color:var(--dp-color-accent);color:var(--dp-color-accent-ink)}
+.btn span{font-size:16px;line-height:1}
+
+/* hero */
+.hero{padding-top:clamp(56px,9vw,128px);padding-bottom:clamp(56px,7vw,96px)}
+.hero h1{font-size:clamp(46px,9.4vw,128px);line-height:.98;letter-spacing:-.03em}
+.hero h1 .l1{display:block;max-width:12.5em}
+.hero h1 em{display:block;font-style:italic;color:var(--dp-color-accent-ink);padding-left:clamp(0px,16vw,260px);text-wrap:balance}
+.hero-cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr);gap:clamp(24px,6vw,96px);margin-top:clamp(40px,6vw,88px);padding-top:32px;border-top:1px solid var(--dp-color-line);margin-left:clamp(0px,16vw,260px)}
+.hero-cols p{max-width:46ch;color:var(--dp-color-ink-muted)}
+.actions{display:flex;flex-wrap:wrap;gap:var(--dp-spacing-control-gap);align-items:flex-start}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:clamp(48px,6vw,88px);border-top:1px solid var(--dp-color-line);padding-top:28px}
+.facts dt{font:400 clamp(36px,4vw,56px)/1 var(--dp-typography-display);letter-spacing:-.02em}
+.facts dd{margin:8px 0 0;font-size:var(--dp-typography-metadata);letter-spacing:.14em;text-transform:uppercase;color:var(--dp-color-ink-muted)}
+.facts div{min-width:0}
+
+/* sections */
+section{padding:clamp(64px,9vw,128px) 0}
+.band{background:var(--dp-color-surface);border-top:1px solid var(--dp-color-band-edge);border-bottom:1px solid var(--dp-color-band-edge)}
+.split{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,6vw,96px)}
+.split h2{font-size:clamp(34px,4.4vw,60px);line-height:1.04;letter-spacing:-.02em}
+.split h2 em{color:var(--dp-color-accent-ink)}
+.split .lede{margin-top:20px;color:var(--dp-color-ink-muted);max-width:34ch}
+.entries{list-style:none;margin:0;padding:0;border-top:1px solid var(--dp-color-line)}
+.entries li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px 24px;padding:28px 0;border-bottom:1px solid var(--dp-color-line)}
+.entries .n{font:400 28px/1 var(--dp-typography-display);color:var(--dp-color-accent-ink)}
+.entries h3{font-size:clamp(24px,2.6vw,34px);line-height:1.1;letter-spacing:-.01em}
+.entries p{margin-top:10px;max-width:56ch;color:var(--dp-color-ink-muted)}
+.entries.two{display:grid;grid-template-columns:1fr 1fr;column-gap:48px;border-top:0}
+.entries.two li{border-top:1px solid var(--dp-color-line);grid-template-columns:1fr;gap:8px}
+.entries.two li:nth-last-child(-n+2){border-bottom:1px solid var(--dp-color-line)}
+.entries.two h3{font-size:clamp(22px,2.2vw,28px)}
+
+/* editorial image */
+.figure{margin:0}
+.figure svg{display:block;width:100%;height:auto;border-radius:var(--dp-radius-corner);border:1px solid var(--dp-color-line)}
+.figure figcaption{display:flex;justify-content:space-between;gap:24px;margin-top:14px;font-size:var(--dp-typography-metadata);letter-spacing:.12em;text-transform:uppercase;color:var(--dp-color-ink-muted)}
+.editorial{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,6vw,96px);align-items:end}
+.editorial h2{font-size:clamp(32px,3.8vw,52px);line-height:1.06;letter-spacing:-.02em}
+.editorial p{margin-top:20px;color:var(--dp-color-ink-muted);max-width:42ch}
+
+/* quote */
+.quote{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,6vw,96px)}
+blockquote{font-size:clamp(28px,3.8vw,54px);line-height:1.16;letter-spacing:-.015em;max-width:24ch}
+blockquote::before{content:"";display:block;width:56px;height:1px;background:var(--dp-color-accent);margin-bottom:28px}
+cite{display:block;margin-top:28px;font:400 var(--dp-typography-supporting)/1.5 var(--dp-typography-reading);color:var(--dp-color-ink-muted)}
+cite b{font-weight:500;color:var(--dp-color-ink)}
+
+/* compare */
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:clamp(36px,5vw,64px);align-items:stretch}
+.plan{padding:36px 32px 40px;border:1px solid var(--dp-color-line);border-left-width:0;display:flex;flex-direction:column;gap:20px}
+.plan:first-child{border-left-width:1px;border-radius:var(--dp-radius-corner) 0 0 var(--dp-radius-corner)}
+.plan:last-child{border-radius:0 var(--dp-radius-corner) var(--dp-radius-corner) 0}
+.plan.featured{background:var(--dp-color-surface);box-shadow:0 18px 40px -22px rgba(41,39,31,.28);border:1px solid var(--dp-color-accent);margin:-14px 0;position:relative;z-index:1;border-radius:var(--dp-radius-corner)}
+.plan .tag{font-size:var(--dp-typography-metadata);letter-spacing:.2em;text-transform:uppercase;color:var(--dp-color-accent-ink);min-height:18px}
+.plan h3{font-size:34px;line-height:1.05}
+.plan .price{font:400 52px/1 var(--dp-typography-display);letter-spacing:-.02em}
+.plan .price small{font:400 var(--dp-typography-supporting)/1 var(--dp-typography-reading);color:var(--dp-color-ink-muted);letter-spacing:0}
+.plan ul{list-style:none;margin:0;padding:0;flex:1}
+.plan li{padding:11px 0;border-top:1px solid var(--dp-color-line);color:var(--dp-color-ink-muted)}
+.plan li:last-child{border-bottom:1px solid var(--dp-color-line)}
+
+/* disclosures */
+details{border-bottom:1px solid var(--dp-color-line)}
+details:first-of-type{border-top:1px solid var(--dp-color-line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;font:400 clamp(22px,2.4vw,30px)/1.2 var(--dp-typography-display);transition:color var(--dp-motion-interaction)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 28px/1 var(--dp-typography-display);color:var(--dp-color-accent-ink)}
+details[open] summary::after{content:"\2212"}
+summary:hover{color:var(--dp-color-accent-ink)}
+details p{padding:0 0 26px;max-width:60ch;color:var(--dp-color-ink-muted)}
+
+/* closing */
+.closing{text-align:center}
+.closing .rule{margin:0 auto 32px}
+.closing h2{font-size:clamp(40px,7vw,96px);line-height:1;letter-spacing:-.03em;max-width:16ch;margin:0 auto}
+.closing h2 em{color:var(--dp-color-accent-ink)}
+.closing p{margin:28px auto 0;max-width:46ch;color:var(--dp-color-ink-muted)}
+.closing .actions{justify-content:center;margin-top:36px}
+
+/* footer */
+footer{background:var(--dp-color-surface);border-top:1px solid var(--dp-color-band-edge);padding:56px 0 40px}
+.foot{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px}
+.foot .brand{display:inline-block;margin-bottom:12px}
+.foot p{color:var(--dp-color-ink-muted);max-width:36ch}
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.links h4{font:500 var(--dp-typography-metadata)/1.4 var(--dp-typography-reading);letter-spacing:.2em;text-transform:uppercase;color:var(--dp-color-accent-ink);margin-bottom:14px}
+.links ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.links a{text-decoration:none;color:var(--dp-color-ink-muted);transition:color var(--dp-motion-interaction)}
+.links a:hover{color:var(--dp-color-ink)}
+.legal{margin-top:48px;padding-top:20px;border-top:1px solid var(--dp-color-line);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:var(--dp-typography-metadata);color:var(--dp-color-ink-muted);letter-spacing:.06em}
+
+@media (max-width:1050px){
+  .hero-cols,.hero h1 em{margin-left:0}
+  .hero h1 em{padding-left:10vw}
+  .split,.quote{gap:40px}
+  .plan{padding:30px 22px 34px}
+  .nav ul{gap:20px}
+}
+@media (max-width:760px){
+  .nav ul{display:none}
+  .hero-cols,.split,.editorial,.quote,.foot{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr 1fr}
+  .compare{grid-template-columns:1fr;gap:20px}
+  .plan,.plan:first-child,.plan:last-child{border-width:1px;border-radius:var(--dp-radius-corner)}
+  .plan.featured{margin:0}
+  .links{grid-template-columns:1fr 1fr}
+  .links div:last-child{grid-column:1/-1}
+}
+@media (max-width:480px){
+  .hero h1{font-size:clamp(44px,13vw,68px)}
+  .hero h1 em{padding-left:8vw}
+  .entries.two{grid-template-columns:1fr}
+  .entries.two li:nth-last-child(2){border-bottom:0}
+  .entries li{grid-template-columns:1fr}
+  .actions .btn{width:100%}
+  .nav-cta{letter-spacing:.08em;white-space:nowrap;font-size:11px}
+  .figure figcaption{flex-direction:column;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">Harlow <i>&amp;</i> Vane</a>
+    <ul aria-label="Primary">
+      <li><a href="#practice">Practice</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#terms">Engagement</a></li>
+      <li><a href="#questions">Questions</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Request a conversation</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <p class="eyebrow">Private counsel for families and founders · Est. 1994</p>
+    <h1><span class="l1">Careful advice for decisions that outlast us</span><em>given plainly, and in writing.</em></h1>
+    <div class="hero-cols">
+      <p>We advise on estates, property and the succession of closely held companies. Each matter is led by a partner, documented in full, and explained without ornament, so that every party understands what has been agreed and why.</p>
+      <div class="actions">
+        <a class="btn primary" href="#contact">Arrange a first meeting <span aria-hidden="true">→</span></a>
+        <a class="btn secondary" href="#method">Read our method <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <dl class="facts">
+      <div><dt>30</dt><dd>Years in practice</dd></div>
+      <div><dt>412</dt><dd>Families advised</dd></div>
+      <div><dt>9</dt><dd>Partners, no associates</dd></div>
+      <div><dt>1:1</dt><dd>Partner to matter</dd></div>
+    </dl>
+  </div>
+
+  <section class="band" id="practice">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">Practice</p>
+        <h2>Four areas, <em>one standard</em> of care</h2>
+        <p class="lede">We take on fewer matters than we are asked to, so that each receives a partner's full attention.</p>
+      </div>
+      <ol class="entries two">
+        <li><h3>Estates &amp; trusts</h3><p>Wills, trusts and the quiet administration that follows a loss.</p></li>
+        <li><h3>Property</h3><p>Acquisition, holding structures and cross-border title.</p></li>
+        <li><h3>Succession</h3><p>Handing a family company to the next generation, or to a buyer.</p></li>
+        <li><h3>Dispute resolution</h3><p>Mediation first; the courtroom only when it serves the client.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">Method</p>
+        <h2>From first letter to <em>final signature</em></h2>
+        <p class="lede">A matter moves in four steps. You will always know which one we are in.</p>
+      </div>
+      <ol class="entries" style="counter-reset:s">
+        <li><span class="n">01</span><div><h3>Listen</h3><p>A first meeting without a clock. We ask what you want to protect, and for whom, before we propose a structure.</p></div></li>
+        <li><span class="n">02</span><div><h3>Set out the options</h3><p>A written memorandum of two or three routes, with their costs, risks and tax consequences stated side by side.</p></div></li>
+        <li><span class="n">03</span><div><h3>Draft</h3><p>Instruments are drafted in plain language, then reviewed with you line by line, in person if you prefer.</p></div></li>
+        <li><span class="n">04</span><div><h3>Keep</h3><p>Signed documents are held in our vault and reviewed annually, at no charge, for as long as you remain a client.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap editorial">
+      <figure class="figure">
+        <svg viewBox="0 0 960 560" role="img" aria-label="Limestone townhouse facade with tall sash windows and a pale doorway in afternoon light" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9d6cf"/><stop offset="1" stop-color="#ece6d8"/></linearGradient>
+            <linearGradient id="wall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d7c8a9"/><stop offset=".55" stop-color="#e3d6ba"/><stop offset="1" stop-color="#cdbd9b"/></linearGradient>
+            <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b6468"/><stop offset="1" stop-color="#2f3638"/></linearGradient>
+            <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#29271f" stop-opacity=".0"/><stop offset="1" stop-color="#29271f" stop-opacity=".22"/></linearGradient>
+            <pattern id="stone" width="120" height="40" patternUnits="userSpaceOnUse"><path d="M0 40H120M60 0V40" stroke="#b9a883" stroke-width="1" fill="none" opacity=".55"/></pattern>
+          </defs>
+          <rect width="960" height="560" fill="url(#sky)"/>
+          <rect x="120" y="40" width="720" height="520" fill="url(#wall)"/>
+          <rect x="120" y="40" width="720" height="520" fill="url(#stone)"/>
+          <rect x="120" y="40" width="720" height="520" fill="url(#shade)"/>
+          <rect x="100" y="30" width="760" height="26" fill="#cbbb97"/><rect x="100" y="56" width="760" height="6" fill="#a99870" opacity=".6"/>
+          <g id="row">
+            <g transform="translate(170 100)"><rect width="110" height="170" fill="#cbbb97"/><rect x="10" y="10" width="90" height="150" fill="url(#glass)"/><path d="M55 10V160M10 85H100" stroke="#e9e1cd" stroke-width="4"/><rect x="-8" y="170" width="126" height="12" fill="#bfae88"/></g>
+            <g transform="translate(425 100)"><rect width="110" height="170" fill="#cbbb97"/><rect x="10" y="10" width="90" height="150" fill="url(#glass)"/><path d="M55 10V160M10 85H100" stroke="#e9e1cd" stroke-width="4"/><rect x="-8" y="170" width="126" height="12" fill="#bfae88"/></g>
+            <g transform="translate(680 100)"><rect width="110" height="170" fill="#cbbb97"/><rect x="10" y="10" width="90" height="150" fill="url(#glass)"/><path d="M55 10V160M10 85H100" stroke="#e9e1cd" stroke-width="4"/><rect x="-8" y="170" width="126" height="12" fill="#bfae88"/></g>
+          </g>
+          <g transform="translate(170 310)"><rect width="110" height="170" fill="#cbbb97"/><rect x="10" y="10" width="90" height="150" fill="url(#glass)"/><path d="M55 10V160M10 85H100" stroke="#e9e1cd" stroke-width="4"/></g>
+          <g transform="translate(680 310)"><rect width="110" height="170" fill="#cbbb97"/><rect x="10" y="10" width="90" height="150" fill="url(#glass)"/><path d="M55 10V160M10 85H100" stroke="#e9e1cd" stroke-width="4"/></g>
+          <g transform="translate(405 300)"><rect x="-14" y="-14" width="168" height="274" fill="#cbbb97"/><path d="M0 260V70a70 70 0 0 1 140 0V260Z" fill="#3a4a42"/><path d="M70 0V260M0 150H140" stroke="#cdbd9b" stroke-width="3" opacity=".7"/><circle cx="52" cy="160" r="5" fill="#b69a54"/><rect x="-24" y="260" width="188" height="14" fill="#bfae88"/><rect x="-34" y="274" width="208" height="14" fill="#b4a37c"/></g>
+          <rect x="0" y="486" width="960" height="74" fill="#8e8570"/><rect x="0" y="486" width="960" height="4" fill="#6f6755"/>
+          <path d="M0 520H960" stroke="#7b735f" stroke-width="2" opacity=".6"/>
+        </svg>
+        <figcaption><span>Fig. 1 · Our offices, Marlowe Square</span><span>Limestone, 1871</span></figcaption>
+      </figure>
+      <div>
+        <p class="eyebrow">Place</p>
+        <h2>A house built to be <em>lived in</em>, not announced</h2>
+        <p>We meet clients in a restored townhouse with a library, a garden and no reception desk. Matters of this kind deserve a quiet room.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap quote">
+      <div><p class="eyebrow">Clients</p></div>
+      <div>
+        <blockquote>They told us what they would not do, which is how we knew we could trust what they would.</blockquote>
+        <cite><b>Margaret Ellison</b><br>Managing director, Ellison &amp; Sons (three generations)</cite>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="terms">
+    <div class="wrap">
+      <div class="split" style="margin-bottom:0">
+        <div>
+          <p class="eyebrow">Engagement</p>
+          <h2>Fixed fees, <em>stated in advance</em></h2>
+        </div>
+        <p class="lede" style="margin-top:0;color:var(--dp-color-ink-muted);max-width:52ch;align-self:end">Every engagement begins with a written scope and a single fee. No hourly meter runs while you think.</p>
+      </div>
+      <div class="compare">
+        <article class="plan">
+          <p class="tag">&nbsp;</p>
+          <h3>Foundation</h3>
+          <p class="price">$3,800 <small>fixed</small></p>
+          <ul><li>Will and powers of attorney</li><li>One planning meeting</li><li>Secure storage of originals</li></ul>
+          <a class="btn secondary" href="#contact">Begin <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="plan featured">
+          <p class="tag">Most chosen</p>
+          <h3>Household</h3>
+          <p class="price">$9,600 <small>fixed</small></p>
+          <ul><li>Everything in Foundation</li><li>Revocable trust and funding</li><li>Property holding structure</li><li>Annual review, no charge</li></ul>
+          <a class="btn primary" href="#contact">Begin <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="plan">
+          <p class="tag">&nbsp;</p>
+          <h3>Enterprise</h3>
+          <p class="price">By scope</p>
+          <ul><li>Succession of a closely held company</li><li>Named partner and second reader</li><li>Family governance charter</li></ul>
+          <a class="btn secondary" href="#contact">Enquire <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="questions">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">Questions</p>
+        <h2>Asked <em>often</em>, answered once</h2>
+      </div>
+      <div>
+        <details open><summary>How soon can we begin?</summary><p>Most first meetings take place within two weeks. If a matter is urgent, a partner will speak with you the same day.</p></details>
+        <details><summary>Do you work with clients overseas?</summary><p>Yes. We coordinate with counsel in eleven jurisdictions and hold meetings by secure video when travel is impractical.</p></details>
+        <details><summary>What happens if our circumstances change?</summary><p>Tell us. Reviews are part of every engagement, and amending an instrument we drafted carries no additional fee in the first five years.</p></details>
+        <details><summary>Who will I actually speak with?</summary><p>A named partner, for the life of the matter. You will have their direct line and their address.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band closing" id="contact">
+    <div class="wrap">
+      <hr class="rule">
+      <h2>Begin with a <em>conversation</em></h2>
+      <p>Write to us, or call. A partner will reply within one working day. There is no charge for a first meeting.</p>
+      <div class="actions">
+        <a class="btn primary" href="mailto:counsel@example.com">Write to the partners <span aria-hidden="true">→</span></a>
+        <a class="btn secondary" href="tel:+15550100">Call +1 555 0100 <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="brand" href="#top">Harlow <i>&amp;</i> Vane</a>
+        <p>Private counsel. 14 Marlowe Square, by appointment, Monday to Friday.</p>
+      </div>
+      <div class="links">
+        <div><h4>Practice</h4><ul><li><a href="#practice">Estates &amp; trusts</a></li><li><a href="#practice">Property</a></li><li><a href="#practice">Succession</a></li></ul></div>
+        <div><h4>Firm</h4><ul><li><a href="#method">Method</a></li><li><a href="#terms">Engagement</a></li><li><a href="#questions">Questions</a></li></ul></div>
+        <div><h4>Contact</h4><ul><li><a href="#contact">Write to us</a></li><li><a href="#contact">Telephone</a></li><li><a href="#contact">Directions</a></li></ul></div>
+      </div>
+    </div>
+    <div class="legal"><span>© 2026 Harlow &amp; Vane LLP</span><span>Regulated professional practice. Sample content.</span></div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mainframe - Contact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1C2E1E;--mute:#5A635A;--sub:#738273;--go:#4D6D47;--pale:#F1F3F1;--card:#FAFBF9;--sel:#EAECE9}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;background:#fff;color:#171717;-webkit-font-smoothing:antialiased}
+::selection{background:var(--sel);color:var(--ink)}
+.app{position:relative;display:flex;flex-direction:column;overflow-x:hidden}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.cursor{display:inline-block;width:2px;height:1.1em;background:#000;vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite}
+
+/* video stand-in */
+.bg{order:2;position:relative;overflow:hidden;pointer-events:none;width:100%;aspect-ratio:1/1;background:#fafafa}
+.bg canvas{width:100%;height:100%;display:block}
+.content{order:1;position:relative;z-index:10;display:flex;flex-direction:column;width:100%;background:#fff;padding-bottom:2rem}
+main{width:100%;max-width:80rem;margin:0 auto;padding:6.5rem 1.5rem 3rem;flex:1;display:flex;flex-direction:column;justify-content:center}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:20;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;gap:.75rem;align-items:baseline;user-select:none}
+.logo b{font-weight:500;font-size:21px;letter-spacing:-.025em;color:#000}
+.logo i{font-style:normal;font-weight:500;font-size:25px;line-height:1;margin-bottom:4px;letter-spacing:-.02em;color:#000}
+nav{display:none;font-size:23px;color:#000;letter-spacing:-.01em}
+nav a,.cta{color:#000;text-decoration:none;transition:opacity .2s}
+nav a:hover,.cta:hover{opacity:.6}
+nav span{opacity:.4}
+.cta{display:none;font-size:23px;text-decoration:underline;text-underline-offset:2px;letter-spacing:-.01em}
+.burger{width:24px;height:20px;background:none;border:0;cursor:pointer;position:relative;z-index:30}
+.burger span{position:absolute;left:0;width:24px;height:2px;background:#000;transition:all .3s}
+.burger span:nth-child(1){top:2px}.burger span:nth-child(2){top:9px}.burger span:nth-child(3){top:16px}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.overlay{position:fixed;inset:0;z-index:9;background:rgba(255,255,255,.95);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s;display:flex;flex-direction:column;justify-content:center;padding:0 2rem;gap:.4rem}
+.overlay.open{opacity:1;pointer-events:auto}
+.overlay a{font-size:44px;letter-spacing:-.03em;color:#000;text-decoration:none;line-height:1.15}
+
+/* hero text */
+.reveal{opacity:0;transform:translateY(20px);animation:rise .6s ease-out forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+h1{font-weight:400;font-size:48px;line-height:1.08;letter-spacing:-.03em;color:#000;margin-bottom:2rem;user-select:none;white-space:pre-wrap;min-height:2.16em}
+.lead{font-size:18px;line-height:1.625;color:var(--mute);margin-bottom:3.5rem;max-width:42rem}
+.q{font-size:24px;font-weight:500;letter-spacing:-.02em;margin-bottom:.5rem;color:#000}
+.qs{opacity:.85;color:var(--sub);margin-bottom:2rem;font-size:16px}
+.pills{display:flex;flex-wrap:wrap;gap:.75rem}
+.pill{font:inherit;font-size:17px;display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:999px;cursor:pointer;background:#fff;color:var(--ink);border:1px solid var(--pale);transition:background .2s,transform .15s,box-shadow .2s}
+.pill:hover{background:rgba(241,243,241,.55)}
+.pill:active{transform:scale(.96)}
+.pill.on{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:0 4px 6px -1px rgba(2,44,34,.05)}
+.pill.on:hover{background:var(--ink)}
+.pill svg{width:0;height:16px;transition:width .35s cubic-bezier(.34,1.8,.5,1),margin .35s;margin-left:-.5rem;overflow:hidden}
+.pill.on svg{width:16px;margin-left:0}
+.status{margin-top:1.75rem;min-height:4.5rem}
+.hint{font-size:12px;font-style:italic;opacity:.5;animation:fade .3s}
+@keyframes fade{from{opacity:0}}
+.banner{display:inline-flex;flex-wrap:wrap;align-items:center;gap:1rem 1.5rem;background:var(--card);border:1px solid var(--pale);border-radius:1rem;padding:1rem 1.25rem;font-size:15px;color:var(--ink);animation:grow .45s cubic-bezier(.34,1.3,.5,1);transform-origin:top left}
+@keyframes grow{from{opacity:0;transform:scaleY(.6)}}
+.go{font:inherit;background:none;border:0;cursor:pointer;color:var(--go);text-transform:uppercase;font-size:12px;letter-spacing:.08em;font-weight:500;display:inline-flex;align-items:center;gap:.4rem}
+.go svg{width:14px;height:14px;transition:transform .2s}
+.go:hover svg{transform:translateX(3px)}
+
+@media(min-width:640px){header{padding:1.25rem 2rem}.logo b{font-size:26px}.logo i{font-size:30px}}
+@media(min-width:768px){
+  .bg{aspect-ratio:16/9}
+  nav{display:flex}.cta{display:block}.burger,.overlay{display:none}
+  h1{font-size:60px}.lead{font-size:20px}
+}
+@media(min-width:1024px){
+  .app{display:block;min-height:100vh}
+  .bg{position:absolute;inset:0;z-index:0;aspect-ratio:auto;height:100%;background:transparent}
+  .content{order:0;background:transparent;padding-bottom:0;min-height:100vh}
+  h1{font-size:76px}
+}
+@media(max-width:767px){nav,.cta{display:none}}
+@media(prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}.cursor{animation:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo"><b>Mainframe&reg;</b><i>&#10033;</i></div>
+    <nav><a href="#">Labs</a><span>,&nbsp;</span><a href="#">Studio</a><span>,&nbsp;</span><a href="#">Openings</a><span>,&nbsp;</span><a href="#">Shop</a></nav>
+    <a class="cta" href="#">Get in touch</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </header>
+  <div class="overlay" id="overlay"><a href="#">Labs</a><a href="#">Studio</a><a href="#">Openings</a><a href="#">Shop</a><a href="#" style="text-decoration:underline">Get in touch</a></div>
+
+  <div class="bg"><canvas id="cv"></canvas></div>
+
+  <div class="content">
+    <main id="spade-hero">
+      <div class="reveal"><h1 id="h"></h1></div>
+      <div class="reveal" style="animation-delay:.1s"><p class="lead">Whether you have questions, feedback, <br>drop us a message and we'll get back to you as soon as possible.</p></div>
+      <div class="reveal" style="animation-delay:.2s">
+        <h2 class="q">What sort of service?</h2>
+        <p class="qs">Select all that apply</p>
+        <div class="pills" id="pills"></div>
+        <div class="status" id="status"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+// typewriter
+const TEXT="we'd love to\nhear from you!", h=document.getElementById('h');
+(function(){
+  let i=0;
+  const cur='<span class="cursor"></span>';
+  h.innerHTML=cur;
+  setTimeout(()=>{
+    const id=setInterval(()=>{
+      i++; h.textContent=TEXT.slice(0,i);
+      if(i>=TEXT.length){clearInterval(id);}else h.insertAdjacentHTML('beforeend',cur);
+    },38);
+  },600);
+})();
+
+// menu
+const burger=document.getElementById('burger'),ov=document.getElementById('overlay');
+burger.onclick=()=>{burger.classList.toggle('open');ov.classList.toggle('open')};
+
+// pills
+const OPTS=['Brand','Digital','Campaign','Other'],sel=[];
+const pills=document.getElementById('pills'),status=document.getElementById('status');
+const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+OPTS.forEach(o=>{
+  const b=document.createElement('button');b.className='pill';b.innerHTML=CHECK+'<span>'+o+'</span>';
+  b.onclick=()=>{const k=sel.indexOf(o);k<0?sel.push(o):sel.splice(k,1);b.classList.toggle('on',k<0);render()};
+  pills.appendChild(b);
+});
+let lastEmpty=null;
+function render(){
+  const empty=!sel.length;
+  if(empty){ if(lastEmpty!==true) status.innerHTML='<p class="hint">Please click to select services above.</p>'; }
+  else if(lastEmpty!==false){ status.innerHTML='<div class="banner"><span>Ready to inquire about: <b id="lst" style="font-weight:500"></b></span><button class="go">Let\'s Go '+ARROW+'</button></div>'; }
+  if(!empty) document.getElementById('lst').textContent=sel.join(', ');
+  lastEmpty=empty;
+}
+render();
+
+// canvas stand-in for the scrubbed video
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');
+const DUR=8; let T=2.2, W=0,H=0,dpr=1;
+function size(){dpr=Math.min(devicePixelRatio||1,2);const r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;draw()}
+function rot(p,a,b){ // rotate y by a, x by b
+  let x=p[0]*Math.cos(a)+p[2]*Math.sin(a), z=-p[0]*Math.sin(a)+p[2]*Math.cos(a), y=p[1];
+  let y2=y*Math.cos(b)-z*Math.sin(b), z2=y*Math.sin(b)+z*Math.cos(b);
+  return [x,y2,z2];
+}
+function draw(){
+  if(!W)return;
+  cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,W,H);
+  const wide=W>=1024, R=wide?Math.min(H*0.4,W*0.22):Math.min(W,H)*0.34;
+  const ox=wide?W*0.77:W*0.55, oy=wide?H*0.56:H*0.52;
+  const ph=T/DUR*Math.PI*2, a=ph, b=0.45+Math.sin(ph)*0.25;
+  const ink='28,46,30';
+  // rings
+  cx.lineWidth=1;
+  for(let k=1;k<=6;k++){cx.strokeStyle=`rgba(${ink},${0.05+0.012*k})`;cx.beginPath();cx.ellipse(ox,oy,R*(1+k*.18),R*(1+k*.18)*.34,-0.2,0,7);cx.stroke()}
+  // lat/long wireframe
+  const N=14,M=64;
+  for(let i=1;i<N;i++){
+    const lat=-Math.PI/2+Math.PI*i/N;cx.beginPath();
+    for(let j=0;j<=M;j++){const lo=j/M*Math.PI*2;
+      const p=rot([Math.cos(lat)*Math.cos(lo),Math.sin(lat),Math.cos(lat)*Math.sin(lo)],a,b);
+      const s=1+0.08*Math.sin(lo*3+ph*2)*Math.cos(lat*2);
+      const X=ox+p[0]*R*s,Y=oy+p[1]*R*s; j?cx.lineTo(X,Y):cx.moveTo(X,Y)}
+    cx.strokeStyle=`rgba(${ink},.22)`;cx.stroke();
+  }
+  for(let i=0;i<18;i++){
+    const lo=i/18*Math.PI*2;cx.beginPath();
+    for(let j=0;j<=M;j++){const lat=-Math.PI/2+Math.PI*j/M;
+      const p=rot([Math.cos(lat)*Math.cos(lo),Math.sin(lat),Math.cos(lat)*Math.sin(lo)],a,b);
+      const s=1+0.08*Math.sin(lo*3+ph*2)*Math.cos(lat*2);
+      const X=ox+p[0]*R*s,Y=oy+p[1]*R*s; j?cx.lineTo(X,Y):cx.moveTo(X,Y)}
+    cx.strokeStyle=`rgba(${ink},.14)`;cx.stroke();
+  }
+  // nodes
+  for(let i=0;i<90;i++){
+    const u=(i*0.6180339)%1, v=(i*0.7548776)%1, lat=Math.asin(2*u-1), lo=v*Math.PI*2;
+    const p=rot([Math.cos(lat)*Math.cos(lo),Math.sin(lat),Math.cos(lat)*Math.sin(lo)],a,b);
+    const s=1+0.08*Math.sin(lo*3+ph*2)*Math.cos(lat*2);
+    const front=p[2]>0;
+    cx.fillStyle=front?`rgba(${ink},.85)`:`rgba(${ink},.2)`;
+    cx.beginPath();cx.arc(ox+p[0]*R*s,oy+p[1]*R*s,front?2.4:1.4,0,7);cx.fill();
+  }
+  // orbiting chip
+  const oa=ph*2;
+  const px=ox+Math.cos(oa)*R*1.5, py=oy+Math.sin(oa)*R*1.5*.34*Math.cos(-0.2)-Math.cos(oa)*R*.3;
+  cx.fillStyle='#1C2E1E';cx.fillRect(px-5,py-5,10,10);
+  cx.strokeStyle=`rgba(${ink},.5)`;cx.strokeRect(px-11,py-11,22,22);
+  // time readout
+  cx.fillStyle=`rgba(${ink},.55)`;cx.font='11px Inter,sans-serif';
+  cx.fillText('T '+T.toFixed(2).padStart(5,'0')+' / '+DUR.toFixed(2),wide?W-130:ox-R,H-22);
+}
+addEventListener('resize',size);size();
+// mouse scrubbing (>=1024)
+let prevX=null;
+addEventListener('mousemove',e=>{
+  if(innerWidth<1024)return;
+  if(prevX===null){prevX=e.clientX;return}
+  const d=e.clientX-prevX;prevX=e.clientX;
+  T=Math.min(DUR,Math.max(0,T+(d/innerWidth)*0.8*DUR));draw();
+});
+// autoplay below 1024
+let last=performance.now();
+(function loop(n){
+  if(innerWidth<1024||document.documentElement.hasAttribute('data-auto')){T=(T+(n-last)/1000)%DUR;draw()}
+  last=n;requestAnimationFrame(loop);
+})(last);
+</script>
+</body>
+</html>

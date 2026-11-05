@@ -1,0 +1,1 @@
+ATLAS_P("F893","A cartoony battle royale: storm timer, players alive, inventory hotbar, minimap, emote wheel and a victory results screen");

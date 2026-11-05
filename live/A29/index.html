@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morpho - Field Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--mx:0;--my:0;--cream:#f7f4ec;--blue:#2e6bff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#f2efe6;color:#171717;-webkit-font-smoothing:antialiased}
+button,a{font:inherit;color:inherit;text-decoration:none;border:0;background:none;cursor:pointer}
+svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* stage */
+#stage{position:fixed;inset:0;z-index:0;perspective:1600px;overflow:hidden;
+  background:radial-gradient(70% 70% at 50% 42%,#f3eee2 0%,#e6dfd0 55%,#d6cdba 100%)}
+#wrap{position:absolute;inset:0;transform-origin:50% 50%;will-change:transform;
+  transform:scale(1.08) rotateX(calc(var(--my)*-6deg)) rotateY(calc(var(--mx)*8deg)) translate(calc(var(--mx)*12px),calc(var(--my)*12px))}
+#wing{position:absolute;inset:0;width:100%;height:100%;display:block}
+#sheen{position:fixed;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(60% 60% at calc(50% + var(--mx)*20%) calc(45% + var(--my)*20%),rgba(46,107,255,.16),transparent 60%)}
+#scrim{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(to top,rgba(247,244,236,.92) 0%,rgba(247,244,236,.5) 28%,rgba(247,244,236,0) 54%)}
+#scrim::after{content:"";position:absolute;inset:0;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+  -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 40%);mask-image:linear-gradient(to top,#000 0%,transparent 40%)}
+@media (hover:none),(pointer:coarse){#wrap{transform:scale(1.03)}#sheen{--mx:0;--my:0}}
+
+/* glass + text */
+.liquid-glass{background:rgba(255,255,255,.35);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(8px) saturate(1.15);backdrop-filter:blur(8px) saturate(1.15);
+  border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.6),0 1px 20px rgba(46,107,255,.08);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+  background:linear-gradient(180deg,rgba(255,255,255,.9) 0%,rgba(46,107,255,.4) 30%,rgba(255,255,255,0) 55%,rgba(46,107,255,.35) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.morpho-text{background:linear-gradient(105deg,#2e6bff 0%,#57c8ff 26%,#8ad0ff 50%,#2e6bff 74%,#1741b8 100%);background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:morphoShift 10s ease-in-out infinite;font-style:italic;font-weight:400}
+@keyframes morphoShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(40px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+.fu{opacity:0;animation:blurFadeUp 1s ease-out forwards}
+
+/* layout */
+#page{position:relative;z-index:10;height:100dvh;display:flex;flex-direction:column}
+nav{position:relative;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 16px;color:#171717}
+.logo{display:flex;align-items:baseline;gap:12px}
+.logo b{font-family:'Fraunces',serif;font-size:20px;font-weight:500;letter-spacing:-.01em}
+.logo span{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#737373}
+.links{display:none;gap:32px}
+.links a{font-size:14px;color:#525252;transition:color .2s}
+.links a:hover{color:#171717}
+.right{display:flex;align-items:center;gap:12px}
+.badge{border-radius:999px;background:var(--blue);color:#fff;font-size:11px;font-weight:500;letter-spacing:.14em;padding:4px 12px}
+.pill{display:none;align-items:center;gap:6px;border-radius:999px;padding:8px 20px;font-size:14px;color:#171717}
+.burger{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;color:#262626}
+.burger .i{grid-area:1/1;transition:all .5s ease-out}
+.burger .x{opacity:0;transform:rotate(-180deg) scale(.5)}
+.burger.open .m{opacity:0;transform:rotate(180deg) scale(.5)}
+.burger.open .x{opacity:1;transform:none}
+#menu{position:absolute;top:72px;left:0;right:0;z-index:40;background:rgba(247,244,236,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;box-shadow:0 20px 25px -5px rgba(0,0,0,.1);padding:12px 16px;
+  transform:translateY(-16px);opacity:0;pointer-events:none;transition:all .5s ease-out}
+#menu.open{transform:none;opacity:1;pointer-events:auto}
+#menu a{display:block;padding:12px;border-radius:8px;color:#262626;opacity:0;transform:translateX(-16px);transition:all .5s ease-out,background .2s}
+#menu.open a{opacity:1;transform:none}
+#menu a:hover{background:#f5f5f5}
+#menu .foot{margin-top:8px;padding:12px;border-top:1px solid #e5e5e5}
+
+main{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 40px}
+.eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#737373;margin-bottom:20px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 24px;margin-bottom:24px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#737373}
+.meta span{display:flex;align-items:center;gap:8px}
+h1{font-family:'Fraunces',serif;font-weight:500;font-size:48px;line-height:.98;letter-spacing:-.015em;color:#171717;margin-bottom:20px}
+h1 span{display:block}
+.sub{font-size:16px;color:#525252;max-width:36rem;margin-bottom:32px;line-height:1.5}
+.bottom{display:flex;flex-direction:column;gap:16px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.cta a{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:500;font-size:14px;padding:10px 24px}
+.btn-dark{background:#171717;color:#fff;transition:background-color .25s}
+.btn-dark:hover{background:var(--blue)}
+.cta .liquid-glass{color:#171717}
+.hint{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#a3a3a3}
+
+@media (min-width:640px){nav{padding:16px 24px}main{padding:0 24px 40px}h1{font-size:60px}.sub{font-size:18px}.cta{gap:16px}.cta a{padding:12px 32px}}
+@media (min-width:768px){nav{padding:24px 48px}#menu{}main{padding:0 48px 64px}h1{font-size:72px}.sub{font-size:20px}.meta{margin-bottom:32px}
+  .bottom{flex-direction:row;justify-content:space-between;align-items:flex-end}}
+@media (min-width:1024px){h1{font-size:96px}.links{display:flex}.pill{display:inline-flex}.burger{display:none}#menu{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .fu{animation:none;opacity:1}
+  .morpho-text{animation:none}
+  #wrap{transform:scale(1.03)}#sheen{--mx:0;--my:0}
+  #menu,#menu a,.burger .i{transition:none}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ic-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="ic-book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+  <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+  <symbol id="ic-ptr" viewBox="0 0 24 24"><path d="M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z"/></symbol>
+  <symbol id="ic-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="ic-menu" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+</svg>
+
+<div id="stage"><div id="wrap"><canvas id="wing"></canvas></div></div>
+<div id="sheen"></div>
+<div id="scrim"></div>
+
+<div id="page">
+  <nav>
+    <div class="logo fu" style="animation-delay:0ms"><b>Morpho</b><span>Field Journal</span></div>
+    <div class="links">
+      <a class="fu" style="animation-delay:100ms" href="#">Species</a>
+      <a class="fu" style="animation-delay:150ms" href="#">Notes</a>
+      <a class="fu" style="animation-delay:200ms" href="#">Plates</a>
+      <a class="fu" style="animation-delay:250ms" href="#">About</a>
+    </div>
+    <div class="right">
+      <span class="badge fu" style="animation-delay:350ms">FREE</span>
+      <a class="pill liquid-glass fu" style="animation-delay:350ms" href="#">Read the journal <svg class="i" width="16" height="16"><use href="#ic-up-right"/></svg></a>
+      <button class="burger liquid-glass fu" id="burger" style="animation-delay:350ms" aria-label="Menu" aria-expanded="false">
+        <svg class="i m" width="20" height="20"><use href="#ic-menu"/></svg><svg class="i x" width="20" height="20"><use href="#ic-x"/></svg>
+      </button>
+    </div>
+    <div id="menu">
+      <a href="#" style="transition-delay:50ms">Species</a>
+      <a href="#" style="transition-delay:100ms">Notes</a>
+      <a href="#" style="transition-delay:150ms">Plates</a>
+      <a href="#" style="transition-delay:200ms">About</a>
+      <div class="foot"><span class="badge">FREE</span></div>
+    </div>
+  </nav>
+
+  <main>
+    <p class="eyebrow fu" style="animation-delay:300ms">Open journal &middot; No paywall &middot; Entry 041</p>
+    <div class="meta fu" style="animation-delay:380ms">
+      <span><svg class="i" width="14" height="14"><use href="#ic-leaf"/></svg>Morpho didius</span>
+      <span><svg class="i" width="14" height="14"><use href="#ic-ptr"/></svg>Move to observe</span>
+      <span><svg class="i" width="14" height="14"><use href="#ic-pin"/></svg>Canopy, dawn</span>
+    </div>
+    <h1 class="fu" style="animation-delay:450ms"><span>Blue that</span><span class="morpho-text">isn't there.</span></h1>
+    <p class="sub fu" style="animation-delay:560ms">The colour is structure, not pigment &mdash; tilt the wing and it moves with you.</p>
+    <div class="bottom">
+      <div class="cta">
+        <a class="btn-dark fu" style="animation-delay:660ms" href="#">Read the entry <svg class="i" width="16" height="16"><use href="#ic-arrow-right"/></svg></a>
+        <a class="liquid-glass fu" style="animation-delay:760ms" href="#"><svg class="i" width="16" height="16"><use href="#ic-book"/></svg> Field notes</a>
+      </div>
+      <div class="hint fu" style="animation-delay:860ms"><svg class="i" width="12" height="12"><use href="#ic-ptr"/></svg>Move to shift the wings</div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement,cv=document.getElementById('wing'),ctx=cv.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var touch=matchMedia('(hover:none),(pointer:coarse)').matches;
+  var live=!reduce&&!touch;
+  var W,H,S,cx,cy,dpr=1;
+  var tx=0,ty=0,mx=0,my=0;
+
+  function resize(){
+    dpr=Math.min(window.devicePixelRatio||1,1.5);
+    W=innerWidth;H=innerHeight;
+    cv.width=W*dpr;cv.height=H*dpr;
+    S=W>=1024?Math.min(W*0.4,H*0.66):Math.min(W*(W<700?0.62:0.5),H*0.78);cx=W>=1024?W*0.69:W/2;cy=W<700?H*0.3:(W>=1024?H*0.38:H*0.36);
+  }
+  addEventListener('resize',resize);resize();
+
+  // wing outlines (unit space, right side, y down)
+  function fore(c){c.beginPath();c.moveTo(.04,-.06);c.bezierCurveTo(.2,-.55,.6,-.88,1.0,-.82);c.bezierCurveTo(1.07,-.6,.98,-.3,.72,-.12);c.bezierCurveTo(.48,-.03,.22,0,.04,.02);c.closePath();}
+  function hind(c){c.beginPath();c.moveTo(.04,.0);c.bezierCurveTo(.3,-.02,.62,-.08,.78,.1);c.bezierCurveTo(.88,.34,.62,.68,.35,.62);c.bezierCurveTo(.14,.56,.05,.36,.04,.1);c.closePath();}
+  var foreTips=[[1.0,-.8],[1.04,-.62],[.98,-.42],[.88,-.24],[.72,-.12],[.5,-.03]];
+  var hindTips=[[.78,.1],[.84,.3],[.68,.55],[.4,.62],[.16,.48]];
+
+  function paintWing(c,shape,tips,t,k,ox,oy){
+    c.save();shape(c);c.clip();
+    // base structural blue
+    var g=c.createLinearGradient(.04,0,1,-.5);
+    var s=.12*ox;
+    g.addColorStop(0,'#0a1f6e');g.addColorStop(Math.max(.05,.28+s),'#1741b8');g.addColorStop(Math.min(.9,.55+s),'#2e6bff');g.addColorStop(1,'#57c8ff');
+    c.fillStyle=g;c.fillRect(0,-1,1.2,1.8);
+    // veins + scale rays (flicker)
+    var n=46;
+    for(var i=0;i<n;i++){
+      var a=tips[i%tips.length],b=tips[(i+1)%tips.length],f=(i/n*(tips.length-1)),j=Math.floor(f),u=f-j;
+      var p=tips[j],q=tips[Math.min(j+1,tips.length-1)];
+      var x=p[0]+(q[0]-p[0])*u,y=p[1]+(q[1]-p[1])*u;
+      var fl=.5+.5*Math.sin(t*.0014+i*1.7+ox*2.2-oy*1.4+k*3);
+      c.strokeStyle='rgba('+(87+fl*60|0)+','+(200+fl*40|0)+',255,'+(.05+fl*.22)+')';
+      c.lineWidth=.012;
+      c.beginPath();c.moveTo(.04,-.02);c.quadraticCurveTo((.04+x)/2,(y)/2-.06+.02*Math.sin(i),x,y);c.stroke();
+    }
+    for(var v=0;v<tips.length;v++){
+      var e=tips[v];
+      c.strokeStyle='rgba(6,10,30,.55)';c.lineWidth=.007;
+      c.beginPath();c.moveTo(.04,-.02);c.quadraticCurveTo((.04+e[0])/2,e[1]/2-.07,e[0],e[1]);c.stroke();
+    }
+    // cursor-driven iridescent highlight
+    c.globalCompositeOperation='screen';
+    var hx=.55+ox*.35,hy=-.3+oy*.3+(k?.45:0);
+    var r=c.createRadialGradient(hx,hy,0,hx,hy,.55);
+    r.addColorStop(0,'rgba(138,208,255,.55)');r.addColorStop(.5,'rgba(87,200,255,.14)');r.addColorStop(1,'rgba(87,200,255,0)');
+    c.fillStyle=r;c.fillRect(0,-1,1.2,1.8);
+    c.globalCompositeOperation='source-over';
+    // dark scalloped margin
+    shape(c);c.strokeStyle='rgba(10,14,34,.85)';c.lineWidth=.06;c.stroke();
+    shape(c);c.strokeStyle='rgba(23,65,184,.5)';c.lineWidth=.2;c.globalCompositeOperation='source-over';
+    c.restore();
+    // white margin dots
+    c.fillStyle='rgba(250,247,240,.9)';
+    for(var d=0;d<tips.length-1;d++){var m=tips[d];c.beginPath();c.arc(m[0]-(m[0]>.9?.035:.02),m[1]+.012,.012,0,6.3);c.fill();}
+  }
+
+  function draw(t){
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,W,H);
+    // soft halo
+    var h=ctx.createRadialGradient(cx,cy,0,cx,cy,S*1.2);
+    h.addColorStop(0,'rgba(255,252,244,.9)');h.addColorStop(1,'rgba(255,252,244,0)');
+    ctx.fillStyle=h;ctx.fillRect(0,0,W,H);
+    var breath=reduce?.9:.72+.28*(.5+.5*Math.sin(t*.0009));
+    var lift=reduce?0:Math.sin(t*.0009)*.015;
+    for(var side=1;side>=-1;side-=2){
+      ctx.save();
+      ctx.translate(cx,cy+lift*S);
+      ctx.scale(side*S*breath,S);
+      var ox=mx*side*.6,oy=my;
+      paintWing(ctx,fore,foreTips,t,0,ox,oy);
+      paintWing(ctx,hind,hindTips,t,1,ox,oy);
+      ctx.restore();
+    }
+    // body
+    ctx.save();ctx.translate(cx,cy+lift*S);
+    var bg=ctx.createLinearGradient(-S*.03,0,S*.03,0);bg.addColorStop(0,'#241a14');bg.addColorStop(.5,'#4a3a2e');bg.addColorStop(1,'#1a120d');
+    ctx.fillStyle=bg;ctx.beginPath();ctx.ellipse(0,S*.1,S*.028,S*.3,0,0,6.3);ctx.fill();
+    ctx.beginPath();ctx.ellipse(0,-S*.2,S*.036,S*.06,0,0,6.3);ctx.fill();
+    ctx.strokeStyle='#241a14';ctx.lineWidth=Math.max(1.5,S*.005);ctx.lineCap='round';
+    var sw=Math.sin(t*.0011)*S*.01;
+    ctx.beginPath();ctx.moveTo(-S*.01,-S*.25);ctx.quadraticCurveTo(-S*.1,-S*.42+sw,-S*.2,-S*.46);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(S*.01,-S*.25);ctx.quadraticCurveTo(S*.1,-S*.42+sw,S*.2,-S*.46);ctx.stroke();
+    ctx.restore();
+  }
+
+  if(live){
+    addEventListener('pointermove',function(e){
+      if(e.pointerType==='touch')return;
+      tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2;
+    },{passive:true});
+  }
+  function frame(t){
+    mx+=(tx-mx)*.05;my+=(ty-my)*.05;
+    if(live){root.style.setProperty('--mx',mx.toFixed(4));root.style.setProperty('--my',my.toFixed(4));}
+    draw(t);
+    if(!reduce)requestAnimationFrame(frame);
+  }
+  if(reduce){draw(0);addEventListener('resize',function(){draw(0)});}
+  else requestAnimationFrame(frame);
+
+  // mobile menu
+  var b=document.getElementById('burger'),m=document.getElementById('menu');
+  b.addEventListener('click',function(){var o=b.classList.toggle('open');m.classList.toggle('open',o);b.setAttribute('aria-expanded',o);});
+})();
+</script>
+</body>
+</html>

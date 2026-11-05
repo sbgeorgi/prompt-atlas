@@ -1,0 +1,1 @@
+ATLAS_P("F862","Make a beat-synced motion graphics music video for this track. Go all out.\n\n<Your music style>\n\n<Your music lyrics>");

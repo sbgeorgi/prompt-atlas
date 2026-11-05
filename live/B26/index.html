@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Remit Race</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@800;900&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#050410;display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;overflow:hidden;zoom:.78}
+.phone{width:393px;height:820px;border-radius:28px;background:#0c0a16;box-shadow:0 30px 80px rgba(0,0,0,.6);position:relative;overflow:hidden;flex:none}
+.scale{width:300px;height:626px;transform:scale(1.31);transform-origin:0 0;position:relative;overflow:hidden}
+.heavy{font-family:Montserrat,"Qanelas-Heavy",Inter,sans-serif;font-weight:900;text-transform:uppercase}
+.ghost{position:absolute;top:-19px;left:-19px;font-size:60px;line-height:.74;color:#16112b;opacity:.5;letter-spacing:-.03em;pointer-events:none;white-space:nowrap;z-index:0}
+nav{position:relative;z-index:3;padding:25px 16px 0 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:Quicksand,sans-serif;font-size:16px;color:#fff;display:flex;align-items:center;letter-spacing:-.01em}
+.logo b{font-weight:600}.logo span{font-weight:300;color:#e7e3f2}
+.logo i{width:10px;height:10px;border-radius:50%;background:#7f52ef;margin-left:5px;margin-top:3px;box-shadow:0 0 12px #7f52ef99}
+.btns{display:flex;gap:6px}
+.pill{font-size:9.5px;padding:9px 13px;border-radius:999px;white-space:nowrap;line-height:1}
+.p1{font-weight:400;color:#d9d5e8;border:1px solid rgba(255,255,255,.3)}
+.p2{font-weight:500;color:#a483f5;border:1.5px solid #504081}
+.hero{position:relative;z-index:2;margin-top:44px}
+.lock{width:44px;height:44px;border-radius:50%;background:#01010e;margin:0 auto -22px;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(127,82,239,.18)}
+.lock svg{width:18px;height:18px;transform:rotate(-12deg)}
+.card{width:94%;max-width:290px;margin:0 auto;padding:30px 18px 14px;border-radius:20px;background:linear-gradient(120deg,rgba(203,191,255,.11),rgba(203,191,255,.09));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(203,191,255,.07)}
+.card h1{font-size:32.5px;line-height:1;color:#7442e9;text-align:left;white-space:nowrap;letter-spacing:-.035em}
+.win{position:relative;z-index:2;text-align:center;margin-top:26px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;font-weight:600;color:#d9d5e8;background:#17142a;border-radius:999px;padding:5px 11px;letter-spacing:.04em}
+.badge i{width:6px;height:6px;border-radius:50%;background:#7f52ef}
+.win p{margin-top:16px;font-size:18px;font-weight:400;line-height:1.25;color:#f2f0f8;text-align:left;padding:0 18px;letter-spacing:-.01em}
+.win p em{font-style:normal;color:#fff;font-weight:600}
+.globe{position:absolute;left:0;right:0;bottom:-100px;height:540px;overflow:hidden;z-index:1}
+.globe canvas{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:135%;height:auto;display:block}
+.globe::after{content:"";position:absolute;left:0;right:0;bottom:100px;height:20%;background:linear-gradient(to bottom,transparent,#060410);pointer-events:none}
+.count{position:absolute;bottom:44px;left:50%;margin-left:-136px;width:272px;height:40px;z-index:4}
+.seg{position:absolute;top:0;height:40px;right:0;border-radius:9999px;display:flex;align-items:center;font-size:10.5px;font-weight:600;color:#f4f1fb;white-space:nowrap;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:-4px 0 10px rgba(5,3,16,.35)}
+.seg small{font-size:inherit;font-weight:400;color:#cabfe6;margin-left:3px}
+.seg svg{width:11px;height:11px;margin-right:6px;flex:none}
+.s1{left:0;background:rgba(33,24,62,.72);z-index:1;padding-left:16px}
+.s2{left:70px;background:rgba(38,28,72,.78);z-index:2;padding-left:14px}
+.s3{left:126px;background:rgba(44,33,84,.84);z-index:3;padding-left:14px}
+.s4{left:182px;background:rgba(50,38,96,.9);z-index:4;padding-left:12px}
+.left{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:12px;font-weight:500;color:#f4f1fb;z-index:4;line-height:1}
+</style>
+</head>
+<body>
+<div class="phone"><div class="scale">
+  <div class="ghost heavy">One globe,<br>one future</div>
+  <nav>
+    <div class="logo"><b>nova</b><span>pay</span><i></i></div>
+    <div class="btns"><span class="pill p1">What is?</span><span class="pill p2">Create a team</span></div>
+  </nav>
+  <section class="hero">
+    <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="#7f52ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <div class="card"><h1 class="heavy">The<br>Competition<br>is live now!</h1></div>
+  </section>
+  <section class="win">
+    <span class="badge"><i></i>HOW TO WIN BIG!</span>
+    <p>Transfer $1 Around the<br>world, Win <em>$30,000!</em></p>
+  </section>
+  <div class="globe"><canvas id="g" width="810" height="810"></canvas></div>
+  <div class="count">
+    <div class="seg s1"><svg viewBox="0 0 24 24" fill="none" stroke="#b7a4f0" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12<small>days</small></div>
+    <div class="seg s2">23<small>hs</small></div>
+    <div class="seg s3">12<small>min</small></div>
+    <div class="seg s4">30<small>seconds</small></div>
+  </div>
+  <div class="left">left to win!</div>
+</div></div>
+<script>
+(function(){
+var c=document.getElementById('g'),x=c.getContext('2d'),W=810,R=262,cx=W/2,cy=W/2+5;
+function land(la,lo){ // pseudo-continent mask
+  return Math.sin(lo*2.1+1.3)*Math.cos(la*3.1)+Math.sin(lo*3.7-la*2.2)*.6+Math.cos(lo*1.3+la*1.7)*.5>-.15;
+}
+var pts=[],N=2600,i,ga=Math.PI*(3-Math.sqrt(5));
+for(i=0;i<N;i++){var y=1-2*(i+.5)/N,la=Math.asin(y),lo=ga*i;lo=((lo+Math.PI)%(2*Math.PI))-Math.PI;pts.push({la:la,lo:lo,l:land(la,lo)})}
+var cities=[[40.7,-74],[51.5,0],[19,72.8],[-23.5,-46.6],[35.7,139.7],[-33.9,151.2],[6.5,3.4],[14.6,121],[25.2,55.3],[19.4,-99]];
+function ll(a,b){return [a*Math.PI/180,b*Math.PI/180]}
+function proj(la,lo,rot,r){var l=lo+rot,cl=Math.cos(la);var X=cl*Math.sin(l),Y=Math.sin(la),Z=cl*Math.cos(l);var t=.38,y2=Y*Math.cos(t)-Z*Math.sin(t),z2=Y*Math.sin(t)+Z*Math.cos(t);return [cx+X*r,cy-y2*r,z2]}
+function slerp(a,b,t){var A=vec(a),B=vec(b),d=Math.acos(Math.max(-1,Math.min(1,A[0]*B[0]+A[1]*B[1]+A[2]*B[2]))),s=Math.sin(d)||1,k1=Math.sin((1-t)*d)/s,k2=Math.sin(t*d)/s;var v=[k1*A[0]+k2*B[0],k1*A[1]+k2*B[1],k1*A[2]+k2*B[2]];var h=1+.22*Math.sin(Math.PI*t)*Math.min(1,d/1.2);var la=Math.asin(v[1]/Math.hypot(v[0],v[1],v[2])),lo=Math.atan2(v[0],v[2]);return [la,lo,h]}
+function vec(p){var cl=Math.cos(p[0]);return [cl*Math.sin(p[1]),Math.sin(p[0]),cl*Math.cos(p[1])]}
+var C=cities.map(function(c){return ll(c[0],c[1])});
+var routes=[[0,1],[1,2],[3,0],[4,5],[6,1],[7,4],[8,2],[9,3],[0,4],[2,5]];
+function frame(ts){
+  var t=ts/1000,rot=-t*.18-.6;x.clearRect(0,0,W,W);
+  var g=x.createRadialGradient(cx,cy,R*.6,cx,cy,R*1.35);g.addColorStop(0,'rgba(116,66,233,.0)');g.addColorStop(.72,'rgba(116,66,233,.22)');g.addColorStop(1,'rgba(116,66,233,0)');x.fillStyle=g;x.fillRect(0,0,W,W);
+  var b=x.createRadialGradient(cx-R*.3,cy-R*.4,R*.1,cx,cy,R);b.addColorStop(0,'#241a52');b.addColorStop(1,'#0a0720');x.fillStyle=b;x.beginPath();x.arc(cx,cy,R,0,7);x.fill();
+  x.strokeStyle='rgba(164,131,245,.35)';x.lineWidth=2;x.stroke();
+  for(i=0;i<N;i++){var p=pts[i],q=proj(p.la,p.lo,rot,R);if(q[2]<0)continue;var a=.15+.85*q[2];
+    x.fillStyle=p.l?'rgba(190,170,255,'+(a*.9)+')':'rgba(110,80,200,'+(a*.28)+')';x.beginPath();x.arc(q[0],q[1],p.l?2.3:1.5,0,7);x.fill()}
+  routes.forEach(function(r,k){var A=C[r[0]],B=C[r[1]],prev=null,vis=0;
+    x.beginPath();
+    for(var s=0;s<=40;s++){var m=slerp(A,B,s/40),q=proj(m[0],m[1],rot,R*m[2]);if(q[2]<0.02){prev=null;continue}
+      if(!prev)x.moveTo(q[0],q[1]);else x.lineTo(q[0],q[1]);prev=q}
+    x.strokeStyle='rgba(167,139,250,.55)';x.lineWidth=2;x.stroke();
+    var u=((t*.22+k*.173)%1),m2=slerp(A,B,u),q2=proj(m2[0],m2[1],rot,R*m2[2]);
+    if(q2[2]>0.02){x.fillStyle='#fff';x.shadowColor='#8b5cf6';x.shadowBlur=16;x.beginPath();x.arc(q2[0],q2[1],4,0,7);x.fill();x.shadowBlur=0}
+  });
+  C.forEach(function(p){var q=proj(p[0],p[1],rot,R);if(q[2]<.02)return;var pulse=(t*.8+p[1])%1;
+    x.strokeStyle='rgba(200,180,255,'+(.6*(1-pulse))+')';x.lineWidth=2;x.beginPath();x.arc(q[0],q[1],4+pulse*14,0,7);x.stroke();
+    x.fillStyle='#e9defe';x.beginPath();x.arc(q[0],q[1],4.5,0,7);x.fill()});
+  requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

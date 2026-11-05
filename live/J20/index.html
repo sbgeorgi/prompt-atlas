@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brightbench - Industrial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-chassis:#cbd0d2;--dp-color-raised:#e7eaeb;--dp-color-well:#b6bec2;
+  --dp-color-ink:#181e22;--dp-color-label:#414b52;--dp-color-field:#20272b;
+  --dp-color-on-field:#f2f4f4;--dp-color-on-field-muted:#d8dee1;--dp-color-accent:#f15b22;
+  --dp-typography-sans:"Industrial Host","Host Grotesk",system-ui,sans-serif;
+  --dp-typography-mono:"Industrial Plex","IBM Plex Mono",ui-monospace,monospace;
+  --dp-typography-body:17px;--dp-typography-reading:16px;--dp-typography-metadata:13px;--dp-typography-label:11px;
+  --gap:25px;--gap-s:12px;--key:4px;
+  --t-nav:130ms;--t-key:140ms;--t-dial:150ms;--settle:cubic-bezier(.3,.7,.4,1.25);
+  --hi:rgba(255,255,255,.75);--lo:rgba(24,30,34,.28);
+  --key-shadow:0 1px 0 var(--hi) inset,0 -2px 0 rgba(24,30,34,.18) inset,0 2px 0 rgba(24,30,34,.22),0 5px 8px -3px rgba(24,30,34,.3);
+  --key-shadow-press:0 2px 5px rgba(24,30,34,.35) inset,0 1px 0 var(--hi);
+  --well-shadow:0 2px 6px rgba(24,30,34,.35) inset,0 -1px 0 rgba(255,255,255,.55) inset,0 1px 0 var(--hi);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:#aeb5b8;background-image:radial-gradient(1200px 600px at 20% -10%,#c7cdcf,transparent),linear-gradient(#aab1b4,#9ea6a9);color:var(--dp-color-ink);font:400 var(--dp-typography-reading)/1.55 var(--dp-typography-sans);padding:24px;min-height:100vh}
+h1,h2,h3{font-weight:700;letter-spacing:-.035em;line-height:1}
+p{max-width:60ch}
+a{color:inherit}
+.mono,.label{font-family:var(--dp-typography-mono);font-size:var(--dp-typography-label);text-transform:uppercase;letter-spacing:.12em;color:var(--dp-color-label)}
+:focus-visible{outline:3px solid var(--dp-color-accent);outline-offset:3px}
+
+/* housing */
+.case{max-width:1320px;margin:0 auto;border-radius:34px;background:linear-gradient(135deg,#d6dadc 0%,var(--dp-color-chassis) 45%,#bfc5c8 100%);box-shadow:0 1px 0 var(--hi) inset,0 -3px 0 rgba(24,30,34,.2) inset,0 30px 60px -20px rgba(24,30,34,.55),0 0 0 1px rgba(24,30,34,.25);position:relative;display:grid;grid-template-columns:64px 1fr;overflow:hidden}
+.seam{position:relative;border-right:1px solid rgba(24,30,34,.3);box-shadow:1px 0 0 var(--hi);background:linear-gradient(90deg,rgba(255,255,255,.18),rgba(0,0,0,.03))}
+.seam::before,.seam::after{content:"";position:absolute;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#eef,#8a9296 60%,#5d666b);box-shadow:0 1px 0 var(--hi),0 0 0 1px rgba(24,30,34,.4)}
+.seam::before{top:20px}.seam::after{bottom:20px}
+.main{min-width:0;padding:0 clamp(18px,3vw,40px) 0 clamp(18px,3vw,40px)}
+.bay{position:relative;padding:clamp(34px,5vw,64px) 0;border-top:1px solid rgba(24,30,34,.25);box-shadow:0 1px 0 var(--hi) inset}
+.bay:first-of-type{border-top:0;box-shadow:none}
+.bay-no{position:absolute;left:calc(-64px - clamp(18px,3vw,40px));width:64px;top:clamp(34px,5vw,64px);text-align:center;font-family:var(--dp-typography-mono);font-size:11px;letter-spacing:.1em;color:var(--dp-color-label)}
+.bay-head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--gap);margin-bottom:28px;flex-wrap:wrap}
+.bay-head h2{font-size:clamp(34px,4.6vw,60px);max-width:14ch}
+.bay-head p{max-width:42ch;color:var(--dp-color-label)}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:var(--gap-s);padding:18px 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.03em;text-decoration:none}
+.lamp{width:10px;height:10px;border-radius:50%;background:var(--dp-color-accent);box-shadow:0 0 0 2px rgba(24,30,34,.35),0 1px 0 var(--hi)}
+.keys{display:flex;gap:6px;flex-wrap:wrap}
+.key{appearance:none;border:1px solid rgba(24,30,34,.35);background:linear-gradient(#f0f2f3,var(--dp-color-raised) 60%,#d9dddf);color:var(--dp-color-ink);border-radius:var(--key);box-shadow:var(--key-shadow);font:500 13px/1 var(--dp-typography-mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:12px 16px;min-height:44px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:transform var(--t-key) var(--settle),box-shadow var(--t-key) ease,background var(--t-key) ease}
+.nav .key{transition-duration:var(--t-nav)}
+.key:hover{transform:translateY(-1px)}
+.key:active,.key[aria-pressed=true],.key.is-on{transform:translateY(1px);box-shadow:var(--key-shadow-press);background:linear-gradient(#cfd4d6,#dadedf)}
+.key.dark{background:linear-gradient(#323b40,var(--dp-color-field));color:var(--dp-color-on-field);border-color:#0d1114}
+.key.dark:active{background:#1a2024}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr minmax(240px,330px);gap:var(--gap);align-items:stretch;padding-top:clamp(20px,3vw,40px)}
+.hero h1{font-size:clamp(54px,9.4vw,106px);line-height:.92;letter-spacing:-.045em}
+.hero h1 em{font-style:normal;color:var(--dp-color-accent)}
+.hero .lede{margin-top:28px;font-size:var(--dp-typography-body);color:var(--dp-color-label);max-width:48ch}
+.assembly{background:linear-gradient(160deg,#dfe3e4,#c3c9cc);border-radius:20px;padding:22px;box-shadow:var(--key-shadow);border:1px solid rgba(24,30,34,.3);display:flex;flex-direction:column;gap:20px;justify-content:space-between}
+.vents{display:grid;gap:7px}
+.vents i{display:block;height:7px;border-radius:4px;background:var(--dp-color-well);box-shadow:0 2px 3px rgba(24,30,34,.45) inset,0 1px 0 var(--hi)}
+.dial-wrap{display:flex;justify-content:center;padding:6px 0}
+.dial{appearance:none;width:178px;height:178px;border-radius:50%;border:1px solid rgba(24,30,34,.4);cursor:pointer;color:var(--dp-color-ink);background:conic-gradient(from 210deg,#f4f6f6,#c4cacc,#eef0f1,#bcc3c6,#f4f6f6);box-shadow:0 0 0 8px #bfc5c8,0 0 0 9px rgba(24,30,34,.35),0 10px 18px -4px rgba(24,30,34,.5),0 1px 0 var(--hi) inset;position:relative;display:grid;place-items:center;transition:transform var(--t-dial) var(--settle),box-shadow var(--t-dial) ease}
+.dial::before{content:"";position:absolute;inset:14px;border-radius:50%;background:linear-gradient(145deg,#eceff0,#c9cfd1);box-shadow:0 2px 4px rgba(24,30,34,.3) inset,0 1px 0 var(--hi)}
+.dial span{position:relative;display:grid;gap:6px;place-items:center;font:600 13px/1.1 var(--dp-typography-mono);letter-spacing:.08em;text-transform:uppercase}
+.dial svg{width:26px;height:26px}
+.dial .tick{position:absolute;top:8px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--dp-color-accent);z-index:1}
+.dial:hover{transform:translateY(-2px)}
+.dial:active{transform:translateY(2px) scale(.985);box-shadow:0 0 0 8px #bfc5c8,0 0 0 9px rgba(24,30,34,.35),0 3px 6px rgba(24,30,34,.45)}
+.assembly .key{justify-content:center;width:100%}
+.facts{margin-top:var(--gap);background:linear-gradient(var(--dp-color-field),#1a2024);border-radius:14px;box-shadow:var(--well-shadow);border:1px solid #0d1114;padding:clamp(18px,2.4vw,30px);display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+.facts .label{color:var(--dp-color-on-field-muted);opacity:.85}
+.facts strong{display:block;margin-top:8px;font-size:clamp(26px,3.2vw,40px);letter-spacing:-.03em;color:var(--dp-color-on-field);font-weight:700}
+.facts strong b{color:var(--dp-color-accent);font-weight:700}
+.facts small{display:block;margin-top:4px;color:var(--dp-color-on-field-muted);font-size:13px}
+
+/* features */
+.deck{background:linear-gradient(#eef0f1,var(--dp-color-raised));border-radius:20px;box-shadow:var(--key-shadow);border:1px solid rgba(24,30,34,.28);padding:clamp(14px,2vw,24px)}
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--dp-color-well);border-radius:12px;box-shadow:var(--well-shadow);padding:2px;gap:2px;overflow:hidden}
+.cell{background:linear-gradient(#e9ecec,#dfe3e4);padding:24px;min-height:210px;display:flex;flex-direction:column;gap:12px}
+.cell h3{font-size:24px;letter-spacing:-.025em}
+.cell p{color:var(--dp-color-label);font-size:15px}
+.cell .ico{width:42px;height:42px;border-radius:var(--key);background:linear-gradient(#f4f6f6,#d3d8da);box-shadow:var(--key-shadow);border:1px solid rgba(24,30,34,.3);display:grid;place-items:center;margin-bottom:auto}
+.cell .ico svg{width:22px;height:22px;stroke:var(--dp-color-ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cell .label{margin-top:auto}
+
+/* wells */
+.stories{display:grid;grid-template-columns:1.25fr 1fr;gap:var(--gap)}
+.story{display:flex;flex-direction:column;gap:14px}
+.wellimg{background:var(--dp-color-well);border-radius:14px;box-shadow:var(--well-shadow);padding:10px;border:1px solid rgba(24,30,34,.2)}
+.wellimg .pic{aspect-ratio:16/10;border-radius:6px;position:relative;overflow:hidden;filter:grayscale(1);box-shadow:0 0 0 1px rgba(24,30,34,.6),0 2px 8px rgba(0,0,0,.5) inset}
+.story:nth-child(2) .pic{aspect-ratio:4/4.6}
+.pic svg{position:absolute;inset:0;width:100%;height:100%}
+.story h3{font-size:26px;letter-spacing:-.03em}
+.story p{color:var(--dp-color-label)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);position:relative;counter-reset:s}
+.steps::before{content:"";position:absolute;left:5%;right:5%;top:28px;height:8px;border-radius:4px;background:var(--dp-color-well);box-shadow:0 2px 3px rgba(24,30,34,.45) inset,0 1px 0 var(--hi)}
+.step{position:relative;display:flex;flex-direction:column;gap:12px}
+.step .n{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font:600 17px var(--dp-typography-mono);background:linear-gradient(#f4f6f6,#cdd2d4);box-shadow:var(--key-shadow);border:1px solid rgba(24,30,34,.35)}
+.step:first-child .n{color:var(--dp-color-accent)}
+.step h3{font-size:22px;letter-spacing:-.025em}
+.step p{font-size:15px;color:var(--dp-color-label)}
+
+/* output deck */
+.output{background:linear-gradient(var(--dp-color-field),#161c1f);color:var(--dp-color-on-field);border-radius:20px;box-shadow:var(--well-shadow);border:1px solid #0d1114;padding:clamp(22px,3.4vw,46px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px)}
+.output .label{color:var(--dp-color-on-field-muted)}
+.output h2{font-size:clamp(32px,4vw,52px);margin:12px 0 24px}
+.benefits{list-style:none;padding:0;display:grid;gap:16px}
+.benefits li{display:grid;grid-template-columns:14px 1fr;gap:14px;align-items:start;color:var(--dp-color-on-field-muted)}
+.benefits li::before{content:"";width:8px;height:8px;margin-top:8px;border-radius:50%;background:var(--dp-color-accent)}
+.benefits b{display:block;color:var(--dp-color-on-field);font-size:18px;letter-spacing:-.015em}
+.quote{border-left:1px solid rgba(242,244,244,.25);padding-left:clamp(18px,3vw,40px);display:flex;flex-direction:column;gap:22px;justify-content:center}
+.quote blockquote{font-size:clamp(22px,2.4vw,31px);line-height:1.2;letter-spacing:-.02em;font-weight:500}
+.quote figcaption{font:400 13px var(--dp-typography-mono);color:var(--dp-color-on-field-muted)}
+.quote + .quote{margin-top:0}
+
+/* comparison */
+.tray{background:var(--dp-color-well);border-radius:16px;box-shadow:var(--well-shadow);padding:12px;display:grid;gap:10px}
+.module{display:grid;grid-template-columns:28px 1.1fr 2fr auto;gap:clamp(12px,2vw,28px);align-items:center;width:100%;text-align:left;font:inherit;color:inherit;padding:18px 20px;border-radius:var(--key);border:1px solid rgba(24,30,34,.35);background:linear-gradient(#f0f2f3,var(--dp-color-raised));box-shadow:var(--key-shadow);cursor:pointer;transition:transform var(--t-key) var(--settle),box-shadow var(--t-key) ease,background var(--t-key) ease}
+.module:hover{transform:translateY(-1px)}
+.module[aria-pressed=true]{transform:translateY(1px);box-shadow:var(--key-shadow-press);background:linear-gradient(#d0d5d7,#dde1e2)}
+.module .bulb{width:14px;height:14px;border-radius:50%;background:#9aa3a7;box-shadow:0 1px 3px rgba(0,0,0,.5) inset,0 1px 0 var(--hi)}
+.module[aria-pressed=true] .bulb{background:var(--dp-color-accent);box-shadow:0 0 0 2px rgba(241,91,34,.25),0 1px 2px rgba(0,0,0,.3) inset}
+.module h3{font-size:24px;letter-spacing:-.025em}
+.module .d{color:var(--dp-color-label);font-size:15px}
+.module .state{font:500 11px var(--dp-typography-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dp-color-label);min-width:80px;text-align:right}
+.module[aria-pressed=true] .state{color:var(--dp-color-ink)}
+.module .tag{display:inline-block;margin-left:8px;font:500 10px var(--dp-typography-mono);letter-spacing:.08em;padding:3px 6px;border:1px solid var(--dp-color-ink);border-radius:2px;vertical-align:middle;text-transform:uppercase}
+
+/* faq */
+.faq{display:grid;gap:10px}
+.faq-item{background:linear-gradient(#eef0f1,var(--dp-color-raised));border-radius:var(--key);border:1px solid rgba(24,30,34,.28);box-shadow:var(--key-shadow)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;appearance:none;background:none;border:0;padding:16px 18px;font:600 clamp(17px,2vw,21px)/1.25 var(--dp-typography-sans);letter-spacing:-.02em;text-align:left;color:var(--dp-color-ink);cursor:pointer;min-height:56px}
+.pm{flex:none;width:36px;height:36px;border-radius:var(--key);background:linear-gradient(#f4f6f6,#d3d8da);border:1px solid rgba(24,30,34,.35);box-shadow:var(--key-shadow);display:grid;place-items:center;font:500 20px var(--dp-typography-mono);transition:transform var(--t-key) var(--settle),box-shadow var(--t-key)}
+.faq-q:hover .pm{transform:translateY(-1px)}
+.faq-q[aria-expanded=true] .pm{box-shadow:var(--key-shadow-press);transform:translateY(1px)}
+.faq-a{padding:0 18px 20px;color:var(--dp-color-label)}
+.faq-a[hidden]{display:none}
+
+/* closing */
+.closing{background:linear-gradient(#f3f5f5,var(--dp-color-raised));border-radius:20px;box-shadow:var(--key-shadow);border:1px solid rgba(24,30,34,.28);padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:1fr auto;gap:var(--gap);align-items:center}
+.closing h2{font-size:clamp(38px,6vw,78px);letter-spacing:-.04em;line-height:.95;max-width:12ch}
+.closing p{margin-top:18px;color:var(--dp-color-label)}
+.form{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.field{flex:1 1 220px;min-height:46px;padding:0 14px;border-radius:var(--key);border:1px solid rgba(24,30,34,.4);background:var(--dp-color-field);color:var(--dp-color-on-field);font:400 15px var(--dp-typography-sans);box-shadow:0 2px 5px rgba(0,0,0,.5) inset}
+.field::placeholder{color:#aeb7bb}
+.form .key{min-height:46px}
+.form-msg{width:100%;min-height:1.4em;font:400 13px var(--dp-typography-mono);color:var(--dp-color-label)}
+
+footer{padding:34px 0 40px;border-top:1px solid rgba(24,30,34,.25);box-shadow:0 1px 0 var(--hi) inset;display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:var(--gap)}
+footer h4{font:500 11px var(--dp-typography-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dp-color-label);margin-bottom:12px}
+footer ul{list-style:none;padding:0;display:grid;gap:8px;font-size:15px}
+footer a{text-decoration:none}footer a:hover{text-decoration:underline}
+footer .fine{color:var(--dp-color-label);font-size:13px;margin-top:12px}
+.skip{position:absolute;left:-999px}.skip:focus{left:16px;top:16px;z-index:9;background:#fff;padding:8px}
+
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr minmax(210px,260px)}
+  .dial{width:150px;height:150px}
+  .module{grid-template-columns:28px 1fr auto}
+  .module .d{grid-column:2/4;grid-row:2}
+  .steps{grid-template-columns:repeat(2,1fr)}.steps::before{display:none}
+}
+@media(max-width:760px){
+  body{padding:10px}
+  .case{grid-template-columns:34px 1fr;border-radius:22px}
+  .bay-no{left:calc(-34px - 18px);width:34px;font-size:10px}
+  .main{padding:0 14px}
+  .hero{grid-template-columns:1fr}
+  .assembly{flex-direction:row;align-items:center;padding:16px;gap:14px}
+  .assembly .vents{flex:0 0 52px}
+  .dial{width:104px;height:104px;box-shadow:0 0 0 5px #bfc5c8,0 0 0 6px rgba(24,30,34,.35),0 6px 12px -3px rgba(24,30,34,.5)}
+  .dial::before{inset:9px}.dial span{font-size:11px}.dial svg{width:20px;height:20px}
+  .assembly .key{width:auto}
+  .assembly .side{display:grid;gap:10px;flex:1}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .matrix,.stories,.steps,.output{grid-template-columns:1fr}
+  .quote{border-left:0;border-top:1px solid rgba(242,244,244,.25);padding:24px 0 0}
+  .module{grid-template-columns:24px 1fr}
+  .module .d{grid-column:2}.module .state{grid-column:2;text-align:left}
+  .closing{grid-template-columns:1fr}
+  footer{grid-template-columns:1fr 1fr}
+  .nav .keys .key{padding:10px 12px;font-size:12px}
+  .cell{min-height:0}
+}
+@media(max-width:380px){
+  .assembly{flex-direction:column}
+  .dial{width:92px;height:92px}
+  .assembly .side{width:100%}.assembly .key{width:100%;justify-content:center}
+  .nav .keys .key{padding:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+  .key:hover,.dial:hover,.module:hover,.faq-q:hover .pm{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="case">
+  <div class="seam" aria-hidden="true"></div>
+  <div class="main" id="main">
+
+    <header class="nav">
+      <a class="brand" href="#top"><span class="lamp" aria-hidden="true"></span>Brightbench</a>
+      <nav aria-label="Primary"><div class="keys">
+        <a class="key" href="#features">Features</a>
+        <a class="key" href="#process">Process</a>
+        <a class="key" href="#plans">Plans</a>
+        <a class="key" href="#faq">FAQ</a>
+      </div></nav>
+    </header>
+
+    <section class="bay" id="top" aria-labelledby="h1">
+      <span class="bay-no" aria-hidden="true">BAY 01</span>
+      <div class="hero">
+        <div>
+          <p class="label">Workshop planning software</p>
+          <h1 id="h1" style="margin-top:18px">Build the<br>shop <em>right</em><br>the first time.</h1>
+          <p class="lede">Brightbench turns a cut list, a parts bin and a deadline into a bench plan your whole crew can follow. No spreadsheets passed around, no guessing which board is next.</p>
+        </div>
+        <div class="assembly">
+          <div class="vents" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="dial-wrap">
+            <button class="dial" type="button" id="dial"><i class="tick" aria-hidden="true"></i><span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              Start plan</span></button>
+          </div>
+          <div class="side"><a class="key" href="#process">See how it works</a></div>
+        </div>
+      </div>
+      <div class="facts" role="list" aria-label="Brightbench in numbers">
+        <div role="listitem"><span class="label">Projects</span><strong>1 plan</strong><small>from list to finished bench</small></div>
+        <div role="listitem"><span class="label">Crew</span><strong>Up to <b>12</b></strong><small>people on one board</small></div>
+        <div role="listitem"><span class="label">Import</span><strong>CSV + DXF</strong><small>cut lists and drawings</small></div>
+        <div role="listitem"><span class="label">Setup</span><strong>10 min</strong><small>no training needed</small></div>
+      </div>
+    </section>
+
+    <section class="bay" id="features" aria-labelledby="h-features">
+      <span class="bay-no" aria-hidden="true">BAY 02</span>
+      <div class="bay-head"><h2 id="h-features">Every tool in reach.</h2><p>One deck of controls for the work that eats a shop week: cutting, tracking, handing off.</p></div>
+      <div class="deck"><div class="matrix">
+        <article class="cell"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h6"/></svg></span><h3>Cut-list nesting</h3><p>Drop in a list and get sheets laid out to waste as little stock as possible.</p><span class="label">Key 01</span></article>
+        <article class="cell"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg></span><h3>Parts bin</h3><p>Know what is on the shelf before you order. Low stock flags itself in plain words.</p><span class="label">Key 02</span></article>
+        <article class="cell"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></span><h3>Time per step</h3><p>Rough times from your own past jobs, so Friday deadlines stop being a surprise.</p><span class="label">Key 03</span></article>
+        <article class="cell"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><h3>Checked hand-offs</h3><p>Each station signs off before the next one starts. Nothing moves on half done.</p><span class="label">Key 04</span></article>
+        <article class="cell"><span class="ico"><svg viewBox="0 0 24 24"><path d="M7 3h10v18H7z"/><path d="M10 7h4M10 11h4"/></svg></span><h3>Print-ready sheets</h3><p>Large-type work cards for the bench, readable from two arms away.</p><span class="label">Key 05</span></article>
+        <article class="cell"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span><h3>Export anywhere</h3><p>Your data leaves as CSV whenever you want it. No lock-in, no ceremony.</p><span class="label">Key 06</span></article>
+      </div></div>
+    </section>
+
+    <section class="bay" aria-labelledby="h-work">
+      <span class="bay-no" aria-hidden="true">BAY 03</span>
+      <div class="bay-head"><h2 id="h-work">Work from the floor up.</h2><p>Two shops, two sizes, the same plan format on every bench.</p></div>
+      <div class="stories">
+        <article class="story">
+          <figure class="wellimg"><div class="pic" role="img" aria-label="Grayscale illustration of a workbench with clamps and a laid-out sheet of plywood">
+            <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a9296"/><stop offset="1" stop-color="#3a4348"/></linearGradient><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe3e4"/><stop offset="1" stop-color="#a5adb1"/></linearGradient></defs>
+              <rect width="640" height="400" fill="url(#g1)"/>
+              <rect x="0" y="270" width="640" height="130" fill="#262d31"/>
+              <rect x="40" y="250" width="560" height="26" fill="url(#g2)"/>
+              <rect x="70" y="276" width="22" height="124" fill="#1b2125"/><rect x="548" y="276" width="22" height="124" fill="#1b2125"/>
+              <g transform="translate(150 150) skewX(-12)"><rect width="300" height="100" fill="#cfd5d7" stroke="#20272b" stroke-width="3"/><path d="M0 34h300M0 68h300M100 0v100M200 0v100" stroke="#20272b" stroke-width="1.5" opacity=".5"/><rect x="104" y="38" width="92" height="26" fill="#a0a9ad"/></g>
+              <g fill="#20272b"><rect x="470" y="196" width="14" height="56"/><rect x="458" y="196" width="40" height="10"/><rect x="100" y="206" width="12" height="46"/><rect x="88" y="206" width="36" height="9"/></g>
+              <circle cx="90" cy="70" r="40" fill="#eef0f1" opacity=".18"/></svg>
+          </div><figcaption class="label" style="margin-top:10px">Fig. A / Single-bench shop</figcaption></figure>
+          <h3>A two-person cabinet shop</h3>
+          <p>Plans for the week sit on one screen. The saw station sees its cuts, the assembly bench sees what is coming, and nobody asks where the plywood went.</p>
+        </article>
+        <article class="story">
+          <figure class="wellimg"><div class="pic" role="img" aria-label="Grayscale illustration of shelving stacked with labeled parts bins">
+            <svg viewBox="0 0 400 460" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9aa2a6"/><stop offset="1" stop-color="#2f373b"/></linearGradient></defs>
+              <rect width="400" height="460" fill="url(#g3)"/>
+              <g fill="#20272b"><rect x="40" y="40" width="320" height="10"/><rect x="40" y="170" width="320" height="10"/><rect x="40" y="300" width="320" height="10"/><rect x="40" y="430" width="320" height="10"/><rect x="40" y="40" width="10" height="400"/><rect x="350" y="40" width="10" height="400"/></g>
+              <g stroke="#20272b" stroke-width="3"><g fill="#dfe3e4"><rect x="62" y="96" width="70" height="74"/><rect x="142" y="110" width="90" height="60"/><rect x="242" y="90" width="96" height="80"/></g><g fill="#b7bec1"><rect x="62" y="226" width="96" height="74"/><rect x="168" y="240" width="70" height="60"/><rect x="248" y="220" width="90" height="80"/></g><g fill="#cdd3d5"><rect x="62" y="356" width="60" height="74"/><rect x="132" y="346" width="100" height="84"/><rect x="242" y="366" width="96" height="64"/></g></g>
+              <g fill="#20272b"><rect x="70" y="110" width="40" height="6"/><rect x="152" y="124" width="50" height="6"/><rect x="254" y="104" width="50" height="6"/><rect x="70" y="240" width="50" height="6"/></g></svg>
+          </div><figcaption class="label" style="margin-top:10px">Fig. B / Parts shelving</figcaption></figure>
+          <h3>A growing fabrication floor</h3>
+          <p>Twelve people, three stations, one source of truth. Parts and plans stay in step without a meeting.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="bay" id="process" aria-labelledby="h-process">
+      <span class="bay-no" aria-hidden="true">BAY 04</span>
+      <div class="bay-head"><h2 id="h-process">Four steps, one line.</h2><p>Each step hands cleanly to the next, left to right across the chassis.</p></div>
+      <ol class="steps" style="list-style:none;padding:0">
+        <li class="step"><span class="n">01</span><h3>Import the list</h3><p>Paste a cut list or drop a CSV. Brightbench reads sizes, counts and materials.</p></li>
+        <li class="step"><span class="n">02</span><h3>Check the stock</h3><p>Compare against the parts bin and mark what needs ordering.</p></li>
+        <li class="step"><span class="n">03</span><h3>Assign stations</h3><p>Give each task to a bench and a person, with a rough time beside it.</p></li>
+        <li class="step"><span class="n">04</span><h3>Print and build</h3><p>Hand out large-type cards and sign off each step as it finishes.</p></li>
+      </ol>
+    </section>
+
+    <section class="bay" aria-labelledby="h-output">
+      <span class="bay-no" aria-hidden="true">BAY 05</span>
+      <div class="output">
+        <div>
+          <span class="label">Why crews stay</span>
+          <h2 id="h-output">Less hunting. More making.</h2>
+          <ul class="benefits">
+            <li><span><b>Fewer wasted sheets</b>Nesting keeps offcuts useful and the scrap pile small.</span></li>
+            <li><span><b>One shared plan</b>Everyone reads the same card, so handoffs stop depending on memory.</span></li>
+            <li><span><b>Calm Fridays</b>Time per step comes from your own history, not a guess.</span></li>
+          </ul>
+        </div>
+        <figure class="quote">
+          <blockquote>&ldquo;We used to lose Monday mornings to figuring out what was left from last week. Now the board just tells us.&rdquo;</blockquote>
+          <figcaption>Marta Ilves / Owner, Ilves Joinery (sample quote)</figcaption>
+          <blockquote style="font-size:19px;color:var(--dp-color-on-field-muted)">&ldquo;The printed cards are big enough to read with sawdust on my glasses.&rdquo;</blockquote>
+          <figcaption>Dev Anand / Bench lead (sample quote)</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="bay" id="plans" aria-labelledby="h-plans">
+      <span class="bay-no" aria-hidden="true">BAY 06</span>
+      <div class="bay-head"><h2 id="h-plans">Pick a module.</h2><p>Press a module to select it. The lamp and the word on the right both show which one is chosen.</p></div>
+      <div class="tray" id="tray" role="group" aria-label="Plan modules">
+        <button class="module" type="button" aria-pressed="false"><span class="bulb" aria-hidden="true"></span><h3>Solo</h3><span class="d">One bench, one planner. Cut lists, parts bin and printed cards.</span><span class="state">Not selected</span></button>
+        <button class="module" type="button" aria-pressed="true"><span class="bulb" aria-hidden="true"></span><h3>Crew<span class="tag">Featured</span></h3><span class="d">Up to twelve people, stations, sign-offs and shared plans.</span><span class="state">Selected</span></button>
+        <button class="module" type="button" aria-pressed="false"><span class="bulb" aria-hidden="true"></span><h3>Floor</h3><span class="d">Several shops on one account, with roles and a combined parts bin.</span><span class="state">Not selected</span></button>
+      </div>
+    </section>
+
+    <section class="bay" id="faq" aria-labelledby="h-faq">
+      <span class="bay-no" aria-hidden="true">BAY 07</span>
+      <div class="bay-head"><h2 id="h-faq">Questions, answered.</h2></div>
+      <div class="faq">
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="true" aria-controls="a1"><span>Do I need to change how I draw parts?</span><span class="pm" aria-hidden="true">&minus;</span></button><div class="faq-a" id="a1"><p>No. Paste what you already have: a plain list, a spreadsheet export or a simple DXF. Brightbench reads sizes and counts and leaves your drawings alone.</p></div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="a2"><span>Does it work offline at the bench?</span><span class="pm" aria-hidden="true">+</span></button><div class="faq-a" id="a2" hidden><p>Printed cards work anywhere. The planner itself needs a connection, and your last plan stays readable if it drops.</p></div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="a3"><span>Can I take my data with me?</span><span class="pm" aria-hidden="true">+</span></button><div class="faq-a" id="a3" hidden><p>Yes. Every plan and parts list exports to CSV at any time, from any module.</p></div></div>
+      </div>
+    </section>
+
+    <section class="bay" aria-labelledby="h-close">
+      <span class="bay-no" aria-hidden="true">BAY 08</span>
+      <div class="closing">
+        <div>
+          <h2 id="h-close">Ready when the saw is.</h2>
+          <p>Leave your email and we will send a starter bench plan to try.</p>
+          <form class="form" id="form" novalidate>
+            <label class="label" for="email" style="width:100%">Email address</label>
+            <input class="field" id="email" type="email" placeholder="you@yourshop.com" autocomplete="email" required>
+            <button class="key dark" type="submit">Send plan</button>
+            <p class="form-msg" id="msg" role="status"></p>
+          </form>
+        </div>
+        <div class="vents" aria-hidden="true" style="width:120px"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </section>
+
+    <footer>
+      <div><a class="brand" href="#top"><span class="lamp" aria-hidden="true"></span>Brightbench</a><p class="fine">Planning for people who make things with their hands.</p></div>
+      <nav aria-label="Product"><h4>Product</h4><ul><li><a href="#features">Features</a></li><li><a href="#plans">Plans</a></li><li><a href="#faq">FAQ</a></li></ul></nav>
+      <nav aria-label="Company"><h4>Company</h4><ul><li><a href="#top">About</a></li><li><a href="#top">Journal</a></li><li><a href="#top">Contact</a></li></ul></nav>
+      <nav aria-label="Legal"><h4>Legal</h4><ul><li><a href="#top">Privacy</a></li><li><a href="#top">Terms</a></li></ul></nav>
+    </footer>
+  </div>
+</div>
+<script>
+(function(){
+  var qs=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+  qs('#tray .module').forEach(function(b,_,all){
+    b.addEventListener('click',function(){
+      all.forEach(function(o){var on=o===b;o.setAttribute('aria-pressed',on);o.querySelector('.state').textContent=on?'Selected':'Not selected'});
+    });
+  });
+  qs('.faq-q').forEach(function(q){
+    q.addEventListener('click',function(){
+      var open=q.getAttribute('aria-expanded')==='true';
+      q.setAttribute('aria-expanded',!open);
+      document.getElementById(q.getAttribute('aria-controls')).hidden=open;
+      q.querySelector('.pm').textContent=open?'+':'−';
+    });
+  });
+  document.getElementById('dial').addEventListener('click',function(){
+    var e=document.getElementById('email');
+    e.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});
+    setTimeout(function(){e.focus({preventScroll:true})},400);
+  });
+  document.getElementById('form').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var e=document.getElementById('email'),m=document.getElementById('msg');
+    m.textContent=e.validity.valid&&e.value?'Thanks. Your starter plan is on its way (demo, nothing was sent).':'Enter a valid email address.';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+ATLAS_P("F296","a 30s cinematic F1 pit stop in Three.js. Detailed car, 8-person crew changing all 4 tyres, synthesized audio, fully procedural.");

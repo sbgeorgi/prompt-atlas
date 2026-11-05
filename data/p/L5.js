@@ -1,0 +1,1 @@
+ATLAS_P("L5","merak ediyorum ne kadar iyi bir hareketli grafik tasar\u0131mc\u0131s\u0131s\u0131n. Bunu bana kan\u0131tlamak i\u00e7in 15 saniye s\u00fcrecek bir hareketli grafik videosu istiyorum senden. Bu video https://t.co/TdKZEIYaxO 'i tan\u0131tacak ve x \u00fczerinde 10.000 ki\u015finin kar\u015f\u0131s\u0131na \u00e7\u0131kacak. Elinden geleni yap");

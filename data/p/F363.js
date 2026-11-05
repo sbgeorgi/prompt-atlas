@@ -1,0 +1,1 @@
+ATLAS_P("F363","A 3D multiplayer game where the players are a squad of x-wings taking on a star destroyer. They pilot their ships to take out key components of the star destroyer while also dealing with guns mounted on the star destroyer and waves of tie fighters.");

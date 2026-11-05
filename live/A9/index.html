@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deepfield</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000405; --paper:#dceff2; --accent:#5cc6e0;
+  --mute:rgb(220 239 242/.56); --faint:rgb(220 239 242/.34); --line:rgb(220 239 242/.13);
+  --gut:clamp(20px,3.4vw,48px);
+  --font:Switzer,"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--ink);color:var(--paper);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{position:fixed;inset:0;width:100%}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* z0 plate */
+.plate{position:fixed;inset:0;z-index:0;transform:translate3d(0,0,0) scale(1.06);will-change:transform;background:var(--ink)}
+.plate canvas{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+/* z1 grade */
+.grade{position:fixed;inset:0;z-index:1;background:#06283a;mix-blend-mode:soft-light;opacity:.6;pointer-events:none}
+/* z2 scrims */
+.scrims{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:
+   radial-gradient(ellipse 52% 46% at 88% 97%, rgb(0 6 9/.86), transparent 82%),
+   linear-gradient(to bottom, rgb(0 4 5/.7), rgb(0 4 5/.28) 55%, transparent),
+   linear-gradient(to right,
+     rgb(0 4 5/.88) 0%, rgb(0 4 5/.82) 12%, rgb(0 4 5/.68) 24%,
+     rgb(0 4 5/.46) 36%, rgb(0 4 5/.22) 48%, rgb(0 4 5/.06) 58%, transparent 66%),
+   radial-gradient(ellipse 78% 82% at 56% 50%, transparent 46%, rgb(0 4 5/.34) 78%, rgb(0 4 5/.7) 100%);
+  /* the three-line "short top gradient" sits at 2nd position, corner radial first */
+  background-size:100% 100%,100% 170px,100% 100%,100% 100%;
+  background-repeat:no-repeat}
+/* z3 grain */
+.grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+/* z4 chrome */
+.chrome{position:fixed;inset:0;z-index:4}
+
+nav{position:absolute;top:0;left:0;right:0;height:64px;display:flex;align-items:center;padding:0 var(--gut)}
+.mark{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.mark i{width:9px;height:9px;background:var(--accent);display:block}
+.links{margin-left:auto;display:flex;gap:26px;font-size:13.5px;font-weight:400;color:rgb(220 239 242/.78)}
+.links a{transition:color .22s}
+.links a:hover{color:var(--paper)}
+.chip{margin-left:26px;padding-left:26px;border-left:1px solid var(--line);display:flex;align-items:center;gap:9px;
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--mute);white-space:nowrap;height:20px}
+.chip i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgb(92 198 224/.6)}
+
+.ui{display:contents}
+.copy{position:absolute;left:var(--gut);top:clamp(120px,21svh,220px);max-width:min(34rem,54vw)}
+h1{font-size:clamp(1.9rem,4.1vw,3.5rem);font-weight:500;letter-spacing:-.033em;line-height:1.06}
+.sub{margin-top:clamp(16px,2.4svh,24px);font-size:14.5px;line-height:1.6;color:var(--mute);max-width:27rem;font-weight:400}
+.btn{margin-top:clamp(22px,3.6svh,34px);display:inline-flex;align-items:center;gap:10px;background:var(--paper);color:var(--ink);
+  font-size:13.5px;font-weight:500;padding:12px 18px 12px 20px;border-radius:999px;letter-spacing:-.005em}
+.btn span{font-size:13px;line-height:1}
+
+.index{position:absolute;right:var(--gut);bottom:44px;width:min(22rem,44vw)}
+.index .hd{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);
+  padding-bottom:10px;border-bottom:1px solid var(--line)}
+.index a{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);
+  font-size:13.5px;transition:padding-left .22s ease}
+.index a b{font-weight:500;letter-spacing:-.005em}
+.index a em{font-style:normal;color:var(--mute);font-size:12.5px;transition:color .22s ease}
+.index a:hover{padding-left:9px}
+.index a:hover em{color:var(--accent)}
+.place{position:absolute;left:var(--gut);bottom:44px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);font-variant-numeric:tabular-nums}
+
+/* entrance, once */
+@keyframes lift{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+nav,h1,.sub,.btn,.index,.place{animation:lift .85s cubic-bezier(.2,.7,.2,1) both}
+nav{animation-delay:.05s}h1{animation-delay:.2s}.sub{animation-delay:.3s}.btn{animation-delay:.38s}.index{animation-delay:.5s}.place{animation-delay:.56s}
+
+@media (max-width:900px){.plate canvas{object-position:64% 46%}}
+@media (max-width:700px){
+  .links,.chip,.place{display:none}
+  .scrims{background:
+     linear-gradient(to top, rgb(0 4 5/.94) 0%, rgb(0 4 5/.9) 28%, rgb(0 4 5/.7) 46%, rgb(0 4 5/.32) 64%, transparent 82%),
+     linear-gradient(to bottom, rgb(0 4 5/.7), transparent 140px),
+     radial-gradient(ellipse 90% 80% at 56% 40%, transparent 50%, rgb(0 4 5/.55) 100%);
+    background-size:100% 100%;background-repeat:no-repeat}
+  .ui{display:flex;flex-direction:column;justify-content:flex-end;position:absolute;inset:64px 0 0;padding:0 var(--gut) max(22px,env(safe-area-inset-bottom));gap:26px}
+  .copy,.index{position:static;max-width:none;width:100%}
+  .index a:nth-of-type(4){display:none}
+  .sub{font-size:14px}
+}
+@media (max-height:520px) and (min-width:701px){.sub{display:none}}
+@media (prefers-reduced-motion:reduce){
+  nav,h1,.sub,.btn,.index,.place{animation:none}
+  .index a,.index a em,.links a{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="plate" id="plate"><canvas id="c" width="960" height="540" aria-hidden="true"></canvas></div>
+<div class="grade"></div>
+<div class="scrims"></div>
+<div class="grain"></div>
+<div class="chrome">
+  <nav>
+    <a class="mark" href="#"><i></i>Deepfield</a>
+    <div class="links"><a href="#">Work</a><a href="#">Studio</a><a href="#">Journal</a><a href="#">Contact</a></div>
+    <div class="chip"><i></i>Two slots — Q3</div>
+  </nav>
+  <div class="ui">
+    <div class="copy">
+      <h1>Deep work for brands<br>that only get one look.</h1>
+      <p class="sub">Deepfield is a four-person studio in Lisbon working in identity, motion, and the places the two meet. We take three projects a year.</p>
+      <a class="btn" href="#">See the work <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="index">
+      <div class="hd"><span>Selected</span><span>2026</span></div>
+      <a href="#"><b>Marisco Atlantic</b><em>Identity</em></a>
+      <a href="#"><b>Hydra Systems</b><em>Motion</em></a>
+      <a href="#"><b>Casa do Sal</b><em>Site</em></a>
+      <a href="#"><b>Nordkapp</b><em>Film</em></a>
+    </div>
+  </div>
+  <div class="place">38.7223° N · 9.1393° W</div>
+</div>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height, S = W/1280, TAU = Math.PI*2, LOOP = 8.04;
+
+  // deterministic random
+  var seed = 7; function rnd(){ seed = (seed*16807)%2147483647; return (seed-1)/2147483646; }
+
+  function mk(w,h){ var o=document.createElement('canvas'); o.width=w; o.height=h; return o; }
+  var bg = mk(W,H), g = bg.getContext('2d'); g.scale(S,S);
+
+  // ---- static layer: water, walls, opening, sand
+  var lg = g.createLinearGradient(0,0,0,720);
+  lg.addColorStop(0,'#010608'); lg.addColorStop(.5,'#04202c'); lg.addColorStop(1,'#020d13');
+  g.fillStyle = lg; g.fillRect(0,0,1280,720);
+  var rg = g.createRadialGradient(800,360,10,800,360,640);
+  rg.addColorStop(0,'rgba(34,120,148,.42)'); rg.addColorStop(.5,'rgba(14,64,84,.26)'); rg.addColorStop(1,'rgba(0,0,0,0)');
+  g.fillStyle = rg; g.fillRect(0,0,1280,720);
+
+  // left chamber wall + ceiling slab (dark masses)
+  var wl = g.createLinearGradient(0,0,620,0);
+  wl.addColorStop(0,'rgba(0,3,5,.97)'); wl.addColorStop(.7,'rgba(1,8,12,.9)'); wl.addColorStop(1,'rgba(1,8,12,0)');
+  g.fillStyle = wl; g.fillRect(0,0,640,720);
+  g.fillStyle = 'rgba(0,3,5,.96)';
+  g.beginPath(); g.moveTo(0,0); g.lineTo(612,0); g.lineTo(592,104); g.lineTo(420,210); g.lineTo(0,330); g.closePath(); g.fill();
+  // right wall, ragged edge
+  g.beginPath(); g.moveTo(1280,0); g.lineTo(1066,0); g.lineTo(1100,96); g.lineTo(1150,230); g.lineTo(1128,360); g.lineTo(1176,520); g.lineTo(1150,720); g.lineTo(1280,720); g.closePath();
+  var wr = g.createLinearGradient(1066,0,1280,0); wr.addColorStop(0,'rgba(2,16,22,.92)'); wr.addColorStop(1,'rgba(0,4,6,.98)');
+  g.fillStyle = wr; g.fill();
+  // stone block hairlines
+  g.strokeStyle = 'rgba(80,150,170,.10)'; g.lineWidth = 1.2;
+  var r, i;
+  for(i=0;i<46;i++){ var bx=rnd()*600, by=140+rnd()*500, bw=50+rnd()*130, bh=30+rnd()*60; g.strokeRect(bx,by,bw,bh); }
+  for(i=0;i<34;i++){ var rx=1130+rnd()*150, ry=rnd()*700, rw=30+rnd()*80, rh=24+rnd()*50; g.strokeRect(rx,ry,rw,rh); }
+  // pillar silhouette mid-left (hints of arch)
+  g.fillStyle = 'rgba(0,4,6,.55)'; g.beginPath(); g.moveTo(430,720); g.lineTo(470,320); g.lineTo(540,300); g.lineTo(560,720); g.closePath(); g.fill();
+
+  // opening in the ceiling
+  g.save(); g.filter = 'blur(7px)';
+  var og = g.createLinearGradient(600,110,820,30); og.addColorStop(0,'rgba(120,200,225,.7)'); og.addColorStop(1,'rgba(130,205,230,.9)');
+  g.fillStyle = og;
+  g.beginPath(); g.moveTo(604,106); g.lineTo(792,12); g.lineTo(836,44); g.lineTo(654,150); g.closePath(); g.fill();
+  g.restore();
+  g.fillStyle = 'rgba(170,228,245,.4)';
+  g.beginPath(); g.moveTo(640,100); g.lineTo(790,22); g.lineTo(812,40); g.lineTo(664,124); g.closePath(); g.fill();
+
+  // sand floor
+  var floorPath = new Path2D();
+  floorPath.moveTo(0,720); floorPath.lineTo(0,668); floorPath.bezierCurveTo(300,640,560,596,860,586); floorPath.bezierCurveTo(1030,580,1160,592,1280,606); floorPath.lineTo(1280,720); floorPath.closePath();
+  var sg = g.createLinearGradient(0,0,1280,0);
+  sg.addColorStop(0,'#01080b'); sg.addColorStop(.4,'#07202a'); sg.addColorStop(.72,'#103a4a'); sg.addColorStop(1,'#1a566a');
+  g.fillStyle = sg; g.fill(floorPath);
+  var sh = g.createLinearGradient(0,560,0,720); sh.addColorStop(0,'rgba(0,0,0,0)'); sh.addColorStop(1,'rgba(0,4,6,.45)');
+  g.fillStyle = sh; g.fill(floorPath);
+  g.save(); g.clip(floorPath);
+  for(i=0;i<420;i++){ g.fillStyle='rgba('+(120+rnd()*60|0)+','+(190+rnd()*40|0)+',210,'+(rnd()*.1)+')'; g.fillRect(500+rnd()*780,590+rnd()*130,1.4,1.4); }
+  g.restore();
+
+  // beam geometry (1280x720 space)
+  var BL = [604,106,792,12], BR = [700,600,1030,566];
+  function beamEdges(y){ var l = 604+(700-604)*(y-106)/494, rr = 792+(1030-792)*(y-12)/554; return [l,rr]; }
+  function inBeam(x,y){ if(y<30||y>600) return 0; var e=beamEdges(y); return x>e[0]&&x<e[1] ? 1 : 0; }
+
+  // ---- animated elements
+  var rays = []; for(i=0;i<16;i++) rays.push({u:rnd(), v:rnd(), w:5+rnd()*26, a:.03+rnd()*.07, k:1+(rnd()*3|0), ph:rnd()*TAU});
+  var ctxMain; var cau = []; for(i=0;i<80;i++) cau.push({x:560+rnd()*720, y:600+rnd()*120, l:18+rnd()*54, a:.12+rnd()*.34, k:1+(rnd()*3|0), ph:rnd()*TAU, rot:rnd()*TAU, k2:1+(rnd()*2|0)});
+  var dust = []; for(i=0;i<110;i++) dust.push({x:rnd()*1280, y:rnd()*720, s:.6+rnd()*1.6, v:4+rnd()*10, ph:rnd()*TAU, a:.12+rnd()*.35});
+  var fish = [];
+  var specs = [[880,410,50,10,0,1,15],[950,440,40,8,1.4,1,12],[820,450,44,9,2.8,1,13],[990,400,34,12,4.1,1,10],[930,375,46,7,5.2,1,11],[860,390,38,10,3.3,1,9],[1010,455,30,6,.7,1,9],[780,425,36,8,5.9,1,11],[905,470,34,6,2.1,1,8]];
+  specs.forEach(function(s,idx){ fish.push({cx:s[0],cy:s[1],ax:s[2],ay:s[3],ph:s[4],k:s[5],sz:s[6],warm:idx===3||idx===4}); });
+
+  function drawFish(f,p){
+    var a = p*f.k + f.ph, x = f.cx + f.ax*Math.sin(a), y = f.cy + f.ay*Math.sin(2*a+.7)*.6;
+    var dir = Math.cos(a) >= 0 ? 1 : -1, lit = inBeam(x,y);
+    var base = f.warm ? [214,158,96] : [176,212,222], dark = f.warm ? .5 : .42;
+    var al = lit ? .9 : dark, wig = Math.sin(p*8+f.ph*2)*.22;
+    ctx.save(); ctx.translate(x,y); ctx.scale(dir,1); ctx.rotate(Math.sin(2*a)*.1*dir);
+    ctx.fillStyle = 'rgba('+base[0]+','+base[1]+','+base[2]+','+al+')';
+    ctx.beginPath(); ctx.ellipse(0,0,f.sz,f.sz*.36,0,0,TAU); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-f.sz*.8,0); ctx.lineTo(-f.sz*1.45,-f.sz*(.34+wig)); ctx.lineTo(-f.sz*1.45,f.sz*(.34-wig)); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = 'rgba(10,40,52,'+(al*.55)+')';
+    ctx.beginPath(); ctx.ellipse(f.sz*.3,-f.sz*.08,f.sz*.07,f.sz*.07,0,0,TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,'+(al*.16)+')';
+    ctx.beginPath(); ctx.ellipse(-f.sz*.05,-f.sz*.16,f.sz*.6,f.sz*.09,0,0,TAU); ctx.fill();
+    ctx.restore();
+  }
+
+  var lay = mk(W,H), lx = lay.getContext('2d');
+  function frame(t){
+    var p = TAU*t/LOOP;
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.drawImage(bg,0,0);
+    ctx.setTransform(S,0,0,S,0,0);
+
+    // light shaft (drawn on a layer, then softened)
+    var main = ctx; ctx = lx; ctx.setTransform(S,0,0,S,0,0); ctx.clearRect(0,0,1280,720); ctx.globalCompositeOperation = 'lighter';
+    var breathe = .9 + .1*Math.sin(p);
+    var bgx = ctx.createLinearGradient(700,40,900,600);
+    bgx.addColorStop(0,'rgba(150,220,240,'+(.42*breathe)+')'); bgx.addColorStop(.55,'rgba(70,155,185,'+(.2*breathe)+')'); bgx.addColorStop(1,'rgba(40,110,140,'+(.1*breathe)+')');
+    ctx.fillStyle = bgx;
+    ctx.beginPath(); ctx.moveTo(604,106); ctx.lineTo(792,12); ctx.lineTo(1030,566); ctx.lineTo(700,600); ctx.closePath(); ctx.fill();
+    // inner soft core
+    var core = ctx.createLinearGradient(740,40,880,560);
+    core.addColorStop(0,'rgba(190,240,255,'+(.2*breathe)+')'); core.addColorStop(1,'rgba(90,180,210,0)');
+    ctx.fillStyle = core;
+    ctx.beginPath(); ctx.moveTo(660,100); ctx.lineTo(780,30); ctx.lineTo(940,540); ctx.lineTo(760,560); ctx.closePath(); ctx.fill();
+    // god rays
+    rays.forEach(function(r){
+      var m = .5+.5*Math.sin(p*r.k+r.ph);
+      var sx = BL[0]+(BL[2]-BL[0])*r.u, sy = BL[1]+(BL[3]-BL[1])*r.u;
+      var ex = BR[0]+(BR[2]-BR[0])*Math.min(1,Math.max(0,r.u+(r.v-.5)*.3+.04*Math.sin(p+r.ph))), ey = 590;
+      ctx.strokeStyle = 'rgba(170,230,248,'+(r.a*(.35+.9*m))+')'; ctx.lineWidth = r.w; ctx.lineCap='round';
+      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.stroke();
+    });
+    // pool of light where the beam lands
+    var pool = ctx.createRadialGradient(860,598,4,860,598,300);
+    pool.addColorStop(0,'rgba(130,210,230,'+(.34*breathe)+')'); pool.addColorStop(1,'rgba(40,110,140,0)');
+    ctx.save(); ctx.scale(1,.32); ctx.translate(0,598/.32-598); ctx.fillStyle = pool; ctx.beginPath(); ctx.arc(860,598,300,0,TAU); ctx.fill(); ctx.restore();
+
+    ctx = main; ctx.setTransform(1,0,0,1,0,0); ctx.globalCompositeOperation='lighter'; ctx.filter='blur(7px)'; ctx.drawImage(lay,0,0); ctx.filter='none'; ctx.setTransform(S,0,0,S,0,0);
+    // caustics on the sand, strongest near t=6s
+    var env = .65 - .35*Math.sin(p);
+    ctx.save(); ctx.translate(0,0);
+    var fp = new Path2D(); fp.moveTo(0,720); fp.lineTo(0,668); fp.bezierCurveTo(300,640,560,596,860,586); fp.bezierCurveTo(1030,580,1160,592,1280,606); fp.lineTo(1280,720); fp.closePath();
+    ctx.clip(fp);
+    ctx.lineCap = 'round'; ctx.lineWidth = 3; ctx.filter='blur(1.2px)';
+    cau.forEach(function(c){
+      var m = .5+.5*Math.sin(p*c.k+c.ph), dx = 14*Math.sin(p*c.k2+c.ph), dy = 5*Math.cos(p*c.k2+c.ph*1.3);
+      var x = c.x+dx, y = c.y+dy, rot = c.rot+.5*Math.sin(p+c.ph);
+      var cx = Math.cos(rot)*c.l, cy = Math.sin(rot)*c.l*.35;
+      ctx.strokeStyle = 'rgba(150,226,244,'+(c.a*m*env*.7)+')';
+      ctx.beginPath(); ctx.moveTo(x-cx,y-cy); ctx.quadraticCurveTo(x+cy*.8,y-cx*.4,x+cx,y+cy); ctx.stroke();
+    });
+    ctx.filter='none'; ctx.restore();
+
+    // dust motes
+    dust.forEach(function(d){
+      var y = ((d.y - d.v*t)%760+760)%760-20, x = d.x + 12*Math.sin(p+d.ph);
+      var a = d.a*(inBeam(x,y)?2.6:.7)*(.6+.4*Math.sin(p*2+d.ph));
+      ctx.fillStyle = 'rgba(190,235,248,'+Math.min(.9,a)+')';
+      ctx.beginPath(); ctx.arc(x,y,d.s,0,TAU); ctx.fill();
+    });
+
+    ctx.globalCompositeOperation = 'source-over';
+    fish.forEach(function(f){ drawFish(f,p); });
+  }
+
+  if(reduce){
+    frame(2.6);
+  } else {
+    var t0 = performance.now(), last = 0;
+    (function loop(now){
+      requestAnimationFrame(loop);
+      if(now-last < 32) return; last = now;
+      frame(((now-t0)/1000)%LOOP);
+    })(t0);
+  }
+
+  // pointer parallax: the only motion after the entrance, eased at 0.045
+  var plate = document.getElementById('plate');
+  var fine = matchMedia('(pointer: fine)').matches && !matchMedia('(pointer: coarse)').matches;
+  if(fine && !reduce){
+    var tx=0,ty=0,cx=0,cy=0,running=false;
+    function step(){
+      cx += (tx-cx)*0.045; cy += (ty-cy)*0.045;
+      plate.style.transform = 'translate3d('+cx.toFixed(2)+'px,'+cy.toFixed(2)+'px,0) scale(1.06)';
+      if(Math.abs(tx-cx)>0.02 || Math.abs(ty-cy)>0.02) requestAnimationFrame(step); else running=false;
+    }
+    addEventListener('pointermove',function(e){
+      tx = -((e.clientX/innerWidth)-.5)*2*14;
+      ty = -((e.clientY/innerHeight)-.5)*2*11;
+      if(!running){ running=true; requestAnimationFrame(step); }
+    },{passive:true});
+  }
+})();
+</script>
+</body>
+</html>

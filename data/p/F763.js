@@ -1,0 +1,1 @@
+ATLAS_P("F763","build an art project which is a fractal visulizer (mandelbrot, etc), but the styles look like handcrafted with paper, cardboard and such. Add post-procesing so it looks cinematic. Also want to use beautitful elaborated animations and transitions and a beautiful UX. Plan it first, show me a preview before coding everything");

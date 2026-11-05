@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tangram Studio - Playful Geometric</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#fffdf5;--dp-color-panel:#fff;--dp-color-ink:#253044;--dp-color-outline:#252b3a;
+  --dp-color-accent:#6434df;--dp-color-accent-secondary:#ff78c5;--dp-color-accent-warm:#ffd05b;--dp-color-accent-fresh:#9bf1cd;
+  --dp-color-field-soft:#e9fff5;--dp-color-selection:#f1ebff;--dp-color-rule-muted:#b8b6c5;
+  --dp-typography-display:"PlayfulGeometricDisplay","Host Grotesk","Arial Black",sans-serif;
+  --dp-typography-reading:"PlayfulGeometricReading","Instrument Sans",system-ui,sans-serif;
+  --gut:28px;--bo:14px;--r:17px;--bw:3px;--dw:2px;--t:180ms;--off:6px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--dp-color-ground);color:var(--dp-color-ink);font-family:var(--dp-typography-reading);font-size:16px;line-height:1.65;overflow-x:hidden;
+  background-image:radial-gradient(var(--dp-color-rule-muted) 1.2px,transparent 1.3px);background-size:28px 28px;background-position:0 0}
+body::before{content:"";position:fixed;inset:0;background:var(--dp-color-ground);opacity:.82;z-index:-1}
+h1,h2,h3,h4{font-family:var(--dp-typography-display);font-weight:800;line-height:1.02;letter-spacing:-.03em;color:var(--dp-color-outline)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--dp-color-accent);outline-offset:4px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gut)}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;border:var(--bw) solid var(--dp-color-outline);padding:8px 14px;border-radius:12px;z-index:50}
+.skip:focus{left:12px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:700 16px/1 var(--dp-typography-reading);text-decoration:none;color:var(--dp-color-outline);
+  background:var(--dp-color-accent-warm);border:var(--bw) solid var(--dp-color-outline);border-radius:999px;padding:16px 26px;cursor:pointer;
+  box-shadow:var(--off) var(--off) 0 var(--dp-color-outline);transition:transform var(--t),box-shadow var(--t)}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--dp-color-outline)}
+.btn:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--dp-color-outline)}
+.btn.violet{background:var(--dp-color-accent);color:#fff}
+.btn.white{background:#fff}
+.btn.small{padding:11px 18px;font-size:14px;--off:4px}
+
+/* nav */
+header{padding:22px 0}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font:800 24px var(--dp-typography-display);letter-spacing:-.03em;text-decoration:none;color:var(--dp-color-outline)}
+.logo svg{width:38px;height:38px}
+.nav ul{list-style:none;display:flex;gap:6px;padding:0}
+.nav ul a{display:block;padding:8px 14px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:var(--dw) solid transparent;transition:background var(--t),border-color var(--t)}
+.nav ul a:hover{background:#fff;border-color:var(--dp-color-outline)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:34px var(--gut) 70px}
+.eyebrow{display:inline-block;font:700 14px var(--dp-typography-reading);letter-spacing:.04em;text-transform:uppercase;background:var(--dp-color-accent-fresh);border:var(--dw) solid var(--dp-color-outline);border-radius:999px;padding:6px 14px;margin-bottom:22px}
+h1{font-size:clamp(46px,8.4vw,102px);line-height:.94;letter-spacing:-.045em}
+h1 .u{color:var(--dp-color-accent);position:relative;white-space:nowrap}
+h1 .u svg{position:absolute;left:0;bottom:-.02em;width:100%;height:.2em}
+.hero p.lead{font-size:19px;max-width:520px;margin:26px 0 32px}
+.actions{display:flex;flex-wrap:wrap;gap:18px}
+.assembly{position:relative;aspect-ratio:1/1;max-width:460px;width:100%;justify-self:center}
+.assembly svg{width:100%;height:100%;overflow:visible}
+
+/* fact strip */
+.facts-base{position:relative;margin-bottom:90px}
+.facts-base::before{content:"";position:absolute;inset:14px -10px -14px 10px;background:var(--dp-color-accent-fresh);border:var(--bw) solid var(--dp-color-outline);border-radius:30px}
+.facts{position:relative;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:var(--bw) solid var(--dp-color-outline);border-radius:30px;overflow:hidden}
+.facts div{padding:26px 24px;border-right:var(--dw) dashed var(--dp-color-rule-muted)}
+.facts div:last-child{border:0}
+.facts b{display:block;font:800 clamp(34px,4vw,48px)/1 var(--dp-typography-display);letter-spacing:-.04em;color:var(--dp-color-accent)}
+.facts span{font-size:14px;font-weight:500}
+
+/* book */
+.book{position:relative;margin-bottom:100px}
+.book-in{margin-right:var(--bo)}
+.book::before{content:"";position:absolute;inset:var(--off) calc(var(--off)*-2) calc(var(--off)*-2) var(--off);inset:var(--bo) var(--gut) calc(var(--bo)*-1) calc(var(--gut) + var(--bo));background:var(--dp-color-accent);border:var(--bw) solid var(--dp-color-outline);border-radius:44px}
+.book-in{position:relative;background:#fff;border:var(--bw) solid var(--dp-color-outline);border-radius:44px;padding:70px 56px 56px}
+.tab{position:absolute;top:-22px;left:44px;background:var(--dp-color-accent-secondary);border:var(--bw) solid var(--dp-color-outline);border-radius:14px 14px 0 0;padding:6px 20px 8px;font:800 14px var(--dp-typography-reading);letter-spacing:.06em;text-transform:uppercase;box-shadow:0 0 0 0}
+.book h2{font-size:clamp(34px,5vw,60px);max-width:760px}
+.book .intro{max-width:620px;margin:20px 0 44px;font-size:17px}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feat{border:var(--dw) solid var(--dp-color-outline);border-radius:var(--r);padding:24px;background:var(--dp-color-ground)}
+.feat .ic{width:54px;height:54px;border:var(--dw) solid var(--dp-color-outline);display:grid;place-items:center;margin-bottom:16px}
+.feat:nth-child(1) .ic{background:var(--dp-color-accent-warm);border-radius:50%}
+.feat:nth-child(2) .ic{background:var(--dp-color-accent-secondary);border-radius:27px 27px 6px 6px}
+.feat:nth-child(3) .ic{background:var(--dp-color-accent-fresh);border-radius:10px}
+.feat h3{font-size:22px;letter-spacing:-.02em;margin-bottom:6px}
+.feat p{font-size:15.5px}
+.gallery{display:grid;grid-template-columns:1.1fr .9fr 1fr;gap:26px;margin-top:54px;align-items:end}
+.ph{border:var(--bw) solid var(--dp-color-outline);overflow:hidden;background:#ddd;position:relative}
+.ph svg{display:block;width:100%;height:100%}
+.ph.a{aspect-ratio:4/5;border-radius:999px 999px var(--r) var(--r);box-shadow:8px 8px 0 var(--dp-color-accent-secondary)}
+.ph.b{aspect-ratio:1/1;border-radius:50% 50% 50% 8px;box-shadow:8px 8px 0 var(--dp-color-accent-warm);margin-bottom:30px}
+.ph.c{aspect-ratio:5/6;border-radius:var(--r) 120px var(--r) var(--r);box-shadow:8px 8px 0 var(--dp-color-accent-fresh)}
+figcaption{font-size:13px;margin-top:14px;font-weight:500}
+
+/* process */
+.section-h{text-align:center;margin-bottom:56px}
+.section-h h2{font-size:clamp(34px,5vw,60px)}
+.section-h p{max-width:520px;margin:14px auto 0}
+.steps{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-bottom:110px}
+.steps::before{content:"";position:absolute;left:8%;right:8%;top:42px;border-top:var(--bw) dashed var(--dp-color-outline)}
+.step{position:relative;text-align:center}
+.badge{position:relative;width:86px;height:86px;margin:0 auto 20px;display:grid;place-items:center;font:800 38px var(--dp-typography-display);color:var(--dp-color-outline);border:var(--bw) solid var(--dp-color-outline);box-shadow:5px 5px 0 var(--dp-color-outline)}
+.step:nth-child(1) .badge{background:var(--dp-color-accent-warm);border-radius:50%}
+.step:nth-child(2) .badge{background:var(--dp-color-accent-secondary);border-radius:18px}
+.step:nth-child(3) .badge{background:var(--dp-color-accent-fresh);border-radius:43px 43px 10px 10px}
+.step:nth-child(4) .badge{background:#fff;border-radius:50% 50% 50% 8px}
+.step h3{font-size:21px;margin-bottom:6px;letter-spacing:-.02em}
+.step p{font-size:15px;max-width:240px;margin:0 auto}
+
+/* benefits */
+.benefits{background:var(--dp-color-field-soft);border:var(--bw) solid var(--dp-color-outline);border-radius:44px;padding:56px;display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center;margin-bottom:110px;box-shadow:10px 10px 0 var(--dp-color-outline)}
+.benefits h2{font-size:clamp(32px,4.4vw,52px);margin-bottom:16px}
+.benefits ul{list-style:none;padding:0;display:grid;gap:14px}
+.benefits li{display:flex;gap:16px;align-items:flex-start;background:#fff;border:var(--dw) solid var(--dp-color-outline);border-radius:var(--r);padding:16px 18px}
+.benefits li i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--dp-color-accent);border:var(--dw) solid var(--dp-color-outline);display:grid;place-items:center}
+.benefits li b{display:block;font-family:var(--dp-typography-display);font-size:18px;letter-spacing:-.02em;line-height:1.2}
+.benefits li span{font-size:15px}
+
+/* quotes */
+.quotes{display:grid;grid-template-columns:repeat(2,1fr);gap:40px;margin-bottom:110px}
+.quote{position:relative;background:#fff;border:var(--bw) solid var(--dp-color-outline);border-radius:30px 30px 30px 4px;padding:32px;box-shadow:8px 8px 0 var(--dp-color-accent-secondary)}
+.quote:nth-child(2){border-radius:30px 30px 4px 30px;box-shadow:8px 8px 0 var(--dp-color-accent-warm);margin-top:40px}
+.quote::after{content:"";position:absolute;bottom:-22px;left:34px;width:22px;height:22px;background:#fff;border-right:var(--bw) solid var(--dp-color-outline);border-bottom:var(--bw) solid var(--dp-color-outline);transform:skewX(-35deg) rotate(0);clip-path:polygon(0 0,100% 0,100% 100%)}
+.quote:nth-child(2)::after{left:auto;right:34px;transform:skewX(35deg);clip-path:polygon(0 0,100% 0,0 100%);border-left:var(--bw) solid var(--dp-color-outline);border-right:0}
+.quote p{font:600 20px/1.45 var(--dp-typography-reading);margin-bottom:22px}
+.who{display:flex;align-items:center;gap:12px;font-size:14px}
+.who .av{width:44px;height:44px;border-radius:50%;border:var(--dw) solid var(--dp-color-outline);display:grid;place-items:center;font:800 16px var(--dp-typography-display)}
+.who b{display:block;font-size:15px}
+
+/* tickets */
+.tickets{display:grid;gap:22px;margin-bottom:100px;max-width:940px;margin-inline:auto}
+.ticket{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;background:#fff;border:var(--bw) solid var(--dp-color-outline);border-radius:30px;padding:26px 32px;cursor:pointer;box-shadow:7px 7px 0 var(--dp-color-outline);transition:transform var(--t),box-shadow var(--t),background var(--t)}
+.ticket input{position:absolute;opacity:0;pointer-events:none}
+.ticket:hover{transform:translate(-2px,-2px)}
+.ticket:has(input:checked){background:var(--dp-color-selection);box-shadow:7px 7px 0 var(--dp-color-accent)}
+.ticket:has(input:focus-visible){outline:3px solid var(--dp-color-accent);outline-offset:5px}
+.radio{width:34px;height:34px;border-radius:50%;border:var(--bw) solid var(--dp-color-outline);background:#fff;display:grid;place-items:center}
+.radio::after{content:"";width:16px;height:16px;border-radius:50%;background:var(--dp-color-accent);transform:scale(0);transition:transform var(--t)}
+.ticket:has(input:checked) .radio::after{transform:scale(1)}
+.ticket h3{font-size:26px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;letter-spacing:-.03em}
+.ticket .pop{font:700 12px var(--dp-typography-reading);letter-spacing:.06em;text-transform:uppercase;background:var(--dp-color-accent-warm);border:var(--dw) solid var(--dp-color-outline);border-radius:999px;padding:3px 12px}
+.ticket p{font-size:15px;margin-top:4px}
+.ticket .price{font:800 38px/1 var(--dp-typography-display);letter-spacing:-.04em;text-align:right;padding-left:28px;border-left:var(--dw) dashed var(--dp-color-rule-muted)}
+.ticket .price small{display:block;font:500 13px var(--dp-typography-reading);letter-spacing:0;margin-top:4px}
+
+/* faq */
+.faq{max-width:820px;margin:0 auto 110px;display:grid;gap:14px}
+details{background:#fff;border:var(--bw) solid var(--dp-color-outline);border-radius:var(--r);transition:background var(--t)}
+details[open]{background:var(--dp-color-selection)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;font:700 18px var(--dp-typography-reading)}
+summary::-webkit-details-marker{display:none}
+summary .mk{flex:none;width:32px;height:32px;border-radius:50%;border:var(--dw) solid var(--dp-color-outline);background:var(--dp-color-accent-warm);position:relative}
+summary .mk::before,summary .mk::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:3px;background:var(--dp-color-outline);transform:translate(-50%,-50%);border-radius:2px}
+summary .mk::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform var(--t)}
+details[open] .mk::after{transform:translate(-50%,-50%) rotate(0)}
+details p{padding:0 22px 20px;font-size:16px;max-width:660px}
+
+/* cover + footer */
+.cover{position:relative;background:var(--dp-color-accent-fresh);border:var(--bw) solid var(--dp-color-outline);border-radius:56px 56px 0 0;border-bottom:0;margin-top:20px;padding:90px 28px 0;overflow:hidden}
+.cover .inner{position:relative;text-align:center;max-width:760px;margin:0 auto;padding-bottom:90px}
+.cover h2{font-size:clamp(38px,6vw,76px);margin-bottom:18px}
+.cover p{font-size:18px;margin-bottom:30px}
+.cf{position:absolute;display:block}
+.cf.c1{width:34px;height:34px;border-radius:50%;background:var(--dp-color-accent-warm);border:var(--dw) solid var(--dp-color-outline);left:7%;top:14%}
+.cf.c2{width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-bottom:38px solid var(--dp-color-accent-secondary);right:9%;top:16%;filter:drop-shadow(0 0 0 var(--dp-color-outline))}
+.cf.c3{width:48px;height:24px;border:var(--bw) solid var(--dp-color-outline);border-bottom:0;border-radius:48px 48px 0 0;background:#fff;left:12%;bottom:26%}
+.cf.c4{width:26px;height:26px;background:var(--dp-color-accent);border:var(--dw) solid var(--dp-color-outline);border-radius:6px;right:13%;bottom:30%;transform:rotate(18deg)}
+.cf.c5{width:16px;height:16px;border-radius:50%;background:#fff;border:var(--dw) solid var(--dp-color-outline);right:24%;top:30%}
+.cf.c6{width:22px;height:22px;border-radius:50%;border:var(--bw) solid var(--dp-color-outline);left:24%;top:38%}
+footer{background:var(--dp-color-outline);color:#e8ecf4;margin:0 22px;border-radius:70px 70px 0 0 / 40px 40px 0 0;padding:64px 0 36px;position:relative}
+.cover-wrap{max-width:1240px;margin:0 auto;padding:0 14px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px}
+footer .logo{color:#fff;margin-bottom:12px}
+footer h4{font:700 14px var(--dp-typography-reading);letter-spacing:.06em;text-transform:uppercase;color:var(--dp-color-accent-warm);margin-bottom:12px}
+footer ul{list-style:none;padding:0;display:grid;gap:8px;font-size:15px}
+footer a{text-decoration:none;color:#e8ecf4}
+footer a:hover{text-decoration:underline;text-underline-offset:4px}
+footer p{font-size:15px;max-width:300px}
+.legal{margin-top:44px;padding-top:22px;border-top:var(--dw) solid #46506a;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:1100px){
+  .wrap{--gut:22px}
+  .book-in{padding:60px 36px 44px}
+  .benefits{padding:40px}
+  .hero{gap:24px}
+  .cf.c1{left:3%}.cf.c2{right:4%}
+}
+@media (max-width:760px){
+  :root{--off:4px}
+  .nav ul{display:none}
+  .hero{grid-template-columns:1fr;padding-bottom:50px}
+  .assembly{max-width:320px;order:-1;margin:0 auto}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div:nth-child(2){border-right:0}
+  .facts div:nth-child(-n+2){border-bottom:var(--dw) dashed var(--dp-color-rule-muted)}
+  .facts-base::before{inset:10px -6px -10px 6px}
+  .book{--bo:8px}.book::before{border-radius:32px}
+  .book-in{padding:52px 22px 30px;border-radius:32px}
+  .tab{left:26px}
+  .feat-grid,.gallery,.quotes,.benefits{grid-template-columns:1fr}
+  .gallery{gap:34px}.ph.b{margin-bottom:0;max-width:300px}
+  .ph.a{max-width:300px}.ph.c{max-width:320px}
+  .steps{grid-template-columns:1fr;gap:34px}
+  .steps::before{left:50%;right:auto;top:20px;bottom:20px;border-top:0;border-left:var(--bw) dashed var(--dp-color-outline)}
+  .step{background:var(--dp-color-ground);padding:6px 0}
+  .benefits{padding:28px 20px;border-radius:32px;box-shadow:6px 6px 0 var(--dp-color-outline);gap:26px}
+  .quote:nth-child(2){margin-top:0}
+  .ticket{grid-template-columns:auto 1fr;padding:20px;gap:16px 16px;border-radius:24px;box-shadow:5px 5px 0 var(--dp-color-outline)}
+  .ticket:has(input:checked){box-shadow:5px 5px 0 var(--dp-color-accent)}
+  .ticket .price{grid-column:1/-1;text-align:left;border-left:0;border-top:var(--dw) dashed var(--dp-color-rule-muted);padding:14px 0 0}
+  .ticket h3{font-size:22px}
+  .cover{border-radius:36px 36px 0 0;padding-top:70px}
+  footer{margin:0 10px;border-radius:40px 40px 0 0 / 24px 24px 0 0}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .fgrid>div:first-child{grid-column:1/-1}
+}
+@media (max-width:420px){
+  .wrap{--gut:16px}
+  .btn{padding:14px 20px;font-size:15px}
+  .actions{gap:14px}
+  h1{font-size:44px}
+  .logo{font-size:21px}
+  .nav .btn{display:none}
+  .facts div{padding:20px 16px}
+  .quote{padding:24px}.quote p{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+  .btn:hover,.btn:active,.ticket:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Tangram Studio home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="13" cy="13" r="9" fill="#ffd05b" stroke="#252b3a" stroke-width="3"/><path d="M22 36 L36 36 L29 21Z" fill="#ff78c5" stroke="#252b3a" stroke-width="3" stroke-linejoin="round"/><rect x="21" y="5" width="14" height="14" rx="3" fill="#6434df" stroke="#252b3a" stroke-width="3"/></svg>
+      Tangram
+    </a>
+    <nav aria-label="Primary"><ul><li><a href="#book">Why pieces</a></li><li><a href="#how">How it works</a></li><li><a href="#plans">Plans</a></li><li><a href="#faq">Questions</a></li></ul></nav>
+    <a class="btn violet small" href="#plans">Start free</a>
+  </div>
+</header>
+
+<main id="main">
+<section class="wrap hero" id="top">
+  <div>
+    <span class="eyebrow">Project planning for small teams</span>
+    <h1>Plan work that <span class="u">fits<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 12 Q 25 2 50 11 T 100 11 T 150 11 T 197 9" fill="none" stroke="#ff78c5" stroke-width="8" stroke-linecap="round"/></svg></span> together.</h1>
+    <p class="lead">Tangram turns every project into pieces your whole team can see, move and snap into place. No dashboards to decode, just a clear picture of what happens next.</p>
+    <div class="actions">
+      <a class="btn violet" href="#plans">Try it free</a>
+      <a class="btn white" href="#how">See how it works</a>
+    </div>
+  </div>
+  <div class="assembly" aria-hidden="true">
+    <svg viewBox="0 0 460 460">
+      <g stroke="#252b3a" stroke-width="3" stroke-linejoin="round">
+        <rect x="26" y="40" width="230" height="230" rx="40" fill="#252b3a" transform="translate(14 14)" stroke="none"/>
+        <rect x="26" y="40" width="230" height="230" rx="40" fill="#6434df"/>
+        <circle cx="330" cy="130" r="92" fill="#252b3a" transform="translate(12 12)" stroke="none"/>
+        <circle cx="330" cy="130" r="92" fill="#ffd05b"/>
+        <path d="M30 430 V300 a115 115 0 0 1 230 0 V430Z" fill="#252b3a" transform="translate(12 12)" stroke="none"/>
+        <path d="M30 430 V300 a115 115 0 0 1 230 0 V430Z" fill="#9bf1cd"/>
+        <path d="M300 430 L420 430 L360 296Z" fill="#252b3a" transform="translate(10 10)" stroke="none"/>
+        <path d="M300 430 L420 430 L360 296Z" fill="#ff78c5"/>
+        <circle cx="145" cy="310" r="38" fill="#fff"/>
+        <path d="M60 80 h100 M60 120 h60" stroke="#fff" stroke-width="12" stroke-linecap="round" fill="none" opacity=".9"/>
+        <path d="M290 130 a40 40 0 0 1 80 0" fill="none" stroke="#252b3a" stroke-width="3"/>
+        <circle cx="145" cy="310" r="12" fill="#6434df"/>
+        <circle cx="340" cy="250" r="14" fill="#fff"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="facts-base">
+    <dl class="facts" style="margin:0">
+      <div><b>12k</b><span>teams moving pieces</span></div>
+      <div><b>3 min</b><span>to set up a board</span></div>
+      <div><b>41%</b><span>fewer status meetings</span></div>
+      <div><b>4.8</b><span>average rating</span></div>
+    </dl>
+  </div>
+</div>
+
+<section class="wrap book" id="book">
+  <div class="book-in">
+    <span class="tab">Chapter one</span>
+    <h2>Everything on the table, nothing stacked in a pile.</h2>
+    <p class="intro">Most tools bury work in lists. Tangram gives each task a shape you can pick up, so priorities, owners and deadlines are obvious at a glance.</p>
+    <div class="feat-grid">
+      <article class="feat"><div class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 26 26"><path d="M4 13h18M13 4v18" stroke="#252b3a" stroke-width="3" stroke-linecap="round"/></svg></div><h3>Snap-in boards</h3><p>Drag a piece onto a lane and its dates, owner and dependencies follow along.</p></article>
+      <article class="feat"><div class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 26 26"><path d="M3 13a10 10 0 0 1 20 0M3 13h20" fill="none" stroke="#252b3a" stroke-width="3" stroke-linecap="round"/></svg></div><h3>One shared view</h3><p>Designers, writers and engineers see the same picture, in the same colors.</p></article>
+      <article class="feat"><div class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 26 26"><path d="M5 14l5 5 11-12" fill="none" stroke="#252b3a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Quiet check-ins</h3><p>A single Friday summary replaces the daily "any updates?" thread.</p></article>
+    </div>
+    <div class="gallery">
+      <figure>
+        <div class="ph a" role="img" aria-label="Illustration of a sunlit studio window with plants">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice"><rect width="400" height="500" fill="#ffe7c2"/><circle cx="270" cy="170" r="70" fill="#ffd05b"/><rect y="330" width="400" height="170" fill="#c9a37a"/><rect x="40" y="250" width="320" height="30" rx="8" fill="#6434df"/><path d="M90 250 q-30-80 10-120 q30 50-10 120Z" fill="#4fa37e"/><path d="M110 250 q20-90 70-100 q-5 70-70 100Z" fill="#6bc29b"/><rect x="60" y="280" width="90" height="70" rx="10" fill="#ff78c5"/><rect x="250" y="270" width="100" height="60" rx="6" fill="#fff"/><circle cx="300" cy="300" r="14" fill="#9bf1cd"/></svg>
+        </div><figcaption>The Lisbon crew's Monday board corner.</figcaption>
+      </figure>
+      <figure>
+        <div class="ph b" role="img" aria-label="Illustration of two teammates at a table with paper shapes">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice"><rect width="400" height="400" fill="#cfe8ff"/><rect y="270" width="400" height="130" fill="#e5b98a"/><circle cx="130" cy="170" r="42" fill="#f4c19b"/><path d="M70 300 q0-90 60-90 q60 0 60 90Z" fill="#6434df"/><circle cx="280" cy="180" r="38" fill="#c98b62"/><path d="M225 300 q0-85 55-85 q55 0 55 85Z" fill="#ff78c5"/><path d="M60 290 l40-30 l40 30Z" fill="#ffd05b"/><circle cx="210" cy="285" r="18" fill="#9bf1cd"/></svg>
+        </div><figcaption>Pairing on the launch plan.</figcaption>
+      </figure>
+      <figure>
+        <div class="ph c" role="img" aria-label="Illustration of a pinned wall of colorful cards">
+          <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice"><rect width="400" height="480" fill="#ffd9ec"/><rect x="40" y="50" width="120" height="150" rx="14" fill="#fff" transform="rotate(-5 100 125)"/><rect x="190" y="70" width="150" height="110" rx="14" fill="#9bf1cd" transform="rotate(4 265 125)"/><rect x="70" y="250" width="140" height="130" rx="14" fill="#ffd05b" transform="rotate(3 140 315)"/><rect x="235" y="230" width="110" height="170" rx="14" fill="#6434df" transform="rotate(-4 290 315)"/><circle cx="100" cy="68" r="7" fill="#252b3a"/><circle cx="265" cy="82" r="7" fill="#252b3a"/><circle cx="140" cy="262" r="7" fill="#252b3a"/><circle cx="290" cy="244" r="7" fill="#252b3a"/></svg>
+        </div><figcaption>Sprint wall, before and after.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="section-h"><h2>Four moves, one finished picture.</h2><p>From blank board to shipped project without learning a new vocabulary.</p></div>
+  <ol class="steps" style="list-style:none;padding:0">
+    <li class="step"><div class="badge">1</div><h3>Drop pieces</h3><p>Paste a list or sketch tasks as shapes on the board.</p></li>
+    <li class="step"><div class="badge">2</div><h3>Assign colors</h3><p>Each teammate gets a color, so ownership reads instantly.</p></li>
+    <li class="step"><div class="badge">3</div><h3>Snap together</h3><p>Link pieces that depend on each other and see the critical path.</p></li>
+    <li class="step"><div class="badge">4</div><h3>Ship &amp; share</h3><p>Send a read-only link to clients with one tap.</p></li>
+  </ol>
+</section>
+
+<section class="wrap">
+  <div class="benefits">
+    <div>
+      <h2>Less chasing, more finishing.</h2>
+      <p>Teams who switch tell us the same three things changed in the first month.</p>
+    </div>
+    <ul>
+      <li><i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l4 4 6-8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></i><div><b>Clear owners</b><span>Every piece has exactly one color and one name on it.</span></div></li>
+      <li><i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l4 4 6-8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></i><div><b>Honest deadlines</b><span>Dependencies show what slips before it slips.</span></div></li>
+      <li><i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l4 4 6-8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></i><div><b>Calmer Fridays</b><span>The weekly summary writes itself from board changes.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="wrap quotes" aria-label="Customer quotes">
+  <figure class="quote"><p>"We replaced three spreadsheets and a standing meeting. The board just makes sense the moment you open it."</p><div class="who"><span class="av" style="background:#ffd05b">MA</span><div><b>Marta Alves</b>Studio lead, Casa Verde</div></div></figure>
+  <figure class="quote"><p>"Our clients finally understand where a project is, because they can see the pieces fit."</p><div class="who"><span class="av" style="background:#9bf1cd">JO</span><div><b>Jonah Okafor</b>Founder, Kettle &amp; Co.</div></div></figure>
+</section>
+
+<section class="wrap" id="plans">
+  <div class="section-h"><h2>Pick the box that fits.</h2><p>Switch or cancel any time. All plans include unlimited pieces.</p></div>
+  <form class="tickets" onsubmit="return false">
+    <label class="ticket"><input type="radio" name="plan" value="solo"><span class="radio"></span><div><h3>Solo</h3><p>One person, unlimited boards, calendar sync.</p></div><div class="price">$0<small>forever</small></div></label>
+    <label class="ticket"><input type="radio" name="plan" value="team" checked><span class="radio"></span><div><h3>Team <span class="pop">Most picked</span></h3><p>Up to 15 people, dependencies, Friday summaries, client links.</p></div><div class="price">$9<small>per person / month</small></div></label>
+    <label class="ticket"><input type="radio" name="plan" value="studio"><span class="radio"></span><div><h3>Studio</h3><p>Unlimited people, custom colors, priority help from a human.</p></div><div class="price">$24<small>per person / month</small></div></label>
+  </form>
+</section>
+
+<section class="wrap" id="faq">
+  <div class="section-h"><h2>Good questions.</h2></div>
+  <div class="faq">
+    <details open><summary>Can I import my existing tasks?<span class="mk" aria-hidden="true"></span></summary><p>Yes. Paste from a spreadsheet or connect a CSV and each row becomes a piece with its dates intact.</p></details>
+    <details><summary>Does it work on phones?<span class="mk" aria-hidden="true"></span></summary><p>Boards collapse into a single column on small screens, and every control keeps a comfortable tap size.</p></details>
+    <details><summary>Who can see my boards?<span class="mk" aria-hidden="true"></span></summary><p>Only people you invite. Read-only links can be switched off at any time.</p></details>
+  </div>
+</section>
+
+<div class="cover-wrap">
+  <section class="cover">
+    <span class="cf c1" aria-hidden="true"></span><span class="cf c2" aria-hidden="true"></span><span class="cf c3" aria-hidden="true"></span>
+    <span class="cf c4" aria-hidden="true"></span><span class="cf c5" aria-hidden="true"></span><span class="cf c6" aria-hidden="true"></span>
+    <div class="inner">
+      <h2>Ready to see your project fit together?</h2>
+      <p>Start with a free board. Your first project takes about three minutes.</p>
+      <a class="btn violet" href="#plans">Start your free board</a>
+    </div>
+    <footer>
+      <div class="wrap" style="max-width:1100px">
+        <div class="fgrid">
+          <div><a class="logo" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="13" cy="13" r="9" fill="#ffd05b" stroke="#fff" stroke-width="3"/><path d="M22 36 L36 36 L29 21Z" fill="#ff78c5" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><rect x="21" y="5" width="14" height="14" rx="3" fill="#6434df" stroke="#fff" stroke-width="3"/></svg>Tangram</a><p>Planning for small teams who like their work to look like it fits.</p></div>
+          <div><h4>Product</h4><ul><li><a href="#book">Boards</a></li><li><a href="#how">Process</a></li><li><a href="#plans">Plans</a></li></ul></div>
+          <div><h4>Company</h4><ul><li><a href="#top">About</a></li><li><a href="#top">Careers</a></li><li><a href="#top">Contact</a></li></ul></div>
+          <div><h4>Help</h4><ul><li><a href="#faq">Questions</a></li><li><a href="#top">Guides</a></li><li><a href="#top">Status</a></li></ul></div>
+        </div>
+        <div class="legal"><span>&copy; 2026 Tangram Studio</span><span>Made with circles, triangles and arches.</span></div>
+      </div>
+    </footer>
+  </section>
+</div>
+</main>
+</body>
+</html>

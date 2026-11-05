@@ -1,0 +1,1 @@
+ATLAS_P("F404","Please create introductory news about games released on Steam from September 25th to September 26th. From a gamer's perspective, highlight what seems interesting about each game in an easy-to-view manner. Make it a motion graphics video of about 60 seconds.");

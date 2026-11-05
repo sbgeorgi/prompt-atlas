@@ -1,0 +1,1 @@
+ATLAS_P("L9","nice. wir brauchen ein launch video f\u00fcr den release. kannst du das machen? so a la anthropic like? hab da was gelesen und der prompt war \"\"make a modern slick and punchy video for a modern startup that works on inference\"");

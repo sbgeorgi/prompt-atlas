@@ -1,0 +1,1 @@
+ATLAS_P("H1","an animated SVG, embedded in HTML, of a glucose molecule going through glycolysis and then into ethanol.");

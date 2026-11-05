@@ -1,0 +1,1 @@
+ATLAS_P("F3","Make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are. The content should focus on [your product]. You should visit the pages first to learn about the product, then write the video content yourself.");

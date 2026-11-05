@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notch - a plain-text notebook</title>
+<meta name="description" content="Notch is a plain-text notebook for people who think in files. Terminal style sample page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"TerminalPlex";src:local("IBM Plex Mono"),local("IBMPlexMono-Regular");font-weight:400}
+@font-face{font-family:"TerminalPlex";src:local("IBM Plex Mono Medium"),local("IBMPlexMono-Medium");font-weight:500}
+:root{
+  --dp-color-ground:#000000;--dp-color-ink:#66ff66;--dp-color-ink-muted:#58ca58;--dp-color-rule:#255325;--dp-color-emphasis:#ffffff;
+  --dp-typography-face:"TerminalPlex","IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --dp-typography-body:18px;--dp-typography-label:16px;--dp-typography-heading:24px;--dp-typography-display:40px;--dp-typography-display-narrow:32px;
+  --dp-typography-body-leading:1.5;--dp-typography-display-leading:1.2;--dp-typography-display-leading-narrow:1.25;--dp-typography-list-leading:27px;
+  --dp-spacing-cell:1ch;--dp-spacing-gutter:2ch;--dp-spacing-column-gap:3ch;--dp-spacing-column-gap-wide:4ch;--dp-spacing-inset:9px;
+  --dp-spacing-row-compact:18px;--dp-spacing-row:27px;--dp-spacing-section-compact:36px;--dp-spacing-section:54px;
+  --dp-radius-control:0;--dp-border-hairline:1px;--dp-motion-cursor:1.2s;
+  --gut:8ch;
+}
+*{box-sizing:border-box;border-radius:0}
+html{background:#000}
+body{margin:0;background:var(--dp-color-ground);color:var(--dp-color-ink);font:400 var(--dp-typography-body)/var(--dp-typography-body-leading) var(--dp-typography-face);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:112ch;margin:0 auto;padding:0 2ch}
+b,strong,.em{color:var(--dp-color-emphasis);font-weight:500}
+.muted{color:var(--dp-color-ink-muted)}
+a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+a:hover,button:hover:not(.sel){background:var(--dp-color-ink);color:var(--dp-color-ground);text-decoration:none}
+:focus-visible{outline:2px solid var(--dp-color-emphasis);outline-offset:2px}
+.skip{position:absolute;left:-999px}.skip:focus{left:0;top:0;background:#000;z-index:9;padding:var(--dp-spacing-inset)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* session bar */
+.bar{border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule);font-size:var(--dp-typography-label)}
+.bar .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:0 3ch;padding-top:var(--dp-spacing-inset);padding-bottom:var(--dp-spacing-inset)}
+.bar nav{display:flex;gap:2ch;flex-wrap:wrap}
+.cursor{display:inline-block;width:1ch;height:1.1em;background:var(--dp-color-ink);vertical-align:text-bottom;animation:blink var(--dp-motion-cursor) steps(1) infinite}
+@keyframes blink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+
+/* command rows */
+.cmd{display:grid;grid-template-columns:var(--gut) 1fr;column-gap:var(--dp-spacing-column-gap);padding-top:var(--dp-spacing-section);}
+.cmd+.cmd{margin-top:0}
+.gut{color:var(--dp-color-ink-muted);text-align:right;user-select:none;padding-right:var(--dp-spacing-cell);border-right:var(--dp-border-hairline) solid var(--dp-color-rule);font-size:var(--dp-typography-label)}
+.out{min-width:0}
+h1,h2,h3{margin:0;font-weight:500}
+h2{font-size:var(--dp-typography-heading);line-height:var(--dp-typography-display-leading);color:var(--dp-color-emphasis);margin-bottom:var(--dp-spacing-row)}
+h2 .p{color:var(--dp-color-ink);margin-right:1ch}
+p{margin:0 0 var(--dp-spacing-row-compact)}
+.rule{border:0;border-top:var(--dp-border-hairline) solid var(--dp-color-rule);margin:0}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 34ch;gap:var(--dp-spacing-column-gap-wide);align-items:start}
+.mark{font-size:var(--dp-typography-body);line-height:1.1;margin:0 0 var(--dp-spacing-row);white-space:pre;color:var(--dp-color-ink);overflow:hidden}
+h1{font-size:var(--dp-typography-display);line-height:var(--dp-typography-display-leading);color:var(--dp-color-emphasis);margin-bottom:var(--dp-spacing-row)}
+.actions{display:flex;flex-wrap:wrap;gap:var(--dp-spacing-row-compact) 2ch;margin-top:var(--dp-spacing-row)}
+.btn{font:500 var(--dp-typography-label)/1.5 var(--dp-typography-face);color:var(--dp-color-ink);background:transparent;border:var(--dp-border-hairline) solid var(--dp-color-ink);padding:var(--dp-spacing-inset) 2ch;text-decoration:none;cursor:pointer;display:inline-block}
+.btn.fill,.sel{background:var(--dp-color-ink);color:var(--dp-color-ground)}
+.btn.fill:hover{background:var(--dp-color-emphasis)}
+dl.facts{margin:0;border-top:var(--dp-border-hairline) solid var(--dp-color-rule);font-size:var(--dp-typography-label)}
+dl.facts div{display:grid;grid-template-columns:12ch 1fr;gap:1ch;padding:var(--dp-spacing-inset) 0;border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule)}
+dl.facts dt{color:var(--dp-color-ink-muted)}dl.facts dd{margin:0;color:var(--dp-color-emphasis)}
+
+/* lists */
+.rows{list-style:none;margin:0;padding:0;border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.rows li{display:grid;grid-template-columns:22ch 1fr;gap:var(--dp-spacing-column-gap);padding:var(--dp-spacing-inset) 0;border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule);line-height:var(--dp-typography-list-leading)}
+.rows li>span:first-child{color:var(--dp-color-emphasis);font-weight:500}
+.steps{counter-reset:s}
+.steps li{grid-template-columns:6ch 1fr;counter-increment:s}
+.steps li::before{content:"[" counter(s) "]";color:var(--dp-color-ink-muted)}
+.steps li>span:first-child{display:none}
+
+/* quotes */
+.quote{display:grid;grid-template-columns:auto 1fr;gap:var(--dp-spacing-column-gap-wide);align-items:start}
+.ascii{margin:0;font:400 var(--dp-typography-body)/1 var(--dp-typography-face);white-space:pre;color:var(--dp-color-ink);border:var(--dp-border-hairline) solid var(--dp-color-rule);padding:var(--dp-spacing-inset);width:max-content;max-width:100%;overflow:hidden}
+figure{margin:0}figcaption{font-size:var(--dp-typography-label);color:var(--dp-color-ink-muted);margin-top:var(--dp-spacing-inset)}
+blockquote{margin:0 0 var(--dp-spacing-row);padding:0 0 0 2ch;border-left:var(--dp-border-hairline) solid var(--dp-color-ink)}
+blockquote p{color:var(--dp-color-emphasis);margin-bottom:var(--dp-spacing-inset)}
+blockquote footer{color:var(--dp-color-ink-muted);font-size:var(--dp-typography-label)}
+
+/* plans */
+.toggle{display:flex;gap:0;margin-bottom:var(--dp-spacing-row)}
+.toggle button{font:500 var(--dp-typography-label)/1.5 var(--dp-typography-face);color:var(--dp-color-ink);background:transparent;border:var(--dp-border-hairline) solid var(--dp-color-ink);padding:var(--dp-spacing-inset) 2ch;cursor:pointer;margin-right:-1px}
+.plan{display:grid;grid-template-columns:20ch 1fr;gap:var(--dp-spacing-column-gap);padding:var(--dp-spacing-row-compact) 0;border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.plan:last-of-type{border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule)}
+.plan h3{font-size:var(--dp-typography-heading);color:var(--dp-color-emphasis)}
+.plan .price{color:var(--dp-color-ink);font-size:var(--dp-typography-label)}
+.tag{display:inline-block;font-size:14px;border:var(--dp-border-hairline) solid var(--dp-color-ink-muted);color:var(--dp-color-ink-muted);padding:0 1ch;margin-bottom:var(--dp-spacing-cell)}
+.plan ul{margin:0 0 var(--dp-spacing-row-compact);padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 3ch;line-height:var(--dp-typography-list-leading)}
+.plan li::before{content:"+ ";color:var(--dp-color-ink-muted)}
+
+/* faq */
+details{border-bottom:var(--dp-border-hairline) solid var(--dp-color-rule)}
+details:first-of-type{border-top:var(--dp-border-hairline) solid var(--dp-color-rule)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:2ch;padding:var(--dp-spacing-inset) 0;color:var(--dp-color-emphasis)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--dp-color-ink)}
+details[open] summary::after{content:"-"}
+summary:hover{background:var(--dp-color-ink);color:var(--dp-color-ground)}
+summary:hover::after{color:var(--dp-color-ground)}
+details .ans{padding:0 0 var(--dp-spacing-row-compact) 4ch;margin:0}
+
+/* footer */
+footer.site{margin-top:var(--dp-spacing-section);border-top:var(--dp-border-hairline) solid var(--dp-color-rule);padding:var(--dp-spacing-section-compact) 0 var(--dp-spacing-section);font-size:var(--dp-typography-label)}
+.dir{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--dp-spacing-row) var(--dp-spacing-column-gap)}
+.dir h4{margin:0 0 var(--dp-spacing-inset);color:var(--dp-color-emphasis);font-weight:500;font-size:var(--dp-typography-label)}
+.dir ul{list-style:none;margin:0;padding:0}.dir li{line-height:var(--dp-typography-list-leading)}
+.dir h4::before{content:"d  ";color:var(--dp-color-ink-muted)}
+.dir li::before{content:"-  ";color:var(--dp-color-ink-muted)}
+.end{margin-top:var(--dp-spacing-row);color:var(--dp-color-ink-muted)}
+
+@media (max-width:1100px){:root{--gut:5ch}.rows li{grid-template-columns:18ch 1fr}.plan{grid-template-columns:16ch 1fr}}
+@media (max-width:800px){
+  .hero{grid-template-columns:1fr;gap:var(--dp-spacing-row)}
+  .rows li{grid-template-columns:1fr;gap:0}
+  .plan{grid-template-columns:1fr;gap:var(--dp-spacing-inset)}
+  .quote{grid-template-columns:1fr;gap:var(--dp-spacing-row)}
+  .dir{grid-template-columns:1fr 1fr}
+  h1{font-size:var(--dp-typography-display-narrow);line-height:var(--dp-typography-display-leading-narrow)}
+}
+@media (max-width:540px){
+  :root{--gut:3ch}
+  .wrap{padding:0 1.5ch}
+  .cmd{column-gap:2ch;padding-top:var(--dp-spacing-section-compact)}
+  .plan ul{grid-template-columns:1fr}
+  details .ans{padding-left:2ch}
+  .gut{font-size:14px}
+  h2{font-size:20px}
+  .mark{font-size:14px}
+  dl.facts div{grid-template-columns:10ch 1fr}
+  .ascii{font-size:14px}
+  .steps li{grid-template-columns:5ch 1fr}
+  .rows,.out p,.rows li *{overflow-wrap:anywhere}
+}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar">
+  <div class="wrap">
+    <span>notch <span class="muted">~/session</span> <span class="cursor" aria-hidden="true"></span></span>
+    <nav aria-label="Primary">
+      <a href="#features">[features]</a>
+      <a href="#plans">[plans]</a>
+      <a href="#faq">[faq]</a>
+      <a href="#start">[sign in]</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="cmd" aria-labelledby="h1">
+    <div class="gut" aria-hidden="true">001</div>
+    <div class="out hero">
+      <div>
+        <pre class="mark" id="mark" aria-hidden="true"></pre>
+        <h1 id="h1">A plain-text notebook for people who think in files.</h1>
+        <p>Notch keeps every note as a Markdown file in a folder you own. Search it, link it, sync it, and open it in any editor ten years from now.</p>
+        <div class="actions" id="start">
+          <a class="btn fill" href="#plans">[ Download Notch ]</a>
+          <a class="btn" href="#features">[ Read the manual ]</a>
+        </div>
+      </div>
+      <dl class="facts" aria-label="Supporting facts">
+        <div><dt>format</dt><dd>Markdown</dd></div>
+        <div><dt>storage</dt><dd>Local folder</dd></div>
+        <div><dt>platforms</dt><dd>Mac, Windows, Linux</dd></div>
+        <div><dt>search</dt><dd>Full text, instant</dd></div>
+        <div><dt>license</dt><dd>Source available</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="cmd" id="features" aria-labelledby="h-feat">
+    <div class="gut" aria-hidden="true">002</div>
+    <div class="out">
+      <h2 id="h-feat"><span class="p" aria-hidden="true">$</span>features</h2>
+      <ul class="rows">
+        <li><span>Plain files</span><span>Every note is a .md file. No database, no export step, nothing to lose.</span></li>
+        <li><span>Backlinks</span><span>Type [[ to link notes. Each note lists what links back to it.</span></li>
+        <li><span>Quick capture</span><span>One global shortcut opens a blank note, saved the moment you type.</span></li>
+        <li><span>Sync</span><span>Use any folder sync you already trust, or Notch Sync with end-to-end encryption.</span></li>
+        <li><span>Search</span><span>Searches titles, text and tags across thousands of notes without a spinner.</span></li>
+        <li><span>Keyboard first</span><span>Every action has a shortcut and a command palette entry.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cmd" aria-labelledby="h-steps">
+    <div class="gut" aria-hidden="true">003</div>
+    <div class="out">
+      <h2 id="h-steps"><span class="p" aria-hidden="true">$</span>getting started</h2>
+      <ol class="rows steps">
+        <li><span>Install</span><span>Download Notch for your system and open it. It runs without an account.</span></li>
+        <li><span>Pick a folder</span><span>Point Notch at an existing folder of Markdown files, or create a new one.</span></li>
+        <li><span>Write</span><span>Press <b>Ctrl+N</b> and start typing. Your first note is already saved.</span></li>
+        <li><span>Link</span><span>Connect ideas with [[double brackets]] and watch the backlinks build up.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="cmd" aria-labelledby="h-quotes">
+    <div class="gut" aria-hidden="true">004</div>
+    <div class="out">
+      <h2 id="h-quotes"><span class="p" aria-hidden="true">$</span>what people say</h2>
+      <div class="quote">
+        <figure>
+          <pre class="ascii" id="ascii" aria-hidden="true"></pre>
+          <div role="img" class="sr" aria-label="A low sun over layered hills, shown as a character rendition."></div>
+          <figcaption>Sun over the ridge, rendered in characters.</figcaption>
+        </figure>
+        <div>
+          <blockquote>
+            <p>I moved eleven years of notes in an afternoon, because they were already files.</p>
+            <footer>- Sample reviewer, research engineer</footer>
+          </blockquote>
+          <blockquote>
+            <p>It is the only notebook that has never asked me to log in before I could think.</p>
+            <footer>- Sample reviewer, technical writer</footer>
+          </blockquote>
+          <blockquote>
+            <p>Backlinks changed how I read my own notes. The rest is just text, which is the point.</p>
+            <footer>- Sample reviewer, graduate student</footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cmd" id="plans" aria-labelledby="h-plans">
+    <div class="gut" aria-hidden="true">005</div>
+    <div class="out">
+      <h2 id="h-plans"><span class="p" aria-hidden="true">$</span>plans</h2>
+      <div class="toggle" role="group" aria-label="Billing period">
+        <button type="button" class="sel" aria-pressed="true" data-b="m">monthly</button>
+        <button type="button" aria-pressed="false" data-b="y">yearly (2 months free)</button>
+      </div>
+      <div class="plan">
+        <div><h3>Local</h3><div class="price"><b>$0</b> forever</div></div>
+        <div>
+          <ul><li>Unlimited notes</li><li>Backlinks and search</li><li>Command palette</li><li>Community support</li></ul>
+          <a class="btn" href="#start">[ Download ]</a>
+        </div>
+      </div>
+      <div class="plan">
+        <div><span class="tag">featured</span><h3>Sync</h3><div class="price"><b data-p="m" data-y="$40">$4</b> per <span data-u>month</span></div></div>
+        <div>
+          <ul><li>Everything in Local</li><li>End-to-end encrypted sync</li><li>Five devices</li><li>Version history, 90 days</li></ul>
+          <a class="btn fill" href="#start">[ Choose Sync ]</a>
+        </div>
+      </div>
+      <div class="plan">
+        <div><h3>Team</h3><div class="price"><b data-p="m" data-y="$96">$10</b> per <span data-u>month</span>, per seat</div></div>
+        <div>
+          <ul><li>Everything in Sync</li><li>Shared folders</li><li>Admin controls</li><li>Priority support</li></ul>
+          <a class="btn" href="#start">[ Choose Team ]</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cmd" id="faq" aria-labelledby="h-faq">
+    <div class="gut" aria-hidden="true">006</div>
+    <div class="out">
+      <h2 id="h-faq"><span class="p" aria-hidden="true">$</span>faq</h2>
+      <details><summary>Where are my notes stored?</summary><p class="ans">In the folder you choose, as ordinary Markdown files. Notch never moves them somewhere hidden.</p></details>
+      <details><summary>Can I use Notch without an account?</summary><p class="ans">Yes. The Local plan needs no account and no network connection.</p></details>
+      <details><summary>What happens if I stop paying?</summary><p class="ans">Your files stay exactly where they are. You lose sync and version history, nothing else.</p></details>
+      <details><summary>Does it work with other editors?</summary><p class="ans">Any editor that opens text files works alongside Notch. Changes show up as soon as they are saved.</p></details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <nav class="dir" aria-label="Footer">
+      <div><h4>product</h4><ul><li><a href="#features">Features</a></li><li><a href="#plans">Plans</a></li><li><a href="#start">Download</a></li></ul></div>
+      <div><h4>learn</h4><ul><li><a href="#faq">FAQ</a></li><li><a href="#features">Manual</a></li><li><a href="#start">Changelog</a></li></ul></div>
+      <div><h4>company</h4><ul><li><a href="#start">About</a></li><li><a href="#start">Contact</a></li><li><a href="#start">Press</a></li></ul></div>
+      <div><h4>legal</h4><ul><li><a href="#start">Privacy</a></li><li><a href="#start">Terms</a></li><li><a href="#start">Licenses</a></li></ul></div>
+    </nav>
+    <p class="end">(c) 2026 Notch. Your notes are yours. <span class="cursor" aria-hidden="true"></span></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // wordmark from the product name, 5x5 pixel letters
+  var F={N:["X...X","XX..X","X.X.X","X..XX","X...X"],O:[".XXX.","X...X","X...X","X...X",".XXX."],T:["XXXXX","..X..","..X..","..X..","..X.."],C:[".XXXX","X....","X....","X....",".XXXX"],H:["X...X","X...X","XXXXX","X...X","X...X"]};
+  var out=[];
+  for(var r=0;r<5;r++){var l="";"NOTCH".split("").forEach(function(c){l+=F[c][r].replace(/X/g,"█").replace(/\./g," ")+" "});out.push(l.replace(/\s+$/,""))}
+  document.getElementById("mark").textContent=out.join("\n");
+
+  // character rendition of a drawn image (sun over hills)
+  var W=30,H=15,c=document.createElement("canvas");c.width=W;c.height=H;
+  var g=c.getContext("2d");
+  var sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,"#101010");sky.addColorStop(1,"#a0a0a0");
+  g.fillStyle=sky;g.fillRect(0,0,W,H);
+  g.fillStyle="#fff";g.beginPath();g.arc(20,8,4,0,7);g.fill();
+  function hill(y,a,ph,col){g.fillStyle=col;g.beginPath();g.moveTo(0,H);for(var x=0;x<=W;x++)g.lineTo(x,y+a*Math.sin(x/W*6.28+ph));g.lineTo(W,H);g.fill()}
+  hill(10,1.4,0.5,"#707070");hill(11.5,1.2,2.1,"#383838");hill(13,0.8,4,"#101010");
+  var d=g.getImageData(0,0,W,H).data,ramp=" .:-=+*#%@",s="";
+  for(var y=0;y<H;y++){for(var x=0;x<W;x++){var i=(y*W+x)*4,v=(d[i]+d[i+1]+d[i+2])/765;s+=ramp[Math.min(9,Math.floor(v*10))]}s+="\n"}
+  document.getElementById("ascii").textContent=s.replace(/\n$/,"");
+
+  // billing toggle
+  var btns=document.querySelectorAll(".toggle button");
+  var prices=document.querySelectorAll("[data-p]"),units=document.querySelectorAll("[data-u]");
+  prices.forEach(function(p){p.dataset.m=p.textContent});
+  btns.forEach(function(b){b.addEventListener("click",function(){
+    var y=b.dataset.b==="y";
+    btns.forEach(function(o){var on=o===b;o.classList.toggle("sel",on);o.setAttribute("aria-pressed",on)});
+    prices.forEach(function(p){p.textContent=y?p.dataset.y:p.dataset.m});
+    units.forEach(function(u){u.textContent=y?"year":"month"});
+  })});
+})();
+</script>
+</body>
+</html>

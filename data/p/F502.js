@@ -1,0 +1,1 @@
+ATLAS_P("F502","make a modern slick and punchy video for a modern startup that works on inference\n\nno video gen model, no additional libraries.");

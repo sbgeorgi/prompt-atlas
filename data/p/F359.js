@@ -1,0 +1,1 @@
+ATLAS_P("F359","Create a tutorial video explaining how to create videos using Lemo-Opuscar skill (Opus 5.5) , in a [Whiteboard Explainer] style.  One prompt, one answer, then ship film.");

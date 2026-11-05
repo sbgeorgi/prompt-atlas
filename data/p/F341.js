@@ -1,0 +1,1 @@
+ATLAS_P("F341","fun motion graphic, comic book style, 10s");

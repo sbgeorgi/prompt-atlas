@@ -1,0 +1,1 @@
+ATLAS_P("F306","Build an entire miniature 3D world of Middle-earth from scratch in Three.js/WebGPU, including procedural terrain & geography, 24 procedural landmarks, water, smoke, lava & atmosphere, day/night transitions, camera choreography & route animation, frame-by-frame rendering, and an original orchestral score. Turn this into a 3:47 cinematic journey.");

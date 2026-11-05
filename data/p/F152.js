@@ -1,0 +1,1 @@
+ATLAS_P("F152","prompt : Make a modern slick and punchy video for wrapscribe, check the wholebase to learn more about the features");

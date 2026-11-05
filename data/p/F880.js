@@ -1,0 +1,1 @@
+ATLAS_P("F880","Do your research on Reactive Resume. Make a dynamic under-a-minute motion graphics video on Reactive Resume that shows what an incredible motion designer you are, like it's your showreel - Go all out!\n\nIf you need an idea as to how the UI looks inside the app, analyze the codebase or repository provided.");

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VANGUARD - Bold Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:#fff;overflow-x:hidden}
+body{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.font-podium{font-family:'Anton','Impact','Arial Narrow',sans-serif;font-weight:400}
+a{color:inherit;text-decoration:none}
+svg{display:block;flex:none}
+.hero{position:relative;min-height:100vh;min-height:100svh;width:100%;overflow:hidden;display:flex;flex-direction:column}
+#bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.shade{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.28) 55%,rgba(0,0,0,.1) 100%),linear-gradient(0deg,rgba(0,0,0,.45),transparent 40%)}
+nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem}
+.brand{font-size:1.5rem;letter-spacing:.05em;text-transform:uppercase;font-weight:700;line-height:1}
+.links{display:none;gap:2.5rem}
+.links a{font-size:.875rem;color:rgba(255,255,255,.8);letter-spacing:.1em;text-transform:uppercase;transition:color .2s}
+.links a:hover{color:#fff}
+.touch{display:none;align-items:center;gap:.5rem;border:1px solid rgba(255,255,255,.3);padding:.75rem 1.5rem;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:border-color .2s,background .2s}
+.touch:hover{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.1)}
+.burger{display:block;background:none;border:0;cursor:pointer;padding:6px}
+.burger i{display:block;height:2px;background:#fff;width:24px}
+.burger i+i{margin-top:6px}
+.burger i:last-child{width:16px}
+.menu{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.95);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:all .5s;display:flex;flex-direction:column}
+.menu.open{opacity:1;visibility:visible}
+.menu nav{padding:1.25rem 1.5rem}
+.menu .close{background:none;border:0;color:#fff;cursor:pointer;padding:4px}
+.menu .list{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem}
+.menu .list a{font-size:2.25rem;text-transform:uppercase;opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+.menu.open .list a{opacity:1;transform:none}
+.menu .touch{display:inline-flex;margin-top:1rem;opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+.menu.open .touch{opacity:1;transform:none}
+.content{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;justify-content:center;padding:1rem 1.5rem 3rem}
+.fu{opacity:0;animation:fade-up .8s ease-out forwards}
+.d1{animation-delay:.2s}.d2{animation-delay:.4s}.d3{animation-delay:.6s}.d4{animation-delay:.8s}
+@keyframes fade-up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.tag{display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.7);font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.5rem}
+h1{font-size:clamp(2.8rem,8vw,7rem);line-height:.92;letter-spacing:-.025em;text-transform:uppercase;font-weight:400}
+h1 span{display:block}
+.sub{margin-top:1.5rem;color:rgba(255,255,255,.7);font-size:.875rem;line-height:1.625;max-width:28rem}
+.sub b{color:#fff;font-weight:700}
+.cta{margin-top:2rem;display:flex;flex-wrap:wrap;align-items:center;gap:1rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;background:#000;padding:.75rem 1.25rem;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:background .2s}
+.btn:hover{background:#171717}
+.btn svg{transition:transform .2s}
+.btn:hover svg{transform:translate(2px,-2px)}
+.award{display:none;align-items:center;gap:.75rem;color:rgba(255,255,255,.6);font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;line-height:1.4}
+.award svg{color:rgba(255,255,255,.5)}
+.stats{margin-top:2rem;display:flex;flex-wrap:wrap;gap:1.5rem}
+.stats b{display:block;font-size:1.5rem;font-weight:700;letter-spacing:-.025em;line-height:1.1}
+.stats small{display:block;margin-top:.25rem;color:rgba(255,255,255,.5);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
+@media(min-width:640px){
+.brand{font-size:1.875rem}
+.tag{font-size:.875rem}
+.sub{font-size:1rem}
+.cta{gap:1.5rem}
+.btn{padding:1rem 1.75rem;font-size:.75rem}
+.award{display:flex}
+.stats{margin-top:2.5rem;gap:3rem}
+.stats b{font-size:2.25rem}
+.stats small{font-size:.75rem}
+.menu .list a{font-size:3rem}
+.nav-pad{padding-left:2.5rem;padding-right:2.5rem}
+.content{padding-left:2.5rem;padding-right:2.5rem}
+nav{padding-left:2.5rem;padding-right:2.5rem}
+}
+@media(min-width:768px){
+.links{display:flex}.touch.desk{display:inline-flex}.burger{display:none}
+}
+@media(min-width:1024px){
+nav{padding:1.75rem 4rem}
+.content{padding-left:4rem;padding-right:4rem}
+.tag{margin-bottom:2rem}
+.sub{margin-top:2rem}
+.cta{margin-top:2.5rem}
+.stats{margin-top:3.5rem;gap:4rem}
+.stats b{font-size:3rem}
+}
+@media(prefers-reduced-motion:reduce){
+.fu{animation:none;opacity:1}
+.menu,.menu .list a,.menu .touch{transition:none}
+}
+</style>
+</head>
+<body>
+<section class="hero">
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="shade"></div>
+
+<nav>
+  <a href="#" class="brand font-podium">VANGUARD</a>
+  <div class="links">
+    <a href="#">Projects</a><a href="#">Studio</a><a href="#">Offerings</a><a href="#">Inquire</a>
+  </div>
+  <a href="#" class="touch desk">GET IN TOUCH
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+  </a>
+  <button class="burger" id="open" aria-label="Open menu"><i></i><i></i><i></i></button>
+</nav>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <nav>
+    <span class="brand font-podium">VANGUARD</span>
+    <button class="close" id="close" aria-label="Close menu">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </nav>
+  <div class="list" id="list">
+    <a href="#" class="font-podium">Projects</a><a href="#" class="font-podium">Studio</a><a href="#" class="font-podium">Offerings</a><a href="#" class="font-podium">Inquire</a>
+    <a href="#" class="touch">GET IN TOUCH
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<div class="content">
+  <div class="tag fu">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:rgba(255,255,255,.7)"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l3.2 5.5a1 1 0 0 0 1.5.28l4.25-3.7a.5.5 0 0 1 .8.5l-2.8 11.1a1 1 0 0 1-.97.75H5.58a1 1 0 0 1-.97-.75L1.81 5.45a.5.5 0 0 1 .8-.5l4.25 3.7a1 1 0 0 0 1.5-.28z"/><path d="M5 21h14"/></svg>
+    World-Class Digital Collective
+  </div>
+  <h1 class="font-podium fu d1"><span>Design.</span><span>Disrupt.</span><span>Conquer.</span></h1>
+  <p class="sub fu d2">We build fierce brand identities<br>that don't just turn heads -- <b>they lead.</b></p>
+  <div class="cta fu d3">
+    <a href="#" class="btn group">SEE OUR WORK
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+    <div class="award">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/></svg>
+      <div>Top-Rated<br>Brand Studio</div>
+    </div>
+  </div>
+  <div class="stats fu d4">
+    <div><b>250+</b><small>Brands Transformed</small></div>
+    <div><b>95%</b><small>Client Retention</small></div>
+    <div><b>10+</b><small>Years in the Game</small></div>
+  </div>
+</div>
+</section>
+
+<script>
+// menu
+(function(){
+  var menu=document.getElementById('menu'),items=document.querySelectorAll('#list > a');
+  items.forEach(function(a,i){a.style.transitionDelay=(i*80+100)+'ms'});
+  function set(o){menu.classList.toggle('open',o);menu.setAttribute('aria-hidden',!o)}
+  document.getElementById('open').onclick=function(){set(true)};
+  document.getElementById('close').onclick=function(){set(false)};
+  items.forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();set(false)})});
+})();
+
+// stand-in for the looping background video: drifting dark smoke/light on canvas
+(function(){
+  var c=document.getElementById('bg'),x=c.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W,H,S=0.5;
+  var blobs=[
+    {h:22,s:70,l:34,r:.55,sx:.00011,sy:.00017,px:0,py:1},
+    {h:12,s:80,l:26,r:.5,sx:.00015,sy:.00009,px:2,py:3},
+    {h:34,s:60,l:30,r:.42,sx:.00019,sy:.00013,px:4,py:5},
+    {h:215,s:35,l:22,r:.6,sx:.00008,sy:.00012,px:6,py:2},
+    {h:28,s:90,l:48,r:.22,sx:.00023,sy:.0002,px:1,py:4}
+  ];
+  function size(){
+    var w=c.clientWidth||innerWidth,h=c.clientHeight||innerHeight;
+    W=c.width=Math.max(1,Math.round(w*S));H=c.height=Math.max(1,Math.round(h*S));
+  }
+  function draw(t){
+    x.globalCompositeOperation='source-over';
+    x.fillStyle='#08070a';x.fillRect(0,0,W,H);
+    x.globalCompositeOperation='lighter';
+    var m=Math.max(W,H);
+    for(var i=0;i<blobs.length;i++){
+      var b=blobs[i];
+      var cx=W*(.5+.42*Math.sin(t*b.sx*6+b.px)),cy=H*(.5+.38*Math.cos(t*b.sy*6+b.py));
+      var r=m*b.r*(1+.12*Math.sin(t*.0004+i));
+      var g=x.createRadialGradient(cx,cy,0,cx,cy,r);
+      g.addColorStop(0,'hsla('+b.h+','+b.s+'%,'+b.l+'%,.55)');
+      g.addColorStop(.5,'hsla('+b.h+','+b.s+'%,'+(b.l*.6)+'%,.2)');
+      g.addColorStop(1,'hsla('+b.h+','+b.s+'%,'+b.l*.4+'%,0)');
+      x.fillStyle=g;x.fillRect(0,0,W,H);
+    }
+    // faint streaks
+    x.globalCompositeOperation='screen';
+    for(var k=0;k<3;k++){
+      var yy=H*(.2+.3*k)+Math.sin(t*.0003+k*2)*H*.06;
+      var lg=x.createLinearGradient(0,yy-H*.08,0,yy+H*.08);
+      lg.addColorStop(0,'rgba(255,200,140,0)');lg.addColorStop(.5,'rgba(255,200,140,.045)');lg.addColorStop(1,'rgba(255,200,140,0)');
+      x.fillStyle=lg;x.fillRect(0,yy-H*.08,W,H*.16);
+    }
+  }
+  function frame(t){draw(t);requestAnimationFrame(frame)}
+  size();addEventListener('resize',function(){size();if(reduce)draw(6000)});
+  if(reduce)draw(6000);else requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

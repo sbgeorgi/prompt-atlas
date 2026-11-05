@@ -1,0 +1,1 @@
+ATLAS_P("F814","Build \"Time, Undone.\" - a single self-contained HTML file (embedded JS and CSS) running a genuine WebGPU + WGSL interactive 3D mechanical watch that takes itself apart as you scroll, while it keeps running. No 3D engine libraries; all geometry is generated in code.");

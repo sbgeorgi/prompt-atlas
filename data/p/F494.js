@@ -1,0 +1,1 @@
+ATLAS_P("F494","make a samurai dude in only javascript and have him doing a routine in a single spot going through various seriously impressive poses and motions and positions in a fiery awesome display");

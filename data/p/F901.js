@@ -1,0 +1,1 @@
+ATLAS_P("F901","Build a 22-second product launch film in Remotion v4 (React + TypeScript). Every frame comes from code. Don't use AI-generated video or images. \n\nI also attached High res mobile app screenshots.");

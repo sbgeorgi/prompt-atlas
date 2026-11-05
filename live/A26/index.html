@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FLUX - Motion & Brand Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17151f;--muted:#6a6577;--meta:#9a94a6;--accent:#7c6cff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#fff}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;filter:blur(2px) saturate(1.06);transform:scale(1.06)}
+.scrim{position:fixed;inset:0;z-index:1;pointer-events:none;
+ background:
+  linear-gradient(to bottom,rgba(255,255,255,.85) 0%,transparent 18%,transparent 82%,rgba(255,255,255,.90) 100%),
+  radial-gradient(ellipse at 50% 44%,rgba(255,255,255,.94) 0%,rgba(255,255,255,.80) 30%,rgba(255,255,255,.46) 58%,rgba(255,255,255,.20) 100%)}
+.scrim::after{content:"";position:absolute;left:50%;top:46%;width:640px;height:640px;max-width:120vw;transform:translate(-50%,-50%);
+ background:radial-gradient(circle,rgba(124,108,255,.10),transparent 62%);filter:blur(24px)}
+.page{position:relative;z-index:2;height:100vh;height:100dvh;display:flex;flex-direction:column;
+ padding:26px clamp(28px,4vw,60px) 28px}
+nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.01em}
+.mark{width:15px;height:15px;border-radius:4.5px;background:linear-gradient(150deg,#a99bff,#7c6cff);box-shadow:0 3px 9px rgba(124,108,255,.45)}
+.links{display:flex;gap:34px;margin-left:auto;margin-right:34px}
+.links a{font-weight:500;font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s}
+.links a:hover{color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border-radius:999px;text-decoration:none;
+ font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:transform .25s,box-shadow .25s}
+.pill:hover{transform:translateY(-2px)}
+.nav-cta{padding:11px 20px;font-size:14px;box-shadow:0 6px 16px -6px rgba(23,21,31,.4)}
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.kicker{display:flex;align-items:center;gap:14px;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.3em;color:var(--muted);margin-bottom:30px}
+.kicker::before,.kicker::after{content:"";width:26px;height:1px;background:var(--accent)}
+h1{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(64px,11vw,136px);line-height:.92;letter-spacing:-.045em;color:var(--ink);margin-bottom:34px}
+h1 .dot{color:var(--accent)}
+.sub{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:440px;line-height:1.5;margin-bottom:40px}
+.cta{display:flex;align-items:center;justify-content:center;gap:26px}
+.cta .pill{padding:15px 30px;font-size:15px;box-shadow:0 18px 40px -14px rgba(23,21,31,.5),0 4px 10px -4px rgba(23,21,31,.3)}
+.cta .pill:hover{box-shadow:0 24px 46px -14px rgba(23,21,31,.55)}
+.arr{display:inline-block;transition:transform .25s}
+.pill:hover .arr{transform:translateX(4px)}
+.ghost{position:relative;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;color:var(--ink);text-decoration:none;padding-right:16px;transition:color .2s}
+.ghost::after{content:"";position:absolute;right:2px;top:50%;width:6px;height:6px;border-top:1.6px solid var(--accent);border-right:1.6px solid var(--accent);transform:translateY(-50%) rotate(45deg);transition:right .25s}
+.ghost:hover{color:var(--accent)}
+.ghost:hover::after{right:-3px}
+.meta{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--meta)}
+.meta i{width:4px;height:4px;border-radius:50%;background:var(--accent);display:block}
+@keyframes blurRise{from{opacity:0;filter:blur(16px);transform:translateY(30px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+.rise{opacity:0;animation:blurRise 1s cubic-bezier(.2,.7,.2,1) forwards}
+@media(max-width:720px){
+ .links{display:none}
+ nav{justify-content:space-between}
+ .cta{flex-direction:column;gap:20px}
+ h1{font-size:clamp(52px,17vw,96px)}
+ .kicker{letter-spacing:.22em;font-size:11px;margin-bottom:24px}
+ .meta{font-size:10px;letter-spacing:.1em;gap:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ .rise{animation:none;opacity:1}
+ #bg{filter:saturate(1.06)}
+ .pill,.arr,.ghost::after{transition:none}
+}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="scrim"></div>
+<div class="page">
+ <nav>
+  <div class="brand rise" style="animation-delay:0ms"><span class="mark"></span>FLUX</div>
+  <div class="links">
+   <a class="rise" style="animation-delay:70ms" href="#">Work</a>
+   <a class="rise" style="animation-delay:120ms" href="#">Studio</a>
+   <a class="rise" style="animation-delay:170ms" href="#">Contact</a>
+  </div>
+  <a class="pill nav-cta rise" style="animation-delay:220ms" href="#">Start a project</a>
+ </nav>
+ <main class="hero">
+  <div class="kicker rise" style="animation-delay:300ms">Motion &amp; Brand</div>
+  <h1 class="rise" style="animation-delay:380ms">Make it move<span class="dot">.</span></h1>
+  <p class="sub rise" style="animation-delay:490ms">A studio for brands that refuse to sit still.</p>
+  <div class="cta rise" style="animation-delay:600ms">
+   <a class="pill" href="#">See our work <span class="arr">&rarr;</span></a>
+   <a class="ghost" href="#">Get in touch</a>
+  </div>
+ </main>
+ <div class="meta rise" style="animation-delay:720ms"><span>Brand identity</span><i></i><span>Motion design</span><i></i><span>Film &amp; CGI</span></div>
+</div>
+<script>
+// Stand-in for the pastel liquid video: layered flowing ribbons + soft blobs on white, drawn at low res.
+(function(){
+ var c=document.getElementById('bg'),x=c.getContext('2d');
+ var W=320,H=200;c.width=W;c.height=H;
+ var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ var ribbons=[
+  {c:[196,184,255],a:.95,y:.60,amp:.10,f:1.6,sp:.22,th:.16,ph:0},
+  {c:[255,196,226],a:.8,y:.68,amp:.09,f:2.1,sp:-.17,th:.14,ph:1.7},
+  {c:[170,214,255],a:.8,y:.52,amp:.12,f:1.3,sp:.14,th:.17,ph:3.1},
+  {c:[196,190,214],a:.95,y:.80,amp:.06,f:2.6,sp:.1,th:.12,ph:4.4},
+  {c:[255,226,200],a:.6,y:.42,amp:.08,f:1.9,sp:-.12,th:.1,ph:5.2}
+ ];
+ var blobs=[[.12,.62,.32,[190,176,255]],[.88,.7,.3,[255,190,222]],[.5,.95,.34,[180,215,255]],[.78,.28,.22,[222,214,255]],[.2,.25,.2,[255,214,236]]];
+ function draw(t){
+  x.globalCompositeOperation='source-over';
+  x.fillStyle='#fff';x.fillRect(0,0,W,H);
+  blobs.forEach(function(b,i){
+   var bx=(b[0]+Math.sin(t*.2+i*1.9)*.06)*W,by=(b[1]+Math.cos(t*.17+i*2.3)*.06)*H,r=b[2]*W;
+   var g=x.createRadialGradient(bx,by,0,bx,by,r);
+   g.addColorStop(0,'rgba('+b[3].join(',')+',.55)');g.addColorStop(1,'rgba('+b[3].join(',')+',0)');
+   x.fillStyle=g;x.fillRect(0,0,W,H);
+  });
+  ribbons.forEach(function(r){
+   var g=x.createLinearGradient(0,0,W,0);
+   g.addColorStop(0,'rgba('+r.c.join(',')+',0)');
+   g.addColorStop(.5,'rgba('+r.c.join(',')+','+r.a+')');
+   g.addColorStop(1,'rgba('+r.c.join(',')+',0)');
+   x.fillStyle=g;x.beginPath();
+   var top=[],bot=[],n=40,i,u,yy,tt;
+   for(i=0;i<=n;i++){
+    u=i/n;
+    yy=r.y+Math.sin(u*Math.PI*r.f+t*r.sp+r.ph)*r.amp+Math.sin(u*Math.PI*r.f*2.3-t*r.sp*1.4)*r.amp*.4;
+    tt=r.th*(.5+.5*Math.sin(u*Math.PI*1.4+t*r.sp*.8+r.ph));
+    top.push([u*W,(yy-tt)*H]);bot.push([u*W,(yy+tt)*H]);
+   }
+   x.moveTo(top[0][0],top[0][1]);
+   top.forEach(function(p){x.lineTo(p[0],p[1])});
+   for(i=n;i>=0;i--)x.lineTo(bot[i][0],bot[i][1]);
+   x.closePath();x.fill();
+  });
+ }
+ var t0=performance.now();
+ function loop(now){draw((now-t0)/1000+2);requestAnimationFrame(loop)}
+ draw(2);
+ if(!reduce)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

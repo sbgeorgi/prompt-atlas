@@ -1,0 +1,1 @@
+ATLAS_P("F772","Turn the whole debate about P(doom) into a cinematic explainer.\n\n\u2708\ufe0f Would you board a plane with a 10% crash risk?\n\ud83c\udf0d What does \u201c10% risk to civilisation\u201d actually mean?\n\ud83e\udd16 And why are AI researchers arguing about this number while capability keeps accelerating?");

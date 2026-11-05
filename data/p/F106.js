@@ -1,0 +1,1 @@
+ATLAS_P("F106","prompt: \"Bana yapabildi\u011fin en iyi su sim\u00fclasyonunu yap\"");

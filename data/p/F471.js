@@ -1,0 +1,1 @@
+ATLAS_P("F471","make a dynamic 15-second motion graphics video that shows what an incredible work Studio1 is doing, you will get relevant info from case study, create like it's a good showreel for a Studio1 intro launch. go all out.");

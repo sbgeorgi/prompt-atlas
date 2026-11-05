@@ -1,0 +1,1 @@
+ATLAS_P("F452","Dentro da pasta do flora tem uma outra pasta chamada \"ads\" com videos e prints do Flora(Caso queira usar como referencia).\n\nUse apenas: JavaScript, Playwright e FFmpeg. Fa\u00e7a um v\u00eddeo moderno, elegante e impactante para meu produto.\n\nhttps://apps.apple.com/pt/app/flora-calend%C3%A1rio-menstrual/id6789702093");

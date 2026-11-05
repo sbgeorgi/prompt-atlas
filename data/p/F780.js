@@ -1,0 +1,1 @@
+ATLAS_P("F780","Build a live web editor for characters I generated on Magnific. Upload a PNG and tweak it in real time: head size, body shape from lean to sturdy, height, a colour lighting that tints the whole character, and a background for 4:5 PNG export. White UI, controls beside the character, zoom, save, delete and back to original");

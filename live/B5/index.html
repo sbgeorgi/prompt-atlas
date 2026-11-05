@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXOVA - 404</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--em:#34d399;--cy:#06b6d4}
+html,body{background:#02060f;color:#fff}
+body{font-family:"Helvetica Now Var",Helvetica,"Inter",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.root{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+#bg{position:fixed;inset:0;width:100%;height:100%;display:block}
+.shade{position:fixed;inset:0;background:linear-gradient(180deg,rgba(2,6,15,.35) 0%,rgba(2,6,15,0) 35%,rgba(2,6,15,.15) 70%,rgba(2,6,15,.7) 100%);pointer-events:none}
+.wrap{position:relative;z-index:10;display:flex;flex-direction:column;min-height:100vh}
+
+/* nav */
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 24px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo svg{width:32px;height:32px;fill:#fff}
+.logo span{font-size:20px;font-weight:700;letter-spacing:.05em}
+.links{display:none;gap:32px}
+.links a{color:rgba(255,255,255,.8);font-size:14px;letter-spacing:.025em;transition:color .2s}
+.links a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#34d399,#06b6d4);color:#fff;font-size:14px;font-weight:600;padding:10px 24px;border-radius:999px;transition:filter .2s,transform .2s}
+.btn:hover{filter:brightness(1.1)}
+.btn svg{width:16px;height:16px}
+.desk-login{display:none}
+.burger{position:relative;width:40px;height:40px;z-index:60}
+.burger svg{position:absolute;inset:8px;width:24px;height:24px;transition:all .3s}
+.burger .ic-x{opacity:0;transform:rotate(-90deg) scale(.75)}
+.burger .ic-m{opacity:1;transform:none}
+.burger.open .ic-x{opacity:1;transform:none}
+.burger.open .ic-m{opacity:0;transform:rotate(90deg) scale(.75)}
+@media(min-width:768px){nav{padding:20px 48px}}
+@media(min-width:1024px){nav{padding:20px 64px}.links{display:flex}.desk-login{display:inline-flex}.burger{display:none}}
+
+/* mobile menu */
+.backdrop{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;transition:opacity .4s}
+.backdrop.vis{opacity:1}
+.mpanel{position:absolute;left:0;right:0;top:68px;z-index:50}
+.mpanel .blur{position:absolute;inset:0;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:0 0 16px 16px}
+.mpanel .inner{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;gap:20px;padding:32px 0 36px}
+.mpanel a.l{font-size:18px;font-weight:300;letter-spacing:.08em;color:rgba(255,255,255,.8)}
+.mpanel a.l:hover{color:#fff}
+.mpanel .it{opacity:0;transform:translateY(12px);transition:opacity .4s ease-out,transform .4s ease-out;transition-delay:0ms}
+.mpanel.vis .it{opacity:1;transform:none;transition-delay:calc(350ms + var(--i)*50ms)}
+@media(min-width:640px){.mpanel a.l{font-size:20px}}
+[hidden]{display:none!important}
+
+/* hero */
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 16px}
+h1{color:rgba(255,255,255,.8);font-weight:300;line-height:1.375;letter-spacing:-.025em;font-size:20px}
+h1.a{margin-bottom:4px}
+h1.b{margin-bottom:32px}
+.big{position:relative;margin-bottom:32px;width:100%;display:flex;justify-content:center}
+.four-oh-four{font-size:80px;font-weight:900;line-height:1;letter-spacing:-.05em;user-select:none;text-shadow:0 0 80px rgba(255,255,255,.3),0 0 160px rgba(255,255,255,.1)}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ret{display:inline-block;font-size:10px;letter-spacing:.15em;font-weight:500;padding:12px 24px;border-radius:999px;text-transform:uppercase;transition:background .3s}
+.ret:hover{background:rgba(255,255,255,.08)}
+@media(min-width:640px){
+ h1{font-size:30px}h1.a{margin-bottom:8px}h1.b{margin-bottom:48px}
+ .big{margin-bottom:48px}.four-oh-four{font-size:140px}
+ .ret{font-size:14px;letter-spacing:.2em;padding:14px 32px}
+ main{padding:64px 24px}
+}
+@media(min-width:768px){h1{font-size:48px}.four-oh-four{font-size:200px}main{padding:0 24px}}
+@media(min-width:1024px){.four-oh-four{font-size:260px}}
+@media(max-width:500px){h1{font-size:24px}.ret{font-size:12px}}
+
+/* footer */
+footer{position:relative;z-index:10;padding:40px 16px 32px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+footer h4{font-size:10px;font-weight:700;letter-spacing:.15em;margin-bottom:12px}
+footer li{margin-bottom:8px}
+footer li a{color:rgba(255,255,255,.5);font-size:10px;transition:color .2s}
+footer li a:hover{color:rgba(255,255,255,.8)}
+.news{grid-column:span 2}
+.form{display:flex;max-width:384px}
+.form input{flex:1;min-width:0;background:#fff;color:#111;border:0;outline:0;font:inherit;font-size:12px;padding:10px 12px;border-radius:6px 0 0 6px}
+.form input::placeholder{color:#777}
+.form button{background:linear-gradient(90deg,#34d399,#06b6d4);color:#fff;font-size:12px;font-weight:700;letter-spacing:.05em;padding:10px 16px;border-radius:0 6px 6px 0}
+.conn{margin:20px 0 12px}
+.soc{display:flex;gap:12px}
+.soc a{color:rgba(255,255,255,.5);transition:color .2s}
+.soc a:hover{color:#fff}
+.soc svg{width:16px;height:16px;display:block}
+@media(min-width:640px){footer{padding:64px 24px 40px}.grid{gap:32px}footer h4{font-size:12px;margin-bottom:16px}footer li{margin-bottom:10px}footer li a{font-size:12px}.conn{margin:24px 0 12px}}
+@media(min-width:768px){footer{padding-left:48px;padding-right:48px}.grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1024px){footer{padding-left:64px;padding-right:64px}.grid{grid-template-columns:repeat(6,1fr);gap:24px}}
+svg.lu{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<div class="root">
+  <canvas id="bg"></canvas>
+  <div class="shade"></div>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#"><svg viewBox="0 0 480 480"><path d="M480 240a240 240 0 0 0-240 240 240 240 0 0 0 240-240Z"/><path d="M240 0A240 240 0 0 0 0 240 240 240 0 0 0 240 0Z"/><path d="M480 240A240 240 0 0 0 240 0a240 240 0 0 0 240 240Z"/><path d="M240 480A240 240 0 0 0 0 240a240 240 0 0 0 240 240Z"/></svg><span>NEXOVA</span></a>
+      <div class="links" id="links"></div>
+      <a class="btn desk-login" href="#">LOG IN <svg class="lu" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <button class="burger" id="burger" aria-label="Menu">
+        <svg class="lu ic-m" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg class="lu ic-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </nav>
+
+    <div id="mobile" hidden>
+      <div class="backdrop" id="bd"></div>
+      <div class="mpanel" id="mp"><div class="blur"></div><div class="inner" id="mi"></div></div>
+    </div>
+
+    <main>
+      <h1 class="a">This page seems to have</h1>
+      <h1 class="b">slipped beyond our reach :/</h1>
+      <div class="big"><span class="four-oh-four">404</span></div>
+      <a class="liquid-glass ret" href="#">Return to Main Page</a>
+    </main>
+
+    <footer>
+      <div class="grid" id="fgrid"></div>
+    </footer>
+  </div>
+</div>
+
+<script>
+const NAV=["Domain","Servers","Cloud","Managed","Email","Privacy"];
+const COLS={
+ "SERVERS":["Web Servers","VPS Servers","Cloud Servers","Managed Instances","Bare Metal"],
+ "DOMAINS":["Find Domain","Move Domains","DNS Manager","Domain Costs"],
+ "HELP US":["Open a Ticket","FAQs","Docs","Tutorials","Forum"],
+ "ABOUT":["Our Story","Leadership Team","Press Room","We Hire","Alliance","Blog"]};
+const ARROW='<svg class="lu" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+const SOC=[
+ '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+ '<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>',
+ '<circle cx="12" cy="12" r="10"/><path d="M19.13 5.09C15.22 9.14 10 10.44 2.25 10.94M21.75 12.84c-6.62-1.41-12.14 1-16.38 6.32M8.56 2.75c4.37 6 6 9.42 8 17.72"/>',
+ '<path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>',
+ '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/>',
+ '<rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/>'];
+document.getElementById('links').innerHTML=NAV.map(n=>`<a href="#">${n}</a>`).join('');
+let f='';
+for(const [t,l] of Object.entries(COLS)) f+=`<div><h4>${t}</h4><ul>${l.map(x=>`<li><a href="#">${x}</a></li>`).join('')}</ul></div>`;
+f+=`<div class="news"><h4>JOIN FOR EXCLUSIVE DEALS</h4><form class="form" onsubmit="return false"><input type="email" placeholder="Type your email to sign up"><button>SEND IT</button></form><h4 class="conn">CONNECT</h4><div class="soc">${SOC.map(s=>`<a href="#"><svg class="lu" viewBox="0 0 24 24">${s}</svg></a>`).join('')}</div></div>`;
+document.getElementById('fgrid').innerHTML=f;
+
+// mobile menu: mount, then animate; unmount after 500ms
+const B=document.getElementById('burger'),M=document.getElementById('mobile'),BD=document.getElementById('bd'),MP=document.getElementById('mp');
+document.getElementById('mi').innerHTML=NAV.map((n,i)=>`<a class="l it" style="--i:${i}" href="#">${n}</a>`).join('')+`<a class="btn it" style="--i:${NAV.length}" href="#">LOG IN ${ARROW}</a>`;
+let open=false,t;
+function setMenu(v){open=v;clearTimeout(t);B.classList.toggle('open',v);
+ if(v){M.hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{BD.classList.add('vis');MP.classList.add('vis')}))}
+ else{BD.classList.remove('vis');MP.classList.remove('vis');t=setTimeout(()=>M.hidden=true,500)}}
+B.onclick=()=>setMenu(!open);BD.onclick=()=>setMenu(false);
+matchMedia('(min-width:1024px)').onchange=e=>{if(e.matches)setMenu(false)};
+
+// Background: procedural Earth-from-space (stands in for the cloud-hosted video)
+const cv=document.getElementById('bg'),cx=cv.getContext('2d');
+let W,H,DPR,tex,stars=[];
+function rnd(s){return()=>(s=Math.imul(s^s>>>15,s|1),s^=s+Math.imul(s^s>>>7,s|61),((s^s>>>14)>>>0)/4294967296)}
+function makeTex(){
+ const r=rnd(7),w=2400,h=900;tex=document.createElement('canvas');tex.width=w;tex.height=h;const g=tex.getContext('2d');
+ g.fillStyle='#04163a';g.fillRect(0,0,w,h);
+ // ocean variation
+ for(let i=0;i<60;i++){const x=r()*w,y=r()*h,rad=100+r()*260;const gr=g.createRadialGradient(x,y,0,x,y,rad);gr.addColorStop(0,'rgba(10,60,130,.35)');gr.addColorStop(1,'rgba(10,60,130,0)');g.fillStyle=gr;g.fillRect(x-rad,y-rad,rad*2,rad*2)}
+ // land masses (dark teal/olive)
+ for(let k=0;k<9;k++){const cx0=r()*w,cy0=h*(.15+r()*.7);for(let i=0;i<70;i++){const x=cx0+(r()-.5)*420,y=cy0+(r()-.5)*220,rad=18+r()*60;const gr=g.createRadialGradient(x,y,0,x,y,rad);gr.addColorStop(0,'rgba(30,70,62,.9)');gr.addColorStop(1,'rgba(24,52,48,0)');g.fillStyle=gr;g.fillRect(x-rad,y-rad,rad*2,rad*2)}
+  // city lights on land
+  for(let i=0;i<260;i++){const x=cx0+(r()-.5)*380,y=cy0+(r()-.5)*200;g.fillStyle=`rgba(255,${190+r()*50|0},${110+r()*60|0},${.3+r()*.6})`;g.fillRect(x,y,1.6,1.6)}
+  for(let i=0;i<14;i++){const x=cx0+(r()-.5)*300,y=cy0+(r()-.5)*160,rad=6+r()*14;const gr=g.createRadialGradient(x,y,0,x,y,rad);gr.addColorStop(0,'rgba(255,200,120,.5)');gr.addColorStop(1,'rgba(255,200,120,0)');g.fillStyle=gr;g.fillRect(x-rad,y-rad,rad*2,rad*2)}}
+ // clouds
+ for(let i=0;i<520;i++){const x=r()*w,y=r()*h,rw=40+r()*160,rh=8+r()*22,a=.12+r()*.28;g.save();g.translate(x,y);g.rotate((r()-.5)*.6);g.scale(rw,rh);const gr=g.createRadialGradient(0,0,0,0,0,1);gr.addColorStop(0,`rgba(190,215,255,${a})`);gr.addColorStop(1,'rgba(190,215,255,0)');g.fillStyle=gr;g.beginPath();g.arc(0,0,1,0,7);g.fill();g.restore()}
+}
+function resize(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;
+ const r=rnd(3);stars=[];const n=Math.round(W*H/2600);for(let i=0;i<n;i++)stars.push({x:r()*W,y:r()*H*.8,s:r()<.06?1.6:r()*.9+.3,a:.2+r()*.8,p:r()*6.28,v:.4+r()*1.2})}
+function draw(ts){
+ const t=ts/1000;cx.setTransform(DPR,0,0,DPR,0,0);
+ let g=cx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#01030a');g.addColorStop(1,'#030b1e');cx.fillStyle=g;cx.fillRect(0,0,W,H);
+ for(const s of stars){cx.globalAlpha=s.a*(.65+.35*Math.sin(t*s.v+s.p));cx.fillStyle='#cfe0ff';cx.fillRect(s.x,s.y,s.s,s.s)}
+ cx.globalAlpha=1;
+ // planet limb
+ const R=Math.max(W*1.25,H*1.6),pcx=W*.5,pcy=H*.66+R;
+ // atmosphere glow behind
+ for(const [k,a] of [[1.09,.10],[1.045,.18],[1.018,.35]]){const gg=cx.createRadialGradient(pcx,pcy,R*.97,pcx,pcy,R*k);gg.addColorStop(0,`rgba(70,150,255,${a})`);gg.addColorStop(1,'rgba(70,150,255,0)');cx.fillStyle=gg;cx.fillRect(0,0,W,H)}
+ cx.save();cx.beginPath();cx.arc(pcx,pcy,R,0,7);cx.clip();
+ const th=R*2*.2,tw=th*tex.width/tex.height,off=(t*14)%tw,top=pcy-R-4;
+ for(let x=-off-tw;x<W+tw;x+=tw)cx.drawImage(tex,x,top,tw+1,th*1.6);
+ // fill below texture
+ cx.fillStyle='#04153a';cx.fillRect(0,top+th*1.6-2,W,H);
+ // limb shading: bright rim fading inward
+ const sh=cx.createRadialGradient(pcx,pcy,R*.93,pcx,pcy,R);sh.addColorStop(0,'rgba(2,8,24,.0)');sh.addColorStop(.7,'rgba(40,110,220,.18)');sh.addColorStop(1,'rgba(150,205,255,.85)');cx.fillStyle=sh;cx.fillRect(0,0,W,H);
+ const dk=cx.createLinearGradient(0,top,0,H);dk.addColorStop(0,'rgba(2,6,20,0)');dk.addColorStop(.6,'rgba(2,6,20,.3)');dk.addColorStop(1,'rgba(2,6,20,.8)');cx.fillStyle=dk;cx.fillRect(0,0,W,H);
+ cx.restore();
+ // thin bright rim line
+ cx.lineWidth=2;cx.strokeStyle='rgba(190,225,255,.7)';cx.shadowColor='rgba(110,180,255,.9)';cx.shadowBlur=18;cx.beginPath();cx.arc(pcx,pcy,R,0,7);cx.stroke();cx.shadowBlur=0;
+ // sunrise bloom at limb
+ const bx=pcx+Math.sin(t*.05)*W*.04,by=pcy-R;const bl=cx.createRadialGradient(bx,by,0,bx,by,W*.35);bl.addColorStop(0,'rgba(190,225,255,.28)');bl.addColorStop(1,'rgba(190,225,255,0)');cx.fillStyle=bl;cx.fillRect(0,0,W,H);
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches)requestAnimationFrame(draw)
+}
+makeTex();resize();addEventListener('resize',()=>{resize()});
+requestAnimationFrame(draw);if(matchMedia('(prefers-reduced-motion: reduce)').matches)draw(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+ATLAS_P("F745","Use apenas: JavaScript, Playwright e FFmpeg. Fa\u00e7a um v\u00eddeo moderno, elegante e impactante para meu produto (https://lp.meuorbe.com.br). Quero que simule os gastos em estabelecimentos do dia a dia, como mercado, posto de gasolina e restaurante. \n\nFa\u00e7a no formato 9:16.");

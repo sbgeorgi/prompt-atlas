@@ -1,0 +1,1 @@
+ATLAS_P("F660","animate golden ratios and mandlebrot sets, sacred geometry and cymatics in a well thought out eye candy javascript or 3js 3d animated video. use motion animation to show off your skills and push the limits with quick cuts, vibrant colors and cute but badass characters. make it like an adult cartoon you'd watch on adult swim");

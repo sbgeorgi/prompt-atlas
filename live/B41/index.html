@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adam Roberts - Design &amp; Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=VT323&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:#fff}
+body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow:hidden}
+/* basis33 stand-in: VT323 (pixel monospace) */
+.font-pixel{font-family:'VT323','basis33',monospace;font-weight:400}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{background:none;border:0;color:inherit;font:inherit;cursor:pointer}
+
+.root{position:relative;height:100vh;height:100dvh;width:100%;overflow:hidden;background:#000;color:#fff}
+#bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vignette{position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(120% 90% at 70% 30%,transparent 40%,rgba(0,0,0,.55) 100%)}
+.content{position:relative;z-index:10;display:flex;height:100%;flex-direction:column;padding:0 20px}
+@media(min-width:640px){.content{padding:0 24px}}
+@media(min-width:768px){.content{padding:0 40px}}
+@media(min-width:1024px){.content{padding:0 56px}}
+
+nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+.links{display:none;gap:32px;font-size:14px;letter-spacing:.025em}
+.links a,.burger{transition:opacity .15s}
+.links a:hover,.burger:hover{opacity:.7}
+.burger{padding:8px;display:block}
+@media(min-width:768px){.links{display:flex}.burger{display:none}}
+
+.meta{margin-top:16px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(min-width:640px){.meta{gap:24px}}
+@media(min-width:1024px){.meta{grid-template-columns:repeat(4,1fr);gap:32px}}
+.meta h2{font-weight:400;font-size:18px;letter-spacing:.025em;line-height:1.15}
+@media(min-width:768px){.meta h2{font-size:20px}}
+.meta h2 .px{display:block;font-size:24px;line-height:1}
+@media(min-width:768px){.meta h2 .px{font-size:30px}}
+.c2,.c4{text-align:right}
+@media(min-width:1024px){.c2,.c4{text-align:left}}
+.ast{font-size:10px;color:rgba(255,255,255,.5);margin-top:12px}
+.blurb{margin-top:4px;font-size:12px;color:rgba(255,255,255,.6);line-height:1.15;font-size:16px}
+.label{font-size:18px;letter-spacing:.1em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:12px}
+.c3 p{font-size:14px;color:rgba(255,255,255,.9);line-height:1.6;max-width:220px}
+.c4 ul{font-size:14px;color:rgba(255,255,255,.9);line-height:1.6}
+.c4 li+li{margin-top:2px}
+.c3{text-align:left}
+.c4{margin-left:auto}
+
+.spacer{flex:1}
+.bottom{padding-bottom:16px}
+.rowA{display:grid;grid-template-columns:1fr;gap:16px;align-items:end}
+@media(min-width:640px){.rowA{gap:24px}}
+@media(min-width:1024px){.rowA{grid-template-columns:1fr 1fr}}
+h1{font-weight:400;text-transform:uppercase;letter-spacing:.025em;line-height:.72;font-size:30px}
+@media(min-width:640px){h1{font-size:36px}}
+@media(min-width:768px){h1{font-size:48px}}
+@media(min-width:1024px){h1{font-size:clamp(44px,4.4vw,4.25rem)}}
+h1 span{display:block;white-space:nowrap}
+h1 .px{font-size:1.25em;display:inline-block;line-height:1;vertical-align:baseline;font-weight:400}
+.right{display:flex;flex-direction:column;gap:16px;justify-content:flex-end}
+@media(min-width:640px){.right{gap:24px}}
+.show{align-self:flex-start;display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.3);padding:12px 24px;background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
+.show:hover{background:rgba(255,255,255,.1)}
+.show svg{width:14px;height:14px;fill:#fff;stroke:#fff}
+.show span{font-size:14px;letter-spacing:.05em}
+.awards{align-self:flex-start;display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;font-size:14px;color:rgba(255,255,255,.8)}
+@media(min-width:640px){.awards{gap:12px}}
+@media(min-width:1024px){.awards{align-self:flex-end}}
+.chip{background:#0B0B0B;padding:8px 12px;display:flex;align-items:center;gap:8px}
+@media(min-width:640px){.chip{padding:8px 16px}}
+.chip b{font-weight:700;color:#fff}
+.chip i{font-style:normal;font-size:12px;color:rgba(255,255,255,.5)}
+.chip.a b{font-size:14px;letter-spacing:-.025em}
+.chip.b b{font-size:18px}
+.chip.c b{font-size:10px;letter-spacing:-.025em}
+@media(min-width:640px){.chip.a b{font-size:16px}.chip.b b{font-size:20px}.chip.c b{font-size:12px}}
+
+.rowB{margin-top:16px;display:grid;grid-template-columns:1fr;gap:8px;padding-top:16px;font-size:12px;color:rgba(255,255,255,.6)}
+@media(min-width:640px){.rowB{margin-top:20px;grid-template-columns:1fr 1fr;gap:16px}.rowB .r{text-align:right}}
+.rowB a{color:#ef4444;transition:color .15s}
+.rowB a:hover{color:#f87171}
+
+.menu{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;flex-direction:column;
+  transition:all .5s cubic-bezier(.16,1,.3,1);opacity:0;pointer-events:none}
+.menu.open{opacity:1;pointer-events:auto}
+.menu header{display:flex;align-items:center;justify-content:space-between;padding:24px}
+.menu nav{flex-direction:column;justify-content:center;flex:1;gap:32px;padding:0}
+.menu nav a{font-size:24px;letter-spacing:.1em;opacity:0;transform:translateY(16px);transition:all .5s cubic-bezier(.16,1,.3,1);transition-delay:0ms}
+.menu.open nav a{opacity:1;transform:none}
+.xbtn{padding:8px;transition:opacity .15s}.xbtn:hover{opacity:.7}
+@media(max-width:639px){nav{padding:18px 0 4px}.meta{gap:12px}.blurb{font-size:14px}.label{margin-bottom:6px;font-size:16px}.c3 p,.c4 ul{font-size:12.5px;line-height:1.45}.c4 li+li{margin-top:0}.c4{margin-left:0}.rowB{margin-top:10px;padding-top:6px}.bottom{padding-bottom:12px}}
+@media(max-height:620px){.meta{display:none}}
+</style>
+</head>
+<body>
+<div class="root">
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="vignette"></div>
+
+  <div class="content">
+    <nav>
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="none" aria-label="Grilled Pixels"><path d="M 160 88 L 194 34 L 216 0 L 256 0 L 256 40 L 221.5 93.5 L 200 128 L 256 128 L 256 256 L 96 256 L 96 168 L 64.246 220 L 40 256 L 0 256 L 0 216 L 34 162 L 56 128 L 0 128 L 0 0 L 160 0 Z" fill="white"/></svg>
+      <div class="links">
+        <a href="#">ABOUT</a><a href="#">PROCESS</a><a href="#">PROJECTS</a><a href="#">CATALOG</a><a href="#">D.O.T</a><a href="#">TALK</a>
+      </div>
+      <button class="burger" id="open" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </nav>
+
+    <section class="meta">
+      <div class="c1">
+        <h2>ADAM<span class="px font-pixel">ROBERTS</span></h2>
+        <div class="ast">*</div>
+        <p class="blurb font-pixel">Grilled Pixels is my<br>personal brand - I came up<br>with it in 2004 based on<br>"cooking up ideas"</p>
+      </div>
+      <div class="c2">
+        <h2>DESIGN &amp;<span class="px font-pixel">ENGINEERING</span></h2>
+      </div>
+      <div class="c3">
+        <div class="label font-pixel">What I Do</div>
+        <p>I create the top 1% of experiences for brands and digital products</p>
+      </div>
+      <div class="c4">
+        <div class="label font-pixel">Services</div>
+        <ul>
+          <li>Branding</li>
+          <li>Creative Direction &amp; Strategy</li>
+          <li>UX/UI Design</li>
+          <li>Web Development (React/Nextjs)</li>
+          <li>3D, WebGL / Photography</li>
+          <li>Video &amp; Animation</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="bottom">
+      <div class="rowA">
+        <h1>
+          <span>I BRING THE</span>
+          <span>
+            <span class="px font-pixel" style="display:inline-block">UNEXPECTED</span> TO</span>
+          <span>BRAND &amp; DIGITAL</span>
+          <span class="px font-pixel">EXPERIENCES</span>
+        </h1>
+        <div class="right">
+          <a href="#" class="show"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>PLAY SHOWREEL</span></a>
+          <div class="awards">
+            <div class="chip a"><b>FWA</b><i>x1</i></div>
+            <div class="chip b"><b>W.</b><i>x7</i></div>
+            <div class="chip c"><b>CSSDesignAwards</b><i>x22</i></div>
+          </div>
+        </div>
+      </div>
+      <div class="rowB">
+        <div>Open to freelance, contract or full-time. <a href="#">Schedule a call</a></div>
+        <div class="r">5 full cases &bull; 82 archive fragments &bull; 22 catalog items</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="menu" id="menu" aria-hidden="true">
+    <header>
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="none"><path d="M 160 88 L 194 34 L 216 0 L 256 0 L 256 40 L 221.5 93.5 L 200 128 L 256 128 L 256 256 L 96 256 L 96 168 L 64.246 220 L 40 256 L 0 256 L 0 216 L 34 162 L 56 128 L 0 128 L 0 0 L 160 0 Z" fill="white"/></svg>
+      <button class="xbtn" id="close" aria-label="Close menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    </header>
+    <nav id="mnav">
+      <a href="#">ABOUT</a><a href="#">PROCESS</a><a href="#">PROJECTS</a><a href="#">CATALOG</a><a href="#">D.O.T</a><a href="#">TALK</a>
+    </nav>
+  </div>
+</div>
+
+<script>
+// Menu
+(function(){
+  var m=document.getElementById('menu'),links=m.querySelectorAll('nav a');
+  function set(o){m.classList.toggle('open',o);m.setAttribute('aria-hidden',!o);
+    links.forEach(function(a,i){a.style.transitionDelay=o?(100+i*60)+'ms':'0ms'});}
+  document.getElementById('open').onclick=function(){set(true)};
+  document.getElementById('close').onclick=function(){set(false)};
+  links.forEach(function(a){a.onclick=function(e){e.preventDefault();set(false)}});
+})();
+
+// Background: procedural stand-in for the (unavailable) cinematic video.
+// A slowly drifting pixel-quantised light field: dark graphite with a warm ember core.
+(function(){
+  var c=document.getElementById('bg'),g=c.getContext('2d');
+  var CELL=9,W,H,cols,rows,off=document.createElement('canvas'),og=off.getContext('2d'),img;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){
+    W=c.clientWidth;H=c.clientHeight;
+    var dpr=1;c.width=W;c.height=H;
+    cols=Math.ceil(W/CELL);rows=Math.ceil(H/CELL);
+    off.width=cols;off.height=rows;img=og.createImageData(cols,rows);
+    g.imageSmoothingEnabled=false;
+  }
+  function hash(x,y){var h=Math.sin(x*127.1+y*311.7)*43758.5453;return h-Math.floor(h)}
+  var BAYER=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+  function frame(ms){
+    var t=ms/1000*0.18;
+    var d=img.data,asp=W/H;
+    for(var y=0;y<rows;y++){
+      for(var x=0;x<cols;x++){
+        var u=x/cols*asp,v=y/rows;
+        // layered flowing bands
+        var a=Math.sin(u*3.1+t*1.3+Math.sin(v*4.2-t)*1.6);
+        var b=Math.sin((u*0.8-v*2.3)*3.4-t*0.9+Math.sin(u*2.1+t*.7)*1.2);
+        var f=(a+b)*0.25+0.5;
+        // ember core
+        var cx=asp*(0.70+0.06*Math.sin(t*0.8)),cy=0.42+0.05*Math.cos(t*0.6);
+        var dd=Math.hypot(u-cx,(v-cy)*1.15);
+        var glow=Math.exp(-dd*dd*9);
+        var lum=f*0.2+glow*0.62;
+        // ordered dither to give a pixel/grill texture
+        var th=(BAYER[(y&3)*4+(x&3)]/16-0.5)*0.16;
+        lum=Math.max(0,Math.min(1,lum+th));
+        lum=Math.floor(lum*7)/7;
+        var i=(y*cols+x)*4;
+        var warm=Math.max(0,lum-0.35);
+        d[i]=Math.min(255,lum*78+warm*300);
+        d[i+1]=Math.min(255,lum*74+warm*105);
+        d[i+2]=Math.min(255,lum*80+warm*30);
+        d[i+3]=255;
+      }
+    }
+    og.putImageData(img,0,0);
+    g.drawImage(off,0,0,cols*CELL,rows*CELL);
+    // faint grill lines
+    g.fillStyle='rgba(0,0,0,.28)';
+    for(var gx=0;gx<W;gx+=CELL)g.fillRect(gx,0,1,H);
+    for(var gy=0;gy<H;gy+=CELL)g.fillRect(0,gy,W,1);
+    if(!reduce)requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',function(){size();if(reduce)frame(0)});
+  size();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

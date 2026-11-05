@@ -1,0 +1,1 @@
+ATLAS_P("F590","Create a stunning 30-second motion graphics video showcasing Apple's evolution from Steve Jobs in 1976 to 2026.\nEvolve from nostalgic vintage aesthetics to futuristic digital art, with seamless transitions and cinematic storytelling.\nPush your creativity to the limit. Go all out and make it unforgettable.");

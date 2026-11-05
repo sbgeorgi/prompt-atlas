@@ -1,0 +1,1 @@
+ATLAS_P("F244","make a dynamic 15-second motion graphics video that shows what an incredible media intelligent Drone Emprit is, like it's our showreel for a r\u00e9sum\u00e9. go all out.");

@@ -1,0 +1,1 @@
+ATLAS_P("L26","Make a dynamic [24]-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a resume. Go all out.\n\nOnly about [TOPIC]. Style: [BRAND COLORS], sound synced to the cuts.");

@@ -1,0 +1,1 @@
+ATLAS_P("F558","Create an interactive AI film titled 'The Humanity Machine'. 60 seconds, single HTML file. The film ends but the world stays with controls. Push AI capability to 100% causing parts of the world to turn red.");

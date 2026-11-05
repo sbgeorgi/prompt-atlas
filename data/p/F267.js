@@ -1,0 +1,1 @@
+ATLAS_P("F267","Make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it\u2019s your showreel exploring the concept of \u201cOverthinking,\u201d inspired by the attached graphics.");

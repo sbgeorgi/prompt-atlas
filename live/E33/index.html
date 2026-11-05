@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>securify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Readex Pro',system-ui,-apple-system,sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.hero{position:relative;height:100vh;height:100svh;width:100%;overflow:hidden;background:#000}
+#bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+nav{position:absolute;z-index:20;top:0;left:0;right:0;padding:24px 24px 0;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.pill{background:rgba(23,23,23,.9);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:9999px}
+.brand{display:flex;align-items:center;gap:8px;padding:12px 24px 12px 16px}
+.brand svg{height:20px;width:20px}
+.brand span{font-size:14px;font-weight:400;letter-spacing:-.025em}
+.links{display:none;align-items:center;gap:4px;padding:8px 12px}
+.links a{color:#d4d4d4;font-size:14px;padding:8px 20px;border-radius:9999px;transition:color .15s}
+.links a:hover{color:#fff}
+.cta{background:#fff;color:#000;font-size:14px;font-weight:400;border-radius:9999px;padding:12px 24px;transition:background-color .15s}
+.cta:hover{background:#e5e5e5}
+.fg{position:relative;height:100%;width:100%}
+.hero-title{letter-spacing:-.04em;line-height:.95;position:absolute;color:#fff;font-weight:500;font-size:14vw;white-space:nowrap}
+.t1{left:16px;top:18%}
+.t2{right:16px;top:38%}
+.t3{left:18%;top:58%}
+.desc{position:absolute;left:24px;top:46%;max-width:240px;font-size:15px;line-height:1.25;color:rgba(255,255,255,.9)}
+.stat{position:absolute}
+.stat .row{display:flex;align-items:center;gap:12px}
+.stat .num{font-size:36px;font-weight:500;letter-spacing:-.025em;line-height:1}
+.stat .sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px}
+.div{display:none;height:1px;width:96px;background:rgba(255,255,255,.4)}
+.s1{right:24px;top:14%}
+.s1 .row{justify-content:flex-end}.s1 .sub{text-align:right}
+.s2{left:24px;bottom:80px}
+.s3{right:24px;bottom:64px}
+.s3 .row{justify-content:flex-end}.s3 .sub{text-align:right}
+.fade{pointer-events:none;position:absolute;bottom:0;left:0;right:0;height:192px;background:linear-gradient(to bottom,transparent,#000)}
+@media(min-width:768px){
+ nav{padding:24px 40px 0}
+ .links{display:flex}
+ .hero-title{font-size:13vw}
+ .t1{left:40px}.t2{right:40px}.t3{left:28%}
+ .desc{left:40px}
+ .div{display:block}
+ .stat .num{font-size:48px}
+ .stat .sub{font-size:14px}
+ .s1{right:96px}.s2{left:80px;bottom:96px}.s3{right:80px;bottom:80px}
+ .d1{transform:rotate(20deg)}.d2,.d3{transform:rotate(-20deg)}
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <nav>
+    <div class="pill brand">
+      <svg viewBox="0 0 256 256" aria-hidden="true"><path fill="#ffffff" d="M 128 192 L 128 256 L 64.5 256 L 32 223 L 0 192 L 0 128 L 64 128 Z M 256 192 L 256 256 L 192.5 256 L 160 223 L 128 192 L 128 128 L 192 128 Z M 128 64 L 128 128 L 64.5 128 L 32 95 L 0 64 L 0 0 L 64 0 Z M 256 64 L 256 128 L 192.5 128 L 160 95 L 128 64 L 128 0 L 192 0 Z"/></svg>
+      <span>securify</span>
+    </div>
+    <div class="pill links">
+      <a href="#">platform</a><a href="#">solutions</a><a href="#">company</a><a href="#">support</a>
+    </div>
+    <a href="#" class="cta">get started</a>
+  </nav>
+  <div class="fg">
+    <h1 class="hero-title t1">protect</h1>
+    <h1 class="hero-title t2">your</h1>
+    <h1 class="hero-title t3">data</h1>
+    <p class="desc">we can guarding your data with utmost care, empowering you with privacy everywhere</p>
+    <div class="stat s1"><div class="row"><span class="div d1"></span><span class="num">+65k</span></div><p class="sub">startups use</p></div>
+    <div class="fade"></div>
+    <div class="stat s2"><div class="row"><span class="num">+1.5b</span><span class="div d2"></span></div><p class="sub">gb data was protected</p></div>
+    <div class="stat s3"><div class="row"><span class="div d3"></span><span class="num">+300k</span></div><p class="sub">downloads</p></div>
+  </div>
+</section>
+<script>
+// Stand-in for the looping background video: dark chrome cubes (echoing the logo) drifting in perspective, with soft light sweeps.
+(function(){
+  var c=document.getElementById('bg'),g=c.getContext('2d');
+  var W,H,dpr,t=0;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){dpr=Math.min(window.devicePixelRatio||1,1.5);W=c.clientWidth;H=c.clientHeight;c.width=W*dpr;c.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0)}
+  size();window.addEventListener('resize',function(){size();if(reduce)draw(6)});
+  var N=26,cubes=[];
+  var seed=7;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647}
+  for(var i=0;i<N;i++)cubes.push({x:rnd()*2-1,y:rnd()*2-1,z:rnd(),s:.05+rnd()*.09,r:rnd()*6.28,v:.05+rnd()*.12,sp:(rnd()-.5)*.25});
+  function cube(cx,cy,s,r,a){
+    // isometric-ish cube
+    var k=s*.866,h=s*.5;
+    function P(dx,dy){return [cx+(dx*Math.cos(r)-dy*Math.sin(r)),cy+(dx*Math.sin(r)+dy*Math.cos(r))*.55]}
+    var top=[P(0,-s),P(k,-h),P(0,0),P(-k,-h)];
+    var left=[P(-k,-h),P(0,0),P(0,s),P(-k,h)];
+    var right=[P(k,-h),P(k,h),P(0,s),P(0,0)];
+    function poly(p,col){g.beginPath();g.moveTo(p[0][0],p[0][1]);for(var i=1;i<p.length;i++)g.lineTo(p[i][0],p[i][1]);g.closePath();g.fillStyle=col;g.fill();g.strokeStyle='rgba(255,255,255,'+(.18*a)+')';g.lineWidth=1;g.stroke()}
+    poly(left,'rgba(18,18,20,'+a+')');
+    poly(right,'rgba(34,34,38,'+a+')');
+    poly(top,'rgba(70,72,80,'+(a*.9)+')');
+  }
+  function draw(tt){
+    g.fillStyle='#000';g.fillRect(0,0,W,H);
+    var m=Math.max(W,H);
+    // light sweeps
+    var gx=W*(.5+.35*Math.sin(tt*.12)),gy=H*(.45+.2*Math.cos(tt*.09));
+    var gr=g.createRadialGradient(gx,gy,0,gx,gy,m*.6);
+    gr.addColorStop(0,'rgba(120,124,135,.32)');gr.addColorStop(.5,'rgba(40,42,48,.18)');gr.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=gr;g.fillRect(0,0,W,H);
+    var gx2=W*(.5+.4*Math.cos(tt*.1+2)),gy2=H*(.6+.2*Math.sin(tt*.13));
+    var g2=g.createRadialGradient(gx2,gy2,0,gx2,gy2,m*.45);
+    g2.addColorStop(0,'rgba(90,94,105,.25)');g2.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=g2;g.fillRect(0,0,W,H);
+    // perspective floor grid
+    g.save();g.strokeStyle='rgba(255,255,255,.07)';g.lineWidth=1;
+    var hy=H*.62;
+    for(var i=-14;i<=14;i++){g.beginPath();g.moveTo(W/2+i*m*.02,hy);g.lineTo(W/2+i*m*.16,H);g.stroke()}
+    for(var j=0;j<10;j++){var f=((j+(tt*.15)%1)/10);var y=hy+(H-hy)*f*f;g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
+    g.restore();
+    // cubes, sorted far to near
+    var arr=cubes.slice().sort(function(a,b){return a.z-b.z});
+    for(var n=0;n<arr.length;n++){
+      var q=arr[n],z=(q.z+tt*.02*q.v*5)%1;
+      var sc=.25+z*1.1;
+      var x=W/2+q.x*W*.62*sc+Math.sin(tt*.2+q.r)*12;
+      var y=H/2+q.y*H*.55*sc+Math.cos(tt*.17+q.r)*12-((tt*q.v*18)%H*0)+0;
+      var a=Math.min(1,z*2.2)*Math.min(1,(1-z)*4)*.9;
+      cube(x,y,q.s*m*sc,q.r+tt*q.sp,a);
+    }
+    // vignette
+    var v=g.createRadialGradient(W/2,H/2,m*.2,W/2,H/2,m*.75);
+    v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,.75)');
+    g.fillStyle=v;g.fillRect(0,0,W,H);
+  }
+  if(reduce){draw(6);return}
+  var last=0;
+  function loop(ms){t=ms/1000;draw(t);requestAnimationFrame(loop)}
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

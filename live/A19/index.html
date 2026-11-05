@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FROST - Cold-brewed, canned</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04101a;--ice:#5fd4ff;--ink:#f3f8fb;--dim:rgba(255,255,255,.5);--hair:rgba(255,255,255,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--ink);overflow:hidden;font-family:'Inter',system-ui,sans-serif}
+.screen{position:relative;height:100vh;height:100svh;width:100%;overflow:hidden;background:var(--bg)}
+.glow{position:absolute;inset:0;background:radial-gradient(56% 46% at 50% 46%,#5fd4ff22,transparent 68%),linear-gradient(180deg,#04101a 0%,#0a2233 45%,#04101a 100%)}
+#film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;display:block}
+.vig{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 210px 80px rgba(0,0,0,.82)}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.04;mix-blend-mode:screen;z-index:5}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.2em;font-weight:400}
+nav{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:26px clamp(20px,3.2vw,48px);z-index:3}
+.brand{font-family:'Inter Tight',sans-serif;font-weight:600;letter-spacing:.22em;font-size:15px}
+.links{display:flex;gap:clamp(18px,2.6vw,40px);font-size:10.5px;color:var(--dim)}
+.links a{color:inherit;text-decoration:none;transition:color .25s}
+.links a:hover{color:var(--ink)}
+.pill{display:inline-block;border:1px solid var(--ice);color:var(--ink);text-decoration:none;border-radius:999px;padding:11px 20px;font-size:10px;transition:background .25s,color .25s}
+nav .pill:hover{background:rgba(95,212,255,.14)}
+.hero{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px 60px;z-index:3}
+.kicker{font-size:11px;color:var(--ice);margin-bottom:22px}
+h1{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(40px,6.4vw,88px);line-height:1;letter-spacing:-.035em;max-width:6.3em}
+h1 em{font-style:normal;color:var(--ice)}
+.sub{max-width:470px;font-size:15px;color:rgba(255,255,255,.6);margin-top:24px;line-height:1.5}
+.cta{margin-top:32px;background:var(--ice);color:#04101a;font-weight:500;padding:15px 30px;font-size:11px;border-color:var(--ice);box-shadow:0 0 40px -6px rgba(95,212,255,.55)}
+.cta:hover{background:#8be0ff}
+.specs{position:absolute;left:0;right:0;margin:0 auto;bottom:clamp(26px,5vh,54px);display:flex;z-index:3;width:min(720px,calc(100% - 40px));border-top:1px solid var(--hair)}
+.spec{flex:1;padding:18px 10px 0;text-align:center}
+.spec+.spec{border-left:1px solid var(--hair)}
+.spec b{display:block;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(22px,2.6vw,32px);color:var(--ice);letter-spacing:-.02em}
+.spec span{display:block;margin-top:6px;font-size:10px;color:var(--dim)}
+.rise{opacity:0;filter:blur(16px);transform:translateY(26px);animation:rise .95s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes rise{to{opacity:1;filter:blur(0);transform:none}}
+@media (max-width:820px){
+ .links{display:none}
+ .specs{flex-wrap:wrap}
+ .spec{flex:1 1 33%;min-width:100px;padding-top:14px}
+ .hero{padding-bottom:110px}
+ .brand{font-size:13px}
+}
+@media (max-width:480px){
+ .spec b{font-size:20px}
+ .spec span{font-size:9px;letter-spacing:.14em}
+ .pill{padding:9px 14px}
+}
+@media (prefers-reduced-motion:reduce){
+ .rise{animation:none;opacity:1;filter:none;transform:none}
+}
+</style>
+</head>
+<body>
+<svg class="grain" width="100%" height="100%" aria-hidden="true"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+<main class="screen">
+  <div class="glow"></div>
+  <video id="film" src="https://zxdefgavgwfxastwmmjm.supabase.co/storage/v1/object/public/assets/frost.mp4" muted playsinline preload="auto" aria-label="Condensation forming on a cold, dark blue can"></video>
+  <div class="vig"></div>
+  <nav>
+    <div class="brand rise" style="--d:0ms">FROST</div>
+    <div class="links mono rise" style="--d:140ms"><a href="#">The brew</a><a href="#">Stockists</a><a href="#">Wholesale</a><a href="#">About</a></div>
+    <a class="pill mono rise" style="--d:280ms" href="#">Find a stockist</a>
+  </nav>
+  <section class="hero">
+    <div class="kicker mono rise" style="--d:360ms">Cold-brewed, canned</div>
+    <h1 class="rise" style="--d:460ms">Cold. Then <em>colder.</em></h1>
+    <p class="sub rise" style="--d:620ms">Brewed twenty hours, sealed the same morning.</p>
+    <a class="pill cta mono rise" style="--d:760ms" href="#">Find a stockist</a>
+  </section>
+  <div class="specs rise" style="--d:920ms">
+    <div class="spec"><b>20h</b><span class="mono">steeped</span></div>
+    <div class="spec"><b>2&deg;C</b><span class="mono">sealed</span></div>
+    <div class="spec"><b>0g</b><span class="mono">sugar</span></div>
+  </div>
+</main>
+<script>
+(function(){
+  var v=document.getElementById('film');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){
+    // no autoplay: hand the viewer normal controls
+    v.controls=true;v.muted=false;v.style.zIndex=4;v.style.pointerEvents='auto';
+    return;
+  }
+  function play(){var p=v.play();if(p&&p.catch)p.catch(function(){});}
+  v.addEventListener('canplay',play,{once:true});
+  window.addEventListener('load',play);
+  // play once, then hold the final frame
+  v.addEventListener('ended',function(){
+    v.pause();
+    try{v.currentTime=Math.max(0,v.duration-0.05);}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

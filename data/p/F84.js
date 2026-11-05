@@ -1,0 +1,1 @@
+ATLAS_P("F84","Make a 20-second motion graphic that explains how an AI language model turns a prompt into an answer, and why a long answer costs more\u2026 The charts then break apart into pixel blocks, and those pixel blocks rebuild into the explanation.");

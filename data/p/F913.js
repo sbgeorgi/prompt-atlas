@@ -1,0 +1,1 @@
+ATLAS_P("F913","make a dynamic lyrics motion graphics video based on the attached music, perfectly syncing the lyrics and animation to the vocals and beat. make it feel like an incredible motion designer\u2019s showreel for a r\u00e9sum\u00e9. go all out.");

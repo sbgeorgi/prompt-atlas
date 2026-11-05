@@ -1,0 +1,1 @@
+ATLAS_P("F709","Scan all the components from the given page, fetch the brand detailing including logo. Make me a high end teaser video for this specific feature.");

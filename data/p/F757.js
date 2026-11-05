@@ -1,0 +1,1 @@
+ATLAS_P("F757","Make a dynamic 15-second motion graphics video that shows why [your product] is the best at [what it does], like a showreel. Go all out: 1080\u00d71080, 1s hook, loop.");

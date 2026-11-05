@@ -1,0 +1,1 @@
+ATLAS_P("F279","create a 30 second ad for Opus 5.5 inspired by Apple 1984 ad, iykyk! avoid the border text or frames!");

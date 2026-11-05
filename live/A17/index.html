@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Knead - Artisan Bakehouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter Tight',sans-serif;background:#0d0a07;color:#fff;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.stage{position:fixed;inset:0;z-index:0;overflow:hidden;background:#0d0a07}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;animation:warmDrift 22s ease-in-out infinite;transform-origin:50% 60%}
+.stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .8s;animation:warmDrift 22s ease-in-out infinite;transform-origin:50% 60%}
+.stage video.on{opacity:1}
+@keyframes warmDrift{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.blur-ov{position:fixed;inset:0;z-index:1;pointer-events:none;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);-webkit-mask-image:linear-gradient(to top,black 0%,transparent 47%);mask-image:linear-gradient(to top,black 0%,transparent 47%)}
+.scrim{position:fixed;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(120% 100% at 50% 88%,rgba(217,160,102,.24),transparent 62%)}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.crust-text{background:linear-gradient(180deg,#fbe6cf,#e7bd90 55%,#d9a066);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fade{opacity:0;animation:blurFadeUp 1.1s ease-out forwards}
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(40px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+@keyframes floatSlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.float{animation:blurFadeUp 1.1s ease-out 300ms forwards,floatSlow 6s ease-in-out 1.6s infinite}
+svg.i{display:block;flex:none}
+.page{position:relative;z-index:10;height:100%;display:flex;flex-direction:column}
+nav{position:relative;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 16px}
+.logo{font-family:'Fraunces',serif;font-style:italic;font-size:20px;letter-spacing:-.025em}
+.links{display:none;gap:32px;font-size:14px;color:rgba(255,255,255,.7)}
+.links a{transition:color .2s}.links a:hover{color:#fff}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;padding:8px 20px;font-size:14px;color:#fff}
+.burger{width:40px;height:40px;border-radius:9999px;display:grid;place-items:center}
+.burger svg{grid-area:1/1;transition:all .5s}
+.burger .x{opacity:0;transform:rotate(180deg) scale(.5)}
+.burger.open .x{opacity:1;transform:none}
+.burger.open .m{opacity:0;transform:rotate(180deg) scale(.5)}
+.drop{position:fixed;top:72px;left:0;right:0;z-index:40;background:rgba(13,10,7,.95);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);padding:8px 16px 16px;opacity:0;pointer-events:none;transition:opacity .4s}
+.drop.open{opacity:1;pointer-events:auto}
+.drop a{display:block;padding:12px 0;color:rgba(255,255,255,.8);opacity:0;transform:translateX(-24px);transition:all .45s ease}
+.drop.open a{opacity:1;transform:none}
+.drop.open a:nth-child(2){transition-delay:.05s}.drop.open a:nth-child(3){transition-delay:.1s}.drop.open a:nth-child(4){transition-delay:.15s}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 32px;min-height:0}
+.row{display:flex;flex-direction:column;align-items:stretch;gap:32px}
+.left{flex:1}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-bottom:24px;font-size:12px;opacity:0}
+.meta .it{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.85)}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:9999px;padding:4px 12px;font-size:10px;letter-spacing:.25em;text-transform:uppercase}
+h1{font-family:'Fraunces',serif;font-optical-sizing:auto;font-weight:500;font-size:36px;line-height:1.03;letter-spacing:-.02em;margin-bottom:20px}
+h1 em{font-style:italic}
+.sub{font-size:16px;color:rgba(255,255,255,.6);max-width:36rem;margin-bottom:32px;line-height:1.5}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;padding:12px 28px;width:100%}
+.solid{background:#fff;color:#000;font-weight:500;transition:background .2s}.solid:hover{background:rgba(255,255,255,.9)}
+.chip{border-radius:16px;padding:20px 24px;max-width:20rem;text-align:left}
+.chip .t{font-family:'Fraunces',serif;font-style:italic;font-size:18px;margin-bottom:6px}
+.chip p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.5}
+@media(min-width:640px){nav{padding:16px 24px}.hero{padding:0 24px 32px}h1{font-size:60px}.sub{font-size:18px}.meta{font-size:14px}.cta{width:auto}}
+@media(min-width:768px){nav{padding:24px 48px}.logo{font-size:24px}.pill{padding:8px 24px}.hero{padding:0 48px 64px}h1{font-size:72px}.row{flex-direction:row;align-items:flex-end}.chip{text-align:right}}
+@media(min-width:1024px){.links{display:flex}.burger,.drop{display:none}}
+@media(max-width:1023px){.pill.order{display:none}}
+@media(max-height:560px){h1{font-size:40px;margin-bottom:12px}.sub{margin-bottom:16px}.meta{margin-bottom:12px}.chip{display:none}}
+@media(max-height:700px) and (max-width:639px){.sub{display:none}.meta{margin-bottom:14px}h1{margin-bottom:16px}.cta{padding:10px 28px}}
+@media(prefers-reduced-motion:reduce){.stage canvas,.stage video{animation:none}.float{animation:blurFadeUp 1.1s ease-out 300ms forwards}}
+</style>
+</head>
+<body>
+<div class="stage"><canvas id="c" aria-hidden="true"></canvas><video id="v" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="https://zxdefgavgwfxastwmmjm.supabase.co/storage/v1/object/public/assets/knead.mp4" type="video/mp4"></video></div>
+<div class="blur-ov"></div><div class="scrim"></div>
+<div class="page">
+<nav>
+  <a class="logo fade" href="#" style="animation-delay:0ms">Knead</a>
+  <div class="links">
+    <a class="fade" href="#" style="animation-delay:100ms">Bakes</a>
+    <a class="fade" href="#" style="animation-delay:150ms">Our Starter</a>
+    <a class="fade" href="#" style="animation-delay:200ms">Find Us</a>
+    <a class="fade" href="#" style="animation-delay:250ms">Order</a>
+  </div>
+  <a class="pill order liquid-glass fade" href="#" style="animation-delay:300ms"><svg class="i" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Order Ahead</a>
+  <button class="burger liquid-glass fade" id="bg" aria-label="Menu" style="animation-delay:300ms">
+    <svg class="m" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <svg class="x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+</nav>
+<div class="drop" id="dp"><a href="#">Bakes</a><a href="#">Our Starter</a><a href="#">Find Us</a><a href="#">Order</a></div>
+
+<main class="hero">
+<div class="row">
+  <div class="left">
+    <div class="meta float">
+      <span class="badge liquid-glass fade" style="animation-delay:260ms"><svg class="i" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d9a066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>Free Template</span>
+      <span class="it"><svg class="i" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Baked at 5am</span>
+      <span class="it"><svg class="i" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d9a066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 16 8"/><path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z"/><path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/><path d="M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/><path d="M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/></svg>Wild Yeast</span>
+    </div>
+    <h1 class="fade" style="animation-delay:420ms">Slow Dough. <em class="crust-text">Honest</em> Crust.</h1>
+    <p class="sub fade" style="animation-delay:540ms">A neighborhood bakehouse folding real sourdough by hand, one warm batch a morning.</p>
+    <div class="ctas">
+      <a class="cta solid fade" href="#" style="animation-delay:640ms">Order Ahead<svg class="i" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a class="cta liquid-glass fade" href="#" style="animation-delay:740ms">See Today's Bakes</a>
+    </div>
+  </div>
+  <div class="chip liquid-glass fade" style="animation-delay:820ms">
+    <div class="t">Today's Batch</div>
+    <p>Country loaf · Rye · Seeded</p>
+    <p>Fresh from 7am · while it lasts</p>
+  </div>
+</div>
+</main>
+</div>
+<script>
+(function(){
+var bg=document.getElementById('bg'),dp=document.getElementById('dp');
+bg.onclick=function(){bg.classList.toggle('open');dp.classList.toggle('open')};
+var vd=document.getElementById('v');
+if(vd){vd.muted=true;var show=function(){vd.classList.add('on')};
+ vd.addEventListener('playing',show);vd.addEventListener('error',function(){vd.classList.remove('on')},true);
+ var pp=vd.play();if(pp&&pp.catch)pp.catch(function(){});
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){vd.addEventListener('loadeddata',function(){vd.pause();show()})}}
+var cv=document.getElementById('c'),ctx=cv.getContext('2d');
+var W,H,parts=[],bokeh=[];
+var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rnd(a,b){return a+Math.random()*(b-a)}
+function size(){var s=.5;W=cv.width=Math.max(320,Math.round(innerWidth*s));H=cv.height=Math.max(240,Math.round(innerHeight*s));
+ parts=[];for(var i=0;i<70;i++)parts.push({x:rnd(0,1),y:rnd(0,1),r:rnd(.6,2.2),v:rnd(.002,.008),p:rnd(0,6.28),a:rnd(.2,.7)});
+ bokeh=[];for(i=0;i<14;i++)bokeh.push({x:rnd(0,1),y:rnd(0,.5),r:rnd(.03,.09),a:rnd(.05,.16)});
+ if(rm)draw(0)}
+function capsule(x1,y1,x2,y2,w,fill){ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=fill;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+function draw(t){
+ t/=1000;
+ var wide=W/H>1.2, cx=wide?.62:.55;
+ var press=(Math.sin(t*1.1)*.5+.5);press=press*press*(3-2*press);
+ var h=H,w=W,i;
+ var g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#4a2e17');g.addColorStop(.55,'#2a190c');g.addColorStop(1,'#120a05');
+ ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+ var wl=ctx.createRadialGradient(w*.3,h*.05,0,w*.3,h*.05,w*.7);wl.addColorStop(0,'rgba(255,214,150,.75)');wl.addColorStop(.4,'rgba(230,160,80,.3)');wl.addColorStop(1,'rgba(230,160,80,0)');
+ ctx.fillStyle=wl;ctx.fillRect(0,0,w,h);
+ ctx.save();ctx.globalCompositeOperation='screen';
+ for(i=0;i<4;i++){var sx=w*(.12+i*.1)+Math.sin(t*.2+i)*w*.01;var sg=ctx.createLinearGradient(sx,0,sx+w*.12,h*.7);sg.addColorStop(0,'rgba(255,220,160,.16)');sg.addColorStop(1,'rgba(255,220,160,0)');
+  ctx.fillStyle=sg;ctx.beginPath();ctx.moveTo(sx,0);ctx.lineTo(sx+w*.05,0);ctx.lineTo(sx+w*.2,h*.75);ctx.lineTo(sx+w*.1,h*.75);ctx.fill()}
+ bokeh.forEach(function(b){ctx.fillStyle='rgba(255,200,130,'+b.a+')';ctx.beginPath();ctx.arc(b.x*w,b.y*h,b.r*h,0,6.28);ctx.fill()});
+ ctx.restore();
+ ctx.fillStyle='rgba(30,18,9,.55)';ctx.fillRect(w*.08,0,w*.012,h*.42);ctx.fillRect(w*.38,0,w*.012,h*.42);ctx.fillRect(w*.7,h*.1,w*.2,h*.3);
+ var ty=h*.6;
+ var tg=ctx.createLinearGradient(0,ty,0,h);tg.addColorStop(0,'#7a4e2a');tg.addColorStop(.5,'#5a3818');tg.addColorStop(1,'#2a170a');
+ ctx.fillStyle=tg;ctx.beginPath();ctx.moveTo(0,ty+h*.04);ctx.lineTo(w,ty-h*.03);ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.fill();
+ ctx.strokeStyle='rgba(20,10,4,.5)';ctx.lineWidth=1.5;
+ for(i=1;i<6;i++){var yy=ty+(h-ty)*Math.pow(i/6,1.4);ctx.beginPath();ctx.moveTo(0,yy+h*.04*(1-i/6));ctx.lineTo(w,yy-h*.03*(1-i/6));ctx.stroke()}
+ var rg=ctx.createRadialGradient(w*cx,ty+h*.12,0,w*cx,ty+h*.12,w*.5);rg.addColorStop(0,'rgba(255,190,110,.35)');rg.addColorStop(1,'rgba(255,190,110,0)');ctx.fillStyle=rg;ctx.fillRect(0,ty-h*.05,w,h);
+ var dx=w*cx,dy=h*.7,rx=w*(wide?.17:.3)*(1+press*.07),ry=h*.19*(1-press*.13);
+ ctx.fillStyle='rgba(15,7,2,.55)';ctx.beginPath();ctx.ellipse(dx+rx*.08,dy+ry*.95,rx*1.1,ry*.3,0,0,6.28);ctx.fill();
+ var dg=ctx.createRadialGradient(dx-rx*.3,dy-ry*.5,ry*.1,dx,dy,rx*1.1);dg.addColorStop(0,'#f6cd90');dg.addColorStop(.5,'#d9a05c');dg.addColorStop(1,'#8c5628');
+ ctx.fillStyle=dg;ctx.beginPath();ctx.ellipse(dx,dy,rx,ry,-.05,0,6.28);ctx.fill();
+ ctx.fillStyle='rgba(255,240,215,.25)';ctx.beginPath();ctx.ellipse(dx-rx*.15,dy-ry*.45,rx*.55,ry*.25,-.1,0,6.28);ctx.fill();
+ var py=press*h*.05;
+ var palmX=dx-rx*.15,palmY=dy-ry*.85+py;
+ var skin=ctx.createLinearGradient(palmX,palmY-h*.4,palmX+w*.3,palmY+h*.1);skin.addColorStop(0,'#c98a5e');skin.addColorStop(1,'#e8b184');
+ ctx.save();ctx.filter='blur(1.2px)';
+ var wx=dx+rx*1.0,wy=palmY-h*.28;
+ capsule(w*1.05,-h*.15,wx,wy,h*.19,skin);
+ capsule(wx,wy,palmX+rx*.15,palmY-h*.02,h*.17,skin);
+ var fc=['#d7a074','#e0aa7e','#dfa77a','#d19a6f'];
+ for(i=0;i<4;i++){capsule(palmX+rx*.05-i*w*.005,palmY-h*.07+i*h*.035,palmX-rx*.55-i*w*.012,palmY+h*.035+i*h*.04,h*.04,fc[i])}
+ capsule(palmX+rx*.4,palmY-h*.1,palmX+rx*.05,palmY+h*.06,h*.045,'#d49b70');
+ ctx.restore();
+ ctx.save();ctx.globalCompositeOperation='screen';
+ parts.forEach(function(p){var x=((p.x+Math.sin(t*.3+p.p)*.02)%1)*w,y=(((p.y-t*p.v)%1)+1)%1*h;
+  ctx.fillStyle='rgba(255,230,185,'+(p.a*(.5+.5*Math.sin(t+p.p)))+')';ctx.beginPath();ctx.arc(x,y,p.r,0,6.28);ctx.fill()});
+ ctx.restore();
+ var vg=ctx.createRadialGradient(w/2,h*.55,h*.3,w/2,h*.55,w*.8);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(8,4,1,.6)');ctx.fillStyle=vg;ctx.fillRect(0,0,w,h);
+ var lg=ctx.createLinearGradient(0,0,w*.7,0);lg.addColorStop(0,'rgba(10,5,2,.35)');lg.addColorStop(1,'rgba(10,5,2,0)');ctx.fillStyle=lg;ctx.fillRect(0,0,w,h);
+}
+size();addEventListener('resize',size);
+if(!rm){(function loop(t){draw(t);requestAnimationFrame(loop)})(0)}
+})();
+</script>
+</body>
+</html>

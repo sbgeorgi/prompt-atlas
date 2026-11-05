@@ -1,0 +1,1 @@
+ATLAS_P("F546","Create a Minecraft-style animation inside a real street view environment. Stack 15 TNT blocks on the road, build a gold and diamond tower, drop a giant TNT block from the sky, and create craters blown into the actual road surface. Implement this as a single HTML file without external libraries.");

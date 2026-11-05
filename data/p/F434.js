@@ -1,0 +1,1 @@
+ATLAS_P("F434","[attach character image] make a 15-second animation of it, built in code. topic: the last day of Oktoberfest. one last \u2018Prost!\u2019 as the Wiesn lights go out. find free public-domain sounds online, sync them to the animation, and mix everything with ffmpeg.");

@@ -1,0 +1,1 @@
+ATLAS_P("F177","make a dynamic 30-second motion graphics video that shows what an incredible motion designer you are, create all graphics from scratch as if you were a niche branding agency for startup founders, like it's your showreel for a r\u00e9sum\u00e9. go all out.");

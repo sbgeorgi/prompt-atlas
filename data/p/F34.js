@@ -1,0 +1,1 @@
+ATLAS_P("F34","Create an interactive 3D house animation showing the construction process from Foundation through Skeleton, Systems and Envelope to Finished. Include an X-ray view that reveals the plumbing, power and air inside. Use Three.js and WebGPU.");

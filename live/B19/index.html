@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#000;overflow-x:hidden}
+/* Bamboly Demo substitute: Anton (chunky display) */
+.heading{font-family:"Bamboly Demo","Anton",Impact,sans-serif;letter-spacing:.02em}
+.hero{position:relative;width:100%;height:120vh;background:#EC612C;overflow:hidden}
+.char{position:absolute;inset:0;z-index:10;pointer-events:none}
+.char svg{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:auto;max-width:none;display:block;height:115%;max-height:115%;min-height:80%}
+.sticky{position:sticky;top:0;height:100vh;width:100%;z-index:5}
+.titlewrap{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:3vh}
+.title{position:relative;line-height:.85;user-select:none}
+.title h1{font-weight:400;font-size:clamp(7.5rem,30vw,28rem);line-height:.85;letter-spacing:-.025em;white-space:nowrap;user-select:none;text-align:center}
+.title h1:not(.front){position:absolute;inset:0}
+.l0{color:#89CFF0;transform:translateY(36px)}
+.l1{color:#EC612C;transform:translateY(24px)}
+.l2{color:#90EE90;transform:translateY(12px)}
+.front{color:#fff;position:relative}
+.cols{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 6vw;bottom:-8vh;pointer-events:none}
+.col{display:flex;flex-direction:column;gap:.5rem}
+.col.r{align-items:flex-end}
+.col.r .w{text-align:right}
+.w{font-family:"Poppins",sans-serif;font-weight:500;font-size:clamp(1.6rem,7vw,9rem);line-height:1.1;color:rgba(255,255,255,.8);text-transform:uppercase;user-select:none;transition:transform .05s linear}
+.marquee{width:100%;background:#fff;overflow:hidden;padding:2rem 0}
+.track{display:flex;white-space:nowrap;animation:marquee-scroll 18s linear infinite;width:max-content}
+.track span{flex-shrink:0;font-family:"Bamboly Demo","Anton",Impact,sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#EC612C;font-size:clamp(2.5rem,6vw,5rem);line-height:1;padding-right:.25em;user-select:none}
+@keyframes marquee-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@media(max-width:767px){
+ .titlewrap{padding-top:2vh}
+ .cols{padding:0 3vw}
+ .col{gap:.25rem}
+ .l0{transform:translateY(18px)}.l1{transform:translateY(12px)}.l2{transform:translateY(6px)}
+ .marquee{padding:1.5rem 0}
+}
+</style>
+</head>
+<body>
+<section class="hero" id="hero">
+  <div class="char">
+    <svg id="bust" viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="3D bust with electric-blue braids and neon-green turtleneck">
+      <defs>
+        <radialGradient id="skin" cx="45%" cy="38%" r="70%">
+          <stop offset="0" stop-color="#8a5535"/><stop offset=".55" stop-color="#5b3320"/><stop offset="1" stop-color="#341a10"/>
+        </radialGradient>
+        <linearGradient id="neck" x1="0" x2="1">
+          <stop offset="0" stop-color="#2c160d"/><stop offset=".5" stop-color="#4f2c1b"/><stop offset="1" stop-color="#2a150c"/>
+        </linearGradient>
+        <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#b8ff5c"/><stop offset=".5" stop-color="#5dff2e"/><stop offset="1" stop-color="#22b814"/>
+        </linearGradient>
+        <linearGradient id="shade" x1="0" x2="1">
+          <stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset=".25" stop-color="#000" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".4"/>
+        </linearGradient>
+        <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3b8bff"/><stop offset="1" stop-color="#0a3dd6"/>
+        </linearGradient>
+        <radialGradient id="iris" cx="50%" cy="40%" r="60%">
+          <stop offset="0" stop-color="#8fe4ff"/><stop offset=".6" stop-color="#1aa7ff"/><stop offset="1" stop-color="#0a5fd0"/>
+        </radialGradient>
+        <radialGradient id="bead" cx="35%" cy="30%" r="70%">
+          <stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#cfd5dc"/><stop offset="1" stop-color="#6b7480"/>
+        </radialGradient>
+        <clipPath id="body"><path id="bodyPath" d="M300 430 C230 440 150 470 105 520 C60 570 40 700 30 900 L570 900 C560 700 540 570 495 520 C450 470 370 440 300 430Z"/></clipPath>
+        <clipPath id="hc"><path d="M190 262 C172 120 240 52 300 52 C360 52 428 120 410 262 C406 214 392 170 362 150 C340 138 322 134 300 134 C278 134 260 138 238 150 C208 170 194 214 190 262Z"/></clipPath>
+        <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+      </defs>
+      <g transform="translate(0,95)">
+      <!-- back braids -->
+      <g id="backBraids"></g>
+      <!-- neck -->
+      <path d="M252 330 L252 440 C270 470 330 470 348 440 L348 330Z" fill="url(#neck)"/>
+      <ellipse cx="300" cy="400" rx="46" ry="26" fill="#000" opacity=".28" filter="url(#soft)"/>
+      <!-- shoulders / turtleneck -->
+      <path d="M300 430 C230 440 150 470 105 520 C60 570 40 700 30 900 L570 900 C560 700 540 570 495 520 C450 470 370 440 300 430Z" fill="url(#green)"/>
+      <g clip-path="url(#body)" id="ribs"></g>
+      <path d="M300 430 C230 440 150 470 105 520 C60 570 40 700 30 900 L570 900 C560 700 540 570 495 520 C450 470 370 440 300 430Z" fill="url(#shade)"/>
+      <!-- collar -->
+      <path d="M232 372 C232 340 368 340 368 372 L378 450 C340 484 260 484 222 450Z" fill="url(#green)"/>
+      <g id="collarRibs" stroke="#1a9a0e" stroke-opacity=".55" stroke-width="2.2" fill="none"></g>
+      <path d="M222 450 C260 484 340 484 378 450" stroke="#17830c" stroke-width="3" fill="none" opacity=".6"/>
+      <path d="M236 372 C250 356 350 356 364 372" stroke="#e6ffb0" stroke-width="5" fill="none" opacity=".6" stroke-linecap="round"/>
+      <!-- ears -->
+      <ellipse cx="196" cy="262" rx="16" ry="30" fill="#4a2818"/>
+      <ellipse cx="404" cy="262" rx="16" ry="30" fill="#3d2013"/>
+      <circle cx="193" cy="288" r="5" fill="url(#bead)"/>
+      <!-- head -->
+      <path d="M198 230 C198 345 245 400 300 400 C355 400 402 345 402 230 C402 150 355 110 300 110 C245 110 198 150 198 230Z" fill="url(#skin)"/>
+      <ellipse cx="270" cy="200" rx="46" ry="60" fill="#c98a5c" opacity=".22" filter="url(#soft)"/>
+      <!-- brows -->
+      <path d="M232 218 Q262 200 288 214" stroke="#1d0f08" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M312 214 Q338 200 368 218" stroke="#1d0f08" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <!-- eyes looking up -->
+      <g>
+        <ellipse cx="260" cy="248" rx="23" ry="14" fill="#f5f7fa"/>
+        <ellipse cx="340" cy="248" rx="23" ry="14" fill="#f5f7fa"/>
+        <circle cx="264" cy="242" r="11.5" fill="url(#iris)"/>
+        <circle cx="344" cy="242" r="11.5" fill="url(#iris)"/>
+        <circle cx="264" cy="240" r="5" fill="#04204a"/>
+        <circle cx="344" cy="240" r="5" fill="#04204a"/>
+        <circle cx="268" cy="236" r="2.4" fill="#fff"/>
+        <circle cx="348" cy="236" r="2.4" fill="#fff"/>
+        <path d="M236 246 Q260 228 284 246" stroke="#1d0f08" stroke-width="3.5" fill="none"/>
+        <path d="M316 246 Q340 228 364 246" stroke="#1d0f08" stroke-width="3.5" fill="none"/>
+        <path d="M239 252 Q260 262 281 252" stroke="#2a150c" stroke-width="2" fill="none" opacity=".6"/>
+        <path d="M319 252 Q340 262 361 252" stroke="#2a150c" stroke-width="2" fill="none" opacity=".6"/>
+      </g>
+      <!-- nose -->
+      <path d="M300 250 C296 290 286 308 276 318 Q300 332 324 318 C314 308 304 290 300 250Z" fill="#000" opacity=".16"/>
+      <ellipse cx="285" cy="318" rx="6" ry="3.5" fill="#1d0f08" opacity=".55"/>
+      <ellipse cx="315" cy="318" rx="6" ry="3.5" fill="#1d0f08" opacity=".55"/>
+      <ellipse cx="292" cy="296" rx="5" ry="14" fill="#c98a5c" opacity=".25" filter="url(#soft)"/>
+      <!-- lips -->
+      <path d="M268 352 Q284 344 300 350 Q316 344 332 352 Q316 358 300 358 Q284 358 268 352Z" fill="#7a3a2c"/>
+      <path d="M270 354 Q300 382 330 354 Q300 366 270 354Z" fill="#8f4838"/>
+      <path d="M284 372 Q300 380 316 372" stroke="#c98a5c" stroke-width="3" opacity=".35" fill="none" stroke-linecap="round"/>
+      <!-- hair cap -->
+      <path d="M190 262 C172 120 240 52 300 52 C360 52 428 120 410 262 C406 214 392 170 362 150 C340 138 322 134 300 134 C278 134 260 138 238 150 C208 170 194 214 190 262Z" fill="url(#hair)"/>
+      <g id="cornrows" clip-path="url(#hc)" stroke="#8fc2ff" stroke-opacity=".7" stroke-width="3" fill="none" stroke-linecap="round"></g>
+      <path d="M232 100 C262 74 330 70 372 104" stroke="#bcdcff" stroke-width="6" fill="none" opacity=".45" stroke-linecap="round"/>
+      <!-- front braids -->
+      <g id="frontBraids"></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="sticky">
+    <div class="titlewrap">
+      <div class="title heading">
+        <h1 class="l0" aria-hidden="true">BEYOND</h1>
+        <h1 class="l1" aria-hidden="true">BEYOND</h1>
+        <h1 class="l2" aria-hidden="true">BEYOND</h1>
+        <h1 class="front">BEYOND</h1>
+      </div>
+    </div>
+    <div class="cols">
+      <div class="col" id="left"></div>
+      <div class="col r" id="right"></div>
+    </div>
+  </div>
+</section>
+
+<section class="marquee" aria-label="Brand words">
+  <div class="track" id="track"></div>
+</section>
+
+<script>
+/* ---------- bust art (procedural braids, ribs) ---------- */
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+  function q(p0,p1,p2,t){var u=1-t;return[u*u*p0[0]+2*u*t*p1[0]+t*t*p2[0],u*u*p0[1]+2*u*t*p1[1]+t*t*p2[1]]}
+  function braid(g,start,end,ctrl,w,beads){
+    var d='M'+start+' Q'+ctrl+' '+end;
+    el('path',{d:d,stroke:'#0a36c4',"stroke-width":w+3,fill:'none','stroke-linecap':'round'},g);
+    el('path',{d:d,stroke:'#2a7bff',"stroke-width":w,fill:'none','stroke-linecap':'round'},g);
+    el('path',{d:d,stroke:'#9cc8ff',"stroke-width":w,fill:'none','stroke-linecap':'butt','stroke-dasharray':'2 '+(w*.6),opacity:.55},g);
+    beads.forEach(function(t){var p=q(start,ctrl,end,t);el('circle',{cx:p[0],cy:p[1],r:w*.62,fill:'url(#bead)'},g)});
+  }
+  var bb=document.getElementById('backBraids'),fb=document.getElementById('frontBraids');
+  var i,s,side;
+  // back braids: behind neck, fanned outward
+  for(i=0;i<9;i++){[-1,1].forEach(function(sd){
+    var x0=300+sd*(96+i*6),y0=140+i*8;
+    var x1=300+sd*(112+i*13),y1=420+i*10;
+    braid(bb,[x0,y0],[x1,y1],[300+sd*(122+i*9),y0+150],13,[.55,.8,.97].slice(i%2));
+  })}
+  // front braids: fall over shoulders at both sides of the face
+  for(i=0;i<7;i++){[-1,1].forEach(function(sd){
+    var x0=300+sd*(98+i*2),y0=175+i*13;
+    var x1=300+sd*(130+i*16),y1=500+i*16+(sd>0?8:0);
+    braid(fb,[x0,y0],[x1,y1],[300+sd*(128+i*9),y0+170],14,[.45,.7,.93].slice(i%2));
+  })}
+  // cornrow lines on the scalp
+  var cr=document.getElementById('cornrows');
+  for(i=-4;i<=4;i++){
+    el('path',{d:'M'+(300+i*22)+' 140 C'+(300+i*30)+' 110 '+(300+i*44)+' 84 '+(300+i*56)+' 66'},cr);
+  }
+  // ribs
+  var r=document.getElementById('ribs');
+  for(i=0;i<46;i++){var x=30+i*12;el('path',{d:'M'+x+' 430 L'+x+' 900',stroke:'#0f7a07','stroke-opacity':.28,'stroke-width':3,fill:'none'},r)}
+  var cc=document.getElementById('collarRibs');
+  for(i=0;i<18;i++){var x=234+i*7.5;el('path',{d:'M'+x+' 366 Q'+x+' 420 '+(x+(x-300)*.08)+' 466'},cc)}
+})();
+
+/* ---------- words ---------- */
+var L=['spark','imagine','evolve','render'],R=['blaze','genesis','purpose','ignite'];
+function mk(id,arr){var c=document.getElementById(id);return arr.map(function(t){var d=document.createElement('div');d.className='w';d.textContent=t;c.appendChild(d);return d})}
+var lw=mk('left',L),rw=mk('right',R);
+
+/* ---------- marquee ---------- */
+(function(){
+  var s='SPARK · RENDER · IGNITE · UNFOLD · GENESIS · EVOLVE · PURPOSE · BEYOND · ',t=document.getElementById('track');
+  for(var i=0;i<4;i++){var sp=document.createElement('span');sp.textContent=s;t.appendChild(sp)}
+})();
+
+/* ---------- scroll-driven word slide ---------- */
+var hero=document.getElementById('hero');
+function upd(){
+  var rect=hero.getBoundingClientRect(),h=hero.offsetHeight,den=h-window.innerHeight;
+  var p=den>0?Math.max(0,Math.min(1,-rect.top/den)):0;
+  var sf=window.innerWidth<768?.5:1,op=.35+p*.65;
+  lw.forEach(function(e,i){e.style.transform='translateX('+(-(60+i*40)*sf*(1-p))+'px)';e.style.opacity=op});
+  rw.forEach(function(e,i){e.style.transform='translateX('+((60+i*40)*sf*(1-p))+'px)';e.style.opacity=op});
+}
+window.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
+</script>
+</body>
+</html>

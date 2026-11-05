@@ -1,0 +1,1 @@
+ATLAS_P("F98","Multiplane occlusion. Use this technique to create an animation from a static image.\n\nSplit the image into depth plates:\n- Empty background stage. City w/ vehicles erased\n- Midground motion layer. Trains, ferry, water...\n- Foreground masks. Bridges that motion passes behind");

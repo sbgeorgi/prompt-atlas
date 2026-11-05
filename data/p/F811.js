@@ -1,0 +1,1 @@
+ATLAS_P("F811","Create a 37 second motion graphics promo for the concept brand Ajoflow, built entirely in code. No After Effects. No Premiere. Demonstrate the capabilities of pure code-driven animation for a brand promotional film.");

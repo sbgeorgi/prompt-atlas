@@ -1,0 +1,1 @@
+ATLAS_P("F79","Bana T\u00fcrk Kahvesi'nin Hikayesini Kod \u0130le Anlat.\n\nSonnet 5.5");

@@ -1,0 +1,1 @@
+ATLAS_P("F158","In LilyPond, write the opening largo movement of a trio sonata in the style of Corelli. Use a major key and a variety of suspensions. Use three staves: one for each violin and two for the bass continuo.");

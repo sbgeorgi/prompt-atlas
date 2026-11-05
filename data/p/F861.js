@@ -1,0 +1,1 @@
+ATLAS_P("F861","Make a fast 15s ad for https://t.co/HFGqzMVtnR.\nMake everyday AI users think \"I want my AI connected to my inbox.\"\nStudy the site and the reference ad. Bold, light mode, creative, no slop. Use music and sound design.\nEnd on the logo. Take the time to make it exceptional.");

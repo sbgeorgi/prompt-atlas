@@ -1,0 +1,1 @@
+ATLAS_P("F105","Opus 5.5\u2019e:\n\n\u201cHer \u015feye sen karar ver. Beni \u015fa\u015f\u0131rt.\u201d\n\ndedim.");

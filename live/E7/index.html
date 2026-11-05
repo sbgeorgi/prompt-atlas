@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:#fff;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,a{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+a{text-decoration:none}
+.root{position:relative;min-height:100vh;min-height:100svh;background:#000;overflow:hidden;display:flex;flex-direction:column}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:translateY(17%);opacity:0}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box exclude,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+nav{position:relative;z-index:20;padding:24px}
+.nav-in{max-width:64rem;margin:0 auto;border-radius:9999px;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.left{display:flex;align-items:center;gap:32px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:18px;line-height:28px}
+.links{display:none;align-items:center;gap:32px}
+.links a{color:rgba(255,255,255,.8);font-size:14px;font-weight:500;transition:color .15s}
+.links a:hover{color:#fff}
+.right{display:flex;align-items:center;gap:16px}
+.signup{font-size:14px;font-weight:500;color:#fff}
+.login{border-radius:9999px;padding:8px 24px;font-size:14px;font-weight:500}
+.hero{position:relative;z-index:10;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;text-align:center;transform:translateY(-20%)}
+h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:2.3rem;line-height:1;letter-spacing:-.025em;white-space:nowrap;margin-bottom:32px}
+.form{max-width:36rem;width:100%;display:flex;flex-direction:column;gap:16px}
+.bar{border-radius:9999px;padding:8px 8px 8px 24px;display:flex;align-items:center;gap:12px}
+.bar input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font-size:16px}
+.bar input::placeholder{color:rgba(255,255,255,.4)}
+.go{background:#fff;color:#000;border-radius:9999px;padding:12px;display:flex;transition:transform .15s}
+.go:hover{transform:scale(1.06)}
+.sub{font-size:14px;line-height:1.625;padding:0 16px;color:#fff}
+.mani{align-self:center;border-radius:9999px;padding:12px 32px;font-size:14px;font-weight:500;color:#fff;transition:background-color .15s}
+.mani:hover{background:rgba(255,255,255,.05)}
+.social{position:relative;z-index:10;display:flex;justify-content:center;gap:16px;padding-bottom:48px}
+.social a{border-radius:9999px;padding:16px;color:rgba(255,255,255,.8);display:flex;transition:all .15s}
+.social a:hover{color:#fff;background:rgba(255,255,255,.05)}
+svg{display:block}
+@media(min-width:768px){.links{display:flex}h1{font-size:3.75rem}}
+@media(min-width:1024px){h1{font-size:4.5rem}}
+@media(max-width:380px){h1{font-size:2rem}}
+</style>
+</head>
+<body>
+<div class="root">
+  <canvas class="bg" id="bg" aria-hidden="true"></canvas>
+
+  <nav>
+    <div class="nav-in liquid-glass">
+      <div class="left">
+        <div class="logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          <span>Asme</span>
+        </div>
+        <div class="links"><a href="#">Features</a><a href="#">Pricing</a><a href="#">About</a></div>
+      </div>
+      <div class="right">
+        <button class="signup" type="button">Sign Up</button>
+        <button class="login liquid-glass" type="button">Login</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="hero">
+    <h1>Built for the curious</h1>
+    <form class="form" id="f">
+      <div class="bar liquid-glass">
+        <input type="email" placeholder="Enter your email" aria-label="Email">
+        <button class="go" type="submit" aria-label="Subscribe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+      </div>
+      <p class="sub">Stay updated with the latest news and insights. Subscribe to our newsletter today and never miss out on exciting updates.</p>
+      <button class="mani liquid-glass" type="button">Manifesto</button>
+    </form>
+  </main>
+
+  <div class="social">
+    <a class="liquid-glass" href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+    <a class="liquid-glass" href="#" aria-label="Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+    <a class="liquid-glass" href="#" aria-label="Globe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></a>
+  </div>
+</div>
+
+<script>
+(function(){
+  document.getElementById('f').addEventListener('submit',function(e){e.preventDefault()});
+  var cv=document.getElementById('bg'),ctx=cv.getContext('2d');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W=0,H=0,dpr=1,S=1,OX=0,OY=0,stat=null;
+
+  // seeded random so the still scene is stable
+  var seed=7;function rnd(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
+
+  // ---------- static scene (drawn in 640x540 scene units) ----------
+  function poly(c,pts,fill){c.beginPath();c.moveTo(pts[0],pts[1]);for(var i=2;i<pts.length;i+=2)c.lineTo(pts[i],pts[i+1]);c.closePath();c.fillStyle=fill;c.fill()}
+  function flower(c,x,y,r,rot){
+    var n=7,cols=['#f6b92c','#f0a020','#e48a18','#ffd060'];
+    for(var i=0;i<n;i++){var a=rot+i*Math.PI*2/n;c.save();c.translate(x,y);c.rotate(a);c.beginPath();c.ellipse(r*.62,0,r*.62,r*.3,0,0,7);c.fillStyle=cols[i%4];c.fill();c.restore()}
+    c.beginPath();c.arc(x,y,r*.22,0,7);c.fillStyle='#5a2c0a';c.fill();
+  }
+  function stem(c,x0,y0,x1,y1,w){c.beginPath();c.moveTo(x0,y0);c.quadraticCurveTo((x0+x1)/2+(rnd()-.5)*20,(y0+y1)/2,x1,y1);c.strokeStyle='#1c3d1c';c.lineWidth=w;c.stroke()}
+  function leaf(c,x,y,l,a){c.save();c.translate(x,y);c.rotate(a);c.beginPath();c.ellipse(l/2,0,l/2,l*.2,0,0,7);c.fillStyle='#244a22';c.fill();c.restore()}
+  function cluster(c,cx,cy,spread,count,r,up){
+    for(var i=0;i<count;i++){var x=cx+(rnd()-.5)*spread,y=cy+(rnd()-.5)*spread*.8;stem(c,cx+(rnd()-.5)*20,cy+up,x,y,2);leaf(c,x+(rnd()-.5)*20,y+14+rnd()*20,22,rnd()*6)}
+    for(i=0;i<count;i++){var xx=cx+(rnd()-.5)*spread,yy=cy+(rnd()-.5)*spread*.8;flower(c,xx,yy,r*(.8+rnd()*.5),rnd()*6)}
+  }
+  function book(c,x,y,w,h,col,edge){c.fillStyle=col;c.fillRect(x,y,w,h);c.fillStyle=edge;c.fillRect(x,y+h-3,w,3);c.fillStyle='rgba(255,255,255,.18)';c.fillRect(x,y,w,2)}
+
+  function buildStatic(){
+    stat=document.createElement('canvas');stat.width=640*2;stat.height=560*2;
+    var c=stat.getContext('2d');c.scale(2,2);seed=7;
+    // desk
+    var g=c.createLinearGradient(0,430,0,560);g.addColorStop(0,'#3b2314');g.addColorStop(1,'#120a06');
+    c.fillStyle=g;c.beginPath();c.moveTo(20,452);c.lineTo(640,438);c.lineTo(640,560);c.lineTo(0,560);c.closePath();c.fill();
+    c.fillStyle='rgba(255,200,140,.12)';c.fillRect(20,451,620,2);
+    // left flowers back
+    cluster(c,100,325,95,9,15,120);
+    // books left
+    book(c,68,415,138,16,'#e4ddcc','#a99f86');
+    book(c,74,399,128,16,'#8b8f94','#5d6166');
+    book(c,70,383,132,16,'#d9d2bf','#9a917a');
+    book(c,78,368,120,15,'#c2b8a0','#8a806a');
+    book(c,80,432,150,17,'#6d727a','#40444a');
+    // right books
+    book(c,455,436,150,16,'#e0d8c4','#a0967e');
+    book(c,462,418,142,18,'#1b2a52','#0f1a38');
+    book(c,458,402,140,16,'#cfc6ae','#8f866e');
+    book(c,465,386,128,16,'#3a3f48','#22252b');
+    c.fillStyle='rgba(20,30,70,.9)';c.fillRect(470,421,60,8);c.fillStyle='#d8d8d8';c.font='5px sans-serif';c.fillText('Vermeer',474,428);
+    // hood behind head
+    var hg=c.createLinearGradient(0,240,0,330);hg.addColorStop(0,'#efe9dc');hg.addColorStop(1,'#bdb5a4');
+    c.fillStyle=hg;c.beginPath();c.ellipse(352,282,56,42,-.15,0,7);c.fill();
+    // torso
+    var bg=c.createLinearGradient(260,300,430,430);bg.addColorStop(0,'#f1ece0');bg.addColorStop(1,'#a9a190');
+    c.fillStyle=bg;c.beginPath();c.moveTo(255,392);c.bezierCurveTo(262,330,300,296,348,298);c.bezierCurveTo(400,300,424,345,432,420);c.lineTo(436,445);c.lineTo(280,440);c.closePath();c.fill();
+    // hood collar shading
+    c.fillStyle='rgba(120,110,95,.45)';c.beginPath();c.ellipse(335,300,34,12,.05,0,7);c.fill();
+    // neck + head
+    c.fillStyle='#b98660';c.beginPath();c.ellipse(335,285,11,15,0,0,7);c.fill();
+    var fg=c.createLinearGradient(310,215,360,265);fg.addColorStop(0,'#d9a888');fg.addColorStop(1,'#a97654');
+    c.fillStyle=fg;c.beginPath();c.ellipse(334,252,23,28,.08,0,7);c.fill();
+    // hair
+    c.fillStyle='#0b0908';c.beginPath();c.moveTo(308,252);c.bezierCurveTo(300,210,330,196,350,202);c.bezierCurveTo(366,208,370,236,364,262);c.bezierCurveTo(356,238,340,232,326,236);c.bezierCurveTo(318,240,314,248,308,252);c.fill();
+    c.beginPath();c.ellipse(367,246,9,22,.1,0,7);c.fill();
+    c.fillStyle='rgba(30,20,15,.6)';c.beginPath();c.ellipse(332,258,9,2.2,0,0,7);c.fill();
+    c.fillStyle='#8a5a40';c.beginPath();c.ellipse(334,268,5,1.6,0,0,7);c.fill();
+    // laptop screen (back)
+    var lg=c.createLinearGradient(200,340,290,420);lg.addColorStop(0,'#4a4d52');lg.addColorStop(1,'#202226');
+    poly(c,[196,360,270,342,292,412,222,420],lg);
+    c.fillStyle='rgba(255,255,255,.12)';c.beginPath();c.moveTo(196,360);c.lineTo(270,342);c.lineTo(272,347);c.lineTo(200,364);c.fill();
+    // laptop base
+    var kg=c.createLinearGradient(220,415,330,445);kg.addColorStop(0,'#b9bbbf');kg.addColorStop(1,'#6a6c70');
+    poly(c,[222,420,292,412,372,436,300,450],kg);
+    poly(c,[232,421,288,415,350,432,300,440],'#2a2b2e');
+    // arms
+    var ag=c.createLinearGradient(260,350,320,430);ag.addColorStop(0,'#eee8da');ag.addColorStop(1,'#b2aa98');
+    c.fillStyle=ag;c.beginPath();c.moveTo(265,360);c.bezierCurveTo(250,390,262,418,290,424);c.lineTo(312,414);c.bezierCurveTo(290,400,290,380,300,350);c.closePath();c.fill();
+    c.beginPath();c.moveTo(400,350);c.bezierCurveTo(418,385,400,418,360,430);c.lineTo(332,420);c.bezierCurveTo(360,408,372,380,368,348);c.closePath();c.fill();
+    c.fillStyle='#c4956f';c.beginPath();c.ellipse(300,427,16,7,-.2,0,7);c.fill();c.beginPath();c.ellipse(348,430,16,6,.25,0,7);c.fill();
+    // notebook + pen
+    poly(c,[372,442,440,430,462,448,392,460],'#dcd6c6');
+    poly(c,[372,442,392,460,392,464,372,447],'#8d8777');
+    c.strokeStyle='#222';c.lineWidth=2;c.beginPath();c.moveTo(405,440);c.lineTo(445,444);c.stroke();
+    // front flowers
+    cluster(c,215,500,90,8,16,70);
+    cluster(c,425,455,85,9,15,80);
+    cluster(c,585,420,50,3,12,60);
+    // vignette to black at edges
+    var vg=c.createRadialGradient(320,300,180,320,300,420);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.75)');
+    c.fillStyle=vg;c.fillRect(0,0,640,560);
+  }
+
+  // ---------- orbiting particle rings ----------
+  var rings=[
+    {cx:355,cy:300,a:215,b:80,t:-.14,n:1100,sp:.22},
+    {cx:352,cy:296,a:165,b:52,t:-.24,n:800,sp:-.3},
+    {cx:352,cy:312,a:240,b:108,t:.06,n:800,sp:.16},
+    {cx:360,cy:290,a:120,b:32,t:-.3,n:400,sp:.4}
+  ];
+  seed=99;
+  rings.forEach(function(r){r.p=[];for(var i=0;i<r.n;i++){var gz=(rnd()+rnd()+rnd()-1.5)/1.5;r.p.push({th:rnd()*6.283,dr:gz*(2+rnd()*5),dz:(rnd()-.5)*10,s:.3+rnd()*.8,gold:rnd()<.22,ph:rnd()*6.283,sp:.5+rnd()*1.2})}});
+
+  function drawRings(t,front){
+    ctx.globalCompositeOperation='lighter';
+    rings.forEach(function(r,ri){
+      var ct=Math.cos(r.t),st=Math.sin(r.t);
+      for(var i=0;i<r.p.length;i++){
+        var p=r.p[i],th=p.th+t*r.sp;
+        var sn=Math.sin(th);if((sn>=0)!==front)continue;
+        var ex=(r.a+p.dr)*Math.cos(th),ey=(r.b+p.dr*.4)*sn+p.dz;
+        var x=r.cx+ex*ct-ey*st,y=r.cy+ex*st+ey*ct;
+        var tw=.5+.5*Math.sin(t*p.sp*3+p.ph);
+        var depth=front?1:.6;
+        var al=(.35+.65*tw)*depth;
+        var sz=p.s*(.6+tw*.9)*S;
+        if(p.gold){ctx.fillStyle='rgba(255,200,90,'+al+')'}
+        else ctx.fillStyle='rgba(150,195,255,'+al+')';
+        var px=OX+x*S,py=OY+y*S;
+        ctx.fillRect(px-sz/2,py-sz/2,sz,sz);
+        if(p.s>.95&&tw>.7){ctx.fillStyle='rgba(120,170,255,'+al*.25+')';ctx.beginPath();ctx.arc(px,py,sz*1.4,0,7);ctx.fill()}
+      }
+      // soft glow ribbon
+      ctx.strokeStyle='rgba(90,140,255,'+(front?.2:.12)+')';ctx.lineWidth=2.5*S;ctx.beginPath();
+      for(var k=0;k<=48;k++){var th2=(front?0:Math.PI)+k/48*Math.PI;var e1=r.a*Math.cos(th2),e2=r.b*Math.sin(th2);var xx=r.cx+e1*ct-e2*st,yy=r.cy+e1*st+e2*ct;k?ctx.lineTo(OX+xx*S,OY+yy*S):ctx.moveTo(OX+xx*S,OY+yy*S)}
+      ctx.stroke();
+    });
+    ctx.globalCompositeOperation='source-over';
+  }
+
+  function draw(t){
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+    // faint ambient glow
+    var g=ctx.createRadialGradient(OX+350*S,OY+300*S,10,OX+350*S,OY+300*S,300*S);
+    g.addColorStop(0,'rgba(40,70,160,.18)');g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    drawRings(t,false);
+    ctx.drawImage(stat,OX,OY,640*S,560*S);
+    drawRings(t,true);
+  }
+
+  function resize(){
+    dpr=Math.min(window.devicePixelRatio||1,2);
+    W=cv.clientWidth||innerWidth;H=cv.clientHeight||innerHeight;
+    cv.width=W*dpr;cv.height=H*dpr;
+    // scene fits visible area (canvas is shifted down 17%, so bottom 17% is cropped)
+    S=Math.min(W/640*1.6,H/660);
+    OX=(W-640*S)/2;OY=H*.83+4-490*S;
+    if(!stat)buildStatic();
+    if(reduce)draw(2.5);
+  }
+  window.addEventListener('resize',resize);
+  resize();
+
+  // ---------- video-style fade system (the canvas stands in for the looping video) ----------
+  var DURATION=10,FADE=500,TAIL=.55;
+  var vid={currentTime:0,playing:false},last=0,opacity=0,anim=0,fadingOut=false,ended=false;
+  function fade(to){
+    cancelAnimationFrame(anim);
+    var from=opacity,start=performance.now();
+    (function step(now){
+      var k=Math.min(1,(now-start)/FADE);
+      opacity=from+(to-from)*k;cv.style.opacity=opacity;
+      if(k<1)anim=requestAnimationFrame(step);
+    })(start);
+  }
+  function onTimeUpdate(){
+    if(!fadingOut&&DURATION-vid.currentTime<=TAIL){fadingOut=true;fade(0)}
+  }
+  function onEnded(){
+    ended=true;opacity=0;cv.style.opacity=0;
+    setTimeout(function(){vid.currentTime=0;ended=false;fadingOut=false;fade(1)},100);
+  }
+  if(reduce){cv.style.opacity=1;return}
+  function loop(now){
+    if(!last)last=now;var dt=(now-last)/1000;last=now;
+    if(!ended){
+      vid.currentTime+=dt;
+      if(vid.currentTime>=DURATION){vid.currentTime=DURATION;onEnded()}else onTimeUpdate();
+    }
+    draw(now/1000);
+    requestAnimationFrame(loop);
+  }
+  fade(1);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

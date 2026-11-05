@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinkFlow - Close the rift linking signals and action</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:'Neue Haas Grotesk Display Pro 55 Roman','Neue Haas Grotesk Text Pro','Inter','Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;background:#f6dcc4;color:#1f2a1d}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+svg{display:block}
+.hero{position:relative;width:100%;min-height:100vh;min-height:100svh;overflow:hidden}
+@media(min-width:640px){.hero{height:100vh;height:100svh}}
+.bg{position:absolute;inset:0;width:100%;height:100%}
+.bg canvas{width:100%;height:100%;object-fit:cover;object-position:48% 78%;display:block}
+/* nav */
+nav{position:absolute;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px 16px}
+@media(min-width:640px){nav{padding:24px 24px}}
+@media(min-width:768px){nav{padding:24px 40px}}
+.logo{color:#2d3a2a;font-size:1.125rem;font-weight:600;letter-spacing:-.025em}
+@media(min-width:640px){.logo{font-size:1.25rem}}
+@media(min-width:768px){.logo{font-size:1.5rem}}
+.logo sup{font-size:10px;font-weight:500;vertical-align:super;line-height:0}
+@media(min-width:640px){.logo sup{font-size:12px}}
+.pill{display:none;align-items:center;gap:4px;background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:999px;padding:4px 4px 4px 24px;box-shadow:0 1px 2px rgba(0,0,0,.06);border:1px solid rgba(255,255,255,.6)}
+@media(min-width:1024px){.pill{display:flex;position:absolute;left:50%;transform:translateX(-50%)}}
+.pill a{font-size:.875rem;padding:8px 12px;font-weight:500;color:#4b5b47;transition:color .15s}
+.pill a:hover{color:#1f2a1d}
+.pill a.on{font-weight:600;color:#1f2a1d}
+.btn-dark{margin-left:8px;background:#1f2a1d;color:#fff;font-size:.875rem;font-weight:500;padding:10px 20px;border-radius:999px;transition:background-color .15s}
+.btn-dark:hover{background:#2a3827}
+.right{display:flex;align-items:center;gap:12px;color:#2d3a2a}
+@media(min-width:640px){.right{gap:24px}}
+.right .lk{display:none;align-items:center;gap:8px;font-size:.875rem;font-weight:500;transition:opacity .15s}
+@media(min-width:640px){.right .lk{display:flex}}
+.right .lk:hover{opacity:.8}
+.ico{width:16px;height:16px}
+.burger{position:relative;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);color:#1f2a1d;transition:all .3s}
+.burger:hover{background:rgba(255,255,255,.9)}
+@media(min-width:1024px){.burger{display:none}}
+.burger svg{width:20px;height:20px;position:absolute;transition:all .3s}
+.burger .m{opacity:1;transform:none}
+.burger .x{opacity:0;transform:rotate(-90deg) scale(.5)}
+.open .burger .m{opacity:0;transform:rotate(90deg) scale(.5)}
+.open .burger .x{opacity:1;transform:none}
+/* drawer */
+.ov{position:fixed;inset:0;z-index:20;opacity:0;pointer-events:none;transition:opacity .3s;background:rgba(31,42,29,.4);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.open .ov{opacity:1;pointer-events:auto}
+.dr{position:fixed;top:0;right:0;bottom:0;z-index:25;width:85%;max-width:24rem;background:rgba(255,255,255,.95);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);box-shadow:0 25px 50px -12px rgba(0,0,0,.25);transform:translateX(100%);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.open .dr{transform:none}
+nav{z-index:30}
+.dr .in{display:flex;flex-direction:column;height:100%;padding:96px 32px 32px}
+.dr .l{font-size:1.5rem;font-weight:600;color:#1f2a1d;padding:16px 0;border-bottom:1px solid rgba(31,42,29,.1);transform:translateX(32px);opacity:0;transition:all .5s;transition-delay:0ms}
+.open .dr .l{transform:none;opacity:1}
+.open .dr .l:nth-child(1){transition-delay:150ms}.open .dr .l:nth-child(2){transition-delay:220ms}.open .dr .l:nth-child(3){transition-delay:290ms}
+.dr .g{margin-top:32px;display:flex;flex-direction:column;gap:16px;transform:translateX(32px);opacity:0;transition:all .5s;transition-delay:0ms}
+.open .dr .g{transform:none;opacity:1;transition-delay:400ms}
+.dr .g a{display:flex;align-items:center;gap:8px;font-size:.875rem;font-weight:500;color:#2d3a2a}
+@media(min-width:640px){.dr .g a{display:none}}
+.dr .g button{margin-top:8px;background:#1f2a1d;color:#fff;font-size:.875rem;font-weight:600;padding:12px 20px;border-radius:999px}
+/* hero copy */
+.copy{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:96px 16px 0}
+@media(min-width:640px){.copy{padding:112px 24px 0}}
+@media(min-width:768px){.copy{padding-top:128px}}
+h1{margin:0;font-weight:400;line-height:.95;color:#336443;font-size:2rem;max-width:64rem;letter-spacing:-.035em}
+@media(min-width:640px){h1{font-size:2.25rem}}
+@media(min-width:768px){h1{font-size:3rem}}
+@media(min-width:1024px){h1{font-size:4.75rem}}
+@media(min-width:1280px){h1{font-size:5.25rem}}
+h1 span{color:#85AB8B}
+h1 br{display:none}
+@media(min-width:640px){h1 br{display:inline}}
+.copy p{margin:24px 0 0;color:#4b5b47;font-size:.875rem;line-height:1.625;max-width:28rem;padding:0 8px}
+@media(min-width:640px){.copy p{margin-top:32px;font-size:1rem}}
+@media(min-width:768px){.copy p{font-size:1.125rem}}
+/* bottom left */
+.bl{position:absolute;left:16px;right:16px;bottom:24px;z-index:10;max-width:24rem}
+@media(min-width:640px){.bl{right:auto;left:24px;bottom:32px}}
+@media(min-width:768px){.bl{left:40px;bottom:40px}}
+.bl .t{display:flex;align-items:center;gap:8px;margin-bottom:12px;color:#3d5638;font-size:.875rem;font-weight:600}
+.bl .t sup{font-size:10px;line-height:0}
+.bl p{margin:0 0 24px;max-width:20rem;font-size:.75rem;line-height:1.625;color:rgba(61,86,56,.9);font-weight:500}
+.bl .row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bl .cta{background:#3d5638;color:#fff;font-size:.875rem;font-weight:600;padding:10px 20px;border-radius:999px;box-shadow:0 1px 2px rgba(0,0,0,.1);transition:background-color .15s}
+.bl .cta:hover{background:#2d4228}
+.bl .km{color:#3d5638;font-size:.875rem;font-weight:600;transition:opacity .15s}
+.bl .km:hover{opacity:.8}
+@media(min-width:640px){
+.bl .t{color:rgba(255,255,255,.95)}.bl .t span{font-weight:500}
+.bl p{color:rgba(255,255,255,.85);font-weight:400}
+.bl .cta{background:#fff;color:#1f2a1d;padding:12px 24px}.bl .cta:hover{background:rgba(255,255,255,.9)}
+.bl .km{color:#fff;font-weight:500}
+}
+/* bottom right */
+.br{display:none;position:absolute;right:24px;bottom:32px;z-index:10;align-items:center;gap:8px;color:rgba(255,255,255,.9);font-size:.875rem}
+@media(min-width:640px){.br{display:flex}}
+@media(min-width:768px){.br{right:40px;bottom:40px}}
+.br button{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background-color .15s}
+.br button:hover{background:rgba(255,255,255,.3)}
+.br b{font-weight:500}
+.br i{font-style:normal;color:rgba(255,255,255,.6)}
+button:focus-visible,a:focus-visible{outline:2px solid #336443;outline-offset:2px}
+</style>
+</head>
+<body>
+<section class="hero" id="top">
+  <div class="bg" aria-hidden="true"><canvas id="bg" width="1280" height="960"></canvas></div>
+
+  <nav>
+    <div class="logo">LinkFlow<sup>TM</sup></div>
+    <div class="pill">
+      <a href="#mission" class="on">Purpose</a>
+      <a href="#how">The Process</a>
+      <a href="#pricing">Tariffs</a>
+      <button class="btn-dark">Try it Live</button>
+    </div>
+    <div class="right">
+      <a href="#signup" class="lk">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+        Sign Me Up!
+      </a>
+      <a href="#login" class="lk">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+        Enter
+      </a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <svg class="m" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="ov" id="ov"></div>
+  <div class="dr">
+    <div class="in">
+      <div style="display:flex;flex-direction:column">
+        <a class="l" href="#mission">Purpose</a>
+        <a class="l" href="#how">The Process</a>
+        <a class="l" href="#pricing">Tariffs</a>
+      </div>
+      <div class="g">
+        <a href="#signup"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>Sign Me Up!</a>
+        <a href="#login"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>Enter</a>
+        <button>Try it Live</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="copy">
+    <h1>Close the rift <span>linking<br> signals and action</span></h1>
+    <p>Shape scattered signals into meaningful outcomes via AI-driven workflows.</p>
+  </div>
+
+  <div class="bl">
+    <div class="t">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+      <span>FluxEngine<sup>TM</sup></span>
+    </div>
+    <p>LinkFlow smoothly unites your company systems, streamlining data paths between services without having to write custom scripts.</p>
+    <div class="row">
+      <button class="cta">Try it Live</button>
+      <button class="km">Know More.</button>
+    </div>
+  </div>
+
+  <div class="br">
+    <button aria-label="Play video"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round" style="margin-left:2px"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>
+    <b>How we build?</b><i>1:35</i>
+  </div>
+</section>
+
+<script>
+/* menu */
+(function(){
+  var sec=document.getElementById('top'),b=document.getElementById('burger'),ov=document.getElementById('ov');
+  function set(o){sec.classList.toggle('open',o);b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Close menu':'Open menu');document.body.style.overflow=o?'hidden':''}
+  b.addEventListener('click',function(){set(!sec.classList.contains('open'))});
+  ov.addEventListener('click',function(){set(false)});
+  document.querySelectorAll('.dr .l').forEach(function(a){a.addEventListener('click',function(){set(false)})});
+})();
+
+/* painted stand-in for the boomerang video: arched mossy bridge between cliffs, played forward/back */
+(function(){
+  var cv=document.getElementById('bg'),ctx=cv.getContext('2d');
+  var W=1280,H=960,PX=50,LW=W+2*PX,LH=H+50;
+  function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  var R=rng(7);
+  function layer(){var c=document.createElement('canvas');c.width=LW;c.height=LH;return c}
+  function X(f){return PX+f*W}
+  function Y(f){return f*H}
+  function noise1(x){ // smooth value noise
+    var i=Math.floor(x),f=x-i,a=hash(i),b=hash(i+1),u=f*f*(3-2*f);return a+(b-a)*u}
+  function hash(n){var s=Math.sin(n*127.1+311.7)*43758.5453;return s-Math.floor(s)}
+  function fbm(x){return noise1(x)*.55+noise1(x*2.3+9)*.28+noise1(x*5.1+3)*.17}
+
+  /* sky */
+  var sky=layer(),s=sky.getContext('2d');
+  var g=s.createLinearGradient(0,0,0,LH);
+  g.addColorStop(0,'#fbe6d0');g.addColorStop(.35,'#f9d9bd');g.addColorStop(.7,'#f6cfb5');g.addColorStop(1,'#f2c9b3');
+  s.fillStyle=g;s.fillRect(0,0,LW,LH);
+  g=s.createRadialGradient(X(.48),Y(.7),10,X(.48),Y(.7),W*.6);
+  g.addColorStop(0,'rgba(255,244,225,.95)');g.addColorStop(.5,'rgba(255,232,205,.5)');g.addColorStop(1,'rgba(255,232,205,0)');
+  s.fillStyle=g;s.fillRect(0,0,LW,LH);
+
+  /* mountains: ridge = min over cone peaks + noise */
+  function mountains(peaks,top,haze,seed,_u,alpha){
+    var c=layer(),x=c.getContext('2d');
+    var ys=[];
+    for(var px=0;px<LW;px++){
+      var f=(px-PX)/W,y=9;
+      for(var k=0;k<peaks.length;k++){var p=peaks[k];var d=Math.abs(f-p[0]);
+        var v=p[1]+Math.pow(d,.9)*p[2]-fbm(f*14+seed)*.05*(1-Math.min(1,d*2))+ (fbm(f*40+seed*3)-.5)*.012;
+        if(v<y)y=v}
+      ys.push(y)
+    }
+    var gr=x.createLinearGradient(0,Y(.25),0,Y(.8));
+    gr.addColorStop(0,top);gr.addColorStop(1,haze);
+    x.fillStyle=gr;x.globalAlpha=alpha;
+    x.beginPath();x.moveTo(0,LH);
+    for(px=0;px<LW;px++)x.lineTo(px,Y(ys[px]));
+    x.lineTo(LW,LH);x.closePath();x.fill();
+    // lit/shadowed facets
+    x.globalAlpha=alpha*.35;
+    for(k=0;k<peaks.length;k++){
+      var p=peaks[k];
+      x.fillStyle='rgba(60,100,110,.55)';
+      x.beginPath();x.moveTo(X(p[0]),Y(p[1]));
+      var n=40;
+      for(var i=0;i<=n;i++){var f=p[0]+i/n*.18;var px2=X(f);x.lineTo(px2,Math.max(Y(ys[Math.min(LW-1,Math.round(px2))]),Y(p[1])))}
+      x.lineTo(X(p[0]+.18),Y(.85));x.lineTo(X(p[0]+.02),Y(.85));x.closePath();x.fill();
+    }
+    x.globalAlpha=1;
+    return c;
+  }
+  var farL=mountains([[.15,.40,1.0],[.31,.53,.95],[.02,.5,1]],'#8fb0b6','#ecd5bd',2,0,.85);
+  var farR=mountains([[.78,.265,.95],[.64,.45,1],[.93,.33,1.1]],'#8fb0b8','#efd7c0',5,0,.92);
+  var farL2=mountains([[.1,.56,.9],[.27,.6,.9]],'#7fa2a2','#e8d2bb',11,0,.7);
+
+  /* cloud sprite */
+  function sprite(w,h,seed){
+    var c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d'),r=rng(seed);
+    for(var i=0;i<22;i++){
+      var cx=w*(.12+.76*r()),cy=h*(.35+.35*r()),rad=h*(.22+.3*r());
+      var g=x.createRadialGradient(cx,cy-rad*.15,0,cx,cy,rad);
+      g.addColorStop(0,'rgba(255,250,244,.95)');g.addColorStop(.6,'rgba(252,226,214,.55)');g.addColorStop(1,'rgba(250,215,205,0)');
+      x.fillStyle=g;x.beginPath();x.arc(cx,cy,rad,0,7);x.fill();
+    }
+    return c;
+  }
+  var cl=[sprite(520,220,3),sprite(420,200,8),sprite(640,260,13)];
+  var clouds=[ // sprite, x, y, scale, drift
+    [0,.83,.66,.7,50],[1,.9,.6,.5,-25],[2,.47,.96,1.9,40],[1,.4,.9,1.3,-50],[2,.53,.9,1.4,35],[0,.12,.7,.6,30]
+  ];
+
+  /* foliage helpers */
+  var GREENS=['#18300f','#203d14','#2a4a19','#355a1e','#436b24','#5a8030','#789a3a'];
+  function blob(x,px,py,r,col){
+    x.fillStyle=col;x.beginPath();
+    x.ellipse(px,py,r,r*.78,0,0,7);x.fill();
+  }
+  function fill(x,pts,seed,lit){ // pts in fractions; clip polygon and scatter foliage
+    var r=rng(seed);
+    x.save();x.beginPath();
+    pts.forEach(function(p,i){i?x.lineTo(X(p[0]),Y(p[1])):x.moveTo(X(p[0]),Y(p[1]))});
+    x.closePath();x.clip();
+    var minY=1e9,maxY=0,minX=1e9,maxX=0;pts.forEach(function(p){minY=Math.min(minY,Y(p[1]));maxY=Math.max(maxY,Y(p[1]));minX=Math.min(minX,X(p[0]));maxX=Math.max(maxX,X(p[0]))});
+    var g=x.createLinearGradient(0,minY,0,maxY);
+    g.addColorStop(0,'#3a5c20');g.addColorStop(.4,'#244018');g.addColorStop(1,'#12260c');
+    x.fillStyle=g;x.fillRect(minX,minY,maxX-minX,maxY-minY);
+    var N=Math.round((maxX-minX)*(maxY-minY)/70);
+    for(var i=0;i<N;i++){
+      var px=minX+r()*(maxX-minX),py=minY+r()*(maxY-minY);
+      var depth=(py-minY)/(maxY-minY);
+      var idx=Math.floor((r()*.7+(1-depth)*.5)*GREENS.length*.95);
+      x.globalAlpha=.55+r()*.4;
+      blob(x,px,py,2+r()*6,GREENS[Math.max(0,Math.min(GREENS.length-1,idx))]);
+    }
+    x.globalAlpha=1;
+    // rock streaks
+    x.globalAlpha=.25;x.fillStyle='#6b5a3a';
+    for(i=0;i<N/12;i++){var px=minX+r()*(maxX-minX),py=minY+(.2+r()*.7)*(maxY-minY);x.fillRect(px,py,2+r()*3,10+r()*40)}
+    x.globalAlpha=1;
+    // top-edge sunlit leaves
+    for(var k=0;k<pts.length-1;k++){
+      var a=pts[k],b=pts[k+1];
+      if(!lit(a,b))continue;
+      var len=Math.hypot((b[0]-a[0])*W,(b[1]-a[1])*H),n=Math.ceil(len/5);
+      for(var j=0;j<n;j++){
+        var t=j/n,ex=X(a[0]+(b[0]-a[0])*t),ey=Y(a[1]+(b[1]-a[1])*t);
+        for(var q=0;q<3;q++){x.globalAlpha=.7+r()*.3;blob(x,ex+(r()-.5)*14,ey+r()*18-4,2.5+r()*5,['#7e9e3c','#9fb04a','#bcc058','#5f8a2e'][Math.floor(r()*4)])}
+      }
+    }
+    x.globalAlpha=1;
+    // warm light from the centre
+    var lg=x.createLinearGradient(minX,0,maxX,0);
+    lg.addColorStop(0,'rgba(255,200,120,0)');lg.addColorStop(1,'rgba(255,200,120,.0)');
+    x.restore();
+  }
+
+  var rock=layer(),rx=rock.getContext('2d');
+  // left cliff
+  var LP=[[-.08,.2],[.0,.215],[.03,.235],[.055,.28],[.07,.35],[.085,.43],[.105,.52],[.14,.58],[.19,.62],[.25,.67],[.31,.74],[.34,1.1],[-.08,1.1]];
+  fill(rx,LP,21,function(a,b){return b[1]>a[1]-.001&&a[0]>-.01&&b[1]<.75});
+  // darker, craggy face on left cliff
+  rx.save();rx.globalAlpha=.35;var lgd=rx.createLinearGradient(X(0),0,X(.12),0);lgd.addColorStop(0,'#2b2a1e');lgd.addColorStop(1,'rgba(43,42,30,0)');rx.fillStyle=lgd;rx.fillRect(X(-.08),Y(.3),X(.18)-X(-.08),Y(.4));rx.restore();
+  // right cliff
+  var RP=[[1.08,.24],[1.01,.26],[.98,.3],[.955,.35],[.935,.41],[.92,.48],[.915,.56],[.93,.64],[.96,.7],[1.0,.76],[1.08,.76]];
+  fill(rx,RP,33,function(a,b){return a[0]<1.02});
+
+  /* bridge hill with arch cut-out */
+  var br=layer(),bx=br.getContext('2d');
+  function ytop(f){var d=Math.abs(f-.48)/.5;return .655+.11*Math.pow(d,1.9)+(fbm(f*18+4)-.5)*.012}
+  var BP=[];for(var f=-.08;f<=1.081;f+=.01)BP.push([f,ytop(f)]);
+  BP.push([1.08,1.1],[-.08,1.1]);
+  fill(bx,BP,45,function(a,b){return a[1]<.8&&b[1]<.8&&a[1]<1});
+  // extra dense moss tufts on the crown
+  var rr=rng(77);
+  for(var i=0;i<900;i++){var f=-.05+rr()*1.1,py=Y(ytop(f))+(rr()*60-6);bx.globalAlpha=.5+rr()*.4;blob(bx,X(f),py,3+rr()*8,['#587f2b','#6f9632','#86a83c','#a2b84c','#b9c457'][Math.floor(rr()*5)])}
+  bx.globalAlpha=1;
+  // shaded underbelly: darkness toward the arch & bottom
+  var sh=bx.createLinearGradient(0,Y(.7),0,Y(1));sh.addColorStop(0,'rgba(20,35,14,0)');sh.addColorStop(1,'rgba(14,26,10,.55)');
+  bx.globalCompositeOperation='source-atop';bx.fillStyle=sh;bx.fillRect(0,Y(.7),LW,LH);
+  // warm rim light across the crown
+  var cr=bx.createLinearGradient(0,Y(.64),0,Y(.78));cr.addColorStop(0,'rgba(255,214,140,.38)');cr.addColorStop(1,'rgba(255,214,140,0)');
+  bx.fillStyle=cr;bx.fillRect(0,Y(.62),LW,Y(.2));
+  bx.globalCompositeOperation='source-over';
+  // arch opening
+  function archPath(x,sc){
+    x.beginPath();
+    var cx=.462,hw=.098*sc,top=.795-(sc-1)*.6;
+    x.moveTo(X(cx-hw*1.35),LH+10);
+    x.bezierCurveTo(X(cx-hw*1.3),Y(.9),X(cx-hw*1.05),Y(top+.02),X(cx-hw*.35),Y(top));
+    x.bezierCurveTo(X(cx+hw*.2),Y(top-.006),X(cx+hw*1.05),Y(top+.03),X(cx+hw*1.35),LH+10);
+    x.closePath();
+  }
+  // warm inner rim
+  bx.save();bx.globalCompositeOperation='source-atop';
+  archPath(bx,1.14);var rg=bx.createLinearGradient(0,Y(.75),0,Y(1));rg.addColorStop(0,'rgba(240,190,110,.55)');rg.addColorStop(1,'rgba(240,170,120,.0)');bx.fillStyle=rg;bx.fill();
+  bx.restore();
+  bx.globalCompositeOperation='destination-out';archPath(bx,1);bx.fill();bx.globalCompositeOperation='source-over';
+  // leafy fringe on arch edge
+  var ra=rng(99);
+  for(i=0;i<260;i++){
+    var t=ra(),ax=X(.462-.098*1.3+t*.098*2.6),prog=Math.abs(t-.5)*2;
+    var ay=Y(.795+Math.pow(prog,2.2)*.2)+ (ra()*16-4);
+    bx.globalAlpha=.7;blob(bx,ax+(ra()-.5)*10,ay,3+ra()*6,['#4d7a2a','#6a8f33','#8aa73f','#e0b366'][Math.floor(ra()*4)]);
+  }
+  bx.globalAlpha=1;
+  // two tiny travellers on the crown
+  bx.fillStyle='#2a2320';
+  [[.5,0],[.505,0]].forEach(function(p,i){
+    var px=X(p[0]),py=Y(ytop(p[0]))-3;
+    bx.fillRect(px-1.5,py-17+i,3,10);bx.beginPath();bx.arc(px,py-19+i,2,0,7);bx.fill();bx.fillRect(px-1.2,py-8,1.1,8);bx.fillRect(px+.1,py-8,1.1,8);
+  });
+
+  /* compose */
+  function draw(u){
+    var e=u-.5;
+    ctx.clearRect(0,0,W,H);
+    ctx.drawImage(sky,-PX,0);
+    ctx.globalAlpha=.6+.4*u;
+    var g=ctx.createRadialGradient(W*.5,H*.72,0,W*.5,H*.72,W*.45);
+    g.addColorStop(0,'rgba(255,240,215,.7)');g.addColorStop(1,'rgba(255,240,215,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.globalAlpha=1;
+    ctx.drawImage(farL2,-PX+e*6,0);
+    ctx.drawImage(farL,-PX+e*10,0);
+    ctx.drawImage(farR,-PX+e*14,0);
+    // horizon haze
+    var hz=ctx.createLinearGradient(0,H*.55,0,H*.8);hz.addColorStop(0,'rgba(250,222,196,0)');hz.addColorStop(1,'rgba(250,222,196,.7)');
+    ctx.fillStyle=hz;ctx.fillRect(0,H*.55,W,H*.3);
+    for(var i=0;i<clouds.length;i++){
+      var c=clouds[i],sp=cl[c[0]],sc=c[3];
+      ctx.globalAlpha=.92;
+      ctx.drawImage(sp,W*c[1]-sp.width*sc/2+e*c[4],H*c[2]-sp.height*sc/2,sp.width*sc,sp.height*sc);
+    }
+    ctx.globalAlpha=1;
+    ctx.drawImage(rock,-PX-e*8,e*-3);
+    ctx.drawImage(br,-PX-e*12,e*-5);
+  }
+
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(still){draw(.4);return}
+  var last=0,T=9000;
+  function frame(now){
+    requestAnimationFrame(frame);
+    if(now-last<1000/30)return;last=now;
+    var p=(now%(2*T))/T;u=p<1?p:2-p;
+    u=u*u*(3-2*u);draw(u);
+  }
+  var u=0;draw(0);requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

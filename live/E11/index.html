@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creative Studio - Fearless Vision Delivered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#5E0ED7;--ease:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#e9e4f4}
+body{font-family:'Inter',sans-serif;font-weight:600;color:#000;text-transform:uppercase;letter-spacing:.1em;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.root{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;overflow:hidden}
+#bg{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.sheen{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 120%,rgba(255,255,255,.55),transparent 60%)}
+.nav,.stats,.bottom{position:relative;z-index:2}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0}
+.logo{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center}
+.logo i{display:block;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.links{display:none;gap:40px}
+.links a{font-size:14px;letter-spacing:.1em}
+.links a:hover{color:var(--accent)}
+.burger{width:36px;height:36px;border-radius:50%;background:#000;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.burger span{display:block;width:16px;height:2px;background:#fff}
+.stats{flex:1;display:flex;align-items:center;justify-content:flex-end;padding:32px 20px;gap:20px}
+.stat{text-align:right}
+.num{font-size:clamp(1.5rem,5vw,3.5rem);line-height:1;font-weight:600;letter-spacing:.02em}
+.num b{color:var(--accent);font-size:.5em;font-weight:600;vertical-align:.45em;margin-right:.1em}
+.lbl{margin-top:6px;font-size:10px;line-height:1.2;white-space:pre-line}
+.bottom{padding:0 20px 32px;display:flex;flex-direction:column;gap:24px}
+.rowA,.rowB{display:flex;justify-content:space-between;gap:16px}
+.rowA{align-items:center}
+.rowB{align-items:flex-end;gap:12px}
+.tag{font-size:10px;max-width:130px;line-height:1.5}
+.cta{display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-size:16px;white-space:nowrap}
+.cta svg{width:18px;height:18px;transition:transform .3s var(--ease)}
+.cta:hover svg{transform:translate(3px,-3px)}
+.desc{width:120px;flex-shrink:0;font-size:9px;line-height:1.5;text-align:left}
+h1{font-size:clamp(2rem,9vw,9rem);line-height:.88;font-weight:600;text-align:right;letter-spacing:.02em}
+h1 .w{display:block;overflow:hidden}
+h1 .w span{display:block}
+/* animations */
+.fd,.fu{opacity:0}
+.fd{transform:translateY(-20px);animation:fd .5s var(--ease) forwards;animation-delay:calc(var(--i)*.1s)}
+.fu{transform:translateY(32px);animation:fu .6s var(--ease) forwards;animation-delay:calc(var(--i)*.12s)}
+h1 .w span{transform:translateY(110%);animation:su .7s var(--ease) forwards;animation-delay:calc(.4s + var(--k)*.14s)}
+@keyframes fd{to{opacity:1;transform:none}}
+@keyframes fu{to{opacity:1;transform:none}}
+@keyframes su{to{transform:none}}
+/* mobile menu */
+.menu{position:fixed;inset:0;z-index:50;background:#fff;display:flex;flex-direction:column;padding:20px;visibility:hidden;opacity:0;transition:opacity .3s,visibility .3s}
+.menu.open{visibility:visible;opacity:1}
+.menu .top{display:flex;justify-content:space-between;align-items:center}
+.menu ul{list-style:none;display:flex;flex-direction:column;gap:32px;margin-top:64px}
+.menu li a{font-size:30px;line-height:36px}
+.menu .cta{margin-top:auto;font-size:20px}
+.menu .cta svg{width:22px;height:22px}
+@media(min-width:640px){
+ .nav{padding:20px 32px 0}.stats{padding:32px 32px;gap:32px}.bottom{padding:0 32px 32px}
+ .lbl{font-size:12px}.tag{font-size:12px;max-width:160px}.cta{font-size:20px}.cta svg{width:22px;height:22px}
+ .desc{width:180px;font-size:12px}.rowB{gap:16px}
+}
+@media(min-width:768px){
+ .nav{padding:24px 48px 0}.links{display:flex}.stats{padding:0 48px;gap:40px}.bottom{padding:0 48px 48px;gap:48px}
+ .lbl{font-size:14px}.tag{font-size:14px;max-width:20rem}.cta{font-size:24px}
+ .desc{width:280px;font-size:14px;text-align:right}
+}
+@media(prefers-reduced-motion:reduce){
+ .fd,.fu{opacity:1;transform:none;animation:none}
+ h1 .w span{transform:none;animation:none}
+}
+</style>
+</head>
+<body>
+<div class="root">
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="sheen"></div>
+
+  <nav class="nav">
+    <a class="logo fd" style="--i:0" href="#" aria-label="Studio"><i></i></a>
+    <div class="links">
+      <a class="fd" style="--i:1" href="#">Story</a>
+      <a class="fd" style="--i:2" href="#">Expertise</a>
+      <a class="fd" style="--i:3" href="#">Studios</a>
+      <a class="fd" style="--i:4" href="#">Feedback</a>
+    </div>
+    <button class="burger fd" style="--i:5" id="open" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <section class="stats">
+    <div class="stat fu" style="--i:2"><div class="num"><b>+</b>300</div><div class="lbl">Crafted
+Brands</div></div>
+    <div class="stat fu" style="--i:3"><div class="num"><b>+</b>200</div><div class="lbl">Digital
+Products</div></div>
+    <div class="stat fu" style="--i:4"><div class="num"><b>+</b>100</div><div class="lbl">Ventures
+Funded</div></div>
+  </section>
+
+  <section class="bottom">
+    <div class="rowA">
+      <p class="tag fu" style="--i:5">Shaping Bold<br>Visions Into Power<br>For Your Tribe</p>
+      <a class="cta fu" style="--i:6" href="#">Work With Us
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+      </a>
+    </div>
+    <div class="rowB">
+      <div class="desc fu" style="--i:7"><p>Creative Studios Built Around Elevating Your Vision Into Striking Reality</p></div>
+      <h1>
+        <span class="w"><span style="--k:0">Fearless</span></span>
+        <span class="w"><span style="--k:1">Vision</span></span>
+        <span class="w"><span style="--k:2">Delivered</span></span>
+      </h1>
+    </div>
+  </section>
+</div>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <div class="top">
+    <a class="logo" href="#"><i></i></a>
+    <button class="burger" id="close" aria-label="Close menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <ul><li><a href="#">Story</a></li><li><a href="#">Expertise</a></li><li><a href="#">Studios</a></li><li><a href="#">Feedback</a></li></ul>
+  <a class="cta" href="#">Work With Us
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+  </a>
+</div>
+
+<script>
+(function(){
+  var m=document.getElementById('menu');
+  function set(o){m.classList.toggle('open',o);m.setAttribute('aria-hidden',!o)}
+  document.getElementById('open').onclick=function(){set(true)};
+  document.getElementById('close').onclick=function(){set(false)};
+  m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();set(false)})});
+  document.querySelectorAll('a[href="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault()})});
+
+  // Stand-in for the looping background video: slow drifting pastel light field
+  var c=document.getElementById('bg'),x=c.getContext('2d');
+  var W,H,dpr=Math.min(window.devicePixelRatio||1,1.5);
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var blobs=[
+    {c:[196,170,255],r:.55,sx:.00021,sy:.00017,px:0,py:1},
+    {c:[255,196,226],r:.5,sx:.00017,sy:.00023,px:2,py:0},
+    {c:[170,200,255],r:.6,sx:.00019,sy:.00015,px:4,py:3},
+    {c:[255,226,200],r:.4,sx:.00026,sy:.00021,px:1,py:5},
+    {c:[220,200,255],r:.5,sx:.00015,sy:.00025,px:3,py:2}
+  ];
+  function size(){W=c.width=Math.floor(c.clientWidth*dpr);H=c.height=Math.floor(c.clientHeight*dpr)}
+  function draw(t){
+    x.globalCompositeOperation='source-over';
+    var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#f4f0fb');g.addColorStop(1,'#e6e0f5');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    var s=Math.max(W,H);
+    for(var i=0;i<blobs.length;i++){
+      var b=blobs[i];
+      var bx=W*(.5+.45*Math.sin(t*b.sx*3+b.px)),by=H*(.5+.45*Math.cos(t*b.sy*3+b.py));
+      var r=s*b.r*(1+.12*Math.sin(t*.0004+i));
+      var rg=x.createRadialGradient(bx,by,0,bx,by,r);
+      rg.addColorStop(0,'rgba('+b.c+',.85)');rg.addColorStop(1,'rgba('+b.c+',0)');
+      x.fillStyle=rg;x.fillRect(0,0,W,H);
+    }
+    // soft light ribbons
+    x.globalCompositeOperation='lighter';
+    x.lineWidth=s*.07;x.lineCap='round';
+    for(var k=0;k<3;k++){
+      x.strokeStyle='rgba(255,255,255,'+(.05+k*.02)+')';
+      x.beginPath();
+      for(var u=0;u<=1.001;u+=.05){
+        var px=W*u,py=H*(.35+.12*k)+Math.sin(u*5+t*.0006+k*2)*H*.12;
+        u===0?x.moveTo(px,py):x.lineTo(px,py);
+      }
+      x.stroke();
+    }
+  }
+  function loop(t){draw(t);requestAnimationFrame(loop)}
+  size();addEventListener('resize',function(){size();if(reduce)draw(4000)});
+  if(reduce)draw(4000);else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

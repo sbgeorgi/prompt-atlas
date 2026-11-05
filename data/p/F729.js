@@ -1,0 +1,1 @@
+ATLAS_P("F729","Create a 5 sec motion graphics animation of a simple dot, bouncing into the center of the screen, it expands to a search bar and then text fills the box: \"I'm a motion designer, what should my next career be?\"  The animation should be be fluid, ease keyframes in and out,");

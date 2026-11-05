@@ -1,0 +1,1 @@
+ATLAS_P("L48","make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a resume. go all out.\nThis video will be same styling as landing page. showcasing viralgrow. be creative with what you show for viralgrow");

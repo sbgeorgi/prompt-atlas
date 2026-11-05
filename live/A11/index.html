@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koi Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0c0b;--accent:#ff7a4a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:#fff;font-family:Inter,system-ui,sans-serif;overflow:hidden}
+body{overflow-x:hidden}
+button,a{font:inherit;color:inherit;text-decoration:none;border:0;background:none;cursor:pointer}
+svg{display:block;flex:none}
+#pond{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.scrim{position:fixed;inset:0;z-index:1;pointer-events:none}
+.scrim.blur{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);-webkit-mask-image:linear-gradient(to top,black 0%,transparent 42%);mask-image:linear-gradient(to top,black 0%,transparent 42%)}
+.scrim.tint{background:linear-gradient(180deg,rgba(10,12,11,0) 45%,rgba(10,12,11,.7) 100%)}
+.page{position:relative;z-index:2;height:100vh;height:100dvh;display:flex;flex-direction:column}
+
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box exclude,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(40px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes ripple{from{transform:scale(.6);opacity:.5}to{transform:scale(1.8);opacity:0}}
+.animate-blur-fade-up{opacity:0;animation:blurFadeUp 1.4s ease-out forwards}
+
+nav{position:relative;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:24px 24px}
+.wordmark{font-weight:500;letter-spacing:.28em;font-size:14px;line-height:20px}
+.links{display:none;gap:40px;position:absolute;left:50%;transform:translateX(-50%)}
+.links a{font-size:13px;color:rgba(255,255,255,.7);transition:color .2s}
+.links a:hover{color:#fff}
+.nav-cta{display:none;align-items:center;gap:8px;border-radius:999px;padding:8px 20px;font-size:13px}
+.burger{display:flex;width:40px;height:40px;align-items:center;justify-content:center;border-radius:999px}
+.mmenu{position:absolute;left:0;right:0;top:100%;background:rgba(10,12,11,.95);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);padding:8px 24px 24px;display:none;flex-direction:column}
+.mmenu.open{display:flex}
+.mmenu a.l{padding:14px 0;font-size:15px;color:rgba(255,255,255,.8);border-bottom:1px solid rgba(255,255,255,.08);opacity:0;transform:translateX(-16px);animation:slideIn .45s ease-out forwards}
+.mmenu .cta{margin-top:20px;background:#fff;color:#0a0c0b;border-radius:999px;padding:12px 24px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;animation:slideIn .45s ease-out forwards}
+@keyframes slideIn{to{opacity:1;transform:none}}
+
+.hero{position:relative;z-index:10;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 24px 64px;max-width:48rem;min-height:0}
+.eyebrow{position:relative;display:flex;align-items:center;gap:12px;margin-bottom:20px;font-size:11px;line-height:16px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);width:max-content}
+.eyebrow .dot{position:relative;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.eyebrow .ring{position:absolute;left:-12px;top:50%;margin-top:-18px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,122,74,.35);animation:ripple 5s ease-out infinite;pointer-events:none}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;letter-spacing:-.01em;font-size:48px;line-height:1;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+h1 em{font-style:italic;font-weight:300}
+.sub{font-size:18px;line-height:28px;color:rgba(255,255,255,.6);max-width:36rem;margin-top:20px}
+.ctas{display:flex;flex-direction:column;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 28px;font-size:15px;transition:background .2s}
+.btn.solid{background:#fff;color:#0a0c0b;font-weight:500}
+.btn.solid:hover{background:rgba(255,255,255,.9)}
+.hours{margin-top:32px;display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 16px;font-size:11px;letter-spacing:.12em;color:rgba(255,255,255,.7);width:max-content;max-width:100%}
+.mobile-hide{display:none}
+
+@media(min-width:640px){
+  .ctas{flex-direction:row;flex-wrap:wrap}
+}
+@media(min-width:768px){
+  nav{padding:24px 48px}
+  .hero{padding:0 48px 96px}
+  h1{font-size:96px}
+  .sub{font-size:20px;line-height:28px}
+}
+@media(min-width:1024px){
+  .links{display:flex}
+  .nav-cta{display:inline-flex}
+  .burger,.mmenu{display:none!important}
+}
+@media(max-width:639px){
+  .btn{width:100%}
+  .hours{white-space:normal}
+}
+@media(max-height:620px) and (min-width:768px){h1{font-size:72px}.hero{padding-bottom:48px}}
+@media(prefers-reduced-motion:reduce){
+  .animate-blur-fade-up{animation:fadeIn 1s ease-out forwards}
+  .eyebrow .ring{animation:none;display:none}
+  .mmenu a.l,.mmenu .cta{animation:fadeIn .3s forwards;transform:none}
+}
+</style>
+</head>
+<body>
+<canvas id="pond" aria-hidden="true"></canvas>
+<div class="scrim blur"></div>
+<div class="scrim tint"></div>
+
+<div class="page">
+  <nav>
+    <div class="wordmark animate-blur-fade-up" style="animation-delay:0ms">KOI GARDEN</div>
+    <div class="links">
+      <a class="animate-blur-fade-up" style="animation-delay:100ms" href="#">The Pond</a>
+      <a class="animate-blur-fade-up" style="animation-delay:150ms" href="#">Tea Menu</a>
+      <a class="animate-blur-fade-up" style="animation-delay:200ms" href="#">The Room</a>
+      <a class="animate-blur-fade-up" style="animation-delay:250ms" href="#">Visit</a>
+    </div>
+    <a class="nav-cta liquid-glass animate-blur-fade-up" style="animation-delay:300ms" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff7a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+      Reserve a table
+    </a>
+    <button class="burger liquid-glass animate-blur-fade-up" style="animation-delay:300ms" id="burger" aria-label="Menu" aria-expanded="false">
+      <svg id="icoMenu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
+      <svg id="icoX" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="mmenu" id="mmenu">
+      <a class="l" style="animation-delay:50ms" href="#">The Pond</a>
+      <a class="l" style="animation-delay:100ms" href="#">Tea Menu</a>
+      <a class="l" style="animation-delay:150ms" href="#">The Room</a>
+      <a class="l" style="animation-delay:200ms" href="#">Visit</a>
+      <a class="cta" style="animation-delay:250ms" href="#">Reserve a table</a>
+    </div>
+  </nav>
+
+  <main class="hero">
+    <div class="eyebrow animate-blur-fade-up" style="animation-delay:250ms"><span class="dot"><i class="ring"></i></span>Since 1962 · Kyoto</div>
+    <h1 class="animate-blur-fade-up" style="animation-delay:400ms">Where the <em>water</em> keeps time.</h1>
+    <p class="sub animate-blur-fade-up" style="animation-delay:550ms">A teahouse built around a still, dark pond.</p>
+    <div class="ctas">
+      <a class="btn solid animate-blur-fade-up" style="animation-delay:700ms" href="#">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        Reserve a table
+      </a>
+      <a class="btn liquid-glass animate-blur-fade-up" style="animation-delay:800ms" href="#">View the tea menu</a>
+    </div>
+    <div class="hours liquid-glass animate-blur-fade-up" style="animation-delay:900ms">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      OPEN DAILY · 11:00 – 21:00
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var b=document.getElementById('burger'),m=document.getElementById('mmenu'),a=document.getElementById('icoMenu'),x=document.getElementById('icoX');
+  b.addEventListener('click',function(){
+    var o=m.classList.toggle('open');
+    b.setAttribute('aria-expanded',o);a.style.display=o?'none':'block';x.style.display=o?'block':'none';
+  });
+
+  /* Stand-in for the koi video: dark still pond, ripples, drifting koi */
+  var cv=document.getElementById('pond'),ctx=cv.getContext('2d');
+  var W,H,dpr,koi=[],rip=[],t=0,last=0;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,1.5);
+    W=cv.width=Math.round(innerWidth*dpr);H=cv.height=Math.round(innerHeight*dpr);
+  }
+  function mkKoi(i){
+    var s=Math.max(W,H)/1400;
+    var pal=[['#ff7a4a','#ffe9d6'],['#f4f0e8','#ff7a4a'],['#e8602c','#f4f0e8'],['#ff9a5e','#1a1a1a'],['#f4f0e8','#c8451c']][i%5];
+    var k={x:rnd(.1,.9)*W,y:rnd(.15,.85)*H,h:rnd(0,6.28),sp:rnd(14,26)*s,sz:rnd(12,18)*s,
+      turn:rnd(-1,1),tt:rnd(2,5),c1:pal[0],c2:pal[1],seg:[],ph:rnd(0,6)};
+    for(var j=0;j<32;j++)k.seg.push({x:k.x-Math.cos(k.h)*j*k.sz*.28,y:k.y-Math.sin(k.h)*j*k.sz*.28});
+    return k;
+  }
+  function init(){
+    koi=[];for(var i=0;i<6;i++)koi.push(mkKoi(i));
+    rip=[];for(var j=0;j<5;j++)rip.push({x:rnd(.2,.8)*W,y:rnd(.2,.8)*H,r:rnd(0,300)*dpr,max:rnd(380,620)*dpr});
+  }
+  function step(dt){
+    t+=dt;
+    koi.forEach(function(k){
+      k.tt-=dt;if(k.tt<=0){k.turn=rnd(-.7,.7);k.tt=rnd(2,6)}
+      var m=60*dpr,tx=0;
+      if(k.x<m)tx=1;else if(k.x>W-m)tx=-1;
+      if(k.y<m||k.y>H-m){var want=Math.atan2(H/2-k.y,W/2-k.x),d=Math.atan2(Math.sin(want-k.h),Math.cos(want-k.h));k.h+=d*dt*.8}
+      if(tx){var w2=Math.atan2(H/2-k.y,W/2-k.x),d2=Math.atan2(Math.sin(w2-k.h),Math.cos(w2-k.h));k.h+=d2*dt*.8}
+      k.h+=k.turn*dt*.5;
+      k.x+=Math.cos(k.h)*k.sp*dt*dpr;k.y+=Math.sin(k.h)*k.sp*dt*dpr;
+      var hd=k.seg[0];hd.x=k.x;hd.y=k.y;
+      var gap=k.sz*.28,wig=Math.sin(t*2.2+k.ph)*.35;
+      for(var j=1;j<k.seg.length;j++){
+        var p=k.seg[j-1],q=k.seg[j],dx=q.x-p.x,dy=q.y-p.y,d=Math.hypot(dx,dy)||1;
+        var a=Math.atan2(dy,dx)+wig*.04*j*Math.sin(t*2.2+k.ph-j*.35)*.3;
+        q.x=p.x+Math.cos(a)*gap;q.y=p.y+Math.sin(a)*gap;
+      }
+    });
+    rip.forEach(function(r){
+      r.r+=38*dt*dpr;
+      if(r.r>r.max){r.r=0;r.x=rnd(.15,.85)*W;r.y=rnd(.15,.85)*H;r.max=rnd(380,620)*dpr}
+    });
+  }
+  function draw(){
+    var g=ctx.createRadialGradient(W*.55,H*.45,0,W*.55,H*.45,Math.max(W,H)*.75);
+    g.addColorStop(0,'#16201e');g.addColorStop(.5,'#0d1312');g.addColorStop(1,'#070908');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    /* soft light patches on water */
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    for(var i=0;i<3;i++){
+      var cx=W*(.3+.25*i)+Math.sin(t*.1+i)*40*dpr,cy=H*(.35+.1*i)+Math.cos(t*.12+i)*30*dpr;
+      var lg=ctx.createRadialGradient(cx,cy,0,cx,cy,W*.25);
+      lg.addColorStop(0,'rgba(120,150,140,.05)');lg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=lg;ctx.fillRect(0,0,W,H);
+    }
+    ctx.restore();
+    /* ripples: concentric squashed rings */
+    rip.forEach(function(r){
+      for(var n=0;n<6;n++){
+        var rr=r.r-n*34*dpr;if(rr<=2)continue;
+        var f=1-rr/r.max;if(f<=0)continue;
+        ctx.beginPath();ctx.ellipse(r.x,r.y,rr,rr*.55,0,0,6.283);
+        ctx.strokeStyle='rgba(190,215,205,'+(.16*f*(1-n*.14))+')';ctx.lineWidth=(1.4+n*.3)*dpr;ctx.stroke();
+      }
+    });
+    /* koi, seen through dark water */
+    ctx.save();
+    koi.forEach(function(k){
+      var n=k.seg.length;
+      ctx.globalAlpha=.55;ctx.fillStyle='#000';
+      for(var j=0;j<n;j++){var s=k.seg[j],w=k.sz*sw(j,n);ctx.beginPath();ctx.arc(s.x+10*dpr,s.y+14*dpr,w,0,6.283);ctx.fill()}
+      ctx.globalAlpha=.78;
+      for(var j=n-1;j>=0;j--){
+        var s=k.seg[j],w=k.sz*sw(j,n);
+        ctx.fillStyle=(j%10<4&&j>3&&j<24)?k.c2:k.c1;
+        ctx.beginPath();ctx.arc(s.x,s.y,w,0,6.283);ctx.fill();
+      }
+      /* tail fin */
+      var e=k.seg[n-1],e2=k.seg[n-4],ang=Math.atan2(e.y-e2.y,e.x-e2.x);
+      ctx.fillStyle=k.c1;ctx.globalAlpha=.5;
+      for(var s2=-1;s2<=1;s2+=2){ctx.beginPath();ctx.moveTo(e.x,e.y);ctx.lineTo(e.x+Math.cos(ang+s2*.5)*k.sz*2.2,e.y+Math.sin(ang+s2*.5)*k.sz*2.2);ctx.lineTo(e.x+Math.cos(ang)*k.sz*1.2,e.y+Math.sin(ang)*k.sz*1.2);ctx.fill()}
+    });
+    ctx.restore();ctx.globalAlpha=1;
+    var v=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*.3,W/2,H/2,Math.max(W,H)*.75);
+    v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(4,6,5,.75)');
+    ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
+  }
+  function sw(j,n){var u=j/(n-1),v=Math.min(1,Math.max(0,u*.8+.12));return .14+.86*Math.pow(Math.sin(v*3.1416),.8)*(1-u*.45)}
+  function frame(ts){
+    var dt=Math.min(.05,(ts-last)/1000||0);last=ts;
+    step(dt*(reduce?.6:1));draw();requestAnimationFrame(frame);
+  }
+  resize();init();
+  for(var i=0;i<60;i++)step(.05);
+  draw();
+  addEventListener('resize',function(){resize();init();draw()});
+  requestAnimationFrame(function(ts){last=ts;frame(ts)});
+})();
+</script>
+</body>
+</html>

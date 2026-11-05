@@ -1,0 +1,1 @@
+ATLAS_P("F877","un estudio de intro 3D para logos en UN solo HTML con three.js. 3 logos de ejemplo o pegas tu SVG; las piezas vuelan, se arman, gira, pasa un destello y aparece el nombre letra por letra. Cromo, oro, vidrio, arcilla o ne\u00f3n.");

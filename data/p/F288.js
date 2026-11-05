@@ -1,0 +1,1 @@
+ATLAS_P("F288","make a hand-drawn stop-motion animation;\nstory: you're defi saver and explaining yourself in 1st person");

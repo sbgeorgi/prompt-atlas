@@ -1,0 +1,1 @@
+ATLAS_P("F134","using appllama mcp &amp; app design skills, read all screens of bunpo, cat on chair and grug. Create a welcome screen ft. a waving mascot below; swipe up interaction for \"Get Started\", match aesthetic.");

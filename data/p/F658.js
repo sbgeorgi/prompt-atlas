@@ -1,0 +1,1 @@
+ATLAS_P("F658","Analyze my frontend project, use the actual components from the product, and create a dynamic motion graphics video that showcases and sells my SaaS. Make it feel like a high-end product launch. Go all out.");

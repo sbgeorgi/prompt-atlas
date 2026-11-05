@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mindloop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --background:0 0% 0%;--foreground:0 0% 100%;--card:0 0% 5%;--secondary:0 0% 12%;
+  --muted:0 0% 15%;--muted-foreground:0 0% 65%;--accent:170 15% 45%;--border:0 0% 20%;
+  --input:0 0% 18%;--ring:0 0% 40%;--hero-subtitle:210 17% 95%;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.muted{color:hsl(var(--muted-foreground))}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+/* fadeUp */
+.fu{opacity:0;transform:translateY(20px);transition:opacity .6s ease-out var(--d,0s),transform .6s ease-out var(--d,0s)}
+.fu.in{opacity:1;transform:none}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 32px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.ring{border:2px solid hsl(0 0% 100%/.6);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ring i{display:block;border:1px solid hsl(0 0% 100%/.6);border-radius:50%}
+.r1{width:28px;height:28px}.r1 i{width:12px;height:12px}
+.r2{width:40px;height:40px}.r2 i{width:20px;height:20px}
+.links{display:none;align-items:center;gap:12px;font-size:14px;margin-left:40px;margin-right:auto}
+.links a{color:hsl(var(--muted-foreground));transition:color .2s}.links a:hover{color:#fff}
+.links span{color:hsl(var(--muted-foreground));opacity:.6}
+.socials{display:flex;gap:10px}
+.socials a{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.socials a:hover{transform:scale(1.08)}
+.socials svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(min-width:768px){nav{padding:16px 112px}.links{display:flex}}
+/* canvases (video stand-ins) */
+canvas.vid{display:block;width:100%;height:100%}
+/* hero */
+.hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:112px 24px 96px}
+@media(min-width:768px){.hero{padding-top:128px}}
+.hero .bg{position:absolute;inset:0}
+.hero .fade{position:absolute;left:0;right:0;bottom:0;height:256px;background:linear-gradient(to top,#000,transparent)}
+.hero .c{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
+.avatars{display:flex;align-items:center;gap:12px;font-size:14px;margin-bottom:32px}
+.avs{display:flex}
+.avs b{width:32px;height:32px;border-radius:50%;border:2px solid #000;margin-left:-8px;display:block}
+.avs b:first-child{margin-left:0}
+.avs b:nth-child(1){background:radial-gradient(circle at 50% 38%,#d8d8d8 0 22%,transparent 23%),radial-gradient(ellipse at 50% 100%,#d8d8d8 0 42%,transparent 43%),#3a3a3a}
+.avs b:nth-child(2){background:radial-gradient(circle at 50% 38%,#aaa 0 22%,transparent 23%),radial-gradient(ellipse at 50% 100%,#aaa 0 42%,transparent 43%),#555}
+.avs b:nth-child(3){background:radial-gradient(circle at 50% 38%,#eee 0 22%,transparent 23%),radial-gradient(ellipse at 50% 100%,#eee 0 42%,transparent 43%),#2a2a2a}
+h1,h2{font-weight:500}
+h1{font-size:48px;letter-spacing:-2px;line-height:1.02;max-width:900px}
+@media(min-width:768px){h1{font-size:72px}}@media(min-width:1024px){h1{font-size:96px}}
+.sub{font-size:18px;color:hsl(var(--hero-subtitle));max-width:640px;margin:24px auto 40px}
+form{display:flex;align-items:center;gap:8px;width:100%;max-width:512px;border-radius:999px;padding:8px}
+form input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:inherit;font-size:15px;padding:0 16px}
+form input::placeholder{color:hsl(var(--muted-foreground))}
+.btn-w{background:#fff;color:#000;border:0;border-radius:999px;padding:12px 32px;font:600 14px Inter;letter-spacing:.5px;cursor:pointer;transition:transform .2s;white-space:nowrap}
+.btn-w:hover{transform:scale(1.03)}.btn-w:active{transform:scale(.98)}
+@media(max-width:480px){.btn-w{padding:12px 18px}}
+/* sections */
+.wrap{max-width:1152px;margin:0 auto;padding:0 24px}
+.search{padding:208px 0 24px;text-align:center}
+@media(min-width:768px){.search{padding-top:256px;padding-bottom:36px}}
+h2.big{font-size:48px;letter-spacing:-2px;line-height:1.05}
+@media(min-width:768px){h2.big{font-size:72px}}@media(min-width:1024px){h2.big{font-size:96px}}
+.search p.lead{font-size:18px;max-width:672px;margin:24px auto 96px}
+.cards{display:grid;gap:48px;margin-bottom:80px}
+@media(min-width:768px){.cards{grid-template-columns:repeat(3,1fr);gap:32px}}
+.card img,.card svg.ic{width:200px;height:200px;display:block;margin:0 auto 16px;max-width:100%}
+.card h3{font-weight:600;font-size:16px;margin-bottom:6px}
+.card p{font-size:14px}
+.tag{font-size:14px}
+.mission{padding:0 0 128px;text-align:center}
+@media(min-width:768px){.mission{padding-bottom:176px}}
+.mvid{width:min(800px,100%);aspect-ratio:1;margin:0 auto;position:relative;margin-bottom:-60px}
+.mvid canvas{-webkit-mask-image:radial-gradient(circle,#000 45%,transparent 72%);mask-image:radial-gradient(circle,#000 45%,transparent 72%)}
+.rv{max-width:960px;margin:0 auto;padding:0 24px;font-weight:500}
+.p1{font-size:24px;letter-spacing:-1px;line-height:1.25}
+.p2{font-size:20px;margin-top:40px;line-height:1.35}
+@media(min-width:768px){.p1{font-size:36px}.p2{font-size:24px}}
+@media(min-width:1024px){.p1{font-size:48px}.p2{font-size:30px}}
+.w{opacity:.15;color:hsl(var(--hero-subtitle))}.w.h{color:#fff}
+.solution{padding:128px 0;border-top:1px solid hsl(var(--border)/.3)}
+@media(min-width:768px){.solution{padding:176px 0}}
+.label{font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px}
+h2.mid{font-size:36px;letter-spacing:-1.5px;line-height:1.08;margin-bottom:56px}
+@media(min-width:768px){h2.mid{font-size:60px}}
+.svid{border-radius:16px;overflow:hidden;aspect-ratio:3/1;margin-bottom:56px;background:#050505}
+@media(max-width:600px){.svid{aspect-ratio:2/1}}
+.feats{display:grid;gap:32px}
+@media(min-width:768px){.feats{grid-template-columns:repeat(4,1fr)}}
+.feats h3{font-weight:600;font-size:16px;margin-bottom:8px}
+.feats p{font-size:14px}
+.feats .n{font-size:12px;margin-bottom:14px;display:block}
+.cta{position:relative;padding:128px 0;border-top:1px solid hsl(var(--border)/.3);overflow:hidden;text-align:center}
+@media(min-width:768px){.cta{padding:176px 0}}
+.cta .bg{position:absolute;inset:0;z-index:0}
+.cta .ov{position:absolute;inset:0;background:hsl(0 0% 0%/.45);z-index:1}
+.cta .c{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
+.cta h2{font-size:48px;letter-spacing:-2px;margin:28px 0 16px}
+@media(min-width:768px){.cta h2{font-size:72px}}
+.cta p{max-width:480px;margin-bottom:36px;padding:0 8px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btns a{border-radius:8px;padding:14px 32px;font-weight:500;font-size:15px;transition:transform .2s}
+.btns a:hover{transform:scale(1.03)}
+.b1{background:#fff;color:#000}
+footer{padding:48px 32px;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:space-between;font-size:14px;border-top:1px solid hsl(var(--border)/.3)}
+footer nav{position:static;padding:0;display:flex;gap:24px}
+footer nav a{color:hsl(var(--muted-foreground))}footer nav a:hover{color:#fff}
+@media(min-width:768px){footer{flex-direction:row;padding:48px 112px}}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .fu{opacity:1;transform:none;transition:none}
+  .w{opacity:1}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="#"><span class="ring r1"><i></i></span>Mindloop</a>
+  <div class="links"><a href="#">Home</a><span>•</span><a href="#how">How It Works</a><span>•</span><a href="#mission">Philosophy</a><span>•</span><a href="#solution">Use Cases</a></div>
+  <div class="socials">
+    <a class="liquid-glass" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a>
+    <a class="liquid-glass" href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+    <a class="liquid-glass" href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="bg"><canvas class="vid" data-mode="hero"></canvas><div class="fade"></div></div>
+  <div class="c">
+    <div class="avatars fu"><div class="avs"><b></b><b></b><b></b></div><span class="muted">7,000+ people already subscribed</span></div>
+    <h1 class="fu" style="--d:.1s">Get <span class="serif">Inspired</span> with Us</h1>
+    <p class="sub fu" style="--d:.2s">Join our feed for meaningful updates, news around technology and a shared journey toward depth and direction.</p>
+    <form class="liquid-glass fu" style="--d:.3s" onsubmit="return false">
+      <input type="email" placeholder="Enter your email" aria-label="Email">
+      <button class="btn-w" type="submit">SUBSCRIBE</button>
+    </form>
+  </div>
+</section>
+
+<section class="search" id="how">
+  <div class="wrap">
+    <h2 class="big fu">Search has <span class="serif">changed.</span> Have you?</h2>
+    <p class="lead muted fu" style="--d:.1s">People no longer scroll through ten blue links. They ask, and a model answers. The sources it trusts decide who gets seen.</p>
+    <div class="cards">
+      <div class="card fu" style="--d:.1s">
+        <svg class="ic" viewBox="0 0 200 200" fill="none" stroke="#fff" stroke-width="2"><rect x="30" y="30" width="140" height="140" rx="36" fill="#0d0d0d" stroke="#333"/><g transform="translate(100 100)" stroke-linejoin="round"><path id="hx" d="M0-44 38-22V22L0 44-38 22V-22Z" opacity=".9"/><path d="M0-44 38-22V22L0 44-38 22V-22Z" transform="rotate(60)" opacity=".5"/><path d="M0-44 38-22V22L0 44-38 22V-22Z" transform="rotate(120)" opacity=".25"/><circle r="6" fill="#fff"/></g></svg>
+        <h3>ChatGPT</h3><p class="muted">Conversational answers that cite the few voices it has learned to rely on.</p>
+      </div>
+      <div class="card fu" style="--d:.2s">
+        <svg class="ic" viewBox="0 0 200 200" fill="none" stroke="#fff" stroke-width="2"><rect x="30" y="30" width="140" height="140" rx="36" fill="#0d0d0d" stroke="#333"/><g stroke-linecap="round"><path d="M100 56V144M56 100H144"/><path d="M70 70 130 130M130 70 70 130" opacity=".45"/><circle cx="100" cy="100" r="16" fill="#0d0d0d"/></g></svg>
+        <h3>Perplexity</h3><p class="muted">Research-first search that rewards sources with clear, well-structured depth.</p>
+      </div>
+      <div class="card fu" style="--d:.3s">
+        <svg class="ic" viewBox="0 0 200 200" fill="none" stroke="#fff" stroke-width="2"><rect x="30" y="30" width="140" height="140" rx="36" fill="#0d0d0d" stroke="#333"/><g stroke-linecap="round"><path d="M138 70A46 46 0 1 0 146 100H102"/><path d="M92 62 100 48 108 62M100 48V70" opacity=".5"/></g></svg>
+        <h3>Google AI</h3><p class="muted">Overviews at the top of every results page, summarising before anyone clicks.</p>
+      </div>
+    </div>
+    <p class="tag muted fu">If you don't answer the questions, someone else will.</p>
+  </div>
+</section>
+
+<section class="mission" id="mission">
+  <div class="mvid"><canvas class="vid" data-mode="orb"></canvas></div>
+  <div class="rv" id="reveal">
+    <p class="p1" data-words="We're building a space where curiosity meets clarity — where readers find depth, writers find reach, and every newsletter becomes a conversation worth having." data-hl="curiosity,meets,clarity"></p>
+    <p class="p2" data-words="A platform where content, community, and insight flow together — with less noise, less friction, and more meaning for everyone involved."></p>
+  </div>
+</section>
+
+<section class="solution" id="solution">
+  <div class="wrap">
+    <div class="label muted fu">Solution</div>
+    <h2 class="mid fu" style="--d:.1s">The platform for <span class="serif">meaningful</span> content</h2>
+    <div class="svid fu" style="--d:.2s"><canvas class="vid" data-mode="contour"></canvas></div>
+    <div class="feats">
+      <div class="fu" style="--d:.1s"><span class="n muted">01</span><h3>Curated Feed</h3><p class="muted">A calm, ranked stream of the writing that matches what you actually care about.</p></div>
+      <div class="fu" style="--d:.2s"><span class="n muted">02</span><h3>Writer Tools</h3><p class="muted">Draft, schedule and send from one editor, with analytics that show who really read.</p></div>
+      <div class="fu" style="--d:.3s"><span class="n muted">03</span><h3>Community</h3><p class="muted">Replies, threads and private circles turn every issue into a conversation.</p></div>
+      <div class="fu" style="--d:.4s"><span class="n muted">04</span><h3>Distribution</h3><p class="muted">Get found in search, social and AI answers without gaming a single algorithm.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="bg"><canvas class="vid" data-mode="drift"></canvas></div><div class="ov"></div>
+  <div class="c">
+    <span class="ring r2 fu"><i></i></span>
+    <h2 class="serif fu" style="--d:.1s">Start Your Journey</h2>
+    <p class="muted fu" style="--d:.2s">Join thousands of readers and writers building something with depth. Your first issue is one click away.</p>
+    <div class="btns fu" style="--d:.3s"><a class="b1" href="#home">Subscribe Now</a><a class="liquid-glass" href="#home">Start Writing</a></div>
+  </div>
+</section>
+
+<footer>
+  <span class="muted">© 2026 Mindloop. All rights reserved.</span>
+  <nav><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></nav>
+</footer>
+
+<script>
+(function(){
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // fadeUp via IntersectionObserver (viewport margin -100px, once)
+  var fus=document.querySelectorAll('.fu');
+  if(RM||!('IntersectionObserver' in window)){fus.forEach(function(e){e.classList.add('in')})}
+  else{
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -100px 0px'});
+    fus.forEach(function(e){io.observe(e)});
+    // hero is above the fold: reveal right away
+    document.querySelectorAll('.hero .fu').forEach(function(e){e.classList.add('in')});
+  }
+  // word-by-word scroll reveal
+  var ps=document.querySelectorAll('[data-words]'),words=[];
+  ps.forEach(function(p){
+    var hl=(p.dataset.hl||'').split(',');
+    p.dataset.words.split(' ').forEach(function(t,i,a){
+      var s=document.createElement('span');s.className='w'+(hl.indexOf(t)>-1?' h':'');s.textContent=t;
+      p.appendChild(s);if(i<a.length-1)p.appendChild(document.createTextNode(' '));
+      words.push(s);
+    });
+  });
+  function reveal(){
+    if(RM)return;
+    var r=document.getElementById('reveal').getBoundingClientRect(),vh=innerHeight;
+    var start=vh*0.85,end=vh*0.25;
+    var prog=(start-r.top)/((start-end)+r.height*0.8);
+    prog=Math.max(0,Math.min(1,prog));
+    var n=words.length;
+    words.forEach(function(w,i){
+      var a=i/n,b=(i+1)/n,t=Math.max(0,Math.min(1,(prog-a)/(b-a)));
+      w.style.opacity=(0.15+0.85*t).toFixed(3);
+    });
+  }
+  addEventListener('scroll',reveal,{passive:true});addEventListener('resize',reveal);reveal();
+
+  // canvas "video" stand-ins (monochrome)
+  var cvs=[].slice.call(document.querySelectorAll('canvas.vid')),state=[];
+  function size(c){
+    var r=c.parentNode.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.5);
+    c.width=Math.max(2,r.width*d);c.height=Math.max(2,r.height*d);c._d=d;
+  }
+  var parts=[];for(var i=0;i<90;i++)parts.push({x:Math.random(),y:Math.random(),r:Math.random()*2+.5,s:Math.random()*.4+.1,p:Math.random()*6.28});
+  var dots=[];for(i=0;i<420;i++){var u=Math.acos(1-2*(i+.5)/420),v=Math.PI*(1+Math.sqrt(5))*i;dots.push([Math.sin(u)*Math.cos(v),Math.cos(u),Math.sin(u)*Math.sin(v)])}
+  var draw={
+    hero:function(g,w,h,t){
+      g.fillStyle='#000';g.fillRect(0,0,w,h);
+      var gr=g.createRadialGradient(w*.5,h*.55,0,w*.5,h*.55,w*.6);
+      gr.addColorStop(0,'rgba(120,150,145,.22)');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
+      g.lineWidth=1.2*(w/1200+.6);
+      for(var k=0;k<46;k++){
+        var f=k/46;g.beginPath();
+        g.strokeStyle='rgba(255,255,255,'+(0.05+0.2*Math.sin(f*3.14))+')';
+        for(var x=0;x<=w;x+=12){
+          var y=h*(.45+.3*f)+Math.sin(x/w*5+t*.5+f*4)*h*.09*(1+f)+Math.sin(x/w*11-t*.3+f*7)*h*.03;
+          x?g.lineTo(x,y):g.moveTo(x,y);
+        }
+        g.stroke();
+      }
+    },
+    orb:function(g,w,h,t){
+      g.fillStyle='#000';g.fillRect(0,0,w,h);
+      var R=Math.min(w,h)*.32,cx=w/2,cy=h/2,ca=Math.cos(t*.25),sa=Math.sin(t*.25),tilt=.35,ct=Math.cos(tilt),st=Math.sin(tilt);
+      for(var i=0;i<dots.length;i++){
+        var p=dots[i],x=p[0]*ca-p[2]*sa,z=p[0]*sa+p[2]*ca,y=p[1]*ct-z*st;z=p[1]*st+z*ct;
+        var a=.15+.6*(z+1)/2,s=(1.2+1.8*(z+1)/2)*(w/800+.5);
+        g.fillStyle='rgba(255,255,255,'+a.toFixed(2)+')';g.beginPath();g.arc(cx+x*R,cy+y*R,s,0,6.283);g.fill();
+      }
+      g.lineWidth=1.5;
+      for(var k=1;k<=3;k++){g.strokeStyle='rgba(255,255,255,'+(0.22/k)+')';g.beginPath();g.ellipse(cx,cy,R*(1+k*.22),R*(1+k*.22)*(.35+.05*Math.sin(t*.4+k)),t*.1*k,0,6.283);g.stroke()}
+    },
+    contour:function(g,w,h,t){
+      g.fillStyle='#050505';g.fillRect(0,0,w,h);g.lineWidth=1.1;
+      for(var k=0;k<22;k++){
+        g.beginPath();g.strokeStyle='rgba(255,255,255,'+(0.08+0.22*(k%5===0))+')';
+        for(var x=0;x<=w;x+=10){
+          var y=h*(k/21)+Math.sin(x/w*6+t*.4+k*.35)*h*.12+Math.cos(x/w*3.2-t*.25+k*.2)*h*.08;
+          x?g.lineTo(x,y):g.moveTo(x,y);
+        }
+        g.stroke();
+      }
+    },
+    drift:function(g,w,h,t){
+      g.fillStyle='#050505';g.fillRect(0,0,w,h);
+      for(var k=0;k<4;k++){
+        var x=w*(.5+.4*Math.sin(t*.12+k*1.7)),y=h*(.5+.3*Math.cos(t*.1+k*2.3)),r=Math.max(w,h)*.35;
+        var gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,k%2?'rgba(255,255,255,.14)':'rgba(120,150,145,.22)');gr.addColorStop(1,'rgba(0,0,0,0)');
+        g.fillStyle=gr;g.fillRect(0,0,w,h);
+      }
+      parts.forEach(function(p){
+        var x=((p.x+t*.01*p.s)%1)*w,y=((p.y-t*.015*p.s)%1+1)%1*h;
+        g.fillStyle='rgba(255,255,255,'+(0.2+0.3*Math.sin(t+p.p))+')';g.beginPath();g.arc(x,y,p.r*(w/1200+.5),0,6.283);g.fill();
+      });
+    }
+  };
+  var vis=new Map();
+  cvs.forEach(function(c){size(c);c._g=c.getContext('2d');c._m=draw[c.dataset.mode];vis.set(c,true)});
+  if('IntersectionObserver' in window){
+    var vo=new IntersectionObserver(function(es){es.forEach(function(e){vis.set(e.target,e.isIntersecting)})});
+    cvs.forEach(function(c){vo.observe(c)});
+  }
+  addEventListener('resize',function(){cvs.forEach(size)});
+  function frame(ms){
+    var t=ms/1000;
+    cvs.forEach(function(c){if(vis.get(c))c._m(c._g,c.width,c.height,t)});
+    if(!RM)requestAnimationFrame(frame);
+  }
+  if(RM){cvs.forEach(function(c){c._m(c._g,c.width,c.height,2)})}
+  else requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

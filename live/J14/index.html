@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northbound Couriers - Kinetic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dp-color-ground:#101010;--dp-color-ink:#fff;--dp-color-accent:#ff6b00;
+  --dp-color-decorative:#343434;--dp-color-rule:#5c5c5c;
+  --face:"Kinetic Host Grotesk","Host Grotesk",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --gutter:max(14px,2.2cqw);--colgap:4cqw;--rule:2px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#101010;scroll-behavior:smooth}
+body{background:var(--dp-color-ground);color:var(--dp-color-ink);font-family:var(--face);font-size:18px;line-height:1.35;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.page{container-type:inline-size;width:100%;overflow:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.on-orange :focus-visible,.orange :focus-visible{outline-color:#101010}
+.skip{position:absolute;left:-999px;top:0;background:#fff;color:#101010;padding:10px 14px;z-index:99;font-weight:700}
+.skip:focus{left:0}
+.label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.display{font-weight:800;text-transform:uppercase;letter-spacing:-.045em;line-height:1}
+
+/* nav */
+header{display:flex;justify-content:space-between;align-items:center;padding:16px var(--gutter);border-bottom:var(--rule) solid var(--dp-color-rule);gap:12px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.04em;text-transform:uppercase}
+.logo b{color:var(--dp-color-accent)}
+nav ul{display:flex;gap:clamp(14px,2.6cqw,36px);list-style:none}
+nav a{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:6px 0;border-bottom:2px solid transparent}
+nav a:hover{border-color:var(--dp-color-accent)}
+.btn{display:inline-flex;align-items:center;gap:14px;background:#fff;color:#101010;border:0;border-radius:0;font:700 16px/1 var(--face);text-transform:uppercase;letter-spacing:-.01em;padding:18px 22px;cursor:pointer;transition:background .08s linear,color .08s linear,transform .08s linear}
+.btn svg{width:26px;height:26px;flex:none}
+.btn:hover{background:var(--dp-color-accent);color:#101010}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 var(--rule) #fff}
+.btn.ghost:hover{background:#fff;color:#101010}
+.btn.dark{background:#101010;color:#fff}.btn.dark:hover{background:#fff;color:#101010}
+
+/* hero */
+.hero{position:relative;padding:calc(var(--gutter)*1.6) var(--gutter) 0;overflow:hidden}
+.hline{display:block;white-space:nowrap;will-change:transform;transform-origin:left center}
+.hline span{display:inline-block;transform-origin:inherit}
+.hline.r{text-align:right;transform-origin:right center}
+.hline.band{background:var(--dp-color-accent);color:#101010;margin:.04em calc(var(--gutter)*-1);padding:.02em var(--gutter) .0em}
+.hline{font-size:19cqw}
+.hero-sub{display:grid;grid-template-columns:1.2fr 1fr auto;gap:var(--colgap);align-items:end;padding:calc(var(--gutter)*1.4) 0 calc(var(--gutter)*1.6)}
+.hero-sub p{font-size:18px;max-width:46ch}
+.hero-sub p+p{font-size:16px;color:#cfcfcf}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+
+/* marquee */
+.marq{border-block:var(--rule) solid var(--dp-color-rule);overflow:hidden;white-space:nowrap;position:relative}
+.marq.o{background:var(--dp-color-accent);color:#101010;border-color:#101010}
+.track{display:inline-flex;animation:mq 38s linear infinite;will-change:transform}
+.marq.rev .track{animation-direction:reverse;animation-duration:46s}
+.track span{font-weight:800;text-transform:uppercase;letter-spacing:-.045em;font-size:clamp(34px,7cqw,96px);line-height:1.1;padding:.08em .3em .02em 0}
+.track span i{font-style:normal;color:var(--dp-color-accent);margin-left:.3em}
+.marq.o .track span i{color:#fff}
+@keyframes mq{to{transform:translateX(-50%)}}
+.paused .track,.marq-paused .track{animation-play-state:paused}
+.pausebar{display:flex;justify-content:flex-end;padding:8px var(--gutter);border-bottom:var(--rule) solid var(--dp-color-rule)}
+.pause{background:none;border:var(--rule) solid var(--dp-color-rule);color:#fff;font:600 12px/1 var(--face);letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;cursor:pointer;border-radius:0}
+.pause:hover{border-color:#fff}
+.pause[aria-pressed=true]{background:#fff;color:#101010}
+
+/* sections */
+section{padding:calc(var(--gutter)*3) var(--gutter) calc(var(--gutter)*2)}
+.stitle{font-size:clamp(52px,13.5cqw,230px);margin-bottom:calc(var(--gutter)*1.4);clip-path:inset(0 0 0 0)}
+.stitle small{display:block;font-size:12px;letter-spacing:.08em;font-weight:600;margin-bottom:14px;color:var(--dp-color-accent)}
+.js-reveal .stitle.pre{clip-path:inset(0 100% 0 0)}
+.js-reveal .stitle{transition:clip-path .9s cubic-bezier(.2,.7,.1,1)}
+
+/* feature rows */
+.rows{border-top:var(--rule) solid var(--dp-color-rule)}
+.row{position:relative;display:grid;grid-template-columns:70px 1fr minmax(260px,32cqw);gap:var(--colgap);align-items:center;padding:clamp(22px,3.2cqw,48px) 0;border-bottom:var(--rule) solid var(--dp-color-rule);overflow:hidden;transition:background .1s linear,color .1s linear}
+.row .idx{font-size:14px;font-weight:600;align-self:start;padding-top:.6em}
+.row h3{font-size:clamp(30px,6.4cqw,110px);font-weight:800;text-transform:uppercase;letter-spacing:-.045em;line-height:.95;position:relative;z-index:1}
+.row .num{position:absolute;right:34cqw;top:50%;transform:translateY(-50%);font-weight:800;font-size:clamp(120px,24cqw,380px);line-height:.8;color:var(--dp-color-decorative);letter-spacing:-.06em;pointer-events:none;z-index:0;transition:color .1s linear}
+.row .panel{position:relative;z-index:1;background:#101010;color:#fff;padding:14px 18px;font-size:16px;line-height:1.5;font-weight:500;border:var(--rule) solid #101010}
+.row:hover{background:var(--dp-color-accent);color:#101010}
+.row:hover .num{color:#ff8a33}
+.row:hover .panel{background:#101010;color:#fff}
+
+/* editorial */
+.edit{border-top:var(--rule) solid var(--dp-color-rule)}
+.item{display:grid;grid-template-columns:minmax(200px,28cqw) 1fr 220px;gap:var(--colgap);padding:var(--gutter) 0;border-bottom:var(--rule) solid var(--dp-color-rule);align-items:stretch}
+.frame{aspect-ratio:4/3;overflow:hidden;background:#222;filter:grayscale(1) contrast(1.1)}
+.frame svg{display:block;width:100%;height:100%}
+.item h3{font-size:clamp(26px,4.2cqw,68px);font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.98;margin-bottom:14px}
+.item p{font-size:16px;line-height:1.55;max-width:56ch;color:#d8d8d8}
+.meta{font-size:14px;display:grid;gap:8px;align-content:start;border-left:var(--rule) solid var(--dp-color-rule);padding-left:18px}
+.meta dt{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9a9a9a}
+.meta dd{font-weight:600;margin-bottom:6px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:var(--rule) solid var(--dp-color-rule)}
+.step{padding:var(--gutter) var(--gutter) calc(var(--gutter)*1.4) 0;border-right:var(--rule) solid var(--dp-color-rule);margin-right:var(--gutter)}
+.step:last-child{border:0;margin:0}
+.step .n{font-size:clamp(70px,11cqw,170px);font-weight:800;letter-spacing:-.06em;line-height:.9;color:var(--dp-color-accent)}
+.step h3{font-size:clamp(20px,2.4cqw,34px);text-transform:uppercase;letter-spacing:-.03em;font-weight:800;margin:14px 0 8px}
+.step p{font-size:16px;line-height:1.5;color:#d0d0d0}
+.step::after{content:"";display:block;margin-top:18px;height:var(--rule);background:#fff;width:calc(25% * var(--k,1))}
+
+/* orange field */
+.orange{background:var(--dp-color-accent);color:#101010;padding:calc(var(--gutter)*3) var(--gutter)}
+.orange h2{font-size:clamp(46px,12.4cqw,210px)}
+.orange .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--colgap);margin-top:calc(var(--gutter)*2);border-top:var(--rule) solid #101010;padding-top:var(--gutter)}
+.orange h3{font-size:clamp(22px,2.6cqw,38px);text-transform:uppercase;letter-spacing:-.035em;font-weight:800;margin-bottom:8px}
+.orange p{font-size:16px;line-height:1.5;font-weight:500;max-width:36ch}
+
+/* quotes */
+.quote{display:grid;grid-template-columns:minmax(150px,18cqw) 1fr auto;gap:var(--colgap);padding:clamp(20px,2.6cqw,38px) 0;border-bottom:var(--rule) solid var(--dp-color-rule);align-items:center}
+.quotes{border-top:var(--rule) solid var(--dp-color-rule)}
+.quote blockquote{font-size:clamp(20px,3.2cqw,50px);font-weight:700;letter-spacing:-.035em;line-height:1.05}
+.quote .who{font-size:14px;font-weight:600}
+.quote .who span{display:block;color:#9a9a9a;font-weight:500;margin-top:4px}
+.quote .tag{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:var(--rule) solid var(--dp-color-rule);padding:8px 10px}
+
+/* compare */
+.cmp{border-top:var(--rule) solid var(--dp-color-rule)}
+.cr{display:grid;grid-template-columns:1.1fr 2fr auto;gap:var(--colgap);align-items:center;padding:20px 0;border-bottom:var(--rule) solid var(--dp-color-rule)}
+.cr h3{font-size:clamp(26px,3.8cqw,58px);text-transform:uppercase;letter-spacing:-.04em;font-weight:800;line-height:1}
+.cr p{font-size:16px;color:#d0d0d0;line-height:1.5;max-width:52ch}
+.toggle{display:flex;gap:0}
+.tg{background:transparent;color:#fff;border:var(--rule) solid #fff;border-radius:0;font:700 15px/1 var(--face);text-transform:uppercase;padding:15px 18px;display:inline-flex;gap:12px;align-items:center;cursor:pointer;transition:background .08s linear,color .08s linear,transform .08s linear}
+.tg svg{width:22px;height:22px;transition:transform .12s linear}
+.tg:hover{background:#2a2a2a}
+.tg:active{transform:scale(.97)}
+.tg[aria-pressed=true]{background:var(--dp-color-accent);border-color:var(--dp-color-accent);color:#101010}
+.tg[aria-pressed=true] svg{transform:rotate(90deg)}
+
+/* faq */
+details{border-bottom:var(--rule) solid var(--dp-color-rule)}
+.faq{border-top:var(--rule) solid var(--dp-color-rule)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:clamp(20px,2.8cqw,40px);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:1.05}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.5em;line-height:.7;color:var(--dp-color-accent);flex:none;width:1em;text-align:center}
+details[open] summary::after{content:"\2212"}
+summary:hover{color:var(--dp-color-accent)}
+details p{padding:0 0 26px;max-width:62ch;font-size:16px;line-height:1.55;color:#d8d8d8}
+
+/* closing */
+.closing{display:grid;grid-template-columns:1fr auto;align-items:center;gap:var(--colgap);padding:calc(var(--gutter)*3) var(--gutter)}
+.closing h2{font-size:15cqw}
+.closing .arrow{width:24cqw;height:24cqw;color:var(--dp-color-accent);flex:none}
+.closing .actions{margin-top:var(--gutter)}
+footer{border-top:var(--rule) solid var(--dp-color-rule);padding:calc(var(--gutter)*1.6) var(--gutter);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:var(--colgap);font-size:14px}
+footer h4{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9a9a9a;margin-bottom:10px}
+footer ul{list-style:none;display:grid;gap:6px}
+footer a:hover{color:var(--dp-color-accent)}
+footer .big{font-size:28px;font-weight:800;letter-spacing:-.04em;text-transform:uppercase;line-height:1}
+.copy{padding:14px var(--gutter);border-top:var(--rule) solid var(--dp-color-rule);font-size:12px;color:#9a9a9a;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:850px){
+  nav ul li:not(:last-child){display:none}
+  .hero-sub{grid-template-columns:1fr 1fr}
+  .hero-sub .actions{grid-column:1/-1}
+  .row{grid-template-columns:44px 1fr}
+  .row .panel{grid-column:2}
+  .row .num{right:2cqw;top:30%}
+  .item{grid-template-columns:minmax(160px,34cqw) 1fr}
+  .item .meta{grid-column:1/-1;border-left:0;border-top:var(--rule) solid var(--dp-color-rule);padding:14px 0 0;grid-template-columns:repeat(3,1fr);gap:4px 16px}
+  .steps{grid-template-columns:1fr 1fr}
+  .step:nth-child(2){border-right:0;margin-right:0}
+  .step{border-bottom:var(--rule) solid var(--dp-color-rule)}
+  .orange .cols{grid-template-columns:1fr 1fr}
+  .quote{grid-template-columns:1fr auto}
+  .quote .who{grid-column:1/-1;order:3}
+  .cr{grid-template-columns:1fr auto}
+  .cr p{grid-column:1/-1;order:3}
+  footer{grid-template-columns:1fr 1fr}
+  footer>div:first-child{grid-column:1/-1}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  header .btn{display:none}
+  .hero-sub{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr;gap:12px}
+  .row .panel{grid-column:1}
+  .row .num{display:block;right:-2cqw;top:20%;font-size:46cqw}
+  .item{grid-template-columns:1fr}
+  .item .frame{aspect-ratio:16/9}
+  .item .meta{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr}
+  .step,.step:nth-child(2){border-right:0;margin-right:0}
+  .step::after{width:calc(25% * var(--k,1))}
+  .orange .cols{grid-template-columns:1fr}
+  .quote{grid-template-columns:1fr}
+  .quote .who{order:0}
+  .quote .tag{justify-self:start}
+  .cr{grid-template-columns:1fr}
+  .cr .toggle{justify-self:start}
+  .closing{grid-template-columns:1fr}
+  .closing .arrow{width:46cqw;height:46cqw}
+  .btn{padding:16px 18px}
+  .stitle{font-size:clamp(40px,17cqw,90px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .track{animation:none!important}
+  .js-reveal .stitle,.js-reveal .stitle.pre{clip-path:none!important;transition:none}
+  .hline,.hline span{transform:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="page" id="page">
+
+<header>
+  <a class="logo" href="#top" aria-label="Northbound home">North<b>bound</b></a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#stories">Stories</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#book" class="btn dark" style="padding:11px 14px;font-size:14px">Book a rider</a></li>
+  </ul></nav>
+</header>
+
+<main id="main">
+<div class="hero" id="top">
+  <h1 aria-label="We move the city faster than traffic">
+    <span class="hline display" data-dir="1" aria-hidden="true"><span>We move</span></span>
+    <span class="hline display r" data-dir="-1" aria-hidden="true"><span>the city</span></span>
+    <span class="hline display band" data-dir="1" aria-hidden="true"><span>faster than</span></span>
+    <span class="hline display r" data-dir="-1" aria-hidden="true"><span>traffic</span></span>
+  </h1>
+  <div class="hero-sub">
+    <p>Northbound is a bicycle courier cooperative. Riders collect and deliver parcels, documents and fresh produce across the old town and the harbour districts, on routes we have ridden for years.</p>
+    <p>Same-hour pickup on weekdays. Every delivery is signed for, photographed and confirmed to your phone before the rider rolls on.</p>
+    <div class="actions">
+      <a class="btn" href="#book">Book a rider <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a>
+      <a class="btn ghost" href="#services">See services</a>
+    </div>
+  </div>
+</div>
+
+<div class="pausebar"><button class="pause" id="pause" type="button" aria-pressed="false">Pause motion</button></div>
+<div class="marq" id="m1" aria-hidden="true">
+  <div class="track"><span>Documents <i>/</i> Parcels <i>/</i> Produce <i>/</i> Flowers <i>/</i> Keys <i>/</i> Samples <i>/</i></span><span>Documents <i>/</i> Parcels <i>/</i> Produce <i>/</i> Flowers <i>/</i> Keys <i>/</i> Samples <i>/</i></span></div>
+</div>
+<div class="marq o rev" id="m2" aria-hidden="true">
+  <div class="track"><span>Ride on time <i>&rarr;</i> Ride on time <i>&rarr;</i> Ride on time <i>&rarr;</i></span><span>Ride on time <i>&rarr;</i> Ride on time <i>&rarr;</i> Ride on time <i>&rarr;</i></span></div>
+</div>
+<p class="label" style="padding:10px var(--gutter);color:#9a9a9a">Decorative bands above repeat our service list.</p>
+
+<section id="services">
+  <h2 class="stitle display"><small>01 - Services</small>What we carry</h2>
+  <div class="rows">
+    <article class="row"><span class="idx">01</span><h3>Rush runs</h3><span class="num" aria-hidden="true">1</span>
+      <p class="panel">One rider, one parcel, door to door. Ask for a rush run and a courier is moving within the hour, straight across town without stops.</p></article>
+    <article class="row"><span class="idx">02</span><h3>Scheduled rounds</h3><span class="num" aria-hidden="true">2</span>
+      <p class="panel">Daily collections for studios, clinics and shops. The same rider on the same loop, so the people at your counter know who is coming through the door.</p></article>
+    <article class="row"><span class="idx">03</span><h3>Market boxes</h3><span class="num" aria-hidden="true">3</span>
+      <p class="panel">Insulated crates of produce and bread from the farmers' market to your kitchen, packed in the morning and delivered while it is still cool.</p></article>
+    <article class="row"><span class="idx">04</span><h3>Paper trail</h3><span class="num" aria-hidden="true">4</span>
+      <p class="panel">Contracts and sealed envelopes with a signature at both ends. Each handover is logged with a time stamp and a photograph.</p></article>
+  </div>
+</section>
+
+<section id="stories" style="padding-top:calc(var(--gutter)*1)">
+  <h2 class="stitle display"><small>02 - Stories</small>From the saddle</h2>
+  <div class="edit">
+    <article class="item">
+      <div class="frame"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Grayscale skyline of harbour warehouses at dawn"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a9a9a"/><stop offset="1" stop-color="#e2e2e2"/></linearGradient></defs><rect width="400" height="300" fill="url(#g1)"/><circle cx="300" cy="120" r="34" fill="#fff"/><g fill="#2c2c2c"><rect x="0" y="170" width="70" height="130"/><rect x="60" y="130" width="50" height="170"/><rect x="110" y="190" width="90" height="110"/><rect x="200" y="110" width="40" height="190"/><rect x="240" y="160" width="80" height="140"/><rect x="320" y="140" width="80" height="160"/></g><g fill="#d9d9d9"><rect x="70" y="145" width="6" height="8"/><rect x="84" y="145" width="6" height="8"/><rect x="208" y="125" width="6" height="8"/><rect x="220" y="150" width="6" height="8"/><rect x="335" y="160" width="6" height="8"/><rect x="355" y="180" width="6" height="8"/></g><rect y="270" width="400" height="30" fill="#111"/></svg></div>
+      <div><h3>The five o'clock bread run</h3><p>Before the shops open, three riders carry warm loaves from the harbour bakery to cafes along the waterfront. Dawn is the quietest time on the roads, and the best light of the day.</p></div>
+      <dl class="meta"><dt>Route</dt><dd>Harbour loop</dd><dt>Rider</dt><dd>Imani Cole</dd><dt>Read</dt><dd>4 min</dd></dl>
+    </article>
+    <article class="item">
+      <div class="frame"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Grayscale bridge with a rider silhouette"><rect width="400" height="300" fill="#bdbdbd"/><rect y="0" width="400" height="120" fill="#d8d8d8"/><g stroke="#1e1e1e" stroke-width="5" fill="none"><path d="M0 190 H400"/><path d="M40 190 Q100 70 160 190"/><path d="M160 190 Q220 70 280 190"/><path d="M280 190 Q340 70 400 190"/></g><rect y="190" width="400" height="110" fill="#444"/><g stroke="#111" stroke-width="5" fill="none"><circle cx="150" cy="248" r="22"/><circle cx="214" cy="248" r="22"/><path d="M150 248 L176 220 L214 248 M176 220 H196 M150 248 L170 248"/></g><circle cx="190" cy="196" r="9" fill="#111"/><path d="M178 222 L190 204 L200 222" stroke="#111" stroke-width="7" fill="none"/></svg></div>
+      <div><h3>Crossing the old bridge</h3><p>The narrow iron bridge is the shortcut every rider knows. We timed it against the ring road for a month, and the bridge won on every single afternoon.</p></div>
+      <dl class="meta"><dt>Route</dt><dd>Iron Bridge</dd><dt>Rider</dt><dd>Tomas Reyes</dd><dt>Read</dt><dd>6 min</dd></dl>
+    </article>
+    <article class="item">
+      <div class="frame"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Grayscale market stalls with awnings"><rect width="400" height="300" fill="#cfcfcf"/><g><path d="M20 90 H140 L130 130 H30Z" fill="#222"/><path d="M150 90 H270 L260 130 H160Z" fill="#8a8a8a"/><path d="M280 90 H390 L380 130 H290Z" fill="#222"/></g><g fill="#111"><rect x="30" y="130" width="6" height="120"/><rect x="124" y="130" width="6" height="120"/><rect x="160" y="130" width="6" height="120"/><rect x="254" y="130" width="6" height="120"/><rect x="290" y="130" width="6" height="120"/><rect x="374" y="130" width="6" height="120"/></g><rect y="250" width="400" height="50" fill="#555"/><g fill="#eee"><circle cx="60" cy="238" r="12"/><circle cx="90" cy="240" r="12"/><circle cx="200" cy="238" r="12"/><circle cx="330" cy="240" r="12"/></g></svg></div>
+      <div><h3>Saturday at the market</h3><p>Forty crates, six riders, one long morning. Here is how the market boxes are packed, sorted and dispatched before the church bells ring ten.</p></div>
+      <dl class="meta"><dt>Route</dt><dd>Market square</dd><dt>Rider</dt><dd>Priya Nair</dd><dt>Read</dt><dd>5 min</dd></dl>
+    </article>
+  </div>
+</section>
+
+<section id="how">
+  <h2 class="stitle display"><small>03 - How it works</small>Four moves</h2>
+  <div class="steps">
+    <div class="step" style="--k:1"><div class="n">1</div><h3>Book</h3><p>Tell us where the parcel is and where it is going. Pick up now or choose a time.</p></div>
+    <div class="step" style="--k:2"><div class="n">2</div><h3>Match</h3><p>We assign the nearest rider and send you their name and photo.</p></div>
+    <div class="step" style="--k:3"><div class="n">3</div><h3>Ride</h3><p>Follow the rider on the map. They take the quickest route, not the longest.</p></div>
+    <div class="step" style="--k:4"><div class="n">4</div><h3>Sign</h3><p>The receiver signs, we photograph the handover and confirm it to you.</p></div>
+  </div>
+</section>
+
+<div class="orange on-orange">
+  <h2 class="display">No engine. No excuse.</h2>
+  <div class="cols">
+    <div><h3>Quiet streets</h3><p>Bicycles do not idle in traffic and they do not need parking, so the last hundred metres are the easiest part of the trip.</p></div>
+    <div><h3>Fair pay</h3><p>Every rider is a member of the cooperative and shares in what we earn, which is why they care about your parcel.</p></div>
+    <div><h3>Clean ledger</h3><p>One monthly statement with every run itemised, so your accounts team never has to chase a receipt.</p></div>
+  </div>
+</div>
+
+<section id="plans">
+  <h2 class="stitle display"><small>04 - Plans</small>Pick your pace</h2>
+  <div class="cmp" role="group" aria-label="Plans">
+    <div class="cr"><h3>Single run</h3><p>Pay per delivery with no commitment. Best for one-off documents and gifts.</p><div class="toggle"><button class="tg" type="button" aria-pressed="false">Select <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></button></div></div>
+    <div class="cr"><h3>Weekly round</h3><p>A fixed loop on fixed days with one regular rider. Best for shops and studios.</p><div class="toggle"><button class="tg" type="button" aria-pressed="true">Selected <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></button></div></div>
+    <div class="cr"><h3>Fleet account</h3><p>Several riders, one dashboard and one monthly invoice. Best for offices and clinics.</p><div class="toggle"><button class="tg" type="button" aria-pressed="false">Select <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></button></div></div>
+  </div>
+</section>
+
+<section style="padding-top:calc(var(--gutter)*1)">
+  <h2 class="stitle display"><small>05 - Kind words</small>Heard at the door</h2>
+  <div class="quotes">
+    <figure class="quote"><div class="who">Marguerite Lund<span>Ceramics studio</span></div><blockquote>"The glaze samples arrived before I had finished my coffee."</blockquote><span class="tag">Weekly</span></figure>
+    <figure class="quote"><div class="who">Dr. Anil Rao<span>Harbour clinic</span></div><blockquote>"Lab envelopes, signed for, every morning. I stopped worrying about it."</blockquote><span class="tag">Fleet</span></figure>
+    <figure class="quote"><div class="who">Joss Okafor<span>Corner bakery</span></div><blockquote>"Our riders know the streets better than any map does."</blockquote><span class="tag">Single</span></figure>
+  </div>
+</section>
+
+<section>
+  <h2 class="stitle display"><small>06 - Questions</small>Asked often</h2>
+  <div class="faq">
+    <details><summary>How fast is a rush run?</summary><p>Most rush runs are collected within the hour on weekdays. The ride itself depends on distance, and the rider will message you when they set off.</p></details>
+    <details><summary>What can a courier carry?</summary><p>Anything that fits in a pannier or a cargo crate: documents, boxes, produce, flowers. If you are unsure, send us a photo and we will tell you straight away.</p></details>
+    <details><summary>Do you ride in the rain?</summary><p>Yes. Parcels travel in waterproof liners, and riders swap routes to avoid flooded underpasses.</p></details>
+    <details><summary>How do I pause my weekly round?</summary><p>Message us before ten the day before and the round is skipped with no charge. Resume whenever you like.</p></details>
+  </div>
+</section>
+
+<div class="closing" id="book">
+  <div>
+    <h2 class="display">Send it<br>north.</h2>
+    <div class="actions"><a class="btn" href="mailto:ride@northbound.example">Book a rider <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></div>
+  </div>
+  <svg class="arrow" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square" aria-hidden="true"><path d="M20 80 L80 20 M30 20 H80 V70"/></svg>
+</div>
+</main>
+
+<footer>
+  <div><p class="big">Northbound<br>Couriers</p></div>
+  <div><h4>Services</h4><ul><li><a href="#services">Rush runs</a></li><li><a href="#services">Rounds</a></li><li><a href="#services">Market boxes</a></li></ul></div>
+  <div><h4>Co-op</h4><ul><li><a href="#stories">Stories</a></li><li><a href="#how">Riders</a></li><li><a href="#plans">Plans</a></li></ul></div>
+  <div><h4>Contact</h4><ul><li><a href="mailto:ride@northbound.example">ride@northbound.example</a></li><li>Weekdays 6 am to 7 pm</li></ul></div>
+</footer>
+<div class="copy"><span>Northbound Couriers, a rider-owned cooperative.</span><span>Sample page in the Kinetic style.</span></div>
+</div>
+
+<script>
+(function(){
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var page = document.getElementById('page');
+
+  // fit each hero line to the container width
+  var lines = [].slice.call(document.querySelectorAll('.hline'));
+  function fit(){
+    var hero = document.querySelector('.hero');
+    var cs = getComputedStyle(hero);
+    var w = hero.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    lines.forEach(function(l){
+      var s = l.firstElementChild;
+      l.style.fontSize = '100px';
+      var sw = s.getBoundingClientRect().width;
+      if(sw>0) l.style.fontSize = (100 * w / sw * 0.995) + 'px';
+    });
+  }
+  function init(){ fit(); }
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(init); } else init();
+  fit();
+  window.addEventListener('resize', fit);
+
+  // scroll drift on hero lines
+  var ticking = false;
+  function drift(){
+    ticking = false;
+    if(rm) return;
+    var hero = document.querySelector('.hero');
+    var h = hero.offsetHeight || 1;
+    var p = Math.min(Math.max(window.scrollY / h, 0), 1);
+    lines.forEach(function(l){
+      var d = parseFloat(l.getAttribute('data-dir')) || 1;
+      var s = l.firstElementChild;
+      l.style.transform = 'translateX(' + (d * p * 3).toFixed(2) + 'cqw)';
+      s.style.transform = 'scaleX(' + (1 - p * 0.04).toFixed(4) + ')';
+    });
+  }
+  window.addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(drift);} }, {passive:true});
+  drift();
+
+  // clipped title reveal
+  if(!rm && 'IntersectionObserver' in window){
+    var titles = [].slice.call(document.querySelectorAll('.stitle'));
+    document.documentElement.classList.add('js-reveal');
+    titles.forEach(function(t){
+      var r = t.getBoundingClientRect();
+      if(r.top > window.innerHeight * 0.9) t.classList.add('pre');
+    });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ var t=e.target.querySelector('.stitle'); if(t) t.classList.remove('pre'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -12% 0px'});
+    titles.forEach(function(t){ io.observe(t.parentNode); });
+  }
+
+  // marquee pause
+  var btn = document.getElementById('pause');
+  btn.addEventListener('click', function(){
+    var on = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', on);
+    btn.textContent = on ? 'Resume motion' : 'Pause motion';
+    page.classList.toggle('paused', on);
+  });
+  if(rm){ btn.setAttribute('aria-pressed','true'); btn.textContent='Resume motion'; page.classList.add('paused'); }
+
+  // plan toggles (single select)
+  var tgs = [].slice.call(document.querySelectorAll('.tg'));
+  tgs.forEach(function(b){
+    b.addEventListener('click', function(){
+      tgs.forEach(function(o){
+        var sel = o === b;
+        o.setAttribute('aria-pressed', sel);
+        o.firstChild.nodeValue = sel ? 'Selected ' : 'Select ';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

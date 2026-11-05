@@ -1,0 +1,1 @@
+ATLAS_P("F651","I want a snappy futuristic promo video for the launch of AccelaStudy AI Test Prep. Be sure to showcase the best features and reasons for using the product.");

@@ -1,0 +1,1 @@
+ATLAS_P("F867","Turn the file into a 2D animated video, using a BBC-style voice, with English narration and English subtitles.\n\nregarding video effects / script completeness / voice matching / music and sound-effects coordination, Choose those by yourself");

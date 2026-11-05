@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foldcraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#000}
+body{font-family:'Geist',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#fff}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
+.root{position:relative;height:100vh;height:100svh;width:100%;overflow:hidden;background:#000;font-family:'Geist',sans-serif}
+/* video stand-in */
+.bg{position:absolute;inset:0;width:100%;height:100%;display:block;
+  background:linear-gradient(180deg,#0b6f8f 0%,#06415c 45%,#021827 100%)}
+.shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,8,16,.35) 0%,rgba(0,8,16,0) 30%,rgba(0,8,16,0) 55%,rgba(0,6,14,.55) 100%)}
+/* nav */
+nav{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:20px 24px}
+.left{display:flex;align-items:center;gap:40px}
+.logo{font-size:18px;font-weight:600;letter-spacing:-.025em;color:#fff}
+.links{display:none;gap:32px}
+.links a{font-size:14px;color:rgba(255,255,255,.8);transition:color .2s}
+.links a:hover{color:#fff}
+.talk{display:none;border-radius:8px;background:#fff;padding:8px 20px;font-size:14px;font-weight:500;color:#000;transition:transform .2s}
+.talk:hover{transform:scale(1.05)}
+.burger{position:relative;z-index:50;width:40px;height:40px;transition:transform .15s}
+.burger:active{transform:scale(.9)}
+.burger svg{position:absolute;inset:8px;width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:all .3s}
+.burger .x{opacity:0;transform:rotate(-90deg) scale(.5)}
+.open .burger .x{opacity:1;transform:none}
+.open .burger .m{opacity:0;transform:rotate(90deg) scale(.5)}
+/* mobile menu */
+.menu{position:absolute;z-index:20;left:0;right:0;top:0;height:0;opacity:0;pointer-events:none;overflow:hidden;
+  background:rgba(0,0,0,.98);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
+  transition:all .5s cubic-bezier(.16,1,.3,1)}
+.open .menu{height:100vh;height:100svh;opacity:1;pointer-events:auto}
+.menu-in{display:flex;height:100%;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 32px;gap:20px;
+  opacity:0;transform:translateY(32px);transition:all .5s ease 0s}
+.open .menu-in{opacity:1;transform:none;transition-delay:.1s}
+.menu-in a{font-size:30px;font-weight:500;color:rgba(255,255,255,.9)}
+.menu-in a:hover{color:#fff}
+.menu-in .pill{margin-top:24px;border-radius:999px;background:#fff;padding:14px 32px;font-size:16px;font-weight:500;color:#000;transition:transform .2s}
+.menu-in .pill:hover{transform:scale(1.05)}
+/* hero */
+.hero{position:relative;z-index:10;height:calc(100vh - 80px);height:calc(100svh - 80px);display:flex;flex-direction:column;justify-content:space-between;padding:48px 24px 40px}
+.top{max-width:48rem}
+.badge{display:block;font-size:12px;color:rgba(255,255,255,.9);margin-bottom:16px;animation:fadeSlideUp .8s ease .2s both}
+h1{font-size:30px;font-weight:500;line-height:1.1;letter-spacing:-.025em;color:#fff;animation:fadeSlideUp .8s ease .4s both}
+.sub{font-size:14px;line-height:1.625;color:rgba(255,255,255,.6);max-width:24rem;margin-bottom:20px;animation:fadeSlideUp .8s ease .7s both}
+.cta{display:inline-flex;align-items:center;gap:8px;border-radius:8px;background:#fff;padding:10px 20px;font-size:14px;font-weight:500;color:#000;transition:transform .2s;animation:fadeSlideUp .8s ease .9s both}
+.cta:hover{transform:scale(1.05)}
+.cta svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:640px){
+  .logo{font-size:20px}
+  .badge{font-size:14px;margin-bottom:24px}
+  h1{font-size:48px}
+  .hero{padding:64px 24px 48px}
+  .sub{font-size:16px;max-width:32rem;margin-bottom:24px}
+  .cta{padding:12px 24px}
+}
+@media(min-width:768px){
+  nav{padding:20px 48px}
+  .links{display:flex}.talk{display:block}.burger{display:none}
+  .hero{padding:80px 48px 64px}
+  h1{font-size:60px}
+  .sub{font-size:18px}
+}
+@media(min-width:1024px){
+  nav{padding:20px 64px}.hero{padding:80px 64px 64px}
+  h1{font-size:72px}
+}
+@media(prefers-reduced-motion:reduce){
+  .badge,h1,.sub,.cta{animation:none}
+  .menu,.menu-in,.burger svg{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="root" id="root">
+  <canvas class="bg" id="bg" aria-hidden="true"></canvas>
+  <div class="shade"></div>
+
+  <nav>
+    <div class="left">
+      <a href="#" class="logo">Foldcraft</a>
+      <div class="links">
+        <a href="#">Home</a><a href="#">Projects</a><a href="#">Studio</a><a href="#">Reach Us</a>
+      </div>
+    </div>
+    <button class="talk" type="button">Let's Talk</button>
+    <button class="burger" id="burger" type="button" aria-label="Toggle menu" aria-expanded="false">
+      <svg class="m" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      <svg class="x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </nav>
+
+  <div class="menu" id="menu">
+    <div class="menu-in">
+      <a href="#">Home</a><a href="#">Projects</a><a href="#">Studio</a><a href="#">Reach Us</a>
+      <button class="pill" type="button">Let's Talk</button>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="top">
+      <span class="badge">Brand &amp; Visual Storytelling</span>
+      <h1>Shaping visual<br>narratives,<br>one pixel at a time.</h1>
+    </div>
+    <div class="bottom">
+      <p class="sub">Turning vision into reality through craft, motion, and an endless pursuit of beauty.</p>
+      <a href="#" class="cta">Explore Work
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('root');
+  function setOpen(o){root.classList.toggle('open',o);document.getElementById('burger').setAttribute('aria-expanded',o)}
+  document.getElementById('burger').addEventListener('click',function(){setOpen(!root.classList.contains('open'))});
+  document.querySelectorAll('.menu a,.menu button').forEach(function(e){e.addEventListener('click',function(ev){if(e.tagName==='A')ev.preventDefault();setOpen(false)})});
+  document.querySelectorAll('a[href="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault()})});
+
+  /* looping ocean background: WebGL caustics + light shafts (stand-in for the video) */
+  var cv=document.getElementById('bg');
+  var gl=cv.getContext('webgl',{antialias:false,alpha:false});
+  if(!gl)return;
+  var vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  var fs=[
+  'precision mediump float;',
+  'uniform vec2 R;uniform float T;',
+  'float caus(vec2 uv,float t){',
+  ' vec2 p=mod(uv*6.28318,6.28318)-250.;vec2 i=p;float c=1.,inten=.005;',
+  ' for(int n=0;n<4;n++){float tt=t*(1.-3.5/float(n+1));',
+  '  i=p+vec2(cos(tt-i.x)+sin(tt+i.y),sin(tt-i.y)+cos(tt+i.x));',
+  '  c+=1./length(vec2(p.x/(sin(i.x+tt)/inten),p.y/(cos(i.y+tt)/inten)));}',
+  ' c/=4.;c=1.17-pow(c,1.4);return pow(abs(c),8.);}',
+  'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
+  'float n2(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
+  ' return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}',
+  'void main(){',
+  ' vec2 fc=gl_FragCoord.xy/R;float asp=R.x/R.y;',
+  ' vec2 uv=vec2(fc.x*asp,fc.y);',
+  ' float t=T*.35;',
+  ' vec3 deep=vec3(.008,.07,.13),mid=vec3(.02,.30,.42),top=vec3(.10,.62,.72);',
+  ' float d=1.-fc.y;',
+  ' vec3 col=mix(top,mid,smoothstep(0.,.55,d));col=mix(col,deep,smoothstep(.35,1.,d));',
+  ' vec2 sun=vec2(.72*asp,1.12);',
+  ' vec2 q=uv-sun;float ang=atan(q.x,-q.y);',
+  ' float ray=0.;',
+  ' ray+=pow(max(0.,sin(ang*14.+t*.8+n2(vec2(ang*3.,t*.3))*3.)),3.);',
+  ' ray+=.6*pow(max(0.,sin(ang*27.-t*.6)),4.);',
+  ' ray*=exp(-length(q)*1.5)*smoothstep(1.4,.1,length(q)+.0);',
+  ' col+=vec3(.25,.7,.75)*ray*.35;',
+  ' vec2 cu=uv*vec2(1.,1.)*.75+vec2(n2(uv*3.+t)*.04,0.);',
+  ' float c=caus(cu,t*1.3)+.6*caus(cu*1.7+3.,t*1.9);',
+  ' float lit=smoothstep(.1,1.,fc.y)*(.4+.6*smoothstep(.2,1.,1.-abs(fc.x*asp-.72*asp)/asp*1.2));',
+  ' col+=vec3(.35,.85,.9)*c*.35*lit;',
+  ' col+=vec3(.5,.9,.95)*exp(-length(q)*2.2)*.35;',
+  ' float mote=smoothstep(.97,1.,n2(uv*vec2(60.,60.)+vec2(0.,-t*3.)))*.25*smoothstep(0.,1.,fc.y+.3);',
+  ' col+=mote;',
+  ' vec2 v=fc-.5;col*=1.-dot(v,v)*.9;',
+  ' gl_FragColor=vec4(col,1.);}'
+  ].join('\n');
+  function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o}
+  var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS))return;
+  gl.useProgram(pr);
+  var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  var loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  var uR=gl.getUniformLocation(pr,'R'),uT=gl.getUniformLocation(pr,'T');
+  var SCALE=.5;
+  function size(){var w=Math.max(2,Math.floor(cv.clientWidth*SCALE)),h=Math.max(2,Math.floor(cv.clientHeight*SCALE));
+    if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h}gl.viewport(0,0,w,h);gl.uniform2f(uR,w,h)}
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function draw(t){size();gl.uniform1f(uT,t);gl.drawArrays(gl.TRIANGLES,0,3)}
+  addEventListener('resize',function(){draw(performance.now()/1000)});
+  if(reduce){draw(4.0);return}
+  var t0=performance.now();
+  (function loop(){draw(4+(performance.now()-t0)/1000);requestAnimationFrame(loop)})();
+})();
+</script>
+</body>
+</html>

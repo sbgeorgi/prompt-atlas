@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLUME / PAPERIE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#f6f1e7;color:#24211c;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.wash{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(246,241,231,.74) 0%,rgba(246,241,231,.18) 38%,transparent 62%)}
+.scrim{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to bottom,rgba(246,241,231,.6),transparent 18%)}
+.paper-grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.gild{background:linear-gradient(180deg,#f0d79a 0%,#e8c87a 45%,#caa24f 60%,#f3e2b0 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hairline{height:1px;background:linear-gradient(90deg,transparent,rgba(202,162,79,.6),transparent)}
+.liquid-glass{background:rgba(255,253,247,.35);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.6);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(202,162,79,.6) 0%,rgba(202,162,79,.2) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(202,162,79,.2) 80%,rgba(202,162,79,.6) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box exclude,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(40px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+@keyframes inkDraw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.bfu{opacity:0;animation:blurFadeUp 1.1s ease-out forwards}
+.page{position:relative;z-index:10;height:100vh;height:100dvh;display:flex;flex-direction:column}
+nav{position:relative;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 16px}
+@media(min-width:640px){nav{padding:16px 24px}}
+@media(min-width:768px){nav{padding:24px 48px}}
+.logo{display:flex;align-items:baseline;gap:12px}
+.logo b{font:400 1.5rem/2rem 'Cormorant',serif;letter-spacing:.04em;color:#24211c}
+.logo small{display:none;font-size:10px;letter-spacing:.3em;color:#caa24f}
+@media(min-width:640px){.logo small{display:inline}}
+.links{display:none;gap:40px}
+.links a{font-size:14px;color:rgba(36,33,28,.7);transition:color .2s}
+.links a:hover{color:#24211c}
+@media(min-width:1024px){.links{display:flex}}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;padding:8px 20px;font-size:14px;color:#24211c}
+.nav-r{display:none}
+@media(min-width:1024px){.nav-r{display:block}.burger{display:none!important}}
+.burger{width:40px;height:40px;border-radius:9999px;display:flex;align-items:center;justify-content:center}
+.burger span{position:relative;width:20px;height:20px;display:block}
+.burger svg{position:absolute;inset:0;transition:all .5s ease-out}
+.burger .x{opacity:0;transform:rotate(-180deg) scale(.5)}
+.burger.open .m{opacity:0;transform:rotate(180deg) scale(.5)}
+.burger.open .x{opacity:1;transform:none}
+.menu{position:absolute;top:72px;left:0;right:0;z-index:40;background:rgba(246,241,231,.95);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid rgba(36,33,28,.1);border-bottom:1px solid rgba(36,33,28,.1);box-shadow:0 25px 50px -12px rgba(0,0,0,.25);padding:16px;transition:all .5s ease-out;transform:translateY(-16px);opacity:0;pointer-events:none}
+.menu.open{transform:none;opacity:1;pointer-events:auto}
+.menu a{display:block;padding:12px;border-radius:8px;font-size:15px;transform:translateX(-16px);opacity:0;transition:all .5s ease-out,background .2s}
+.menu.open a{transform:none;opacity:1}
+.menu a:hover{background:rgba(36,33,28,.05)}
+@media(min-width:1024px){.menu{display:none}}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 40px;min-height:0}
+@media(min-width:640px){.hero{padding:0 24px 40px}}
+@media(min-width:768px){.hero{padding:0 48px 64px}}
+.ribbon{align-self:flex-start;font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:4px 12px;border-radius:9999px;border:1px solid rgba(202,162,79,.6);color:#caa24f;margin-bottom:14px;background:rgba(246,241,231,.4)}
+@media(min-width:768px){.ribbon{position:absolute;right:48px;top:96px;margin:0}}
+.eyebrow{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:#caa24f;margin-bottom:12px}
+.eyebrow .hairline{width:64px;margin-top:8px;transform-origin:left;animation:inkDraw 1.1s ease-out .5s both}
+.meta{display:flex;flex-wrap:wrap;gap:8px 24px;margin-bottom:24px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(36,33,28,.5)}
+@media(min-width:768px){.meta{margin-bottom:32px}}
+.meta span{display:inline-flex;align-items:center;gap:8px}
+h1{font:300 3rem/.98 'Cormorant',serif;letter-spacing:-.01em;margin-bottom:20px}
+h1 span{display:block}
+h1 em{font-style:italic;padding-right:.08em}
+@media(min-width:640px){h1{font-size:3.75rem}}
+@media(min-width:768px){h1{font-size:4.5rem}}
+@media(min-width:1024px){h1{font-size:6rem}}
+.sub{font-size:1rem;line-height:1.55;color:rgba(36,33,28,.65);max-width:36rem;margin-bottom:32px}
+@media(min-width:640px){.sub{font-size:1.125rem}}
+@media(min-width:768px){.sub{font-size:1.25rem}}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+@media(min-width:640px){.row{gap:16px}}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;font-weight:500;padding:10px 24px;font-size:14px;color:#24211c}
+@media(min-width:640px){.btn{padding:12px 32px}}
+.solid{background:#e8c87a;transition:background .2s}
+.solid:hover{background:#efd692}
+.hint{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(36,33,28,.35);margin-top:20px}
+@media(min-width:768px){.hint{position:absolute;right:48px;bottom:64px;margin:0}}
+@media(prefers-reduced-motion:reduce){
+.bfu{animation:none;opacity:1;filter:none;transform:none}
+.eyebrow .hairline{animation:none}
+.paper-grain{display:none}
+.menu,.menu a,.burger svg{transition:none}
+}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="wash"></div><div class="scrim"></div><div class="paper-grain"></div>
+
+<div class="page">
+<nav>
+  <div class="logo bfu" style="animation-delay:0ms"><b>PLUME</b><small>/ PAPERIE</small></div>
+  <div class="links">
+    <a class="bfu" style="animation-delay:100ms" href="#">Stationery</a>
+    <a class="bfu" style="animation-delay:150ms" href="#">Monograms</a>
+    <a class="bfu" style="animation-delay:200ms" href="#">Wax &amp; Seals</a>
+    <a class="bfu" style="animation-delay:250ms" href="#">Bespoke</a>
+  </div>
+  <div class="nav-r bfu" style="animation-delay:350ms"><a class="pill liquid-glass" href="#"><svg class="i" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/></svg>Order a Set</a></div>
+  <button class="burger liquid-glass bfu" id="burger" style="animation-delay:350ms" aria-label="Menu" aria-expanded="false"><span>
+    <svg class="m" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <svg class="x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </span></button>
+  <div class="menu" id="menu">
+    <a href="#" style="transition-delay:0ms">Stationery</a>
+    <a href="#" style="transition-delay:50ms">Monograms</a>
+    <a href="#" style="transition-delay:100ms">Wax &amp; Seals</a>
+    <a href="#" style="transition-delay:150ms">Bespoke</a>
+  </div>
+</nav>
+
+<main class="hero">
+  <div class="ribbon bfu" style="animation-delay:260ms">FREE PACK</div>
+  <div class="eyebrow bfu" style="animation-delay:300ms">FINE STATIONERY · SINCE 1888<div class="hairline"></div></div>
+  <div class="meta bfu" style="animation-delay:380ms">
+    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/></svg>HAND-CUT NIBS</span>
+    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77"/><path d="M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-3-3c-1.66 0-3 1-3 3s1 2 1 3.5V13"/></svg>WAX SEALED</span>
+    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>IRON-GALL INK</span>
+  </div>
+  <h1 class="bfu" style="animation-delay:450ms"><span>Every word</span><span><em class="gild">worth keeping.</em></span></h1>
+  <p class="sub bfu" style="animation-delay:560ms">Ink that bites the page and paper that remembers it — stationery made to be written on, and read years later.</p>
+  <div class="row">
+    <a class="btn solid bfu" style="animation-delay:660ms" href="#"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/></svg>Order a Set</a>
+    <a class="btn liquid-glass bfu" style="animation-delay:760ms" href="#">See the Paperie<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="hint bfu" style="animation-delay:860ms"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg>PRESSED, NOT PRINTED</div>
+</main>
+</div>
+
+<script>
+(function(){
+var b=document.getElementById('burger'),m=document.getElementById('menu');
+b.addEventListener('click',function(){var o=b.classList.toggle('open');m.classList.toggle('open',o);b.setAttribute('aria-expanded',o)});
+
+/* Stand-in for the paperie footage: ivory paper, warm light shaft, drifting quill, ink drops, dust */
+var c=document.getElementById('bg'),x=c.getContext('2d'),W,H,dpr;
+var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)}
+size();addEventListener('resize',function(){size();if(still)draw(0)});
+var rnd=function(a){return Math.sin(a*127.1)*43758.5453%1};
+var motes=[];for(var i=0;i<46;i++){motes.push({x:Math.abs(rnd(i+1)),y:Math.abs(rnd(i+9)),r:.6+Math.abs(rnd(i+3))*1.8,s:.2+Math.abs(rnd(i+5)),p:Math.abs(rnd(i+7))*6.28})}
+
+function feather(L,t){
+  /* shaft runs from (0,0) base to (0,-L) tip, curved slightly */
+  var N=64,sh=[];
+  for(var i=0;i<=N;i++){var u=i/N;sh.push({x:Math.sin(u*1.6)*L*.07*u+Math.sin(t*.6+u*2)*2*u,y:-u*L,u:u})}
+  /* vane body */
+  x.save();
+  for(var side=-1;side<=1;side+=2){
+    x.beginPath();x.moveTo(sh[0].x,sh[0].y);
+    for(i=0;i<=N;i++){var u=sh[i].u,w=L*.16*Math.pow(Math.sin(Math.PI*Math.pow(u,.75)),.9)*(u<.1?u*10:1)*(1+.05*Math.sin(u*24+t));
+      x.lineTo(sh[i].x+side*w,sh[i].y+L*.06*u*Math.abs(side)*0)}
+    for(i=N;i>=0;i--)x.lineTo(sh[i].x,sh[i].y);
+    x.closePath();
+    var g=x.createLinearGradient(-L*.2,0,L*.2,0);
+    g.addColorStop(0,'rgba(255,252,244,.92)');g.addColorStop(1,'rgba(222,208,178,.88)');
+    x.fillStyle=g;x.fill();
+  }
+  /* barbs */
+  x.lineWidth=.7;
+  for(var side2=-1;side2<=1;side2+=2){
+    for(i=6;i<N;i++){
+      var u2=sh[i].u,w2=L*.16*Math.pow(Math.sin(Math.PI*Math.pow(u2,.75)),.9)*(1+.05*Math.sin(u2*24+t));
+      for(var k=0;k<3;k++){
+        var f=k/3,px=sh[i].x,py=sh[i].y;
+        x.strokeStyle='rgba(150,128,92,'+(.16+.1*Math.sin(i*1.3+k))+')';
+        x.beginPath();x.moveTo(px,py-f*L/N);
+        x.lineTo(px+side2*w2,py-L*.05-f*L/N-Math.sin(i+k)*2);x.stroke();
+      }
+    }
+  }
+  /* rachis */
+  x.strokeStyle='rgba(120,98,66,.75)';x.lineWidth=1.6;
+  x.beginPath();x.moveTo(sh[0].x,sh[0].y+L*.12);for(i=0;i<=N;i++)x.lineTo(sh[i].x,sh[i].y);x.stroke();
+  /* nib */
+  x.fillStyle='#24211c';x.beginPath();x.moveTo(-2.5,L*.1);x.lineTo(2.5,L*.1);x.lineTo(0,L*.2);x.closePath();x.fill();
+  x.restore();
+}
+
+function draw(ts){
+  var t=ts/1000,i;
+  x.clearRect(0,0,W,H);
+  var bg=x.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#f8f3e8');bg.addColorStop(1,'#efe6d2');
+  x.fillStyle=bg;x.fillRect(0,0,W,H);
+  /* light shaft framed right */
+  var mob=W<700,cx=W*(mob?.52:.68),base=mob?.46:.66,pulse=.9+.1*Math.sin(t*.5);
+  var sg=x.createLinearGradient(cx-W*.16,0,cx+W*.16,0);
+  sg.addColorStop(0,'rgba(232,200,122,0)');sg.addColorStop(.5,'rgba(232,200,122,'+.34*pulse+')');sg.addColorStop(1,'rgba(232,200,122,0)');
+  x.fillStyle=sg;x.fillRect(cx-W*.16,0,W*.32,H);
+  var rg=x.createRadialGradient(cx,H*.42,0,cx,H*.42,Math.max(W,H)*.45);
+  rg.addColorStop(0,'rgba(255,236,180,'+.6*pulse+')');rg.addColorStop(1,'rgba(255,236,180,0)');
+  x.fillStyle=rg;x.fillRect(0,0,W,H);
+  /* laid-paper lines, slow drift */
+  x.strokeStyle='rgba(120,100,70,.05)';x.lineWidth=1;
+  var off=(t*4)%14;
+  for(var y=-14+off;y<H;y+=14){x.beginPath();x.moveTo(0,y);x.lineTo(W,y+Math.sin(y*.01+t*.2)*2);x.stroke()}
+  /* ink curl: calligraphy stroke drawing itself */
+  var sc=Math.min(W,H*1.2)/900;
+  x.save();x.translate(cx-W*(mob?.3:.05),H*(base+(mob?-.02:.05)));x.scale(sc*1.2,sc*1.2);
+  var cyc=(t*.12)%1.6,prog=Math.min(cyc/1.1,1),fade=cyc>1.3?1-(cyc-1.3)/.3:1;
+  x.globalAlpha=Math.max(fade,0)*.55;x.strokeStyle='#24211c';x.lineCap='round';
+  var path=[];for(i=0;i<=90;i++){var u=i/90;path.push([u*420-90,Math.sin(u*9)*22*(1-u*.4)-u*30+Math.sin(u*3)*18])}
+  var n=Math.floor(path.length*prog);
+  for(i=1;i<n;i++){var wv=1+2.4*Math.abs(Math.sin(i*.35));x.lineWidth=wv;x.beginPath();x.moveTo(path[i-1][0],path[i-1][1]);x.lineTo(path[i][0],path[i][1]);x.stroke()}
+  x.restore();
+  /* feather, drifting */
+  var L=Math.min(H*(mob?.3:.46),W*.7,460);
+  var fx=cx+Math.sin(t*.35)*W*.03,fy=H*base+Math.cos(t*.45)*H*.02;
+  x.save();x.translate(fx,fy);x.rotate(.38+Math.sin(t*.3)*.07);
+  x.shadowColor='rgba(202,162,79,.55)';x.shadowBlur=40;x.shadowOffsetY=8;
+  feather(L,t);
+  x.restore();
+  /* dust motes in the light */
+  for(i=0;i<motes.length;i++){var o=motes[i],px=(o.x*W*.5+W*.42+Math.sin(t*.3*o.s+o.p)*30),py=((o.y*H-t*8*o.s)%H+H)%H;
+    var a=.25+.25*Math.sin(t*o.s+o.p);x.fillStyle='rgba(202,162,79,'+a+')';x.beginPath();x.arc(px,py,o.r,0,6.28);x.fill()}
+  /* ink drop falling from nib */
+  var dp=(t*.18)%1;if(!still||dp>=0){
+    var dx=fx+Math.sin(.38)*L*.0,ddx=cx-W*(mob?.28:.04),dy=H*(base+.08)+dp*H*.12;
+    x.fillStyle='rgba(36,33,28,'+(.6*(1-dp))+')';x.beginPath();x.ellipse(ddx,dy,2.4,3.6+dp*4,0,0,6.28);x.fill()}
+}
+if(still){draw(4000);document.fonts&&document.fonts.ready.then(function(){draw(4000)})}
+else{(function loop(ts){draw(ts);requestAnimationFrame(loop)})(0)}
+})();
+</script>
+</body>
+</html>

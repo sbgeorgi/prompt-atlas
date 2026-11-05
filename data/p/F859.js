@@ -1,0 +1,1 @@
+ATLAS_P("F859","Plan a launch video. Music, logo, CTA. Modern, founder-like.\n\nThis is horrible. More movement. Use components, not a recording. Use the app's near-black theme. Animated text.\n\nSome parts too fast, some too slow. Only the key hits on the beat. Make it readable.");

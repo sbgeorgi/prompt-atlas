@@ -1,0 +1,1 @@
+ATLAS_P("F173","Make a beat-synced motion graphics kpop music video for this track, use this mood board and protagonist kpop singer character sheet, and the backup dancers/agents. Add motion of the singer agents including lipsync to make the music video come alive. Go all out.\n\n<style of the music>\n\n<music lyrics>");

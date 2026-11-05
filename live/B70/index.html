@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>securify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Readex Pro',system-ui,-apple-system,sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.hero{position:relative;height:100vh;width:100%;overflow:hidden;background:#000}
+#bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+nav{position:absolute;z-index:20;top:0;left:0;right:0;padding:24px 24px 0;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.pill{background:rgba(23,23,23,.9);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:9999px}
+.brand{display:flex;align-items:center;gap:8px;padding:12px 24px 12px 16px}
+.brand svg{height:20px;width:20px}
+.brand span{font-size:14px;letter-spacing:-.025em;font-weight:400}
+.links{display:none;align-items:center;gap:4px;padding:8px 12px}
+.links a{color:#d4d4d4;text-decoration:none;font-size:14px;padding:8px 20px;border-radius:9999px;transition:color .2s}
+.links a:hover{color:#fff}
+.cta{background:#fff;color:#000;font-size:14px;font-weight:400;border-radius:9999px;padding:12px 24px;text-decoration:none;transition:background .2s}
+.cta:hover{background:#e5e5e5}
+.fg{position:relative;height:100%;width:100%}
+.hero-title{position:absolute;color:#fff;font-weight:500;font-size:14vw;letter-spacing:-.04em;line-height:.95;white-space:nowrap}
+.t1{left:16px;top:18%}.t2{right:16px;top:38%}.t3{left:18%;top:58%}
+.desc{position:absolute;left:24px;top:46%;max-width:240px;font-size:15px;line-height:1.25;color:rgba(255,255,255,.9)}
+.stat{position:absolute}
+.stat .row{display:flex;align-items:center;gap:12px}
+.stat .n{font-size:36px;font-weight:500;letter-spacing:-.025em}
+.stat .s{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px}
+.div{display:none;height:1px;width:96px;background:rgba(255,255,255,.4)}
+.s1{right:24px;top:14%}.s1 .row{justify-content:flex-end}.s1 .s{text-align:right}
+.s2{left:24px;bottom:80px}
+.s3{right:24px;bottom:64px}.s3 .s{text-align:right}.s3 .row{justify-content:flex-end}
+.fade{pointer-events:none;position:absolute;bottom:0;left:0;right:0;height:192px;background:linear-gradient(to bottom,transparent,#000)}
+@media(min-width:768px){
+nav{padding:24px 40px 0}
+.links{display:flex}
+.hero-title{font-size:13vw}
+.t1{left:40px}.t2{right:40px}.t3{left:28%}
+.desc{left:40px}
+.s1{right:96px}.s2{left:80px;bottom:96px}.s3{right:80px;bottom:80px}
+.stat .n{font-size:48px}.stat .s{font-size:14px}
+.div{display:block}
+.r20{transform:rotate(20deg)}.rm20{transform:rotate(-20deg)}
+}
+</style>
+</head>
+<body>
+<section class="hero">
+<canvas id="bg"></canvas>
+<nav>
+<div class="pill brand">
+<svg viewBox="0 0 256 256" aria-hidden="true"><path fill="#ffffff" d="M 128 192 L 128 256 L 64.5 256 L 32 223 L 0 192 L 0 128 L 64 128 Z M 256 192 L 256 256 L 192.5 256 L 160 223 L 128 192 L 128 128 L 192 128 Z M 128 64 L 128 128 L 64.5 128 L 32 95 L 0 64 L 0 0 L 64 0 Z M 256 64 L 256 128 L 192.5 128 L 160 95 L 128 64 L 128 0 L 192 0 Z"/></svg>
+<span>securify</span>
+</div>
+<div class="pill links"><a href="#">platform</a><a href="#">solutions</a><a href="#">company</a><a href="#">support</a></div>
+<a class="cta" href="#">get started</a>
+</nav>
+<div class="fg">
+<h1 class="hero-title t1">protect</h1>
+<h1 class="hero-title t2">your</h1>
+<h1 class="hero-title t3">data</h1>
+<p class="desc">we can guarding your data with utmost care, empowering you with privacy everywhere</p>
+<div class="stat s1"><div class="row"><div class="div r20"></div><div class="n">+65k</div></div><div class="s">startups use</div></div>
+<div class="fade"></div>
+<div class="stat s2"><div class="row"><div class="n">+1.5b</div><div class="div rm20"></div></div><div class="s">gb data was protected</div></div>
+<div class="stat s3"><div class="row"><div class="div rm20"></div><div class="n">+300k</div></div><div class="s">downloads</div></div>
+</div>
+</section>
+<script>
+(function(){
+var c=document.getElementById('bg'),x=c.getContext('2d');
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var W,H,dpr,parts=[],spray=[],t=0;
+function rnd(a,b){return a+Math.random()*(b-a)}
+function resize(){
+dpr=Math.min(devicePixelRatio||1,1.5);W=c.clientWidth;H=c.clientHeight;
+c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);
+parts=[];var n=Math.round(W*H/9000);
+for(var i=0;i<n;i++)parts.push({x:rnd(0,W),y:rnd(0,H),r:rnd(.4,1.8),v:rnd(.3,1.2),d:rnd(0,6.28)});
+spray=[];for(var j=0;j<140;j++)spray.push(sp());
+draw();
+}
+function sp(){return{x:rnd(.35,1)*W,y:rnd(.62,.95)*H,r:rnd(1,4),vx:rnd(.4,2.2),vy:rnd(-1,.1),a:rnd(.2,.8),l:rnd(0,1)}}
+function rr(px,py,w,h,r){x.beginPath();x.moveTo(px+r,py);x.arcTo(px+w,py,px+w,py+h,r);x.arcTo(px+w,py+h,px,py+h,r);x.arcTo(px,py+h,px,py,r);x.arcTo(px,py,px+w,py,r);x.closePath()}
+function rider(cx,cy,s,sway){
+x.save();x.translate(cx,cy);x.rotate(-.35+sway*.04);x.scale(s,s);
+// board
+x.fillStyle='#8a2c1c';rr(-210,150,330,22,11);x.fill();
+// legs
+x.fillStyle='#d8d8de';
+x.beginPath();x.moveTo(-70,70);x.lineTo(-20,60);x.lineTo(-40,160);x.lineTo(-90,155);x.closePath();x.fill();
+x.beginPath();x.moveTo(20,60);x.lineTo(80,70);x.lineTo(100,150);x.lineTo(50,155);x.closePath();x.fill();
+// torso jacket (pink-peach)
+var g=x.createLinearGradient(-90,-120,120,60);g.addColorStop(0,'#f3d6d2');g.addColorStop(1,'#c98c8c');
+x.fillStyle=g;x.beginPath();x.moveTo(-100,-60);x.quadraticCurveTo(-20,-140,100,-80);x.lineTo(120,30);x.quadraticCurveTo(10,90,-90,40);x.closePath();x.fill();
+// raised arm
+x.strokeStyle='#e8e8ee';x.lineWidth=46;x.lineCap='round';
+x.beginPath();x.moveTo(-60,-70);x.lineTo(-95,-190);x.stroke();
+x.lineWidth=40;x.beginPath();x.moveTo(90,-50);x.lineTo(170,10);x.stroke();
+// head + helmet + goggles
+x.fillStyle='#f1f1f4';x.beginPath();x.arc(-10,-130,38,0,6.28);x.fill();
+x.fillStyle='#d9783c';x.beginPath();x.ellipse(-4,-126,30,18,.2,0,6.28);x.fill();
+x.restore();
+}
+function draw(){
+x.clearRect(0,0,W,H);
+var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#04060c');g.addColorStop(.55,'#0a1020');g.addColorStop(1,'#101620');
+x.fillStyle=g;x.fillRect(0,0,W,H);
+// distant treeline silhouette
+x.fillStyle='#02040a';x.beginPath();x.moveTo(0,H*.62);
+for(var i=0;i<=W;i+=14){x.lineTo(i,H*(.6-.03*Math.abs(Math.sin(i*.037))-.02*Math.sin(i*.011)))}
+x.lineTo(W,H*.7);x.lineTo(0,H*.7);x.fill();
+// snow slope
+var sg=x.createLinearGradient(0,H*.65,0,H);sg.addColorStop(0,'#1a2230');sg.addColorStop(1,'#46505e');
+x.fillStyle=sg;x.beginPath();x.moveTo(0,H*.8);x.quadraticCurveTo(W*.5,H*.62,W,H*.74);x.lineTo(W,H);x.lineTo(0,H);x.fill();
+// rider
+var s=Math.min(W,H*1.4)/900;
+var sway=Math.sin(t*.9);
+x.save();x.filter='blur(1.5px) brightness(.8)';x.globalAlpha=.92;rider(W*.56,H*.5+sway*6,s*1.1,sway);x.restore();
+// falling snow
+x.fillStyle='#fff';
+for(var k=0;k<parts.length;k++){var p=parts[k];x.globalAlpha=.25+.4*p.r/1.8;x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fill();
+if(!reduce){p.y+=p.v;p.x+=Math.sin(t+p.d)*.3;if(p.y>H){p.y=-3;p.x=rnd(0,W)}}}
+// spray cloud
+for(var m=0;m<spray.length;m++){var q=spray[m];
+var rad=q.r*(8+q.l*40);var gr=x.createRadialGradient(q.x,q.y,0,q.x,q.y,rad);
+gr.addColorStop(0,'rgba(235,240,250,'+(q.a*.3*(1-q.l))+')');gr.addColorStop(1,'rgba(235,240,250,0)');
+x.globalAlpha=1;x.fillStyle=gr;x.beginPath();x.arc(q.x,q.y,rad,0,6.28);x.fill();
+if(!reduce){q.x+=q.vx;q.y+=q.vy;q.l+=.006;if(q.x>W+50||q.l>1){spray[m]=sp();spray[m].x=rnd(.4,.75)*W;spray[m].y=rnd(.7,.9)*H;spray[m].l=0}}}
+x.globalAlpha=1;
+// cold vignette
+var vg=x.createRadialGradient(W*.5,H*.5,H*.3,W*.5,H*.5,Math.max(W,H)*.75);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.55)');
+x.fillStyle=vg;x.fillRect(0,0,W,H);
+}
+function loop(){t+=.016;draw();requestAnimationFrame(loop)}
+addEventListener('resize',resize);
+resize();
+if(!reduce)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

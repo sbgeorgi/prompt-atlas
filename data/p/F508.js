@@ -1,0 +1,1 @@
+ATLAS_P("F508","Using React/TypeScript (Remotion), every image drawn in SVG and Canvas, an open-source TTS voice, and a score synthesized in Python. No stock footage. No image generators.\n\nBuild a short 30-60s animation work about the Trading House");

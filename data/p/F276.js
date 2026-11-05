@@ -1,0 +1,1 @@
+ATLAS_P("F276","Use Python to generate a 9:16 chaotic brain rot video with excellent motion + sound design and render it using ffmpeg. Put your own personal spin on it so it\u2019s aligned with Anthropic\u2019s new launch. Also fully express what it\u2019s like to be a very creative LLM used by me every day from your POV to give it some extra personality.");

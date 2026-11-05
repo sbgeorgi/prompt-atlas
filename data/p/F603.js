@@ -1,0 +1,1 @@
+ATLAS_P("F603","Build the latest FrankenManim version on my Mac and then use it to create a nice 3b1b-style explainer video about Hoeffding's D. Use FrankenTTS to provide the narration.");

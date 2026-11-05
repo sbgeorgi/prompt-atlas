@@ -1,0 +1,1 @@
+ATLAS_P("F746","Make one 60-second, 60 fps, Apple-style motion-graphics product film for Kirocast (https://t.co/YDA5cSDcTa, \"The MacOS screen recorder built for AI.\"), in two versions: 16:9 at 1920\u00d71080 and 9:16 at 1080\u00d71920 for Instagram Reels and TikTok. Both versions share the same timeline");

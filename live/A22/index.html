@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASCEND - Inner Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f4f3ef;--paper2:#eceae3;--ink:#191b1e;--slate:#5c6b78;--muted:rgba(25,27,30,.62);--dim:rgba(25,27,30,.42);--line:rgba(25,27,30,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--paper2);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.backdrop{position:fixed;inset:0;z-index:0;background:
+  radial-gradient(120% 90% at 50% 40%,rgba(92,107,120,.09),transparent 52%),
+  linear-gradient(to top,rgba(25,27,30,.05),transparent 14%),
+  linear-gradient(180deg,var(--paper),var(--paper2))}
+.grain{position:fixed;inset:0;z-index:1;opacity:.35;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(25,27,30,.05) 1px,transparent 1.4px);background-size:4px 4px;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%)}
+.art{position:fixed;z-index:2;left:50%;top:52%;width:min(1180px,96vw);aspect-ratio:2/1;height:auto;
+  transform:translate(-50%,-50%);transform-origin:50% 48%;mix-blend-mode:multiply;opacity:0;will-change:transform;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  animation:kenburns 22s ease-in-out infinite alternate,softIn 1.6s ease forwards}
+@keyframes kenburns{from{transform:translate(-50%,-50%) scale(1)}to{transform:translate(-50%,-50%) scale(1.04)}}
+@keyframes softIn{from{opacity:0}to{opacity:.92}}
+.art-glow{position:fixed;z-index:3;left:50%;top:52%;width:min(760px,80vw);aspect-ratio:1.5;transform:translate(-50%,-50%);pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(244,243,239,.92) 0%,rgba(244,243,239,.62) 34%,transparent 66%)}
+.shell{position:relative;z-index:10;height:100vh;height:100dvh;display:flex;flex-direction:column}
+nav{display:flex;justify-content:space-between;align-items:center;padding:30px 56px}
+.brand{display:flex;align-items:center;gap:11px;font:800 20px/1 'Manrope',sans-serif;letter-spacing:.05em}
+.brand svg{width:17px;height:17px;color:var(--slate)}
+.links{display:flex;gap:44px}
+.links a{font:500 14.5px/1 'Inter',sans-serif;color:var(--muted);text-decoration:none;transition:color .25s}
+.links a:hover{color:var(--ink)}
+.pill{font:600 14.5px/1 'Manrope',sans-serif;color:var(--paper);background:var(--ink);padding:13px 26px;border-radius:999px;text-decoration:none;
+  box-shadow:0 10px 26px -12px rgba(25,27,30,.5);transition:transform .25s,box-shadow .25s}
+.pill:hover{transform:translateY(-1px);box-shadow:0 14px 30px -12px rgba(25,27,30,.65)}
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px 30px}
+.kicker{font:500 12px/1 'IBM Plex Mono',monospace;letter-spacing:.4em;text-transform:uppercase;color:var(--slate);margin-bottom:30px;display:flex;align-items:center;gap:14px}
+.kicker::before,.kicker::after{content:"";width:28px;height:1px;background:var(--slate)}
+h1{font:800 clamp(46px,6.4vw,88px)/1 'Manrope',sans-serif;letter-spacing:-.04em;margin-bottom:30px}
+h1 span{display:block}
+h1 .l1{font-weight:400;color:rgba(25,27,30,.82)}
+.sub{font:400 clamp(16px,1.35vw,19px)/1.55 'Inter',sans-serif;color:var(--muted);max-width:480px;margin-bottom:40px}
+.cta{display:inline-flex;align-items:center;gap:10px;font:600 15.5px/1 'Manrope',sans-serif;color:var(--paper);background:var(--ink);padding:18px 32px;border-radius:999px;text-decoration:none;
+  box-shadow:0 14px 34px -12px rgba(25,27,30,.45);transition:transform .25s,box-shadow .25s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 20px 40px -12px rgba(25,27,30,.6)}
+.cta svg{width:15px;height:15px}
+.cap{position:fixed;z-index:11;bottom:30px;font:400 11.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:8px}
+.cap.l{left:56px}.cap.r{right:56px}
+.cap svg{width:13px;height:13px;opacity:.7}
+.rise{opacity:0;animation:blurFadeUp 1s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(38px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+@media (max-width:960px){
+  nav{padding:22px 24px}.links,.cap{display:none}
+  .art{width:150vw}
+  .sub{margin-bottom:32px}
+}
+@media (prefers-reduced-motion:reduce){
+  .rise{animation:none;opacity:1}
+  .art{animation:none;opacity:.92;transform:translate(-50%,-50%)}
+}
+</style>
+</head>
+<body>
+<div class="backdrop"></div>
+<div class="grain"></div>
+<canvas class="art" id="art" width="2400" height="1200" aria-label="Two halftone hands reaching toward each other" role="img"></canvas>
+<div class="art-glow"></div>
+
+<div class="shell">
+  <nav>
+    <div class="brand rise" style="animation-delay:0ms">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l7-7 7 7"/><path d="M5 20l7-7 7 7"/></svg>
+      ASCEND
+    </div>
+    <div class="links">
+      <a class="rise" style="animation-delay:90ms" href="#">Home</a>
+      <a class="rise" style="animation-delay:140ms" href="#">Practice</a>
+      <a class="rise" style="animation-delay:190ms" href="#">Explore</a>
+      <a class="rise" style="animation-delay:240ms" href="#">Help</a>
+    </div>
+    <a class="pill rise" style="animation-delay:320ms" href="#">Begin</a>
+  </nav>
+
+  <main class="hero">
+    <div class="kicker rise" style="animation-delay:480ms">Inner Growth</div>
+    <h1 class="rise" style="animation-delay:600ms"><span class="l1">Reach toward something higher,</span><span>and grow into what&rsquo;s next.</span></h1>
+    <p class="sub rise" style="animation-delay:760ms">A daily practice for a steadier mind &mdash; breathe, reflect, and return to center, one quiet moment at a time.</p>
+    <a class="cta rise" style="animation-delay:880ms" href="#">Enter the space
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+    </a>
+  </main>
+</div>
+
+<div class="cap l rise" style="animation-delay:1040ms">Stillness starts within.</div>
+<div class="cap r rise" style="animation-delay:1040ms">Scroll to discover
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M6 14l6 6 6-6"/></svg>
+</div>
+
+<script>
+// Stand-in for the halftone hands image: procedurally shaded hand shapes rendered as a 45-degree halftone dot screen.
+(function(){
+  var cv=document.getElementById('art'),ctx=cv.getContext('2d');
+  var W=1200,H=600,S=.5,mw=W*S,mh=H*S;
+  // each part: list of [x,y,r] control points (Catmull-Rom) in 1200x600 art space
+  var parts=[
+    [[-160,250,64],[120,240,60],[270,236,58],[380,244,62],[450,252,56]],
+    [[435,300,20],[480,332,16],[505,358,11]],
+    [[455,282,23],[515,314,19],[550,342,14],[558,364,10]],
+    [[470,258,25],[540,280,21],[590,306,16],[610,330,11]],
+    [[470,232,26],[540,238,22],[610,252,17],[665,270,11]],
+    [[410,205,24],[470,190,19],[525,192,13],[555,204,8]],
+    [[1360,150,72],[1120,150,64],[985,166,56],[900,190,50],[838,214,52]],
+    [[800,266,20],[772,312,16],[764,346,11]],
+    [[815,258,25],[776,312,20],[754,364,15],[750,396,11]],
+    [[826,236,28],[772,288,23],[738,340,18],[726,378,12]],
+    [[838,218,28],[772,252,23],[714,292,18],[680,330,12]],
+    [[880,232,22],[828,266,17],[792,284,11]]
+  ];
+  function cr(p0,p1,p2,p3,t){var t2=t*t,t3=t2*t;return [0,1,2].map(function(i){return .5*((2*p1[i])+(-p0[i]+p2[i])*t+(2*p0[i]-5*p1[i]+4*p2[i]-p3[i])*t2+(-p0[i]+3*p1[i]-3*p2[i]+p3[i])*t3)})}
+  function samples(pts){
+    var out=[];
+    for(var i=0;i<pts.length-1;i++){
+      var a=pts[Math.max(0,i-1)],b=pts[i],c=pts[i+1],d=pts[Math.min(pts.length-1,i+2)];
+      for(var k=0;k<24;k++)out.push(cr(a,b,c,d,k/24));
+    }
+    out.push(pts[pts.length-1]);return out;
+  }
+  var dark=new Float32Array(mw*mh);
+  var PAD=80,pw=mw+2*PAD;var m=document.createElement('canvas');m.width=pw;m.height=mh;var mc=m.getContext('2d',{willReadFrequently:true});
+  var b=document.createElement('canvas');b.width=pw;b.height=mh;var bc=b.getContext('2d',{willReadFrequently:true});
+  parts.forEach(function(pts,pi){
+    mc.clearRect(0,0,pw,mh);mc.fillStyle='#fff';
+    samples(pts).forEach(function(s){mc.beginPath();mc.arc(s[0]*S+PAD,s[1]*S,s[2]*S,0,6.2832);mc.fill()});
+    bc.clearRect(0,0,pw,mh);bc.filter='blur('+8+'px)';bc.drawImage(m,0,0);bc.filter='none';
+    var md=mc.getImageData(0,0,pw,mh).data,bd=bc.getImageData(0,0,pw,mh).data;
+    for(var y=0;y<mh;y++)for(var x=0;x<mw;x++){
+      var i=y*mw+x,j=y*pw+x+PAD;
+      if(md[j*4+3]>128){
+        var bl=bd[j*4+3]/255;
+        var d=Math.pow(Math.max(0,1-bl)*1.7,1.2)+.05;
+        d+=.18*(y/mh)+(Math.sin(x*.21+y*.13)*.02);       // gentle underside shading + grain
+        dark[i]=Math.min(1,Math.max(0,d));
+      }
+    }
+  });
+  // soften silhouette slightly so dots break up at the borders
+  var sp=10,rot=Math.PI/4,cs=Math.cos(rot),sn=Math.sin(rot),CW=cv.width,CH=cv.height;
+  ctx.clearRect(0,0,CW,CH);ctx.fillStyle='#191b1e';
+  var R=Math.ceil(Math.hypot(CW,CH)/sp);
+  ctx.beginPath();
+  for(var u=-R;u<=R;u++)for(var v=-R;v<=R;v++){
+    var x=CW/2+(u*cs-v*sn)*sp,y=CH/2+(u*sn+v*cs)*sp;
+    if(x<0||y<0||x>=CW||y>=CH)continue;
+    var mx=Math.floor(x/CW*mw),my=Math.floor(y/CH*mh),d=dark[my*mw+mx];
+    if(d<.05)continue;
+    var r=sp*.74*Math.sqrt(d);
+    ctx.moveTo(x+r,y);ctx.arc(x,y,r,0,6.2832);
+  }
+  ctx.fill();
+})();
+</script>
+</body>
+</html>

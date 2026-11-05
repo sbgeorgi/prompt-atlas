@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mainframe - Retro-Futurist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-heading:'HelveticaNowDisplay-Medium','Helvetica Neue','Inter Tight',Arial,sans-serif;
+  --font-body:'HelveticaNowDisplayW01-Rg','Helvetica Neue','Inter Tight',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#cfd6e4;overflow-x:hidden}
+body{font-family:var(--font-body);color:#000;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+#bg{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block}
+
+/* navbar */
+nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:16px 20px}
+.logo{display:flex;align-items:center;gap:12px;z-index:11}
+.logo .name{font-family:var(--font-heading);font-size:21px;letter-spacing:-0.025em;color:#000}
+.logo .star{font-size:25px;letter-spacing:-0.02em;user-select:none;-webkit-user-select:none;line-height:1}
+.links,.cta{display:none;font-size:23px;color:#000}
+.links{flex-direction:row}
+.links a,.cta{transition:opacity .15s}
+.links a:hover,.cta:hover{opacity:.6}
+.cta{text-decoration:underline;text-underline-offset:2px}
+.burger{display:flex;flex-direction:column;gap:5px;background:none;border:0;padding:6px;z-index:11}
+.burger i{display:block;width:24px;height:2px;background:#000;transition:all .3s}
+.burger.open i:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open i:nth-child(2){opacity:0}
+.burger.open i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.overlay{position:fixed;inset:0;z-index:9;background:rgba(255,255,255,.95);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 32px;gap:32px;font-size:32px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.open{opacity:1;pointer-events:auto}
+.overlay .u{text-decoration:underline}
+
+/* hero */
+.hero{position:relative;z-index:1;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 20px 48px;overflow:hidden}
+.content{max-width:36rem;position:relative;z-index:10}
+.intro{pointer-events:none;user-select:none;-webkit-user-select:none;margin-bottom:20px;font-size:clamp(18px,4vw,26px);line-height:1.3;font-weight:400;color:#000;filter:blur(4px)}
+.type{color:#000;margin-bottom:20px;font-size:clamp(18px,4vw,26px);line-height:1.35;font-weight:400;min-height:54px}
+.cursor{display:inline-block;width:2px;height:1.1em;background:#000;vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.pills{display:flex;flex-wrap:wrap;row-gap:4px;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.pills.show{opacity:1;transform:none}
+.pill{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#000;border:1px solid rgba(0,0,0,.1);border-radius:9999px;font-size:13px;padding:.3em 16px;margin:0 .2em .4em;white-space:nowrap;transition:background-color .2s,color .2s}
+.pill:hover{background:#000;color:#fff}
+.pill.out{color:#fff;background:transparent;border:1px solid #fff;gap:8px;font-family:inherit}
+.pill.out:hover{background:#fff;color:#000}
+.pill.out u{text-underline-offset:1px}
+.pill svg{width:12px;height:12px;flex:none}
+
+@media(min-width:640px){
+  nav{padding:20px 32px}
+  .logo .name{font-size:26px}
+  .logo .star{font-size:30px}
+  .hero{padding-left:32px;padding-right:32px}
+  .intro{margin-bottom:24px}.type{margin-bottom:24px}
+  .pill{font-size:15px;padding:.3em 20px}
+  .pill.out{gap:12px}
+}
+@media(min-width:768px){
+  .links,.cta{display:flex}
+  .burger,.overlay{display:none}
+  .hero{justify-content:center;padding:0 40px}
+}
+@media (prefers-reduced-motion:reduce){
+  .cursor{animation:none}
+  .pills{transition:none}
+}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<nav>
+  <div class="logo"><span class="name">Mainframe&reg;</span><span class="star">&#10035;&#xFE0E;</span></div>
+  <div class="links"><a href="#">Labs</a><span>,&nbsp;</span><a href="#">Studio</a><span>,&nbsp;</span><a href="#">Openings</a><span>,&nbsp;</span><a href="#">Shop</a></div>
+  <a class="cta" href="#">Get in touch</a>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+</nav>
+<div class="overlay" id="overlay">
+  <a href="#">Labs</a><a href="#">Studio</a><a href="#">Openings</a><a href="#">Shop</a><a class="u" href="#">Get in touch</a>
+</div>
+
+<main class="hero">
+  <div class="content">
+    <p class="intro">Hey there, meet A.R.I.A,<br>Mainframe's Adaptive Response Interface Agent</p>
+    <p class="type"><span id="tw"></span><span class="cursor" id="cur"></span></p>
+    <div class="pills" id="pills">
+      <button class="pill">Pitch us an idea</button>
+      <button class="pill">Come work here</button>
+      <button class="pill">Send a brief hello</button>
+      <button class="pill">See how we operate</button>
+      <button class="pill out" id="copy"><span>Reach us: <u>hello@mainframe.co</u></span>
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1"/><path d="M8.5 3.5V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v5.5a1 1 0 0 0 1 1h1.5"/></svg>
+      </button>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* nav */
+  var b=document.getElementById('burger'),o=document.getElementById('overlay');
+  b.addEventListener('click',function(){var on=!b.classList.contains('open');b.classList.toggle('open',on);o.classList.toggle('open',on);b.setAttribute('aria-expanded',on)});
+
+  /* typewriter */
+  var text="Glad you stopped in. Good taste tends to find us. Now, what are we building?";
+  var tw=document.getElementById('tw'),cur=document.getElementById('cur');
+  if(reduce){tw.textContent=text;cur.style.display='none'}
+  else setTimeout(function(){var i=0,id=setInterval(function(){i++;tw.textContent=text.slice(0,i);if(i>=text.length){clearInterval(id);cur.style.display='none'}},38)},600);
+
+  /* pills */
+  var pills=document.getElementById('pills');
+  setTimeout(function(){pills.classList.add('show')},reduce?0:400);
+
+  /* copy */
+  document.getElementById('copy').addEventListener('click',function(){
+    try{navigator.clipboard.writeText('hello@mainframe.co').catch(function(){})}catch(e){}
+  });
+
+  /* ---- background: scrubbed canvas stand-in for the mouse-scrubbed video ---- */
+  var cv=document.getElementById('bg'),ctx=cv.getContext('2d'),W=0,H=0;
+  var DURATION=10,SENS=0.8,target=reduce?3.2:2.2,cur_t=target,prevX=null;
+  function resize(){
+    var d=Math.min(window.devicePixelRatio||1,1.5);
+    W=window.innerWidth;H=window.innerHeight;
+    cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);draw(cur_t/DURATION);
+  }
+  function lerp(a,b,t){return a+(b-a)*t}
+
+  function draw(p){
+    var mob=W<768,hor=H*(mob?0.93:0.68);
+    /* sky */
+    var g=ctx.createLinearGradient(0,0,0,hor);
+    g.addColorStop(0,'#f1f2f6');g.addColorStop(.45,'#d7dcea');g.addColorStop(.8,'#8c9abb');g.addColorStop(1,'#4b5a82');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,hor+1);
+    /* warm sun haze, drifts with p */
+    var hx=lerp(W*.55,W*.85,p),hg=ctx.createRadialGradient(hx,hor*.55,0,hx,hor*.55,W*.5);
+    hg.addColorStop(0,'rgba(255,214,176,.55)');hg.addColorStop(1,'rgba(255,214,176,0)');
+    ctx.fillStyle=hg;ctx.fillRect(0,0,W,hor);
+
+    var m=Math.min(W,H),R=m*(mob?0.26:0.27);
+    var cx=mob?W*.5+Math.sin(p*6.28)*W*.05:W*.7+Math.sin(p*6.28)*W*.03;
+    var cy=mob?H*.27:hor*.5+Math.cos(p*6.28)*m*.02;
+
+    /* drifting wire tiles */
+    ctx.save();ctx.lineWidth=1;ctx.strokeStyle='rgba(40,50,80,.35)';
+    for(var k=0;k<7;k++){
+      var s=m*(.04+.02*(k%3)),x=((k*0.173+.08+p*(.15+.05*(k%3)))%1.1)*W,y=hor*(.12+.1*k%0.8)+Math.sin(p*6.28+k)*12;
+      ctx.save();ctx.translate(x,y);ctx.rotate(p*3+k);ctx.strokeRect(-s/2,-s/2,s,s);ctx.beginPath();ctx.moveTo(-s/2,-s/2);ctx.lineTo(s/2,s/2);ctx.stroke();ctx.restore();
+    }
+    ctx.restore();
+
+    var rot=p*Math.PI*3;
+    function ring(rx,ry,tilt,front){
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(tilt);
+      ctx.beginPath();
+      if(front)ctx.ellipse(0,0,rx,ry,0,0,Math.PI);else ctx.ellipse(0,0,rx,ry,0,Math.PI,Math.PI*2);
+      var rg=ctx.createLinearGradient(-rx,0,rx,0);
+      rg.addColorStop(0,'#2a3150');rg.addColorStop(.5,'#f4f6fb');rg.addColorStop(1,'#59678f');
+      ctx.strokeStyle=rg;ctx.lineWidth=m*.012;ctx.stroke();ctx.restore();
+    }
+    var tilt=-.35+Math.sin(rot*.5)*.25,ry=R*(.22+.1*Math.cos(rot));
+    ring(R*1.75,ry,tilt,false);
+    ring(R*1.35,R*.14,tilt+.5+Math.sin(rot)*.15,false);
+
+    /* chrome sphere */
+    var sg=ctx.createLinearGradient(0,cy-R,0,cy+R);
+    sg.addColorStop(0,'#ffffff');sg.addColorStop(.42,'#c9d1e3');sg.addColorStop(.5,'#26304f');sg.addColorStop(.62,'#7f8db3');sg.addColorStop(1,'#e9d6c0');
+    ctx.beginPath();ctx.arc(cx,cy,R,0,6.2832);ctx.fillStyle=sg;ctx.fill();
+    ctx.save();ctx.beginPath();ctx.arc(cx,cy,R,0,6.2832);ctx.clip();
+    var hl=ctx.createRadialGradient(cx-R*.4,cy-R*.45,0,cx-R*.4,cy-R*.45,R*.7);
+    hl.addColorStop(0,'rgba(255,255,255,.95)');hl.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=hl;ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    /* scrubbing-reactive reflection band */
+    var by=cy+Math.sin(rot)*R*.15;
+    ctx.fillStyle='rgba(20,28,60,.35)';ctx.fillRect(cx-R,by,R*2,R*.08);
+    var eg=ctx.createRadialGradient(cx,cy,R*.7,cx,cy,R);
+    eg.addColorStop(0,'rgba(0,0,0,0)');eg.addColorStop(1,'rgba(10,15,40,.45)');
+    ctx.fillStyle=eg;ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    ctx.restore();
+    ring(R*1.75,ry,tilt,true);
+    ring(R*1.35,R*.14,tilt+.5+Math.sin(rot)*.15,true);
+
+    /* floor */
+    var fg=ctx.createLinearGradient(0,hor,0,H);
+    fg.addColorStop(0,'#2a3350');fg.addColorStop(1,'#0e1222');
+    ctx.fillStyle=fg;ctx.fillRect(0,hor,W,H-hor);
+    ctx.strokeStyle='rgba(190,205,240,.5)';ctx.lineWidth=1;
+    var vx=W*(mob?.5:.62),n=22;
+    ctx.beginPath();
+    for(var i=-n;i<=n;i++){ctx.moveTo(vx,hor);ctx.lineTo(vx+i*W*.16,H)}
+    var off=(p*8)%1;
+    for(var j=0;j<14;j++){
+      var z=(j+off)/14,y=hor+(H-hor)*z*z;
+      ctx.moveTo(0,y);ctx.lineTo(W,y);
+    }
+    ctx.stroke();
+    /* horizon glow */
+    var hgl=ctx.createLinearGradient(0,hor-14,0,hor+14);
+    hgl.addColorStop(0,'rgba(255,214,176,0)');hgl.addColorStop(.5,'rgba(255,214,176,.8)');hgl.addColorStop(1,'rgba(255,214,176,0)');
+    ctx.fillStyle=hgl;ctx.fillRect(0,hor-14,W,28);
+    /* sphere reflection in floor */
+    ctx.save();ctx.beginPath();ctx.rect(0,hor,W,H-hor);ctx.clip();
+    var rgl=ctx.createRadialGradient(cx,hor+8,0,cx,hor+8,R*1.1);
+    rgl.addColorStop(0,'rgba(220,228,250,.35)');rgl.addColorStop(1,'rgba(220,228,250,0)');
+    ctx.fillStyle=rgl;ctx.fillRect(cx-R*1.2,hor,R*2.4,R*.9);ctx.restore();
+  }
+
+  /* scrub: horizontal mouse movement drives time, one seek in flight at a time */
+  var seeking=false,raf=0;
+  function step(){
+    raf=0;
+    var d=target-cur_t;
+    if(Math.abs(d)<0.002){cur_t=target;draw(cur_t/DURATION);return}
+    cur_t+=d*0.18;draw(cur_t/DURATION);raf=requestAnimationFrame(step);
+  }
+  function scrub(x){
+    if(prevX===null){prevX=x;return}
+    var delta=x-prevX;prevX=x;
+    target=Math.max(0,Math.min(DURATION,target+(delta/window.innerWidth)*SENS*DURATION));
+    if(!reduce&&!raf)raf=requestAnimationFrame(step);
+  }
+  window.addEventListener('mousemove',function(e){scrub(e.clientX)});
+  window.addEventListener('touchmove',function(e){if(e.touches[0])scrub(e.touches[0].clientX)},{passive:true});
+  window.addEventListener('touchend',function(){prevX=null});
+  window.addEventListener('resize',resize);
+  resize();
+})();
+</script>
+</body>
+</html>
